@@ -1,0 +1,106 @@
+# Standard vs. Non-Standard Calendars
+
+## Introduction: Beyond the Gregorian Calendar
+
+In many **Financial Planning & Analysis (FP&A)** functions, you’ll
+encounter a `calendar_type` argument. This might be confusing, as most
+people assume there is only one type of calendar!
+
+To accommodate the unique operational and analytical needs of certain
+industries (particularly retail and manufacturing), FP&A often involves
+two primary calendar systems:
+
+1.  **Standard Calendar** (Gregorian)
+2.  **Non-Standard Calendars** (e.g., *5-4-4, 4-4-5, 4-5-4*)
+
+This guide explains the differences between these calendars and their
+typical use cases in business analysis.
+
+------------------------------------------------------------------------
+
+### 1. The Standard (Gregorian) Calendar
+
+This is the **conventional calendar** used for general financial
+reporting, scheduling, and external communication.
+
+#### Structure & Use
+
+- **Period Structure:** 12 months of **varying lengths** (28–31 days).
+- **Days/Weeks:** 365 days per year (366 in a leap year).
+- **Advantage:** It matches external reporting deadlines, regulatory
+  timelines, and standard corporate schedules.
+
+#### Disadvantage: Inconsistent Comparisons
+
+The primary drawback is that comparing operational metrics (like sales
+or margin) month-over-month (MoM) or quarter-over-quarter (QoQ) is
+challenging. The varying number of days or weekends leads to
+**misleading conclusions**.
+
+> For example, comparing sales from a 31-day month to a 28-day month
+> will inherently show a “drop” in total revenue, even if the daily
+> performance was identical. This makes true performance comparison
+> difficult.
+
+------------------------------------------------------------------------
+
+### 2. Non-Standard (Retail/Fiscal) Calendars
+
+Non-standard calendars are explicitly designed to **control for
+period-to-period variance**. They achieve this by ensuring every
+comparable period has an identical number of weeks and, critically, an
+identical number of **weekends**. This allows for a **cleaner
+“apples-to-apples” comparison** of operational performance.
+
+The most common types are the **Retail Calendars** (used in retail,
+restaurant, and manufacturing), such as **5-4-4**, **4-4-5**, and
+**4-5-4**.
+
+#### Example: The 5-4-4 Calendar Structure
+
+The 5-4-4 structure ensures that every quarter is exactly **13 weeks**
+long, and the month structure repeats perfectly:
+
+- **Basis:** Weeks in a period, not days in a month.
+- **Total Year:** 52 weeks (364 days).
+
+| Quarter Structure | Weeks | Days | Purpose |
+|:--:|:--:|:--:|:---|
+| **Period 1** | 5 Weeks | 35 days | Captures seasonal spikes or month-end activity. |
+| **Period 2** | 4 Weeks | 28 days | Standard monthly period. |
+| **Period 3** | 4 Weeks | 28 days | Standard monthly period. |
+| **Total Quarter** | 13 Weeks | 91 days | Ensures exact period alignment QoQ. |
+
+#### The 53rd Week Challenge
+
+Since a 52-week year is 364 days, and the solar year is
+$`\approx 365.25`$ days, a **53rd week** must be added every 5 to 6
+years to keep the fiscal year aligned with the actual calendar year.
+This **53-week year** is a crucial planning consideration for businesses
+using non-standard calendars.
+
+------------------------------------------------------------------------
+
+### Calendar Comparison
+
+| Feature | Standard (Gregorian) Calendar | Non-Standard (e.g., 5-4-4) Calendar |
+|:---|:---|:---|
+| **Basis of Period** | Days in month | Weeks in period |
+| **Month/Period Length** | Varies (28–31 days) | Fixed (4 or 5 weeks) |
+| **Consistency MoM/QoQ** | Low: Days/weekends vary | High: Weeks/weekends are identical |
+| **Best For** | General reporting, external financial statements (GAAP/IFRS) | **Operational Analysis:** Retail sales, inventory, labor costs, and year-over-year comparisons. |
+
+------------------------------------------------------------------------
+
+### How to reference in `fpaR` functions?
+
+The `calendar_type` argument is how you instruct the function on which
+system to use for its internal calculations and indexing.
+
+- To use a traditional calendar, pass: `"standard"`
+- To use a retail calendar, pass the respective structure: `"544"`,
+  `"454"`, or `"445"`
+
+Under the hood, `fpaR` handles the complexities: it generates the
+appropriate date keys and ensures that all your metrics are indexed
+correctly to the start and end of the chosen calendar’s periods.

@@ -1,0 +1,11 @@
+^test\.R$
+^README\.qmd$
+^README\.html$
+^renv\.lock$
+^README_files$
+^docs$
+^LICENSE\.md$
+^_pkgdown\.yml$
+^fig$
+^renv$
+^fpa\.Rproj$

@@ -1,0 +1,183 @@
+---
+title: "ABC Classification"
+subtitle: "How to use classification strategies to focus your analysis"
+
+---
+
+```{r}
+#| echo: false
+
+library(fpa)
+quarto::write_yaml_metadata_block(
+   date=format(Sys.Date())
+   )
+```
+
+
+The **ABC classification** method is used to categorize items, customers, or any group members according to their relative contribution to a total metric.  
+
+The `abc()` function applies this method by ranking group members according to either transaction counts or the sum of a numeric variable (e.g., revenue, margin):
+
+- Allows for **custom break points** (e.g., top 10% = A, next 40% = B, etc.)
+- Works on both **tibbles** and **database objects**
+- Returns a **segment object**, which is processed by `calculate()` to produce a table of results
+
+### How It Works
+
+> `abc()` requires a grouped tibble or lazy DBI object using `dplyr::group_by()` to specify the group composition that drives the contribution
+
+**Value Capture**  
+
+-  If `.value` is provided, then that column is aggregated per group member; otherwise, it counts rows
+
+**Category Values**
+
+-  Provide the break points that are used to set the cumulative categories
+-  Each break point will get a letter category starting with 'A'
+-  If you want to see the stores that make up the top 40% of revenue follow by top 70% and then 90% you should put in `c(0.4,.7,.9,1)`
+
+
+```{r}
+#| label: tbl-abc-args
+#| echo: false
+#| eval: true
+
+tibble::tibble(
+  Argument = c(".data", "category_values", ".value"),
+  Description = c(
+    "A grouped tibble or DBI object (using dplyr::group_by())",
+    "A numeric vector of breakpoints between 0 and 1, representing cumulative proportions for ABC categories.",
+    "Optional. A column to sum for categorization. If not provided, the function counts the number of rows per group."
+  )
+) |> tinytable::tt()
+
+```
+
+
+When you execute `abc()`, your console will return a `segment_abc` object displaying a custom print message:
+
+-  A summary of the function's actions
+-  Details the category break points and labels
+-  Describes the main transformation steps and columns that are referenced
+-  Lists out possible next actions
+
+
+```{r}
+#| label: abc-example
+#| echo: true
+#| eval: true
+
+# Example
+
+contoso::sales |> 
+   dplyr::group_by(store_key) |> 
+   fpa::abc(
+      category_values = c(0.4,.7,.9,1), 
+      .value = margin
+      )
+```
+   
+Use `calculate()` to generate the ABC classification table in a lazy DBI object. Use `dplyr::collect()` to return a tibble.
+
+```{r}
+#| label: calculate
+#| echo: true
+#| eval: false
+#| warning: false
+#| message: false
+#| include: true
+
+contoso::sales |> 
+   dplyr::group_by(store_key) |> 
+   fpa::abc(
+      category_values = c(0.4,.7,.9,1), 
+      .value = margin
+      ) |> 
+   fpa::calculate()
+```
+
+```{r}
+#| label: tbl-output-no-echo
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| include: true
+#| column: screen
+
+contoso::sales |> 
+   dplyr::filter(
+      store_key!="999999"
+   ) |> 
+   dplyr::group_by(store_key) |> 
+   fpa::abc(
+      category_values = c( 0.4,.7,.9,1), 
+      .value = margin
+      ) |> 
+   fpa::calculate() |> 
+   dplyr::collect() |> 
+   dplyr::arrange(row_id) |> 
+   head(10) |>
+   tinytable::tt()
+```
+
+
+This table contains grouped data with various metrics, highlighting the contribution of each group in terms of both value and transaction count. Below is an explanation of the key columns and how to interpret the results:
+
+### Understanding the Results
+
+-  Store 540 has a margin of $7,812.11 ("ABC Margin"), which accounts for about 4% ("prop_total") of the total margin across all stores
+
+-  The "cum_sum" column tracks the running total of values (e.g., revenue or count) for each store, showing the cumulative sum up to that row
+
+-  The "cum_prop_total" column shows each store's contribution as a percentage of the total margin as you move down the table
+
+-  The store with the highest contribution has a "row_id" of 1 and is assigned to the first category segment ('A') via the "category_name" column
+
+-  The "max_row_id" shows that there are 57 additional stores in the same category ('A')
+
+-  The "cum_unit_prop" column tracks the cumulative contribution from a transaction count perspective, similar to cum_prop_total but at the unit level
+
+-  The category_value and category_name columns define the breakpoints you provided, assigning stores to categories (e.g., 'A', 'B', 'C') based on their cumulative contribution
+
+This is summarized in @tbl-output below:
+
+
+```{r}
+#| label: tbl-output
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+#| column: screen
+#| include: true
+
+tibble::tibble(
+  Column_Name = c("cum_sum", "prop_total", "cum_prop_total", "row_id", "max_row_id", "cum_unit_prop", "category_value", "category_name"),
+  Description = c(
+    "The cumulative sum of the specified values (e.g., revenue, count, etc.), aggregated per group. Represents the total value up to that row.",
+    "The proportion of the total for each row's value. Shows the percentage of the total represented by the current row's contribution.",
+    "The cumulative proportion of the total, showing the running total percentage of the entire dataset as you move through the rows.",
+    "The unique identifier for the row, often used to track or identify specific rows in the dataset. Typically sequential ID or index.",
+    "The maximum row ID in the current group (if grouping is applied), representing the total number of rows in the group.",
+    "The cumulative proportion of the unit values, similar to cum_prop_total, but typically used when the unit is aggregated.",
+    "The category value that corresponds to the cumulative proportion break points (e.g., top 10%, top 40%, etc.). Based on the break points provided.",
+    "The name of the category assigned to each row based on the cumulative contribution. Categories are represented by letters (A, B, C, etc.)."
+  ),
+  Example_Values = c(
+    "1000, 2500, 4000",
+    "0.10, 0.25, 0.40",
+    "0.10, 0.35, 0.75",
+    "1, 2, 3",
+    "5, 5, 5",
+    "0.10, 0.30, 0.70",
+    "0.4, 0.7, 0.9",
+    "\"A\", \"B\", \"C\""
+  )
+) |> 
+   tinytable::tt()
+
+
+```
+
+

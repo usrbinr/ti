@@ -1,0 +1,42 @@
+Package: fpa
+Title: Common Business Intelligence Functions for Financial Planning & Work
+Description: Tools for financial planning analysis. This package provides functions for calculating financial metrics, analyzing time series data, and generating reports.
+Version: 3.0.0
+Authors@R: 
+    person("Alejandro", "Hagan", ,"alejandro.hagan@outlook.com", role = c("aut", "cre"))
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports: 
+    assertthat,
+    cli,
+    DBI,
+    dbplyr,
+    dplyr,
+    duckdb (>= 1.4.0),
+    lubridate,
+    rlang,
+    S7,
+    tidyr,
+    glue,
+    janitor,
+    stringr
+LazyData: true
+Suggests: 
+    testthat (>= 3.0.0),
+    cohorts,
+    quarto,
+    devtools,
+    tibble,
+    tinytable,
+    fansi,
+    crayon,
+    knitr,
+    contoso,
+    knitr
+Config/testthat/edition: 3
+VignetteBuilder: knitr
+Depends: 
+    R (>= 3.5)
+URL: https://codeberg.org/usrbinr/fpa
