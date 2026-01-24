@@ -1,4 +1,4 @@
-Package: fpa
+Package: ti
 Title: Common Business Intelligence Functions for Financial Planning & Work
 Description: Tools for financial planning analysis. This package provides functions for calculating financial metrics, analyzing time series data, and generating reports.
 Version: 3.0.0
@@ -34,7 +34,6 @@ Suggests:
     crayon,
     contoso
 Config/testthat/edition: 3
-BuildVignettes: false
 Depends: 
     R (>= 3.5)
-URL: https://usrbinr.codeberg.page/fpa/
+URL: https://usrbinr.codeberg.page/ti/

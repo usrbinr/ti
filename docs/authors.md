@@ -6,17 +6,14 @@
 
 ## Citation
 
-Source:
-[`DESCRIPTION`](https://codeberg.org/usrbinr/fpa/src/branch/HEAD/DESCRIPTION)
-
-Hagan A (2026). *fpa: Common Business Intelligence Functions for
+Hagan A (2026). *ti: Common Business Intelligence Functions for
 Financial Planning & Work*. R package version 3.0.0,
-<https://codeberg.org/usrbinr/fpa>.
+<https://usrbinr.codeberg.page/ti/>.
 
     @Manual{,
-      title = {fpa: Common Business Intelligence Functions for Financial Planning & Work},
+      title = {ti: Common Business Intelligence Functions for Financial Planning & Work},
       author = {Alejandro Hagan},
       year = {2026},
       note = {R package version 3.0.0},
-      url = {https://codeberg.org/usrbinr/fpa},
+      url = {https://usrbinr.codeberg.page/ti/},
     }

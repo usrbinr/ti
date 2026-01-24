@@ -16,7 +16,7 @@ quarto::write_yaml_metadata_block(
 
 In many **Financial Planning & Analysis (FP&A)** functions, you'll encounter a `calendar_type` argument. This might be confusing, as most people assume there is only one type of calendar!
 
-To accommodate the unique operational and analytical needs of certain industries (particularly retail and manufacturing), FP&A often involves two primary calendar systems:
+To accommodate the unique operational and analytical needs of certain industries (particularly retail and manufacturing), `ti` often involves two primary calendar systems:
 
 1.  **Standard Calendar** (Gregorian)
 2.  **Non-Standard Calendars** (e.g., *5-4-4, 4-4-5, 4-5-4*)
@@ -79,11 +79,11 @@ Since a 52-week year is 364 days, and the solar year is $\approx 365.25$ days, a
 
 ---
 
-### How to reference in `fpaR` functions?
+### How to reference in `ti` functions?
 
 The `calendar_type` argument is how you instruct the function on which system to use for its internal calculations and indexing.
 
 * To use a traditional calendar, pass: `"standard"`
 * To use a retail calendar, pass the respective structure: `"544"`, `"454"`, or `"445"`
 
-Under the hood, `fpaR` handles the complexities: it generates the appropriate date keys and ensures that all your metrics are indexed correctly to the start and end of the chosen calendar's periods.
+Under the hood, `ti` handles the complexities: it generates the appropriate date keys and ensures that all your metrics are indexed correctly to the start and end of the chosen calendar's periods.

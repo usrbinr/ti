@@ -7,7 +7,7 @@ subtitle: "How to use classification strategies to focus your analysis"
 ```{r}
 #| echo: false
 
-library(fpa)
+library(ti)
 quarto::write_yaml_metadata_block(
    date=format(Sys.Date())
    )
@@ -71,7 +71,7 @@ When you execute `abc()`, your console will return a `segment_abc` object displa
 
 contoso::sales |> 
    dplyr::group_by(store_key) |> 
-   fpa::abc(
+   ti::abc(
       category_values = c(0.4,.7,.9,1), 
       .value = margin
       )
@@ -89,11 +89,11 @@ Use `calculate()` to generate the ABC classification table in a lazy DBI object.
 
 contoso::sales |> 
    dplyr::group_by(store_key) |> 
-   fpa::abc(
+   ti::abc(
       category_values = c(0.4,.7,.9,1), 
       .value = margin
       ) |> 
-   fpa::calculate()
+   ti::calculate()
 ```
 
 ```{r}
@@ -110,11 +110,11 @@ contoso::sales |>
       store_key!="999999"
    ) |> 
    dplyr::group_by(store_key) |> 
-   fpa::abc(
+   ti::abc(
       category_values = c( 0.4,.7,.9,1), 
       .value = margin
       ) |> 
-   fpa::calculate() |> 
+   ti::calculate() |> 
    dplyr::collect() |> 
    dplyr::arrange(row_id) |> 
    head(10) |>

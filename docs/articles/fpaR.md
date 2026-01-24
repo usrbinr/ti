@@ -5,7 +5,7 @@
 Simply pass your data in either a tibble or a lazy DBI object to the
 time intelligence function and input the required arguments.
 
-We will use [`mtd()`](https://codeberg.org/usrbinr/fpa/reference/mtd.md)
+We will use [`mtd()`](https://codeberg.org/usrbinr/ti/reference/mtd.md)
 function to calculate the month-to-date sum of contoso’s company’ margin
 from their sales dataset
 ([`contoso::sales`](https://usrbinr.github.io/contoso/reference/sales.html)).
@@ -27,7 +27,7 @@ Most time intelligence functions follow the same structure:
 > Non standard calendars are currently not supported in this release
 
 When you execute
-[`mtd()`](https://codeberg.org/usrbinr/fpa/reference/mtd.md), your
+[`mtd()`](https://codeberg.org/usrbinr/ti/reference/mtd.md), your
 console will return a `ti` object displaying a custom print message:
 
 - A summary of the function’s actions
@@ -102,7 +102,7 @@ the standard calendar month to the end of the month
 
 To return the results to a lazy DBI object, pass the `ti` object through
 to
-[`calculate()`](https://codeberg.org/usrbinr/fpa/reference/calculate.md).
+[`calculate()`](https://codeberg.org/usrbinr/ti/reference/calculate.md).
 
 ``` r
 contoso::sales |>                                                          
@@ -251,7 +251,7 @@ to let you know how many periods (eg. days) are in your comparison
 period to increase transparency to this dynamic.
 
 To create this example, we will use the
-[`pmtd()`](https://codeberg.org/usrbinr/fpa/reference/pmtd.md) function
+[`pmtd()`](https://codeberg.org/usrbinr/ti/reference/pmtd.md) function
 to calculate the prior month to date cumulative margin in the current
 month.
 
@@ -261,7 +261,7 @@ contoso::sales |>
 ```
 
 When we pass the ti object through to
-[`calculate()`](https://codeberg.org/usrbinr/fpa/reference/calculate.md)
+[`calculate()`](https://codeberg.org/usrbinr/ti/reference/calculate.md)
 and filter the results for February 2022, we would see the below
 [Table 3](#tbl-issue2-example-no-echo).
 

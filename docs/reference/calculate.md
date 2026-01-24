@@ -1,12 +1,12 @@
 # Execute time-intelligence or segments class objects to return the underlying transformed table
 
 The `calculate()` function takes an object created by a time function
-(like [`ytd()`](https://codeberg.org/usrbinr/fpa/reference/ytd.md),
-[`mtd()`](https://codeberg.org/usrbinr/fpa/reference/mtd.md), or
-[`qtd()`](https://codeberg.org/usrbinr/fpa/reference/qtd.md)) or a
+(like [`ytd()`](https://codeberg.org/usrbinr/ti/reference/ytd.md),
+[`mtd()`](https://codeberg.org/usrbinr/ti/reference/mtd.md), or
+[`qtd()`](https://codeberg.org/usrbinr/ti/reference/qtd.md)) or a
 segment function (like
-[`cohort()`](https://codeberg.org/usrbinr/fpa/reference/cohort.md) or
-[`abc()`](https://codeberg.org/usrbinr/fpa/reference/abc.md)) and
+[`cohort()`](https://codeberg.org/usrbinr/ti/reference/cohort.md) or
+[`abc()`](https://codeberg.org/usrbinr/ti/reference/abc.md)) and
 executes the underlying transformation logic. It translates the function
 blueprint into an actionable query, returning the final data table.
 
@@ -23,8 +23,8 @@ dbi object
 ## Details
 
 The TI and segment functions in **fpaR**—such as
-[`ytd()`](https://codeberg.org/usrbinr/fpa/reference/ytd.md) or
-[`cohort()`](https://codeberg.org/usrbinr/fpa/reference/cohort.md) and
+[`ytd()`](https://codeberg.org/usrbinr/ti/reference/ytd.md) or
+[`cohort()`](https://codeberg.org/usrbinr/ti/reference/cohort.md) and
 others—are designed to be **lazy and database-friendly**. They do not
 perform the heavy data transformation immediately. Instead, they return
 a blueprint object (of class `ti`,`segment_abc` or `segment_cohort`)

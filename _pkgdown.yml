@@ -1,4 +1,4 @@
-  url: https://codeberg.org/usrbinr/fpa
+  url: https://codeberg.org/usrbinr/ti
   template:
     bootstrap: 5
 
@@ -62,10 +62,10 @@
   - title: Segmentation
     navbar: Segmentation
     contents:
-    - articles/abc
-    - articles/cohort
+    - abc
+    - cohort
 
   - title: Time Intillgience
     navbar: Time Intelligence
     contents:
-    - articles/calendar_types
+    - calendar_types

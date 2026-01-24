@@ -10,3 +10,8 @@
 ^renv$
 ^fpa\.Rproj$
 ^CRAN-SUBMISSION$
+^\.Rproj\.user$
+^vignettes/\.quarto$
+^vignettes/articles/.*_cache$
+^vignettes/articles/.*_files$
+^vignettes$

@@ -1,9 +1,9 @@
 # month-over-month execution function
 
 `mom_fn()` is the function that is called by
-[`mom()`](https://codeberg.org/usrbinr/fpa/reference/mom.md) when passed
+[`mom()`](https://codeberg.org/usrbinr/ti/reference/mom.md) when passed
 through to
-[calculate](https://codeberg.org/usrbinr/fpa/reference/calculate.md)
+[calculate](https://codeberg.org/usrbinr/ti/reference/calculate.md)
 
 ## Usage
 
@@ -25,11 +25,11 @@ dbi object
 
 This is internal non exported function that is nested in ti class and is
 called upon when the underlying function is called by
-[calculate](https://codeberg.org/usrbinr/fpa/reference/calculate.md)
-This will return a dbi object that can converted to a tibble object with
+[calculate](https://codeberg.org/usrbinr/ti/reference/calculate.md) This
+will return a dbi object that can converted to a tibble object with
 [`dplyr::collect()`](https://dplyr.tidyverse.org/reference/compute.html)
 
 ## See also
 
-[`mom()`](https://codeberg.org/usrbinr/fpa/reference/mom.md) for the
+[`mom()`](https://codeberg.org/usrbinr/ti/reference/mom.md) for the
 function's intent

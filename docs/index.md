@@ -1,4 +1,4 @@
-## A Business Intelligence Toolkit for Financial Planning & Analysis (FP&A)
+## A Business Intelligence Toolkit for Financial Planning & Analysis (FP&A
 
 This package is a collection of business intelligence tools designed to
 simplify common **financial planning and analysis (FP&A)** tasks such as
@@ -46,10 +46,13 @@ Install the development from GitHub:
 ``` r
 # Install using pak or install.package()
 
-pak::pak("git::https://codeberg.org/usrbinr/fpa")
+remotes::install_git("https://codeberg.org/usrbinr/ti")
+
+# to install from CRAN
+pak::pak("ti")
 ```
 
-## What is in fpa?
+## What is in ti?
 
 > We recommend using the [Contoso](https://usrbinr.github.io/contoso/)
 > package for any practice analysis. The contoso datasets are fictional
@@ -66,10 +69,10 @@ There are 3 main categories of functions:
 
 This is a collection of the most commonly used time intelligence
 analysis such as
-**Year-over-Year**([`yoy()`](https://codeberg.org/usrbinr/fpa/reference/yoy.md)),
-**Month-to-Date**([`mtd()`](https://codeberg.org/usrbinr/fpa/reference/mtd.md)),
+**Year-over-Year**([`yoy()`](https://codeberg.org/usrbinr/ti/reference/yoy.md)),
+**Month-to-Date**([`mtd()`](https://codeberg.org/usrbinr/ti/reference/mtd.md)),
 and **Current Year-to-Date over Previous Year-to-Date**
-([`ytdopy()`](https://codeberg.org/usrbinr/fpa/reference/ytdopy.md))
+([`ytdopy()`](https://codeberg.org/usrbinr/ti/reference/ytdopy.md))
 analysis.
 
 These functions are designed to quickly answer questions in a
@@ -85,7 +88,7 @@ consistent, fast and transparent way.
   different reporting frameworks
 
 - **Clear definition**: Full transparency to the calculations that are
-  performed with visibilty to any missing or incomplete date periods
+  performed with visibility to any missing or incomplete date periods
 
 Below is the full list of time intelligence functions:
 

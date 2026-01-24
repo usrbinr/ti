@@ -4,22 +4,22 @@ The **ABC classification** method is used to categorize items,
 customers, or any group members according to their relative contribution
 to a total metric.
 
-The [`abc()`](https://codeberg.org/usrbinr/fpa/reference/abc.md)
-function applies this method by ranking group members according to
-either transaction counts or the sum of a numeric variable (e.g.,
-revenue, margin):
+The [`abc()`](https://codeberg.org/usrbinr/ti/reference/abc.md) function
+applies this method by ranking group members according to either
+transaction counts or the sum of a numeric variable (e.g., revenue,
+margin):
 
 - Allows for **custom break points** (e.g., top 10% = A, next 40% = B,
   etc.)
 - Works on both **tibbles** and **database objects**
 - Returns a **segment object**, which is processed by
-  [`calculate()`](https://codeberg.org/usrbinr/fpa/reference/calculate.md)
+  [`calculate()`](https://codeberg.org/usrbinr/ti/reference/calculate.md)
   to produce a table of results
 
 ### How It Works
 
-> [`abc()`](https://codeberg.org/usrbinr/fpa/reference/abc.md) requires
-> a grouped tibble or lazy DBI object using
+> [`abc()`](https://codeberg.org/usrbinr/ti/reference/abc.md) requires a
+> grouped tibble or lazy DBI object using
 > [`dplyr::group_by()`](https://dplyr.tidyverse.org/reference/group_by.html)
 > to specify the group composition that drives the contribution
 
@@ -45,7 +45,7 @@ revenue, margin):
 Table 1
 
 When you execute
-[`abc()`](https://codeberg.org/usrbinr/fpa/reference/abc.md), your
+[`abc()`](https://codeberg.org/usrbinr/ti/reference/abc.md), your
 console will return a `segment_abc` object displaying a custom print
 message:
 
@@ -60,7 +60,7 @@ message:
 
 contoso::sales |> 
    dplyr::group_by(store_key) |> 
-   fpa::abc(
+   ti::abc(
       category_values = c(0.4,.7,.9,1), 
       .value = margin
       )
@@ -100,7 +100,7 @@ contoso::sales |>
     ────────────────────────────────────────────────────────────────────────────────
 
 Use
-[`calculate()`](https://codeberg.org/usrbinr/fpa/reference/calculate.md)
+[`calculate()`](https://codeberg.org/usrbinr/ti/reference/calculate.md)
 to generate the ABC classification table in a lazy DBI object. Use
 [`dplyr::collect()`](https://dplyr.tidyverse.org/reference/compute.html)
 to return a tibble.
@@ -108,11 +108,11 @@ to return a tibble.
 ``` r
 contoso::sales |> 
    dplyr::group_by(store_key) |> 
-   fpa::abc(
+   ti::abc(
       category_values = c(0.4,.7,.9,1), 
       .value = margin
       ) |> 
-   fpa::calculate()
+   ti::calculate()
 ```
 
 | store_key | abc_margin | cum_sum   | prop_total | cum_prop_total | row_id | category_name |

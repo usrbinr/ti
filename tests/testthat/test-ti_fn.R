@@ -1,13 +1,13 @@
 library(testthat)
 
-describe("fpa functions", {
+describe("ti functions", {
 
   it("ytd works", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::ytd(order_date, margin, "standard") |>
-        fpa::calculate() |>
+        ti::ytd(order_date, margin, "standard") |>
+        ti::calculate() |>
         dplyr::collect() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
@@ -18,8 +18,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::qtd(order_date, margin, "standard") |>
-        fpa::calculate() |>
+        ti::qtd(order_date, margin, "standard") |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
     })
@@ -29,8 +29,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::mtd(order_date, margin, "standard") |>
-        fpa::calculate() |>
+        ti::mtd(order_date, margin, "standard") |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
     })
@@ -40,8 +40,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::wtd(order_date, margin, "standard") |>
-        fpa::calculate() |>
+        ti::wtd(order_date, margin, "standard") |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
     })
@@ -51,8 +51,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::atd(order_date, margin, "standard") |>
-        fpa::calculate() |>
+        ti::atd(order_date, margin, "standard") |>
+        ti::calculate() |>
         dplyr::collect() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
@@ -63,8 +63,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::yoy(order_date, margin, "standard", 1) |>
-        fpa::calculate() |>
+        ti::yoy(order_date, margin, "standard", 1) |>
+        ti::calculate() |>
         dplyr::arrange(date) |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
@@ -75,8 +75,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::qoq(order_date, margin, "standard") |>
-        fpa::calculate() |>
+        ti::qoq(order_date, margin, "standard") |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
     })
@@ -86,8 +86,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::mom(order_date, margin, "standard") |>
-        fpa::calculate() |>
+        ti::mom(order_date, margin, "standard") |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
     })
@@ -97,8 +97,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::wow(order_date, margin, "standard") |>
-        fpa::calculate() |>
+        ti::wow(order_date, margin, "standard") |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
     })
@@ -108,8 +108,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::dod(order_date, margin, "standard") |>
-        fpa::calculate() |>
+        ti::dod(order_date, margin, "standard") |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
     })
@@ -119,8 +119,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::yoytd(order_date, margin, "standard", 1) |>
-        fpa::calculate() |>
+        ti::yoytd(order_date, margin, "standard", 1) |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date) |>
         dplyr::filter(!is.na(pytd_margin))
@@ -130,8 +130,8 @@ describe("fpa functions", {
   it("qoqtd works", {
     testthat::expect_no_error({
       contoso::sales |>
-        fpa::qoqtd(order_date, margin, "standard", 1) |>
-        fpa::calculate() |>
+        ti::qoqtd(order_date, margin, "standard", 1) |>
+        ti::calculate() |>
         dplyr::arrange(date) |>
         dplyr::filter(!is.na(pqtd_margin))
     })
@@ -140,8 +140,8 @@ describe("fpa functions", {
   it("momtd works", {
     testthat::expect_no_error({
       contoso::sales |>
-        fpa::momtd(order_date, margin, "standard", 1) |>
-        fpa::calculate() |>
+        ti::momtd(order_date, margin, "standard", 1) |>
+        ti::calculate() |>
         dplyr::arrange(date) |>
         dplyr::filter(!is.na(pmtd_margin))
     })
@@ -150,8 +150,8 @@ describe("fpa functions", {
   it("wowtd works", {
     testthat::expect_no_error({
       contoso::sales |>
-        fpa::wowtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
-        fpa::calculate()
+        ti::wowtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
+        ti::calculate()
     })
   })
 
@@ -159,8 +159,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::pytd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
-        fpa::calculate() |>
+        ti::pytd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::filter(!is.na(pytd_margin))
     })
@@ -170,8 +170,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::pqtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
-        fpa::calculate() |>
+        ti::pqtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::filter(!is.na(pqtd_margin))
     })
@@ -181,8 +181,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::pmtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
-        fpa::calculate() |>
+        ti::pmtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::filter(!is.na(pmtd_margin)) |>
         dplyr::arrange(date)
@@ -193,8 +193,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::pwtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
-        fpa::calculate() |>
+        ti::pwtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::filter(!is.na(pwtd_margin))
     })
@@ -204,8 +204,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::ytdopy(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-        fpa::calculate() |>
+        ti::ytdopy(order_date, margin, calendar_type = "standard", lag_n = 1) |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::filter(!is.na(yoy_margin))
     })
@@ -215,8 +215,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::mtdopm(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-        fpa::calculate() |>
+        ti::mtdopm(order_date, margin, calendar_type = "standard", lag_n = 1) |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::filter(!is.na(mom_margin)) |>
         dplyr::arrange(date)
@@ -227,8 +227,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::qtdopq(order_date, margin, calendar_type = "standard", lag_n = 1) |>
-        fpa::calculate() |>
+        ti::qtdopq(order_date, margin, calendar_type = "standard", lag_n = 1) |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999")
     })
   })
@@ -237,8 +237,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::wtdopw(order_date, margin, lag_n = 1, calendar_type = "standard") |>
-        fpa::calculate() |>
+        ti::wtdopw(order_date, margin, lag_n = 1, calendar_type = "standard") |>
+        ti::calculate() |>
         dplyr::filter(store_key == "999999")
     })
   })
@@ -247,8 +247,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::abc(category_values = c(.3, .5, .7, .8), .value = margin) |>
-        fpa::calculate()
+        ti::abc(category_values = c(.3, .5, .7, .8), .value = margin) |>
+        ti::calculate()
     })
   })
 
@@ -256,8 +256,8 @@ describe("fpa functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        fpa::cohort(.date = order_date, .value = margin, time_unit = "month", period_label = FALSE) |>
-        fpa::calculate()
+        ti::cohort(.date = order_date, .value = margin, time_unit = "month", period_label = FALSE) |>
+        ti::calculate()
     })
   })
 })

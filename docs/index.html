@@ -5,7 +5,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<title>Common Business Intelligence Functions for Financial Planning &amp; Work • fpa</title>
+<title>Common Business Intelligence Functions for Financial Planning &amp; Work • ti</title>
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
@@ -20,7 +20,7 @@
 
     <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
-    <a class="navbar-brand me-2" href="index.html">fpa</a>
+    <a class="navbar-brand me-2" href="index.html">ti</a>
 
     <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">3.0.0</small>
 
@@ -31,7 +31,7 @@
 
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
-<li class="nav-item"><a class="nav-link" href="articles/fpa.html">Get started</a></li>
+<li class="nav-item"><a class="nav-link" href="articles/ti.html">Get started</a></li>
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
@@ -58,7 +58,7 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level2">
-<h2 id="a-business-intelligence-toolkit-for-financial-planning--analysis-fpa">A Business Intelligence Toolkit for Financial Planning &amp; Analysis (FP&amp;A)<a class="anchor" aria-label="anchor" href="#a-business-intelligence-toolkit-for-financial-planning--analysis-fpa"></a>
+<h2 id="a-business-intelligence-toolkit-for-financial-planning--analysis-fpa">A Business Intelligence Toolkit for Financial Planning &amp; Analysis (FP&amp;A<a class="anchor" aria-label="anchor" href="#a-business-intelligence-toolkit-for-financial-planning--analysis-fpa"></a>
 </h2>
 <p>This package is a collection of business intelligence tools designed to simplify common <strong>financial planning and analysis (FP&amp;A)</strong> tasks such as time intelligence calculations, group members segmentation and factor/variance analysis.</p>
 <p>The package is inspired by best practices from a collection of blogs, books, industry research, and hands-on work experience, consolidating frequently performed business analyses into a fast, efficient, and reusable framework.</p>
@@ -94,10 +94,13 @@
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># Install using pak or install.package()</span></span>
 <span></span>
-<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"git::https://codeberg.org/usrbinr/fpa"</span><span class="op">)</span></span></code></pre></div>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_git.html" class="external-link">install_git</a></span><span class="op">(</span><span class="st">"https://codeberg.org/usrbinr/ti"</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># to install from CRAN</span></span>
+<span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"ti"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
-<h2 id="what-is-in-fpa">What is in fpa?<a class="anchor" aria-label="anchor" href="#what-is-in-fpa"></a>
+<h2 id="what-is-in-ti">What is in ti?<a class="anchor" aria-label="anchor" href="#what-is-in-ti"></a>
 </h2>
 <blockquote>
 <p>We recommend using the <a href="https://usrbinr.github.io/contoso/" class="external-link">Contoso</a> package for any practice analysis. The contoso datasets are fictional business transaction of the Contoso toy company which are helpful for business intelligence related analysis</p>
@@ -117,7 +120,7 @@
 <ul>
 <li><p><strong>Auto-fill missing dates</strong>: Ensures no missing periods in your datasets so that right period comparisons are performed</p></li>
 <li><p><strong>Flexible calendar options</strong>: Handle comparisons based on a <strong>standard</strong> or <strong>non-standard</strong> fiscal calendar to accommodate different reporting frameworks</p></li>
-<li><p><strong>Clear definition</strong>: Full transparency to the calculations that are performed with visibilty to any missing or incomplete date periods</p></li>
+<li><p><strong>Clear definition</strong>: Full transparency to the calculations that are performed with visibility to any missing or incomplete date periods</p></li>
 </ul>
 <p>Below is the full list of time intelligence functions:</p>
 <div id="tbl-ti-fn">
@@ -349,15 +352,7 @@
 </div>
 
 
-  </main><aside class="col-md-3"><div class="links">
-<h2 data-toc-skip>Links</h2>
-<ul class="list-unstyled">
-<li><a href="https://cloud.r-project.org/package=fpa" class="external-link">View on CRAN</a></li>
-<li><a href="https://codeberg.org/usrbinr/fpa/">Browse source code</a></li>
-</ul>
-</div>
-
-<div class="license">
+  </main><aside class="col-md-3"><div class="license">
 <h2 data-toc-skip>License</h2>
 <ul class="list-unstyled">
 <li><a href="LICENSE.html">Full license</a></li>
@@ -369,7 +364,7 @@
 <div class="citation">
 <h2 data-toc-skip>Citation</h2>
 <ul class="list-unstyled">
-<li><a href="authors.html#citation">Citing fpa</a></li>
+<li><a href="authors.html#citation">Citing ti</a></li>
 </ul>
 </div>
 

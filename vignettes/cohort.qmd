@@ -19,7 +19,7 @@ Cohort analysis is the practice of segmenting users or customers into groups (co
 
 By monitoring these cohorts over time, analysts can gain deep insights into retention rates, lifetime value (LTV), feature usage, and behavioral trends that are hidden when looking at aggregate metrics. It shifts the focus from "what is happening now" to "how are groups behaving over their lifecycle".
 
-The `cohort()` function in **fpa** provides a **tibble and database-friendly implementation** of cohort analysis that is compatible with modern backends.
+The `cohort()` function in **ti** provides a **tibble and database-friendly implementation** of cohort analysis that is compatible with modern backends.
 
 ## How does it work?
 
@@ -48,7 +48,7 @@ The function returns a **segment_cohort** object. Use `calculate()` to retrieve 
 #| eval: false
 
 # Example cohort analysis
-fpa::cohort(.data = contoso::sales,
+ti::cohort(.data = contoso::sales,
                   .date = order_date,
                   .value = customer_key,
                   time_unit = "month",

@@ -7,6 +7,6 @@
 # * https://testthat.r-lib.org/articles/special-files.html
 
 library(testthat)
-library(fpa)
+library(ti)
 
-test_check("fpa")
+test_check("ti")

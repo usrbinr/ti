@@ -10,7 +10,7 @@
 time_unit <- S7::new_class(
 
   ,name="time_unit"
-  ,package = "fpa"
+  ,package = "ti"
   ,properties = list(
     value=S7::new_property(
       class=S7::class_character
@@ -42,7 +42,7 @@ time_unit <- S7::new_class(
 
 action <- S7::new_class(
   name="action"
-  ,package = "fpa"
+  ,package = "ti"
   ,properties=list(
     value=S7::new_property(
       class=S7::class_any
@@ -65,7 +65,7 @@ action <- S7::new_class(
 
 datum <- S7::new_class(
   name="datum"
-  ,package = "fpa"
+  ,package = "ti"
   ,properties =
     list(
       data=S7::new_property(
@@ -318,7 +318,7 @@ fn <- S7::new_class(
 ti <- S7::new_class(
 
   name="ti"
-  ,package = "fpa"
+  ,package = "ti"
 
   #properties
   ,properties = list(
@@ -354,7 +354,7 @@ ti <- S7::new_class(
 
 category <- S7::new_class(
   name="category"
-  ,package = "fpa"
+  ,package = "ti"
   ,properties = list(
     category_values=S7::new_property(
       class=S7:::class_numeric
@@ -377,7 +377,7 @@ category <- S7::new_class(
 segment_abc <- S7::new_class(
 
   ,name="segment_abc"
-  ,package = "fpa"
+  ,package = "ti"
   ,properties = list(
     datum=datum
     ,category=category
@@ -393,7 +393,7 @@ segment_abc <- S7::new_class(
 segment_cohort <- S7::new_class(
 
   ,name="segment_cohort"
-  ,package = "fpa"
+  ,package = "ti"
   ,properties = list(
     datum=datum
     ,time_unit=time_unit

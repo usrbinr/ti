@@ -578,7 +578,7 @@ mtd <- function(.data,.date,.value,calendar_type='standard'){
         ,new_column_name_vec     = "mtd"
       )
       ,fn=fn(
-        new_date_column_name = c("date","year","month")
+        new_date_column_name = c("date","year","quarter","month")
        ,lag_n                = NA_integer_
        ,fn_exec              = mtd_fn
        ,fn_name              = "mtd"
@@ -627,7 +627,7 @@ pmtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
       ,new_column_name_vec     = "pmtd"
     )
     ,fn=fn(
-      new_date_column_name = c("date","year","month")
+      new_date_column_name = c("date","year","quarter","month")
       ,lag_n               = lag_n
       ,fn_exec             = pmtd_fn
       ,fn_name             = "pmtd"
@@ -676,7 +676,7 @@ momtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
       ,new_column_name_vec     = "momtd"
     )
     ,fn=fn(
-      new_date_column_name = c("date","year","month")
+      new_date_column_name = c("date","year","quarter","month")
       ,lag_n               = lag_n
       ,fn_exec             = momtd_fn
       ,fn_name             = "momtd"
@@ -727,7 +727,7 @@ mtdopm <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
       ,new_column_name_vec     = "mtdopm"
     )
     ,fn=fn(
-      new_date_column_name = c("date","year","month")
+      new_date_column_name = c("date","year","quarter","month")
       ,lag_n               = lag_n
       ,fn_exec             = mtdopm_fn
       ,fn_name             = "mtdopm"
@@ -776,7 +776,7 @@ mom <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
       ,new_column_name_vec     = "mom"
     )
     ,fn=fn(
-      new_date_column_name = c("date","year","month")
+      new_date_column_name = c("date","year","quarter","month")
       ,lag_n               = lag_n
       ,fn_exec             = mom_fn
       ,fn_name             = "mom"

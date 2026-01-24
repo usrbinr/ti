@@ -1,9 +1,9 @@
 # Year-to-date execution function
 
 `ytd_fn()` is the function that is called by
-[`ytd()`](https://codeberg.org/usrbinr/fpa/reference/ytd.md) when passed
+[`ytd()`](https://codeberg.org/usrbinr/ti/reference/ytd.md) when passed
 through to
-[calculate](https://codeberg.org/usrbinr/fpa/reference/calculate.md)
+[calculate](https://codeberg.org/usrbinr/ti/reference/calculate.md)
 
 ## Usage
 
@@ -25,11 +25,11 @@ dbi object
 
 This is internal non exported function that is nested in ti class and is
 called upon when the underlying function is called by
-[calculate](https://codeberg.org/usrbinr/fpa/reference/calculate.md)
-This will return a dbi object that can converted to a tibble object with
+[calculate](https://codeberg.org/usrbinr/ti/reference/calculate.md) This
+will return a dbi object that can converted to a tibble object with
 [`dplyr::collect()`](https://dplyr.tidyverse.org/reference/compute.html)
 
 ## See also
 
-[`ytd()`](https://codeberg.org/usrbinr/fpa/reference/ytd.md) for the
+[`ytd()`](https://codeberg.org/usrbinr/ti/reference/ytd.md) for the
 function's class

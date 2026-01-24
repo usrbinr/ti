@@ -5,7 +5,7 @@
   through with
   [`dplyr::group_by()`](https://dplyr.tidyverse.org/reference/group_by.html)
 
-use [calculate](https://codeberg.org/usrbinr/fpa/reference/calculate.md)
+use [calculate](https://codeberg.org/usrbinr/ti/reference/calculate.md)
 to return the results
 
 ## Usage
@@ -72,27 +72,27 @@ ti object
 ## See also
 
 Other time_intelligence:
-[`atd()`](https://codeberg.org/usrbinr/fpa/reference/atd.md),
-[`dod()`](https://codeberg.org/usrbinr/fpa/reference/dod.md),
-[`mom()`](https://codeberg.org/usrbinr/fpa/reference/mom.md),
-[`momtd()`](https://codeberg.org/usrbinr/fpa/reference/momtd.md),
-[`mtd()`](https://codeberg.org/usrbinr/fpa/reference/mtd.md),
-[`mtdopm()`](https://codeberg.org/usrbinr/fpa/reference/mtdopm.md),
-[`pmtd()`](https://codeberg.org/usrbinr/fpa/reference/pmtd.md),
-[`pwtd()`](https://codeberg.org/usrbinr/fpa/reference/pwtd.md),
-[`pytd()`](https://codeberg.org/usrbinr/fpa/reference/pytd.md),
-[`qoq()`](https://codeberg.org/usrbinr/fpa/reference/qoq.md),
-[`qoqtd()`](https://codeberg.org/usrbinr/fpa/reference/qoqtd.md),
-[`qtd()`](https://codeberg.org/usrbinr/fpa/reference/qtd.md),
-[`qtdopq()`](https://codeberg.org/usrbinr/fpa/reference/qtdopq.md),
-[`wow()`](https://codeberg.org/usrbinr/fpa/reference/wow.md),
-[`wowtd()`](https://codeberg.org/usrbinr/fpa/reference/wowtd.md),
-[`wtd()`](https://codeberg.org/usrbinr/fpa/reference/wtd.md),
-[`wtdopw()`](https://codeberg.org/usrbinr/fpa/reference/wtdopw.md),
-[`yoy()`](https://codeberg.org/usrbinr/fpa/reference/yoy.md),
-[`yoytd()`](https://codeberg.org/usrbinr/fpa/reference/yoytd.md),
-[`ytd()`](https://codeberg.org/usrbinr/fpa/reference/ytd.md),
-[`ytdopy()`](https://codeberg.org/usrbinr/fpa/reference/ytdopy.md)
+[`atd()`](https://codeberg.org/usrbinr/ti/reference/atd.md),
+[`dod()`](https://codeberg.org/usrbinr/ti/reference/dod.md),
+[`mom()`](https://codeberg.org/usrbinr/ti/reference/mom.md),
+[`momtd()`](https://codeberg.org/usrbinr/ti/reference/momtd.md),
+[`mtd()`](https://codeberg.org/usrbinr/ti/reference/mtd.md),
+[`mtdopm()`](https://codeberg.org/usrbinr/ti/reference/mtdopm.md),
+[`pmtd()`](https://codeberg.org/usrbinr/ti/reference/pmtd.md),
+[`pwtd()`](https://codeberg.org/usrbinr/ti/reference/pwtd.md),
+[`pytd()`](https://codeberg.org/usrbinr/ti/reference/pytd.md),
+[`qoq()`](https://codeberg.org/usrbinr/ti/reference/qoq.md),
+[`qoqtd()`](https://codeberg.org/usrbinr/ti/reference/qoqtd.md),
+[`qtd()`](https://codeberg.org/usrbinr/ti/reference/qtd.md),
+[`qtdopq()`](https://codeberg.org/usrbinr/ti/reference/qtdopq.md),
+[`wow()`](https://codeberg.org/usrbinr/ti/reference/wow.md),
+[`wowtd()`](https://codeberg.org/usrbinr/ti/reference/wowtd.md),
+[`wtd()`](https://codeberg.org/usrbinr/ti/reference/wtd.md),
+[`wtdopw()`](https://codeberg.org/usrbinr/ti/reference/wtdopw.md),
+[`yoy()`](https://codeberg.org/usrbinr/ti/reference/yoy.md),
+[`yoytd()`](https://codeberg.org/usrbinr/ti/reference/yoytd.md),
+[`ytd()`](https://codeberg.org/usrbinr/ti/reference/ytd.md),
+[`ytdopy()`](https://codeberg.org/usrbinr/ti/reference/ytdopy.md)
 
 ## Examples
 

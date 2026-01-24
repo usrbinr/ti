@@ -13,7 +13,7 @@ library(tidyverse)
 
 ```
 
-## A Business Intelligence Toolkit for Financial Planning & Analysis (FP&A)
+## A Business Intelligence Toolkit for Financial Planning & Analysis (FP&A
 
 This package is a collection of business intelligence tools designed to simplify common **financial planning and analysis (FP&A)** tasks such as time intelligence calculations, group members segmentation and factor/variance analysis.
 
@@ -52,11 +52,14 @@ Install the development from GitHub:
 
 # Install using pak or install.package()
 
-pak::pak("git::https://codeberg.org/usrbinr/fpa")
+remotes::install_git("https://codeberg.org/usrbinr/ti")
+
+# to install from CRAN
+pak::pak("ti")
 
 ```
 
-## What is in fpa?
+## What is in ti?
 
 >  We recommend using the [Contoso](https://usrbinr.github.io/contoso/) package for any practice analysis. The contoso datasets are fictional business transaction of the Contoso toy company which are helpful for business intelligence related analysis
 
@@ -79,7 +82,7 @@ These functions are designed to quickly answer questions in a consistent, fast a
 
 -   **Flexible calendar options**: Handle comparisons based on a **standard** or **non-standard** fiscal calendar to accommodate different reporting frameworks
 
--   **Clear definition**: Full transparency to the calculations that are performed with visibilty to any missing or incomplete date periods
+-   **Clear definition**: Full transparency to the calculations that are performed with visibility to any missing or incomplete date periods
 
 
 Below is the full list of time intelligence functions:
@@ -120,26 +123,6 @@ tibble::tribble(
    dplyr::arrange(id) |>
    dplyr::select(-id) |>
    tinytable::tt()
-  #  gt::cols_align(
-  #   align = 'center', 
-  #   columns = c("Abbreviation","Shift","Aggregate","Compare")
-  # ) |> 
-  #  gt::tab_style(
-  #     locations=gt::cells_body(c("Shift","Aggregate","Compare"))
-  #     ,style=gt::cell_fill(color="#D1D1E2")
-  #     ) |> 
-  #  gt::tab_style(
-  #     locations=gt::cells_column_labels()
-  #     ,style = gt::cell_fill(color="midnightblue")
-  #  ) |> 
-  #  gt::tab_style(
-  #     locations=gt::cells_column_labels()
-  #     ,style = gt::cell_text(color="white")
-  #  ) |> 
-  #   gt::tab_options(
-  #   table_body.hlines.color = "midnightblue",     # your desired color
-  #   table_body.hlines.width = gt::px(1)      # (optional) thickness
-  # )
 
 
 
