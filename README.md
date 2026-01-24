@@ -1,13 +1,5 @@
 
 
-<!-- badges: start -->
-
-[![CRAN
-status](https://www.r-pkg.org/badges/version/fpaR?svg=1.png)](https://CRAN.R-project.org/package=fpaR)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/usrbinr/fpaR/HEAD)
-[![](https://cranlogs.r-pkg.org/badges/fpaR.png)](https://cran.r-project.org/package=fpaR)
-<!-- badges: end -->
-
 ## A Business Intelligence Toolkit for Financial Planning & Analysis (FP&A)
 
 This package is a collection of business intelligence tools designed to
@@ -55,7 +47,7 @@ Install the development from GitHub:
 ``` r
 # Install using pak or install.package()
 
-pak::pak("usrbinr/fpaR")
+pak::pak("git::https://codeberg.org/usrbinr/fpa")
 ```
 
 ## What is in fpa?
