@@ -46,7 +46,7 @@ Install the development from GitHub:
 ``` r
 # Install using pak or install.package()
 
-pak::pak("usrbinr/fpaR")
+pak::pak("git::https://codeberg.org/usrbinr/fpa")
 ```
 
 ## What is in fpa?
