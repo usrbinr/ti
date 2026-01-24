@@ -1,0 +1,5 @@
+# test
+
+``` r
+library(fpaR)
+```
