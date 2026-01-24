@@ -113,4 +113,4 @@ A data frame with rows of customer data and 24 columns:
 ## Source
 
 Internal customer database Generated from
-[`fpaR::sales`](https://codeberg.org/usrbinr/fpa/reference/sales.md)
+[`fpaR::sales`](https://codeberg.org/usrbinr/ti/reference/sales.md)

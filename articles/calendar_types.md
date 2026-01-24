@@ -7,7 +7,7 @@ encounter a `calendar_type` argument. This might be confusing, as most
 people assume there is only one type of calendar!
 
 To accommodate the unique operational and analytical needs of certain
-industries (particularly retail and manufacturing), FP&A often involves
+industries (particularly retail and manufacturing), `ti` often involves
 two primary calendar systems:
 
 1.  **Standard Calendar** (Gregorian)
@@ -92,7 +92,7 @@ using non-standard calendars.
 
 ------------------------------------------------------------------------
 
-### How to reference in `fpaR` functions?
+### How to reference in `ti` functions?
 
 The `calendar_type` argument is how you instruct the function on which
 system to use for its internal calculations and indexing.
@@ -101,6 +101,6 @@ system to use for its internal calculations and indexing.
 - To use a retail calendar, pass the respective structure: `"544"`,
   `"454"`, or `"445"`
 
-Under the hood, `fpaR` handles the complexities: it generates the
+Under the hood, `ti` handles the complexities: it generates the
 appropriate date keys and ensures that all your metrics are indexed
 correctly to the start and end of the chosen calendar’s periods.

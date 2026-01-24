@@ -16,7 +16,7 @@ intelligence function and input the required arguments.
 > intelligence functions will return a lazy DBI object for performance
 > reasons
 
-We will use [`mtd()`](https://codeberg.org/usrbinr/fpa/reference/mtd.md)
+We will use [`mtd()`](https://codeberg.org/usrbinr/ti/reference/mtd.md)
 function to calculate the month-to-date sum of contoso’s company’
 revenue
 ([`contoso::sales`](https://usrbinr.github.io/contoso/reference/sales.html)).
@@ -31,7 +31,7 @@ Most time intelligence functions follow the same structure:
   variation (currently supports 5-5-4)
 
 When you execute
-[`mtd()`](https://codeberg.org/usrbinr/fpa/reference/mtd.md), your
+[`mtd()`](https://codeberg.org/usrbinr/ti/reference/mtd.md), your
 console return a `ti` object and will print a summary of the function’s
 actions, details the calendar’s attributes, describes the main
 transformation steps and lists out possible next actions.
@@ -102,7 +102,7 @@ the standard calendar month to the end of the month
 
 To return the results to a lazy tibble of results, pass the ti object
 through to
-[`calculate()`](https://codeberg.org/usrbinr/fpa/reference/calculate.md).
+[`calculate()`](https://codeberg.org/usrbinr/ti/reference/calculate.md).
 
 ``` r
 contoso::sales |>                                                                
@@ -256,12 +256,12 @@ column to let you know how many periods (eg. days) are in your
 comparison period to increase transparency to this dynamic.
 
 To create this example, we will use the
-[`pmtd()`](https://codeberg.org/usrbinr/fpa/reference/pmtd.md) function
+[`pmtd()`](https://codeberg.org/usrbinr/ti/reference/pmtd.md) function
 to calculate the prior month to date cumulative margin in the current
 month.
 
 When we pass the ti object through to
-[`calculate()`](https://codeberg.org/usrbinr/fpa/reference/calculate.md)
+[`calculate()`](https://codeberg.org/usrbinr/ti/reference/calculate.md)
 and filter the results for February 2022, we would see the below
 [Table 3](#tbl-issue2-example-no-echo).
 
@@ -283,7 +283,7 @@ In financial planning and analysis, it is common to compare
 understand performance trends.
 
 The function
-[`yoytd_fn()`](https://codeberg.org/usrbinr/fpa/reference/yoytd_fn.md)
+[`yoytd_fn()`](https://codeberg.org/usrbinr/ti/reference/yoytd_fn.md)
 provides this functionality. While it is an **internal, non-exported
 function**, it is called by \[yoytd()\] and executed through
 \[calculate()\].
@@ -293,7 +293,7 @@ work with its output.
 
 ## Function Purpose
 
-[`yoytd_fn()`](https://codeberg.org/usrbinr/fpa/reference/yoytd_fn.md)
+[`yoytd_fn()`](https://codeberg.org/usrbinr/ti/reference/yoytd_fn.md)
 performs the following:
 
 1.  Computes **current year-to-date (YTD)** values.

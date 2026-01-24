@@ -10,8 +10,8 @@ behavioral trends that are hidden when looking at aggregate metrics. It
 shifts the focus from “what is happening now” to “how are groups
 behaving over their lifecycle”.
 
-The [`cohort()`](https://codeberg.org/usrbinr/fpa/reference/cohort.md)
-function in **fpa** provides a **tibble and database-friendly
+The [`cohort()`](https://codeberg.org/usrbinr/ti/reference/cohort.md)
+function in **ti** provides a **tibble and database-friendly
 implementation** of cohort analysis that is compatible with modern
 backends.
 
@@ -23,7 +23,7 @@ backends.
 - Supports multiple time units (`day`, `week`, `month`, `quarter`,
   `year`)
 - Returns a **segment object**, which can be processed using
-  [`calculate()`](https://codeberg.org/usrbinr/fpa/reference/calculate.md)
+  [`calculate()`](https://codeberg.org/usrbinr/ti/reference/calculate.md)
   to generate the cohort table
 
 ## Arguments
@@ -39,12 +39,12 @@ backends.
 ## Output
 
 The function returns a **segment_cohort** object. Use
-[`calculate()`](https://codeberg.org/usrbinr/fpa/reference/calculate.md)
+[`calculate()`](https://codeberg.org/usrbinr/ti/reference/calculate.md)
 to retrieve the cohort table:
 
 ``` r
 # Example cohort analysis
-fpa::cohort(.data = contoso::sales,
+ti::cohort(.data = contoso::sales,
                   .date = order_date,
                   .value = customer_key,
                   time_unit = "month",

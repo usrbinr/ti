@@ -2,11 +2,10 @@
 
 ### Segmentation
 
-- [ABC
-  Classification](https://codeberg.org/usrbinr/fpa/articles/abc.md):
-- [Cohort](https://codeberg.org/usrbinr/fpa/articles/cohort.md):
+- [ABC Classification](https://codeberg.org/usrbinr/ti/articles/abc.md):
+- [Cohort](https://codeberg.org/usrbinr/ti/articles/cohort.md):
 
 ### Time Intillgience
 
 - [Standard vs. Non-Standard
-  Calendars](https://codeberg.org/usrbinr/fpa/articles/calendar_types.md):
+  Calendars](https://codeberg.org/usrbinr/ti/articles/calendar_types.md):

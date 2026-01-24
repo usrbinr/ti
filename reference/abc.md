@@ -8,8 +8,8 @@
   steps and actions that it will take to categorize your data
 
 - Use
-  [calculate](https://codeberg.org/usrbinr/fpa/reference/calculate.md)
-  to return the results
+  [calculate](https://codeberg.org/usrbinr/ti/reference/calculate.md) to
+  return the results
 
 ## Usage
 
