@@ -32,11 +32,9 @@ Suggests:
     tinytable,
     fansi,
     crayon,
-    knitr,
-    contoso,
-    knitr
+    contoso
 Config/testthat/edition: 3
-VignetteBuilder: knitr
+BuildVignettes: false
 Depends: 
     R (>= 3.5)
-URL: https://codeberg.org/usrbinr/fpa
+URL: https://usrbinr.codeberg.page/fpa/
