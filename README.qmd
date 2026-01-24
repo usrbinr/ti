@@ -13,9 +13,11 @@ library(tidyverse)
 
 ```
 
-## A Business Intelligence Toolkit for Financial Planning & Analysis (FP&A
+# ti <img src="man/figures/ti_logo.png" align="right" width="120" />
 
-This package is a collection of business intelligence tools designed to simplify common **financial planning and analysis (FP&A)** tasks such as time intelligence calculations, group members segmentation and factor/variance analysis.
+## A Business Intelligence Toolkit for Financial Planning & Analysis (FP&A)
+
+`ti` package is a collection of business intelligence tools designed to simplify common **financial planning and analysis (FP&A)** tasks such as time intelligence calculations, group members segmentation and factor/variance analysis.
 
 The package is inspired by best practices from a collection of blogs, books, industry research, and hands-on work experience, consolidating frequently performed business analyses into a fast, efficient, and reusable framework.
 

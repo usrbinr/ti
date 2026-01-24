@@ -1,8 +1,10 @@
 
 
-## A Business Intelligence Toolkit for Financial Planning & Analysis (FP&A
+# ti <img src="man/figures/ti_logo.png" align="right" width="120" />
 
-This package is a collection of business intelligence tools designed to
+## A Business Intelligence Toolkit for Financial Planning & Analysis (FP&A)
+
+`ti` package is a collection of business intelligence tools designed to
 simplify common **financial planning and analysis (FP&A)** tasks such as
 time intelligence calculations, group members segmentation and
 factor/variance analysis.

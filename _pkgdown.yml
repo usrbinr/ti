@@ -10,6 +10,9 @@
       - text: "Bluesky"
         href: "https://bsky.app/profile/usrbinr.bsky.social"
         icon: "fab fa-bluesky"
+      - text: "Codeberg"
+        href: "https://codeberg.org/usrbinr"
+        icon: "fas fa-code-branch"
 
   reference:
     - title: "Utilities"
