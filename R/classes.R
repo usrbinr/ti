@@ -17,7 +17,7 @@ time_unit <- S7::new_class(
       ,default = "day"
       ,setter=function(self,value){
 
-        value <- stringr::str_to_lower(value)
+        value <- tolower(value)
         self@value <- value
         self
       }
@@ -48,7 +48,7 @@ action <- S7::new_class(
       class=S7::class_any
       ,setter = function(self,value){
 
-        value <- stringr::str_to_lower(value)
+        value <- tolower(value)
         self@value <- make_action_cli(value)
         self
       }
@@ -82,11 +82,11 @@ datum <- S7::new_class(
 
           class <- class(self@data)
 
-          x <-  dplyr::if_else(
-            any(stringr::str_detect(class,"tbl_dbi"))
-            ,"dbi"
-            ,"tbl"
-          )
+          x <- dplyr::if_else(
+  any(grepl("tbl_dbi", class))
+  , "dbi"
+  , "tbl"
+)
 
           return(x)
         }
@@ -109,7 +109,7 @@ datum <- S7::new_class(
         }
         ,setter=function(self,value){
 
-          value <- stringr::str_to_lower(value)
+          value <- tolower(value)
           self@calendar_type <- value
           return(self)
         }

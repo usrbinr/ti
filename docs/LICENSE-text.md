@@ -1,4 +1,4 @@
 # License
 
-    YEAR: 2025
-    COPYRIGHT HOLDER: fpaR authors
+    YEAR: 2026
+    COPYRIGHT HOLDER: ti authors

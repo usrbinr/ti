@@ -198,7 +198,7 @@ S7::method(print, ti) <- function(x,...){
   cli::cat_bullet("A ",cli::col_br_red(x@datum@calendar_type)," calendar is created with ",cli::col_green(x@datum@group_count," groups"))
   cli::cat_bullet(paste("Calendar ranges from",cli::col_br_green(x@datum@min_date),"to",cli::col_br_green(x@datum@max_date)))
   cli::cat_bullet(paste(cli::col_blue(x@datum@date_missing),"days were missing and replaced with 0"))
-  cli::cat_bullet("New date column ",stringr::str_flatten_comma(cli::col_br_red(x@fn@new_date_column_name),last = " and ")," was created from ",cli::col_br_magenta(x@datum@date_vec))
+  cli::cat_bullet("New date column ",paste(cli::col_br_red(x@fn@new_date_column_name), collapse = ", ")," was created from ",cli::col_br_magenta(x@datum@date_vec))
   cli::cat_line("")
 
   ## Action information
@@ -211,7 +211,7 @@ S7::method(print, ti) <- function(x,...){
 
   if(x@datum@group_indicator){
 
-  cli::cli_text("{stringr::str_flatten_comma(x@datum@group_vec,last = ' and ')} groups are in the table")
+  cli::cli_text("{paste(x@datum@group_vec, collapse = ", ")} groups are in the table")
   cli::cat_line("")
   }
 
@@ -249,7 +249,7 @@ S7::method(print,segment_abc) <- function(x,...){
 
       paste(
         "The data set is summarized by"
-        ,cli::col_br_magenta(stringr::str_flatten_comma(x@datum@group_vec))
+        ,cli::col_br_magenta(paste(x@datum@group_vec, collapse = ", "))
         ,"and then"
         ,cli::col_br_magenta("counts")
         ,"each group member's contribution of the total and then finally calculates the"
@@ -264,7 +264,7 @@ S7::method(print,segment_abc) <- function(x,...){
     cli::cat_bullet(
       paste(
         "The data set is summarized by"
-        ,cli::col_br_magenta(stringr::str_flatten_comma(x@datum@group_vec))
+        ,cli::col_br_magenta(paste(x@datum@group_vec, collapse = ", "))
         ,"and then sums each group member's"
         ,cli::col_br_magenta(x@value@value_vec)
         ,"contribution of the total"
@@ -280,9 +280,9 @@ S7::method(print,segment_abc) <- function(x,...){
       "Then cumulative distribution was then arranged from lowest to highest and finally classified into"
       ,n_values_len
       ,"break points"
-      ,cli::col_yellow(stringr::str_flatten_comma(scales::percent(x@category@category_values)))
+      ,cli::col_yellow(paste(scales::percent(x@category@category_values), collapse = ", "))
       ," and labelled into the following categories"
-      ,cli::col_br_blue(stringr::str_flatten_comma(x@category@category_names))
+      ,cli::col_br_blue(paste(x@category@category_names, collapse = ", "))
     )
   )
 
@@ -344,7 +344,7 @@ S7::method(print,segment_cohort) <- function(x,...){
     cli::cat_bullet("A ",cli::col_br_red(x@datum@calendar_type)," calendar is created with ",cli::col_green(x@datum@group_count," groups"))
     cli::cat_bullet(paste("Calendar ranges from",cli::col_br_green(x@datum@min_date),"to",cli::col_br_green(x@datum@max_date)))
     cli::cat_bullet(paste(cli::col_blue(x@datum@date_missing),"days were missing and replaced with 0"))
-    cli::cat_bullet("New date column ",stringr::str_flatten_comma(cli::col_br_red(x@fn@new_date_column_name),last = " and ")," was created from ",cli::col_br_magenta(x@datum@date_vec))
+    cli::cat_bullet("New date column ",paste(cli::col_br_red(x@fn@new_date_column_name), collapse = ", ")," was created from ",cli::col_br_magenta(x@datum@date_vec))
     cli::cat_line("")
 
   cli::cat_line("")

@@ -117,14 +117,14 @@ yoytd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 #> • A standard calendar is created with 0 groups
 #> • Calendar ranges from 2021-05-18 to 2024-04-20
 #> • 222 days were missing and replaced with 0
-#> • New date column date and year was created from order_date
+#> • New date column date, year was created from order_date
 #> 
 #> ── Actions: ──
 #> 
 #> ✔Aggregate quantity
 #> ✔Shift 1 year
 #> ✔Compare Previous year-to-date
-#> ✖Proportion Of Total
+#> ✖Proportion of Total
 #> ✖Count Distinct
 #> 
 #> 

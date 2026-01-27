@@ -15,3 +15,5 @@
 ^vignettes/articles/.*_cache$
 ^vignettes/articles/.*_files$
 ^vignettes$
+ti.Rproj
+^cran-comments\.md$

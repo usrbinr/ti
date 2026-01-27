@@ -29,13 +29,13 @@ generate_cli_action <- function(x,word){
   # word <- "test"
   out <- list()
 
-  if(any(x %in% stringr::str_to_lower(word))){
+  if(any(x %in% tolower(word))){
 
-    out[[word]] <- c(cli::col_green(cli::symbol$tick),stringr::str_to_title(word))
+    out[[word]] <- c(cli::col_green(cli::symbol$tick),tools::toTitleCase(word))
 
   }else{
 
-    out[[word]] <- c(cli::col_red(cli::symbol$cross),stringr::str_to_title(word))
+    out[[word]] <- c(cli::col_red(cli::symbol$cross),tools::toTitleCase(word))
   }
 
   return(out)
@@ -118,7 +118,7 @@ print_actions_steps <- function(x){
   cli::cli_h2("Actions:")
 
 
-  if(any(stringr::str_detect(x@action@value[[1]],"32m"))){
+  if(any(grepl("32m",x@action@value[[1]]))){
 
 
     cli::cli_text(x@action@value[[1]]," ",cli::col_blue(x@value@value_vec))
@@ -140,7 +140,7 @@ print_actions_steps <- function(x){
 
   ## prop of total
 
-  if(any(stringr::str_detect(x@action@value[[4]],"32m"))){
+  if(any(grepl("32m", x@action@value[[4]]))){
 
 
     cli::cli_text(x@action@value[[4]])
@@ -154,7 +154,7 @@ print_actions_steps <- function(x){
   ## distinct count
 
 
-  if(any(stringr::str_detect(x@action@value[[5]],"32m"))){
+  if(any(grepl("32m", x@action@value[[5]]))){
 
 
     cli::cli_text(x@action@value[[5]]," ",cli::col_blue(x@value@value_vec))
@@ -540,7 +540,6 @@ create_full_dbi <- function(x){
 #' groups. It uses DuckDB's \code{duckdb_register}, which is a virtual registration
 #' and does not perform a physical copy of the data, making it extremely fast.
 #'
-#' @export
 #' @keywords internal
 make_db_tbl <- function(x) {
 
