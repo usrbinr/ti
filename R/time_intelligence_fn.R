@@ -85,11 +85,12 @@ ptd_sql_template <- function(x, sql_unit, sql_expr, by_cols, drop_cols, join_by_
   }
 
   .con <- dbplyr::remote_con(full_dbi_for_lag)
+  date_lag_sql <- sql_date_add(.con, sql_unit, sql_expr(lag_n_vec))
 
   lag_dbi <- full_dbi_for_lag |>
     dbplyr::window_order(date) |>
     dplyr::mutate(
-      date_lag = as.Date(sql_date_add(.con, sql_unit, sql_expr(lag_n_vec)))
+      date_lag = as.Date(!!date_lag_sql)
       ,!!x@value@new_column_name_vec := cumsum(!!x@value@value_quo)
       ,.by = c(!!!rlang::syms(by_cols), !!!x@datum@group_quo)
     ) |>

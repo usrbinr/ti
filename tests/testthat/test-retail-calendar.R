@@ -190,7 +190,6 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("pqtd works with 445 calendar", {
-    skip("known issue: sql_date_add not translatable to DuckDB SQL in ungrouped retail calendar")
     testthat::expect_no_error({
       contoso::sales |>
         ti::pqtd(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
@@ -201,7 +200,7 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("pmtd works with 445 calendar", {
-    skip("known issue: sql_date_add not translatable to DuckDB SQL in ungrouped retail calendar")
+
     testthat::expect_no_error({
       contoso::sales |>
         ti::pmtd(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
@@ -212,7 +211,7 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("pwtd works with 445 calendar", {
-    skip("known issue: sql_date_add for week not translatable to DuckDB SQL")
+
     testthat::expect_no_error({
       contoso::sales |>
         ti::pwtd(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
@@ -283,7 +282,7 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("qoqtd works with 445 calendar", {
-    skip("known issue: sql_date_add not translatable to DuckDB SQL in ungrouped retail calendar")
+
     testthat::expect_no_error({
       contoso::sales |>
         ti::qoqtd(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
@@ -294,7 +293,7 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("momtd works with 445 calendar", {
-    skip("known issue: sql_date_add not translatable to DuckDB SQL in ungrouped retail calendar")
+
     testthat::expect_no_error({
       contoso::sales |>
         ti::momtd(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
@@ -305,7 +304,7 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("wowtd works with 445 calendar", {
-    skip("known issue: sql_date_add not translatable to DuckDB SQL in ungrouped retail calendar")
+
     testthat::expect_no_error({
       contoso::sales |>
         ti::wowtd(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
@@ -379,7 +378,7 @@ describe("544 calendar integration", {
   })
 
   it("momtd works with 544 calendar", {
-    skip("known issue: sql_date_add not translatable to DuckDB SQL in ungrouped retail calendar")
+
     testthat::expect_no_error({
       contoso::sales |>
         ti::momtd(order_date, margin, calendar_type = "544", fiscal_year_start = 2, lag_n = 1) |>
