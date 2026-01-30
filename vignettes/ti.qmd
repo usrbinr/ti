@@ -75,7 +75,7 @@ contoso::sales |>
 ```
 
 
-If you using a tibble, under the hood, ti is converting your data to a [duckdb](https://github.com/duckdb/duckdb-r) database
+If you're using a tibble, under the hood, ti is converting your data to a [duckdb](https://github.com/duckdb/duckdb-r) database
 
 If your data is in a database, the package will leverage [dbplyr](https://dbplyr.tidyverse.org/) to execute all the calculations
 
@@ -130,22 +130,22 @@ contoso::sales |>
 
 ## Why do we need this package when we have lubridate?
 
-[Lubridate](https://lubridate.tidyverse.org/) is an excellent package and is is at the core of many of ti's functions. The issue isn't lubridate but rather the challenges and issues in your dataset that typically don't allow you to directly use lubridate. 
+[Lubridate](https://lubridate.tidyverse.org/) is an excellent package and is at the core of many of ti's functions. The issue isn't lubridate but rather the challenges and issues in your dataset that typically don't allow you to directly use lubridate. 
 
-The advantage of this package is that it will perform all the of the required pre-processing steps for you.
+The advantage of this package is that it will perform all of the required pre-processing steps for you.
 
 
 -   Issue 1: Many datasets **do not have continuous dates**, especially if data is recorded only on business days or for active transactions
 
 
--   Issue 2: Period imbalances between periods (Eg. the different number of days between February vs. January) can create misleading analysis/trends or you analysis requires non-standard calendar types
+-   Issue 2: Period imbalances between periods (Eg. the different number of days between February vs. January) can create misleading analysis/trends or your analysis requires non-standard calendar types
 
 -   Issue 3: Calculating time intelligence for groups can lead to larger than memory issues even with smaller datasets
 
 
 ### Issue 1: Continuous Dates
 
-Referencing the @tbl-missing-dates-issues-1 below, if we were use `dplyr::lag()` to compare **Day-over-Day (DoD)** margin, we
+Referencing the @tbl-missing-dates-issues-1 below, if we were to use `dplyr::lag()` to compare **Day-over-Day (DoD)** margin, we
 would be missing `2024-01-02`, `2024-01-04`, and `2024-01-05` which would lead to incorrect answers or trends.
 
 ```{r}
@@ -191,11 +191,11 @@ For example if you want to compare January sales to February you can get mislead
 
 > In practice you have two choices:
 >
- -  compare periods with similar days (eg. the 28th of February compares should only compare up to the 28th of January) and you omit three days of January sales all together 
+ -  compare periods with similar days (eg. the 28th of February should only compare up to the 28th of January) and you omit three days of January sales altogether
 >
--  compare have an imbalanced comparison (eg. the 28th of February compares to the 31st of January so that no days are lost).
+> -  compare have an imbalanced comparison (eg. the 28th of February compares to the 31st of January so that no days are lost).
 
-This package does the second option to  ensure we don't loose any of January's sales but to help flag for imbalance, ti will add a column to let you know how many periods (eg. days) are in your comparison period to increase transparency to this dynamic.
+This package does the second option to  ensure we don't lose any of January's sales but to help flag for imbalance, ti will add a column to let you know how many periods (eg. days) are in your comparison period to increase transparency to this dynamic.
 
 To create this example, we will use the `pmtd()` function to calculate the prior month to date cumulative margin in the current month.
 
@@ -240,7 +240,7 @@ contoso::sales |>
 
 If your data isn't already in a database then ti will leverage duckdb to convert your data to enable larger than memory calculation. 
 
-This is necessary for time intelligence functions because when you have grouped data, you need to complete calendar for each group combination. For even modest datasets, this can quickly multiple and grow you data to be larger than memory. 
+This is necessary for time intelligence functions because when you have grouped data, you need to complete calendar for each group combination. For even modest datasets, this can quickly multiply and grow your data to be larger than memory. 
 
 If your data is already in database, then ti will use [dbplyr](https://dbplyr.tidyverse.org/) and will convert the functions to SQL to write the queries.
 

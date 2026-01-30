@@ -1,6 +1,6 @@
 ---
 title: "Standard vs. Non-Standard Calendars"
-subtitle: "What are non-standard calendars and when do we use it?"
+subtitle: "What are non-standard calendars and when do we use them?"
 author: "Alejandro Hagan"
 format: html
 ---
