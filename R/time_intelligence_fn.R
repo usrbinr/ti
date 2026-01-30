@@ -1,5 +1,283 @@
 
-## year related functions---------------
+# Time Intelligence Execution Functions
+# ======================================
+# Template-based execution functions that eliminate duplication across periods.
+# Each *_fn() is a thin wrapper calling one of 5 parameterized templates.
+
+
+# Template 1: Simple cumsum (td) ----------------------------------------------
+# Used by: ytd_fn, qtd_fn, mtd_fn, wtd_fn, atd_fn
+
+#' @noRd
+td_template <- function(x, by_cols, relocate_cols) {
+
+  full_dbi <- create_full_dbi(x)
+
+  out_dbi <- full_dbi |>
+    dbplyr::window_order(date) |>
+    dplyr::mutate(
+      !!x@value@new_column_name_vec := base::cumsum(!!x@value@value_quo)
+      ,.by = c(!!!rlang::syms(by_cols), !!!x@datum@group_quo)
+    ) |>
+    dplyr::relocate(!!!rlang::syms(relocate_cols)) |>
+    dplyr::relocate(
+      dplyr::any_of("missing_date_indicator")
+      ,.after = dplyr::last_col()
+    )
+
+  return(out_dbi)
+}
+
+
+# Template 2: Lagged cumsum (ptd) ---------------------------------------------
+# Used by: pytd_fn, pqtd_fn, pmtd_fn, pwtd_fn
+#
+# The year variant uses lubridate::years() for the lag, while quarter/month/week
+# variants use sql_date_add(). This split is necessary because the SQL date
+# arithmetic differs by period.
+
+#' @noRd
+ptd_year_template <- function(x, by_cols, drop_cols, join_by_cols, relocate_cols) {
+
+  full_dbi <- create_full_dbi(x)
+
+  lag_dbi <- full_dbi |>
+    dbplyr::window_order(date) |>
+    dplyr::mutate(
+      date_lag = as.Date(date + lubridate::years(!!x@fn@lag_n))
+      ,!!x@value@new_column_name_vec := cumsum(!!x@value@value_quo)
+      ,.by = c(!!!rlang::syms(by_cols), !!!x@datum@group_quo)
+    ) |>
+    dplyr::select(-c(!!!rlang::syms(drop_cols), !!x@value@value_quo))
+
+  out_dbi <- dplyr::full_join(
+    full_dbi
+    ,lag_dbi
+    ,by = dplyr::join_by(date == date_lag, !!!x@datum@group_quo)
+  ) |>
+    dplyr::select(-c(!!x@value@value_quo)) |>
+    dbplyr::window_order(date) |>
+    dplyr::group_by(!!!rlang::syms(join_by_cols), !!!x@datum@group_quo) |>
+    tidyr::fill(date, .direction = "down") |>
+    dplyr::ungroup() |>
+    dplyr::summarise(
+      dplyr::across(dplyr::contains(x@value@value_vec), \(x) sum(x, na.rm = TRUE))
+      ,.by = c(!!!rlang::syms(join_by_cols), !!!x@datum@group_quo)
+    ) |>
+    dplyr::relocate(!!!rlang::syms(relocate_cols)) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"), .after = dplyr::last_col())
+
+  return(out_dbi)
+}
+
+#' @noRd
+ptd_sql_template <- function(x, sql_unit, sql_expr, by_cols, drop_cols, join_by_cols, relocate_cols, filter_na_col = NULL) {
+
+  lag_n_vec <- x@fn@lag_n |> rlang::as_label()
+
+  full_dbi <- create_full_dbi(x)
+
+  if (!is.null(filter_na_col)) {
+    # pmtd and pwtd remove missing_date_indicator before lag
+    full_dbi_for_lag <- full_dbi |> dplyr::select(-c(missing_date_indicator))
+  } else {
+    full_dbi_for_lag <- full_dbi
+  }
+
+  .con <- dbplyr::remote_con(full_dbi_for_lag)
+
+  lag_dbi <- full_dbi_for_lag |>
+    dbplyr::window_order(date) |>
+    dplyr::mutate(
+      date_lag = as.Date(sql_date_add(.con, sql_unit, sql_expr(lag_n_vec)))
+      ,!!x@value@new_column_name_vec := cumsum(!!x@value@value_quo)
+      ,.by = c(!!!rlang::syms(by_cols), !!!x@datum@group_quo)
+    ) |>
+    dplyr::select(-c(!!!rlang::syms(drop_cols), !!x@value@value_quo))
+
+  # pmtd has extra month/year extraction and days_in_comparison_period logic
+  if (sql_unit == "month" && !is.null(filter_na_col)) {
+    lag_dbi <- lag_dbi |>
+      dplyr::mutate(
+        month = lubridate::month(date_lag)
+        ,year = lubridate::year(date_lag)
+      ) |>
+      dplyr::mutate(
+        days_in_comparison_period = lubridate::day(date)
+      ) |>
+      dplyr::select(-c(year, month, date))
+  }
+
+  if (!is.null(filter_na_col)) {
+    # pmtd/pwtd: use full_dbi_for_lag (without missing_date_indicator) for join
+    join_result <- dplyr::full_join(
+      full_dbi_for_lag
+      ,lag_dbi
+      ,by = dplyr::join_by(date == date_lag, !!!x@datum@group_quo)
+    ) |>
+      dplyr::select(-c(!!x@value@value_quo)) |>
+      dbplyr::window_order(date, !!!x@datum@group_quo)
+
+    if (sql_unit == "month") {
+      # pmtd: fill both days_in_comparison_period and the value column
+      join_result <- join_result |>
+        tidyr::fill(c(days_in_comparison_period, !!x@value@new_column_name_quo), .direction = "down") |>
+        dplyr::summarise(
+          !!x@value@new_column_name_vec := max(!!x@value@new_column_name_quo, na.rm = TRUE)
+          ,days_in_comparison_period = max(days_in_comparison_period, na.rm = TRUE)
+          ,.by = c(!!!rlang::syms(join_by_cols), !!!x@datum@group_quo)
+        )
+    } else {
+      # pwtd
+      join_result <- join_result |>
+        dplyr::group_by(!!!rlang::syms(join_by_cols), !!!x@datum@group_quo) |>
+        tidyr::fill(date, .direction = "down") |>
+        dplyr::ungroup() |>
+        dplyr::summarise(
+          dplyr::across(dplyr::contains(x@value@value_vec), \(x) sum(x, na.rm = TRUE))
+          ,.by = c(!!!rlang::syms(join_by_cols), !!!x@datum@group_quo)
+        )
+    }
+
+    out_dbi <- join_result |>
+      dplyr::relocate(!!!rlang::syms(relocate_cols)) |>
+      dplyr::relocate(dplyr::any_of("missing_date_indicator"), .after = dplyr::last_col())
+
+  } else {
+    # pqtd path
+    out_dbi <- dplyr::full_join(
+      full_dbi
+      ,lag_dbi
+      ,by = dplyr::join_by(date == date_lag, !!!x@datum@group_quo)
+    ) |>
+      dplyr::select(-c(!!x@value@value_quo)) |>
+      dbplyr::window_order(date, !!!rlang::syms(join_by_cols), !!!x@datum@group_quo) |>
+      dplyr::group_by(!!!rlang::syms(join_by_cols), !!!x@datum@group_quo) |>
+      tidyr::fill(date, .direction = "down") |>
+      dplyr::ungroup() |>
+      dplyr::summarise(
+        dplyr::across(dplyr::contains(x@value@value_vec), \(x) sum(x, na.rm = TRUE))
+        ,.by = c(!!!rlang::syms(join_by_cols), !!!x@datum@group_quo)
+      ) |>
+      dplyr::filter(!is.na(year)) |>
+      dplyr::relocate(!!!rlang::syms(relocate_cols)) |>
+      dplyr::relocate(dplyr::any_of("missing_date_indicator"), .after = dplyr::last_col())
+  }
+
+  return(out_dbi)
+}
+
+
+# Template 3: Compare cumsums (xoxtd) -----------------------------------------
+# Used by: yoytd_fn, qoqtd_fn, momtd_fn, wowtd_fn
+#
+# Calls the td + ptd functions, joins them together.
+
+#' @noRd
+xoxtd_template <- function(x, td_fn_call, ptd_fn_call, join_by_cols, relocate_cols, add_year = FALSE) {
+
+  td_dbi <- td_fn_call(x)
+  ptd_dbi <- ptd_fn_call(x)
+
+  out_dbi <- dplyr::full_join(
+    td_dbi
+    ,ptd_dbi
+    ,by = dplyr::join_by(date == date, !!!rlang::syms(join_by_cols), !!!x@datum@group_quo)
+  ) |>
+    dplyr::group_by(date, !!!rlang::syms(join_by_cols), !!!x@datum@group_quo) |>
+    tidyr::fill(date, .direction = "down") |>
+    dplyr::ungroup() |>
+    dplyr::summarise(
+      dplyr::across(dplyr::contains(x@value@value_vec), \(x) sum(x, na.rm = TRUE))
+      ,.by = c(date, !!!rlang::syms(join_by_cols), !!!x@datum@group_quo)
+    )
+
+  if (isTRUE(add_year)) {
+    out_dbi <- out_dbi |>
+      dplyr::mutate(year = lubridate::year(date))
+  }
+
+  if (!is.null(join_by_cols) && "year" %in% join_by_cols) {
+    out_dbi <- out_dbi |>
+      dplyr::filter(!is.na(year))
+  }
+
+  out_dbi <- out_dbi |>
+    dplyr::relocate(!!!rlang::syms(relocate_cols)) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"), .after = dplyr::last_col())
+
+  return(out_dbi)
+}
+
+
+# Template 4: Full period compare (xox) ---------------------------------------
+# Used by: yoy_fn, qoq_fn, mom_fn, wow_fn, dod_fn
+
+#' @noRd
+xox_template <- function(x, drop_cols, relocate_cols) {
+
+  full_dbi <- create_full_dbi(x)
+
+  lag_dbi <- full_dbi |>
+    dplyr::select(-c(!!!rlang::syms(drop_cols))) |>
+    dbplyr::window_order(date, !!!x@datum@group_quo) |>
+    dplyr::mutate(
+      date_lag = dplyr::lead(date, n = !!x@fn@lag_n)
+      ,!!x@value@new_column_name_vec := !!x@value@value_quo
+      ,.by = c(!!!x@datum@group_quo)
+    ) |>
+    dplyr::select(-c(date, !!x@value@value_quo, missing_date_indicator))
+
+  out_dbi <- dplyr::left_join(
+    full_dbi
+    ,lag_dbi
+    ,by = dplyr::join_by(date == date_lag, !!!x@datum@group_quo)
+  ) |>
+    dplyr::relocate(!!!rlang::syms(relocate_cols)) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"), .after = dplyr::last_col())
+
+  return(out_dbi)
+}
+
+
+# Template 5: TD over previous full period (tdopx) ----------------------------
+# Used by: ytdopy_fn, qtdopq_fn, mtdopm_fn, wtdopw_fn
+
+#' @noRd
+tdopx_template <- function(x, td_class_fn, xox_class_fn, join_by_cols, relocate_cols) {
+
+  # Current period to-date
+  td_dbi <-
+    x@datum@data |>
+    dplyr::group_by(!!!x@datum@group_quo) |>
+    td_class_fn(.data = _, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type) |>
+    calculate() |>
+    dplyr::select(-c(missing_date_indicator, !!x@value@value_quo))
+
+  # Previous full period
+  px_dbi <-
+    x@datum@data |>
+    dplyr::group_by(!!!x@datum@group_quo) |>
+    xox_class_fn(.data = _, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, lag_n = x@fn@lag_n) |>
+    calculate() |>
+    dplyr::select(-c(missing_date_indicator, date, !!x@value@value_quo))
+
+  out_dbi <- td_dbi |>
+    dplyr::left_join(
+      px_dbi
+      ,by = dplyr::join_by(!!!rlang::syms(join_by_cols), !!!x@datum@group_quo)
+    ) |>
+    dplyr::relocate(!!!rlang::syms(relocate_cols))
+
+  return(out_dbi)
+}
+
+
+# =============================================================================
+# Public *_fn() wrappers - same API, delegates to templates
+# =============================================================================
+
+## year related functions ---------------
 
 #' Year-to-date execution function
 #' @name ytd_fn
@@ -13,33 +291,9 @@
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-ytd_fn <- function(x){
-
-
-  # create calendar table
-
-  full_dbi <- create_full_dbi(x)
-
-
- # aggregate the data and create the cumulative sum
-
-  out_dbi <- full_dbi |>
-    dbplyr::window_order(date) |>
-    dplyr::mutate(
-      !!x@value@new_column_name_vec:=base::cumsum(!!x@value@value_quo)
-      ,.by=c(year,!!!x@datum@group_quo)
-    ) |>
-    dplyr::relocate(
-      date,year
-    ) |>
-    dplyr::relocate(
-      dplyr::any_of("missing_date_indicator")
-      ,.after = dplyr::last_col() # Ensures this is the final column
-    )
-
-  return(out_dbi)
+ytd_fn <- function(x) {
+  td_template(x, by_cols = "year", relocate_cols = c("date", "year"))
 }
-
 
 #' @title Previous year-to-date execution function
 #' @name pytd_fn
@@ -53,45 +307,15 @@ ytd_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-pytd_fn <- function(x){
-
-
-  full_dbi <- create_full_dbi(x)
-
-  # create lag table
-
-  lag_dbi <- full_dbi|>
-    dbplyr::window_order(date) |>
-    dplyr::mutate(
-      date_lag=as.Date(date+lubridate::years(!!x@fn@lag_n))
-      ,!!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
-      ,.by=c(year,!!!x@datum@group_quo)
-    ) |>
-    dplyr::select(-c(date,year,!!x@value@value_quo))
-
-
-  # join tables together
-  out_dbi <-   dplyr::full_join(
-    full_dbi
-    ,lag_dbi
-    ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
-  ) |>
-    dplyr::select(-c(!!x@value@value_quo)) |>
-    dbplyr::window_order(date) |>
-    dplyr::group_by(date,year,!!!x@datum@group_quo) |>
-    tidyr::fill(date,.direction = "down") |>
-    dplyr::ungroup() |>
-    dplyr::summarise(
-      dplyr::across(dplyr::contains(x@value@value_vec),\(x) sum(x,na.rm=TRUE))
-      ,.by=c(date,year,!!!x@datum@group_quo)
-    ) |>
-    dplyr::relocate(date,year) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
-
-  return(out_dbi)
-
+pytd_fn <- function(x) {
+  ptd_year_template(
+    x,
+    by_cols = "year",
+    drop_cols = c("date", "year"),
+    join_by_cols = c("date", "year"),
+    relocate_cols = c("date", "year")
+  )
 }
-
 
 #' @title Current year to date over previous year-to-date execution function
 #' @name yoytd_fn
@@ -105,46 +329,22 @@ pytd_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-yoytd_fn <- function(x){
-
-
-
-  # ytd tabl
-
-  ytd_dbi <- ytd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type) |>
-    ytd_fn()
-
-  #pytd table
-
-  pytd_dbi <- pytd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type,lag_n = x@fn@lag_n) |>
-    pytd_fn()
-
-
-  # join tables together
-
-  out_dbi <-
-    dplyr::full_join(
-    ytd_dbi
-    ,pytd_dbi
-    ,by=dplyr::join_by(date==date,year,!!!x@datum@group_quo)
-  ) |>
-    dplyr::group_by(date,!!!x@datum@group_quo) |>
-    tidyr::fill(date,.direction = "down") |>
-    dplyr::ungroup() |>
-    dplyr::summarise(
-      dplyr::across(dplyr::contains(x@value@value_vec),\(x) sum(x,na.rm=TRUE))
-      ,.by=c(date,!!!x@datum@group_quo)
-    ) |>
-    dplyr::mutate(
-      year=lubridate::year(date)
-    ) |>
-    dplyr::relocate(date,year) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
-
-  return(out_dbi)
-
+yoytd_fn <- function(x) {
+  xoxtd_template(
+    x,
+    td_fn_call = function(x) {
+      ytd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type) |>
+        ytd_fn()
+    },
+    ptd_fn_call = function(x) {
+      pytd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, lag_n = x@fn@lag_n) |>
+        pytd_fn()
+    },
+    join_by_cols = "year",
+    relocate_cols = c("date", "year"),
+    add_year = TRUE
+  )
 }
-
 
 #' @title Current year-to-date over previous period year-to-date execution function
 #' @name yoy_fn
@@ -158,36 +358,8 @@ yoytd_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-yoy_fn <- function(x){
-
-
-  full_dbi <- create_full_dbi(x)
-
-  # create lag
-  lag_dbi <-
-    full_dbi |>
-    dplyr::select(-c(year)) |>
-    dbplyr::window_order(date,!!!x@datum@group_quo) |>
-    dplyr::mutate(
-      date_lag=dplyr::lead(date,n = !!x@fn@lag_n)
-      ,!!x@value@new_column_name_vec:=!!x@value@value_quo
-      ,.by=c(!!!x@datum@group_quo)
-    ) |>
-    dplyr::select(-c(date,!!x@value@value_quo,missing_date_indicator))
-
-  # bring tables together
-  out_dbi <-
-    dplyr::left_join(
-    full_dbi
-    ,lag_dbi
-    ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
-  ) |>
-    dplyr::relocate(date,year) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
-
-
-  return(out_dbi)
-
+yoy_fn <- function(x) {
+  xox_template(x, drop_cols = "year", relocate_cols = c("date", "year"))
 }
 
 #' Year-to-date over full prior period year
@@ -202,39 +374,14 @@ yoy_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with[dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-ytdopy_fn <- function(x){
-
-  # year-to-date table
-  ytd_dbi <-
-    x@datum@data |>
-    dplyr::group_by(!!!x@datum@group_quo) |>
-    ytd(.data = _,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type) |>
-    calculate() |>
-    dplyr::select(-c(missing_date_indicator))
-
-  #aggregate to prior year
-
-  py_dbi <-
-    x@datum@data |>
-    dplyr::group_by(!!!x@datum@group_quo) |>
-    yoy(.data = _,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type,lag_n = x@fn@lag_n) |>
-    calculate() |>
-    dplyr::select(-c(missing_date_indicator,date,!!x@value@value_quo))
-
-  # join together
-
- out_dbi <-  ytd_dbi |>
-   dplyr::select(
-     -c(!!x@value@value_quo)
-   ) |>
-    dplyr::left_join(
-      py_dbi
-      ,by=dplyr::join_by(year,!!!x@datum@group_quo)
-    ) |>
-   dplyr::relocate(date,year) |>
-   dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
-
-  return(out_dbi)
+ytdopy_fn <- function(x) {
+  tdopx_template(
+    x,
+    td_class_fn = ytd,
+    xox_class_fn = yoy,
+    join_by_cols = "year",
+    relocate_cols = c("date", "year")
+  )
 }
 
 
@@ -252,22 +399,20 @@ ytdopy_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-qtd_fn <- function(x){
-
+qtd_fn <- function(x) {
   full_dbi <- create_full_dbi(x)
 
-    out_dbi <- full_dbi |>
+  out_dbi <- full_dbi |>
     dbplyr::window_order(date) |>
     dplyr::mutate(
-      !!x@value@new_column_name_vec:=base::cumsum(!!x@value@value_quo)
-      ,.by=c(year,quarter,!!!x@datum@group_quo)
+      !!x@value@new_column_name_vec := base::cumsum(!!x@value@value_quo)
+      ,.by = c(year, quarter, !!!x@datum@group_quo)
     ) |>
     dplyr::ungroup() |>
-    dplyr::relocate(date,year) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
+    dplyr::relocate(date, year) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"), .after = dplyr::last_col())
 
   return(out_dbi)
-
 }
 
 #' Previous quarter-to-date for tibble objects
@@ -282,52 +427,17 @@ qtd_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-pqtd_fn <- function(x){
-
-
- lag_n_vec <-  x@fn@lag_n |> rlang::as_label()
-
-  full_dbi <- create_full_dbi(x)
-
-  .con <- dbplyr::remote_con(full_dbi)
-
-  lag_dbi <- full_dbi |>
-    dbplyr::window_order(date,quarter,year) |>
-    dplyr::mutate(
-      date_lag=as.Date(sql_date_add(.con, "month", glue::glue("3 * {lag_n_vec}")))
-    ) |>
-    dplyr::mutate(
-      !!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
-      ,.by=c(year,quarter,!!!x@datum@group_quo)
-    ) |>
-    dplyr::select(-c(date,year,quarter,!!x@value@value_quo))
-
-
-  # join tables together
-  out_dbi <-   dplyr::full_join(
-    full_dbi
-    ,lag_dbi
-    ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
-  ) |>
-    dplyr::select(-c(!!x@value@value_quo)) |>
-    dbplyr::window_order(date,year,quarter,!!!x@datum@group_quo) |>
-    dplyr::group_by(date,year,quarter,!!!x@datum@group_quo) |>
-    tidyr::fill(date,.direction = "down") |>
-    dplyr::ungroup() |>
-    dplyr::summarise(
-      dplyr::across(dplyr::contains(x@value@value_vec),\(x) sum(x,na.rm=TRUE))
-      ,.by=c(date,year,quarter,!!!x@datum@group_quo)
-    ) |>
-    dplyr::filter(
-      !is.na(year)
-    ) |>
-    dplyr::relocate(date,year) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
-
-  return(out_dbi)
-
+pqtd_fn <- function(x) {
+  ptd_sql_template(
+    x,
+    sql_unit = "month",
+    sql_expr = function(lag_n_vec) glue::glue("3 * {lag_n_vec}"),
+    by_cols = c("year", "quarter"),
+    drop_cols = c("date", "year", "quarter"),
+    join_by_cols = c("date", "year", "quarter"),
+    relocate_cols = c("date", "year")
+  )
 }
-
 
 #' Current quarter to date over previous quarter-to-date for tibble objects
 #' @name qoqtd_fn
@@ -341,42 +451,21 @@ pqtd_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-qoqtd_fn <- function(x){
-
-  # ytd table
-
-qtd_dbi <- qtd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type) |>
-  qtd_fn()
-
-  # pytd table
-
-  pqtd_dbi <- pqtd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type,lag_n = x@fn@lag_n) |>
-    pqtd_fn()
-
-  # join tables together
-
-  out_dbi <-   dplyr::full_join(
-    qtd_dbi
-    ,pqtd_dbi
-    ,by=dplyr::join_by(date==date,year,quarter,!!!x@datum@group_quo)
-  ) |>
-    dplyr::group_by(date,year,quarter,!!!x@datum@group_quo) |>
-    tidyr::fill(date,.direction = "down") |>
-    dplyr::ungroup() |>
-    dplyr::summarise(
-      dplyr::across(dplyr::contains(x@value@value_vec),\(x) sum(x,na.rm=TRUE))
-      ,.by=c(date,year,quarter,!!!x@datum@group_quo)
-    ) |>
-    dplyr::filter(
-      !is.na(year)
-    ) |>
-    dplyr::relocate(date,year) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
-
-  return(out_dbi)
-
+qoqtd_fn <- function(x) {
+  xoxtd_template(
+    x,
+    td_fn_call = function(x) {
+      qtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type) |>
+        qtd_fn()
+    },
+    ptd_fn_call = function(x) {
+      pqtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, lag_n = x@fn@lag_n) |>
+        pqtd_fn()
+    },
+    join_by_cols = c("year", "quarter"),
+    relocate_cols = c("date", "year")
+  )
 }
-
 
 #' Quarter-over-quarter execution function
 #' @name qoq_fn
@@ -390,34 +479,9 @@ qtd_dbi <- qtd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@va
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-qoq_fn <- function(x){
-
-  full_dbi <- create_full_dbi(x)
-
-  # create lag
-  lag_dbi <- full_dbi |>
-    dplyr::select(-c(year,quarter)) |>
-    dbplyr::window_order(date,!!!x@datum@group_quo) |>
-    dplyr::mutate(
-      date_lag=dplyr::lead(date,n = !!x@fn@lag_n)
-      ,!!x@value@new_column_name_vec:=!!x@value@value_quo
-      ,.by=c(!!!x@datum@group_quo)
-    ) |>
-    dplyr::select(-c(date,!!x@value@value_quo,missing_date_indicator))
-
-  # bring tables together
-  out_dbi <-   dplyr::left_join(
-    full_dbi
-    ,lag_dbi
-    ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
-  ) |>
-    dplyr::relocate(date,year,quarter) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
-
-  return(out_dbi)
+qoq_fn <- function(x) {
+  xox_template(x, drop_cols = c("year", "quarter"), relocate_cols = c("date", "year", "quarter"))
 }
-
-
 
 #' quarter-to-date over previous quarter execution function
 #' @name qtdopq_fn
@@ -431,36 +495,16 @@ qoq_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-qtdopq_fn <- function(x){
-
-  # year-to-date table
-
-  qtd_dbi <-
-    x@datum@data |>
-    dplyr::group_by(!!!x@datum@group_quo) |>
-    qtd(.data = _,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type) |>
-    calculate() |>
-    dplyr::select(-c(missing_date_indicator,!!x@value@value_quo))
-
-  qoq_dbi <-
-    x@datum@data |>
-    dplyr::group_by(!!!x@datum@group_quo) |>
-    qoq(.data = _,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type,lag_n = x@fn@lag_n) |>
-    calculate() |>
-    dplyr::select(-c(missing_date_indicator,date,!!x@value@value_quo))
-
-  # join together
-
-  out_dbi <-
-    qtd_dbi |>
-    dplyr::left_join(
-      qoq_dbi
-      ,by=dplyr::join_by(year,quarter,!!!x@datum@group_quo)
-    ) |>
-    dplyr::relocate(date,year,quarter)
-
-  return(out_dbi)
+qtdopq_fn <- function(x) {
+  tdopx_template(
+    x,
+    td_class_fn = qtd,
+    xox_class_fn = qoq,
+    join_by_cols = c("year", "quarter"),
+    relocate_cols = c("date", "year", "quarter")
+  )
 }
+
 
 ## month related functions -------------------------
 
@@ -476,24 +520,9 @@ qtdopq_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-mtd_fn <- function(x){
-
-  full_dbi <- create_full_dbi(x)
-
-  out_dbi <- full_dbi |>
-    dbplyr::window_order(date) |>
-    dplyr::mutate(
-      !!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
-      ,.by=c(year,month,!!!x@datum@group_quo)
-    ) |>
-    dplyr::relocate(date,year,month) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
-
-  return(out_dbi)
-
+mtd_fn <- function(x) {
+  td_template(x, by_cols = c("year", "month"), relocate_cols = c("date", "year", "month"))
 }
-
-
 
 #' Previous month-to-date execution function
 #' @name pmtd_fn
@@ -507,58 +536,18 @@ mtd_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-pmtd_fn <- function(x){
-
-
- lag_n_vec <-  x@fn@lag_n |>
-   rlang::as_label()
-
-  full_dbi <- create_full_dbi(x) |>
-    dplyr::select(-c(missing_date_indicator))
-
-  .con <- dbplyr::remote_con(full_dbi)
-
-  # create lag table
-  lag_dbi <- full_dbi |>
-    dbplyr::window_order(date) |>
-    dplyr::mutate(
-      date_lag=as.Date(sql_date_add(.con, "month", lag_n_vec))
-      ,!!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
-      ,.by=c(year,month,!!!x@datum@group_quo)
-    ) |>
-    dplyr::select(-c(month,year,!!x@value@value_quo)) |>
-    dplyr::mutate(
-      month=lubridate::month(date_lag)
-      ,year=lubridate::year(date_lag)
-    ) |>
-    dplyr::mutate(
-      days_in_comparison_period=lubridate::day(date)
-    ) |>
-    dplyr::select(-c(year,month,date))
-
-  # join tables together
-  out_dbi <-  dplyr::full_join(
-    full_dbi
-    ,lag_dbi
-    ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
-  ) |>
-    dplyr::select(-c(!!x@value@value_quo)) |>
-    dbplyr::window_order(date,!!!x@datum@group_quo) |>
-    tidyr::fill(c(days_in_comparison_period,!!x@value@new_column_name_quo),.direction = "down") |>
-    dplyr::summarise(
-      !!x@value@new_column_name_vec:=max(!!x@value@new_column_name_quo,na.rm=TRUE)
-      ,days_in_comparison_period=max(days_in_comparison_period,na.rm=TRUE)
-      ,.by=c(date,year,month,!!!x@datum@group_quo)
-    ) |>
-    dplyr::relocate(date,year,month) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
-
-
-  return(out_dbi)
-
-
+pmtd_fn <- function(x) {
+  ptd_sql_template(
+    x,
+    sql_unit = "month",
+    sql_expr = function(lag_n_vec) lag_n_vec,
+    by_cols = c("year", "month"),
+    drop_cols = c("month", "year"),
+    join_by_cols = c("date", "year", "month"),
+    relocate_cols = c("date", "year", "month"),
+    filter_na_col = "year"
+  )
 }
-
 
 #' Current year to date over previous year-to-date for tibble objects
 #' @name momtd_fn
@@ -572,37 +561,28 @@ pmtd_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-momtd_fn <- function(x){
+momtd_fn <- function(x) {
 
-  # mtd table
-
-  mtd_dbi <- mtd(.data = x@datum@data,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type) |>
+  mtd_dbi <- mtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type) |>
     calculate()
 
-  # pmtd table
-
-  pmtd_dbi <- pmtd(.data = x@datum@data,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type,lag_n = x@fn@lag_n) |>
+  pmtd_dbi <- pmtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, lag_n = x@fn@lag_n) |>
     calculate()
-
-  # join tables together
 
   out_dbi <-
     dplyr::full_join(
-    mtd_dbi
-    ,pmtd_dbi
-    ,by=dplyr::join_by(date==date,year,month,!!!x@datum@group_quo)
-  ) |>
-    dplyr::summarise(
-      dplyr::across(dplyr::contains(x@value@value_vec),\(x) sum(x,na.rm=TRUE))
-      ,.by=c(date,year,month,!!!x@datum@group_quo)
+      mtd_dbi
+      ,pmtd_dbi
+      ,by = dplyr::join_by(date == date, year, month, !!!x@datum@group_quo)
     ) |>
-    dplyr::relocate(date,year,month)
-
+    dplyr::summarise(
+      dplyr::across(dplyr::contains(x@value@value_vec), \(x) sum(x, na.rm = TRUE))
+      ,.by = c(date, year, month, !!!x@datum@group_quo)
+    ) |>
+    dplyr::relocate(date, year, month)
 
   return(out_dbi)
-
 }
-
 
 #' month-over-month execution function
 #' @name mom_fn
@@ -616,34 +596,8 @@ momtd_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-mom_fn <- function(x){
-
-  full_dbi <- create_full_dbi(x)
-
-  # create lag
-  lag_dbi <- full_dbi |>
-    dplyr::select(-c(year,quarter,month)) |>
-    dbplyr::window_order(date,!!!x@datum@group_quo) |>
-    dplyr::mutate(
-      date_lag=dplyr::lead(date,n = !!x@fn@lag_n)
-      ,!!x@value@new_column_name_vec:=!!x@value@value_quo
-      ,.by=c(!!!x@datum@group_quo)
-    ) |>
-    dplyr::select(-c(date,!!x@value@value_quo,missing_date_indicator))
-
-
-
-  # bring tables together
-  out_dbi <-   dplyr::left_join(
-    full_dbi
-    ,lag_dbi
-    ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
-  ) |>
-    dplyr::relocate(date,year,month) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
-
-  return(out_dbi)
-
+mom_fn <- function(x) {
+  xox_template(x, drop_cols = c("year", "quarter", "month"), relocate_cols = c("date", "year", "month"))
 }
 
 #' Month-to-date over full previous month execution function
@@ -658,44 +612,15 @@ mom_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-mtdopm_fn <- function(x){
-
-
-  # year-to-date table
-  mtd_dbi <-
-    x@datum@data |>
-    dplyr::group_by(!!!x@datum@group_quo) |>
-    mtd(.data = _,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type) |>
-    calculate() |>
-    dplyr::select(
-      -c(missing_date_indicator,!!x@value@value_quo)
-    )
-
-  #aggregate to prior year
-
-  pm_dbi <-
-    x@datum@data |>
-    dplyr::group_by(!!!x@datum@group_quo) |>
-    mom(.data = _,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type,lag_n = x@fn@lag_n) |>
-    calculate() |>
-    dplyr::select(-c(missing_date_indicator,date,!!x@value@value_quo))
-
-  # join together
-
- out_dbi <-
-   mtd_dbi |>
-    dplyr::left_join(
-      pm_dbi
-      ,by=dplyr::join_by(year,month,!!!x@datum@group_quo)
-    ) |>
-   dplyr::relocate(date,year,month)
-
-  return(out_dbi)
-
-
+mtdopm_fn <- function(x) {
+  tdopx_template(
+    x,
+    td_class_fn = mtd,
+    xox_class_fn = mom,
+    join_by_cols = c("year", "month"),
+    relocate_cols = c("date", "year", "month")
+  )
 }
-
-
 
 
 ## week related functions-----------------
@@ -712,26 +637,9 @@ mtdopm_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-wtd_fn <- function(x){
-
-  full_dbi <- create_full_dbi(x)
-
-  out_dbi <- full_dbi |>
-    dbplyr::window_order(date) |>
-    dplyr::mutate(
-      !!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
-      ,.by=c(year,month,week,!!!x@datum@group_quo)
-    ) |>
-    dplyr::relocate(date,year,month,week) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
-
-  return(out_dbi)
-
+wtd_fn <- function(x) {
+  td_template(x, by_cols = c("year", "month", "week"), relocate_cols = c("date", "year", "month", "week"))
 }
-
-
-
-
 
 #' Previous week-to-date execution function
 #' @name pwtd_fn
@@ -745,48 +653,18 @@ wtd_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-pwtd_fn <- function(x){
-
- lag_n_vec <-  x@fn@lag_n |> rlang::as_label()
-
-  full_dbi <- create_full_dbi(x) |>
-    dplyr::select(-c(missing_date_indicator))
-
-  .con <- dbplyr::remote_con(full_dbi)
-
-  # create lag table
-  lag_dbi <- full_dbi|>
-    dbplyr::window_order(date) |>
-    dplyr::mutate(
-      date_lag=as.Date(sql_date_add(.con, "week", lag_n_vec))
-      ,!!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
-      ,.by=c(year,month,week,!!!x@datum@group_quo)
-    ) |>
-    dplyr::select(-c(date,month,year,week,!!x@value@value_quo))
-
-
-  # join tables together
-  out_dbi <-
-    dplyr::full_join(
-    full_dbi
-    ,lag_dbi
-    ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
-  ) |>
-    dplyr::select(-c(!!x@value@value_quo)) |>
-    dbplyr::window_order(date) |>
-    dplyr::group_by(date,year,month,!!!x@datum@group_quo) |>
-    tidyr::fill(date,.direction = "down") |>
-    dplyr::ungroup() |>
-    dplyr::summarise(
-      dplyr::across(dplyr::contains(x@value@value_vec),\(x) sum(x,na.rm=TRUE))
-      ,.by=c(date,year,month,!!!x@datum@group_quo)
-    ) |>
-    dplyr::relocate(date,year,month)
-
-  return(out_dbi)
-
+pwtd_fn <- function(x) {
+  ptd_sql_template(
+    x,
+    sql_unit = "week",
+    sql_expr = function(lag_n_vec) lag_n_vec,
+    by_cols = c("year", "month", "week"),
+    drop_cols = c("date", "month", "year", "week"),
+    join_by_cols = c("date", "year", "month"),
+    relocate_cols = c("date", "year", "month"),
+    filter_na_col = "year"
+  )
 }
-
 
 #' Week-to-date over previous week-to-date execution function
 #' @name wowtd_fn
@@ -800,41 +678,31 @@ pwtd_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-wowtd_fn <- function(x){
+wowtd_fn <- function(x) {
 
-
-
-  # ytd table
   wtd_dbi <-
     x@datum@data |>
     dplyr::group_by(!!!x@datum@group_quo) |>
-    wtd(.data = _,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type) |>
+    wtd(.data = _, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type) |>
     calculate()
-
-  #pytd table
-
 
   pwtd_dbi <-
     x@datum@data |>
     dplyr::group_by(!!!x@datum@group_quo) |>
-    pwtd(.data = _,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type,lag_n=x@fn@lag_n) |>
+    pwtd(.data = _, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, lag_n = x@fn@lag_n) |>
     calculate()
-
-  # join tables together
 
   out_tbl <-
     dplyr::left_join(
-    wtd_dbi
-    ,pwtd_dbi
-    ,by=dplyr::join_by(date,year,month,!!!x@datum@group_quo)
-  ) |>
-    dplyr::relocate(date,year,month,week) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
+      wtd_dbi
+      ,pwtd_dbi
+      ,by = dplyr::join_by(date, year, month, !!!x@datum@group_quo)
+    ) |>
+    dplyr::relocate(date, year, month, week) |>
+    dplyr::relocate(dplyr::any_of("missing_date_indicator"), .after = dplyr::last_col())
 
   return(out_tbl)
-
 }
-
 
 #' Week-over-week execution function
 #' @name wow_fn
@@ -848,34 +716,8 @@ wowtd_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-wow_fn <- function(x){
-
-
-
-  full_dbi <- create_full_dbi(x)
-
-  lag_dbi <- full_dbi|>
-    dplyr::select(-c(year,quarter,month,week)) |>
-    dbplyr::window_order(date) |>
-    dplyr::mutate(
-      date_lag=dplyr::lead(date,n = !!x@fn@lag_n)
-      ,!!x@value@new_column_name_vec:=!!x@value@value_quo
-      ,.by=c(!!!x@datum@group_quo)
-    ) |>
-    dplyr::select(-c(date,!!x@value@value_quo,missing_date_indicator))
-
-
-  out_dbi <-
-    dplyr::left_join(
-    full_dbi
-    ,lag_dbi
-    ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
-  ) |>
-    dplyr::relocate(date,year,month,week) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
-
-  return(out_dbi)
-
+wow_fn <- function(x) {
+  xox_template(x, drop_cols = c("year", "quarter", "month", "week"), relocate_cols = c("date", "year", "month", "week"))
 }
 
 #' Week-to-date over full previous week execution function
@@ -890,37 +732,14 @@ wow_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-wtdopw_fn <- function(x){
-
-  # year-to-date table
-  wtd_dbi <-
-    x@datum@data |>
-    dplyr::group_by(!!!x@datum@group_quo) |>
-    wtd(.data = _,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type) |>
-    calculate() |>
-    dplyr::select(-c(missing_date_indicator,!!x@value@value_quo))
-
-  #aggregate to prior year
-
-  pw_dbi <-
-    x@datum@data |>
-    dplyr::group_by(!!!x@datum@group_quo) |>
-    wow(.data = _,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type,lag_n = x@fn@lag_n) |>
-    calculate() |>
-    dplyr::select(-c(missing_date_indicator,date,!!x@value@value_quo))
-
-  # join together
-
-  out_dbi <-
-    wtd_dbi |>
-    dplyr::left_join(
-      pw_dbi
-      ,by=dplyr::join_by(year,month,week,!!!x@datum@group_quo)
-    ) |>
-    dplyr::relocate(date,year,month,week)
-
-  return(out_dbi)
-
+wtdopw_fn <- function(x) {
+  tdopx_template(
+    x,
+    td_class_fn = wtd,
+    xox_class_fn = wow,
+    join_by_cols = c("year", "month", "week"),
+    relocate_cols = c("date", "year", "month", "week")
+  )
 }
 
 
@@ -938,19 +757,8 @@ wtdopw_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-atd_fn <- function(x){
-
-  full_dbi <- create_full_dbi(x)
-
-  out_dbi<- full_dbi |>
-    dbplyr::window_order(date) |>
-    dplyr::mutate(
-      !!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
-      ,.by=c(!!!x@datum@group_quo)
-    ) |>
-    dplyr::relocate(date) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
-  return(out_dbi)
+atd_fn <- function(x) {
+  td_template(x, by_cols = character(0), relocate_cols = "date")
 }
 
 
@@ -968,32 +776,9 @@ atd_fn <- function(x){
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
-dod_fn <- function(x){
-
-  full_dbi <- create_full_dbi(x)
-
-  lag_dbi <- full_dbi |>
-    dplyr::select(-c(year,quarter,month,week,day)) |>
-    dbplyr::window_order(date) |>
-    dplyr::mutate(
-      date_lag=dplyr::lead(date,n=!!x@fn@lag_n)
-      ,!!x@value@new_column_name_vec:=!!x@value@value_quo
-      ,.by=c(!!!x@datum@group_quo)
-    ) |>
-    dplyr::select(-c(date,!!x@value@value_quo,missing_date_indicator))
-
-  out_dbi <-   dplyr::left_join(
-    full_dbi
-    ,lag_dbi
-    ,by=dplyr::join_by(date==date_lag,!!!x@datum@group_quo)
-  ) |>
-    dplyr::relocate(date) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"),.after=dplyr::last_col())
-
-  return(out_dbi)
-
+dod_fn <- function(x) {
+  xox_template(x, drop_cols = c("year", "quarter", "month", "week", "day"), relocate_cols = "date")
 }
 
 
-
-utils::globalVariables(c("missing_date_indicator","pp_missing_dates_cnt","pp_extra_dates_cnt","days_in_comparison_period"))
+utils::globalVariables(c("missing_date_indicator", "pp_missing_dates_cnt", "pp_extra_dates_cnt", "days_in_comparison_period"))

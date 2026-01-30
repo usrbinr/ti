@@ -1,4 +1,65 @@
 
+# Time Intelligence Class Constructors
+# =====================================
+# Factory-based construction using build_ti() to eliminate duplication.
+# All 22 public functions preserve the same API and roxygen documentation.
+
+
+# Internal: Factory function ---------------------------------------------------
+
+#' @noRd
+build_ti <- function(
+    .data,
+    .date_chr,
+    .value_chr,
+    calendar_type,
+    fiscal_year_start,
+    time_unit_val,
+    action_values,
+    method_string,
+    col_prefix,
+    date_columns,
+    lag_n = NA_integer_,
+    fn_exec,
+    fn_name,
+    fn_long_name,
+    shift = NA_character_,
+    compare = NA_character_
+) {
+
+  ti(
+    datum(
+      data             = .data
+      ,calendar_type   = calendar_type
+      ,fiscal_year_start = fiscal_year_start
+      ,date_vec        = .date_chr
+    )
+    ,time_unit         = time_unit(time_unit_val)
+    ,action            = action(
+      value            = action_values
+      ,method          = method_string
+    )
+    ,value = value(
+      value_vec        = .value_chr
+      ,new_column_name_vec = col_prefix
+    )
+    ,fn = fn(
+      new_date_column_name = date_columns
+      ,lag_n               = lag_n
+      ,fn_exec             = fn_exec
+      ,fn_name             = fn_name
+      ,fn_long_name        = fn_long_name
+      ,shift               = shift
+      ,compare             = compare
+    )
+  )
+}
+
+
+# ==============================================================================
+# Year functions
+# ==============================================================================
+
 #' @title Current period year-to-date
 #' @name ytd
 #' @param .data tibble or dbi object (either grouped or ungrouped)
@@ -31,40 +92,23 @@
 #' library(contoso)
 #' ytd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 ytd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
-
-
-
-  # assigns inputs to ytd_tbl class
-
-  x <- ti(
-    datum(
-      data                 = .data
-      ,calendar_type       = calendar_type
-      ,fiscal_year_start   = fiscal_year_start
-      ,date_vec            = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit             = time_unit("day")
-    ,action                = action(
-      value                = c("aggregate")
-      ,method              = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current year')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = "aggregate",
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current year')}
                              {.field {value_chr}} from the start of the {cli::col_yellow({calendar_type})} calendar
-                              year to the end of the year"
-        )
-    ,value = value(
-      value_vec            =  rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec     = "ytd"
-      )
-    ,fn=fn(
-      new_date_column_name = c("date","year")
-      ,lag_n               = NA_integer_
-      ,fn_exec             = ytd_fn
-      ,fn_name             = "ytd"
-      ,fn_long_name        = "Year-to-date"
-    )
+                              year to the end of the year",
+    col_prefix     = "ytd",
+    date_columns   = c("date","year"),
+    fn_exec        = ytd_fn,
+    fn_name        = "ytd",
+    fn_long_name   = "Year-to-date"
   )
-
-  return(x)
-
 }
 
 
@@ -86,38 +130,25 @@ ytd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1)
 #' library(contoso)
 #' pytd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 pytd <- function(.data,.date,.value,calendar_type='standard',lag_n,fiscal_year_start=1){
-
-
-  # assigns inputs to ytd_tbl class
-  out <- ti(
-    datum(
-      data                  = .data
-      ,calendar_type        = calendar_type
-      ,fiscal_year_start    = fiscal_year_start
-      ,date_vec             = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit              = time_unit("day")
-    ,action                 = action(
-      value                 = c("aggregate","shift")
-      ,method               = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous year')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = c("aggregate","shift"),
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous year')}
                              {.field {value_chr}} from the start of the {cli::col_yellow({calendar_type})} calendar
-                             year to the end of the year"
-        )
-    ,value=value(
-      value_vec             = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec      = "pytd"
-    )
-    ,fn=fn(
-      lag_n                 = lag_n
-      ,new_date_column_name = c("date","year")
-      ,fn_exec              = pytd_fn
-      ,fn_name              = "pytd"
-      ,fn_long_name         = "Previous year-to-date"
-      ,shift                = "year"
-    )
+                             year to the end of the year",
+    col_prefix     = "pytd",
+    date_columns   = c("date","year"),
+    lag_n          = lag_n,
+    fn_exec        = pytd_fn,
+    fn_name        = "pytd",
+    fn_long_name   = "Previous year-to-date",
+    shift          = "year"
   )
-
-  return(out)
 }
 
 
@@ -137,43 +168,27 @@ pytd <- function(.data,.date,.value,calendar_type='standard',lag_n,fiscal_year_s
 #' library(contoso)
 #' yoytd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 yoytd <- function(.data,.date,.value,calendar_type='standard',lag_n,fiscal_year_start=1){
-
-
-  # Validate inputs
-
-  # assigns inputs to yoytd class
-
-  x <- ti(
-    datum(
-      data                 = .data
-      ,calendar_type       = calendar_type
-      ,fiscal_year_start   = fiscal_year_start
-      ,date_vec            =  rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit             = time_unit("day")
-    ,action                = action(
-      value                = c("aggregate","shift","compare")
-      ,method              = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous year')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = c("aggregate","shift","compare"),
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous year')}
                              {.field {value_chr}} and {.strong compares} it with the daily {.code cumsum()}
                              {cli::col_cyan('current year')} {.field {value_chr}} from the start of the
-                             {cli::col_yellow({calendar_type})} calendar year to the end of the year"
-    )
-    ,value=value(
-      value_vec             = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec      = "ytd"
-    )
-    ,fn=fn(
-      lag_n                 = lag_n
-      ,new_date_column_name = c("date","year")
-      ,fn_exec              = yoytd_fn
-      ,fn_name              = "yoytd"
-      ,fn_long_name         = "Year-to-date over previous year-to-date"
-      ,shift                = "year"
-      ,compare              = "Previous year-to-date"
-    )
+                             {cli::col_yellow({calendar_type})} calendar year to the end of the year",
+    col_prefix     = "ytd",
+    date_columns   = c("date","year"),
+    lag_n          = lag_n,
+    fn_exec        = yoytd_fn,
+    fn_name        = "yoytd",
+    fn_long_name   = "Year-to-date over previous year-to-date",
+    shift          = "year",
+    compare        = "Previous year-to-date"
   )
-
-  return(x)
 }
 
 
@@ -195,40 +210,27 @@ yoytd <- function(.data,.date,.value,calendar_type='standard',lag_n,fiscal_year_
 #' library(contoso)
 #' yoy(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 yoy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
-
-  out <- ti(
-    datum(
-      data                 = .data
-      ,calendar_type       = calendar_type
-      ,fiscal_year_start   = fiscal_year_start
-      ,date_vec            = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit             = time_unit("year")
-    ,action                = action(
-      value                = c("aggregate","shift","compare")
-      ,method              = "This creates a full year {.code sum()} of the {cli::col_br_cyan('previous year')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "year",
+    action_values  = c("aggregate","shift","compare"),
+    method_string  = "This creates a full year {.code sum()} of the {cli::col_br_cyan('previous year')}
                              {.field {value_chr}} and {.strong compares} it with the full year {.code sum()}
                              {cli::col_cyan('current year')} {.field {value_chr}} from the start of the
-                             {cli::col_yellow({calendar_type})} calendar year to the end of the year"
-    )
-
-    ,value=value(
-      value_vec             = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec      = "yoy"
-    )
-    ,fn=fn(
-      new_date_column_name  = c("date","year")
-      ,lag_n                = lag_n
-      ,fn_exec              = yoy_fn
-      ,fn_name              = "yoy"
-      ,fn_long_name         = "Year over year"
-      ,shift                = "year"
-      ,compare              = "previous year"
-    )
+                             {cli::col_yellow({calendar_type})} calendar year to the end of the year",
+    col_prefix     = "yoy",
+    date_columns   = c("date","year"),
+    lag_n          = lag_n,
+    fn_exec        = yoy_fn,
+    fn_name        = "yoy",
+    fn_long_name   = "Year over year",
+    shift          = "year",
+    compare        = "previous year"
   )
-
-  return(out)
-
 }
 
 #' @title Current period year-to-date compared to full previous period
@@ -247,45 +249,32 @@ yoy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_
 #' library(contoso)
 #' ytdopy(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 ytdopy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
-
-  out <- ti(
-    datum(
-      data                 = .data
-      ,calendar_type       = calendar_type
-      ,fiscal_year_start   = fiscal_year_start
-      ,date_vec            = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit             = time_unit("day")
-    ,action                = action(
-      value                = c("aggregate","shift","compare")
-      ,method              = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current year')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = c("aggregate","shift","compare"),
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current year')}
                              {.field {value_chr}} and {.strong compares} it with the full year {.code sum()}
                              {cli::col_br_cyan('previous year')} {.field {value_chr}} from the start of the
-                             {cli::col_yellow({calendar_type})} calendar year to the end of the year"
-    )
-
-
-    ,value=value(
-      value_vec             = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec      = "ytd"
-    )
-
-    ,fn=fn(
-      new_date_column_name  = c("date","year")
-      ,lag_n                = lag_n
-      ,fn_exec              = ytdopy_fn
-      ,fn_name              = "ytdopy"
-      ,fn_long_name         = "Year-to-date over full previous year"
-      ,compare              = "previous year"
-      ,shift                = "year"
-    )
+                             {cli::col_yellow({calendar_type})} calendar year to the end of the year",
+    col_prefix     = "ytd",
+    date_columns   = c("date","year"),
+    lag_n          = lag_n,
+    fn_exec        = ytdopy_fn,
+    fn_name        = "ytdopy",
+    fn_long_name   = "Year-to-date over full previous year",
+    shift          = "year",
+    compare        = "previous year"
   )
-
-  return(out)
-
 }
 
-## quarter related ti_tbl-----------------------------
+# ==============================================================================
+# Quarter functions
+# ==============================================================================
 
 #' @title  Current period quarter-to-date
 #' @name qtd
@@ -304,39 +293,23 @@ ytdopy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_ye
 #' library(contoso)
 #' qtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 qtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
-
-
-  # Aggregate data based on provided time unit
-
-  out <- ti(
-    datum(
-      data                       = .data
-      ,calendar_type             = calendar_type
-      ,fiscal_year_start         = fiscal_year_start
-      ,date_vec                  =  rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit                   = time_unit("day")
-    ,action = action(
-      value                      = c("aggregate")
-      ,method                    = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current quarter')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = "aggregate",
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current quarter')}
                                    {.field {value_chr}} from the start of the {cli::col_yellow({calendar_type})} calendar
-                                   quarter to the end of the quarter"
-        )
-    ,value = value(
-      value_vec                  = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec           = "qtd"
-    )
-    ,fn=fn(
-      new_date_column_name       = c("year","quarter")
-      ,lag_n                     = NA_integer_
-      ,fn_exec                   = qtd_fn
-      ,fn_name                   = "qtd"
-      ,fn_long_name              = "Quarter-to-date"
-    )
+                                   quarter to the end of the quarter",
+    col_prefix     = "qtd",
+    date_columns   = c("year","quarter"),
+    fn_exec        = qtd_fn,
+    fn_name        = "qtd",
+    fn_long_name   = "Quarter-to-date"
   )
-
-
-  return(out)
 }
 
 
@@ -357,39 +330,25 @@ qtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1)
 #' library(contoso)
 #' pqtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 pqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
-
-  # Aggregate data based on provided time unit
-
-  out <- ti(
-    datum(
-      data                        = .data
-      ,calendar_type              = calendar_type
-      ,fiscal_year_start          = fiscal_year_start
-      ,date_vec                   =  rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit                    = time_unit("day")
-    ,action = action(
-      value                       = c("aggregate","shift")
-      ,method                     = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous quarter')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = c("aggregate","shift"),
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous quarter')}
                                     {.field {value_chr}} from the start of the {cli::col_yellow({calendar_type})} calendar
-                                    quarter to the end of the quarter"
-        )
-    ,value = value(
-      value_vec                  = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec           = "pqtd"
-    )
-    ,fn=fn(
-      new_date_column_name       = c("date","year","quarter")
-      ,lag_n                     = lag_n
-      ,fn_exec                   = pqtd_fn
-      ,fn_name                   = "pqtd"
-      ,fn_long_name              = "Prior quarter-to-date"
-      ,shift                     = "quarter"
-    )
+                                    quarter to the end of the quarter",
+    col_prefix     = "pqtd",
+    date_columns   = c("date","year","quarter"),
+    lag_n          = lag_n,
+    fn_exec        = pqtd_fn,
+    fn_name        = "pqtd",
+    fn_long_name   = "Prior quarter-to-date",
+    shift          = "quarter"
   )
-
-
-  return(out)
 }
 
 
@@ -410,40 +369,27 @@ pqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year
 #' library(contoso)
 #' qoqtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 qoqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
-
-  # assigns inputs to yoytd class
-
-  out <- ti(
-    datum(
-      data                 = .data
-      ,calendar_type       = calendar_type
-      ,fiscal_year_start   = fiscal_year_start
-      ,date_vec            = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit             = time_unit("day")
-    ,action                = action(
-      value                = c("aggregate","shift","compare")
-      ,method              = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous quarter')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = c("aggregate","shift","compare"),
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous quarter')}
                              {.field {value_chr}} and {.strong compares} it with the daily {.code cumsum()}
                              {cli::col_cyan('current quarter')} {.field {value_chr}} from the start of the
-                             {cli::col_yellow({calendar_type})} calendar quarter to the end of the quarter"
-    )
-    ,value=value(
-      value_vec             = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec      = "pqtd"
-    )
-    ,fn=fn(
-      lag_n                 = lag_n
-      ,new_date_column_name = c("date","year","quarter")
-      ,fn_exec              = qoqtd_fn
-      ,fn_name              = "qoqtd"
-      ,fn_long_name         = "Current period quarter-to-date compared to previous period quarter-to-date"
-      ,shift                = "quarter"
-      ,compare              = "pqtd"
-    )
+                             {cli::col_yellow({calendar_type})} calendar quarter to the end of the quarter",
+    col_prefix     = "pqtd",
+    date_columns   = c("date","year","quarter"),
+    lag_n          = lag_n,
+    fn_exec        = qoqtd_fn,
+    fn_name        = "qoqtd",
+    fn_long_name   = "Current period quarter-to-date compared to previous period quarter-to-date",
+    shift          = "quarter",
+    compare        = "pqtd"
   )
-
-  return(out)
 }
 
 
@@ -463,38 +409,27 @@ qoqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_yea
 #' library(contoso)
 #' qtdopq(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 qtdopq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
-
-  out <- ti(
-    datum(
-      data                 = .data
-      ,calendar_type       = calendar_type
-      ,fiscal_year_start   = fiscal_year_start
-      ,date_vec            = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit             = time_unit("day")
-    ,action                = action(
-      value                = c("aggregate","shift","compare")
-      ,method              = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current quarter')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = c("aggregate","shift","compare"),
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current quarter')}
                              {.field {value_chr}} and {.strong compares} it with the full quarter {.code sum()}
                              {cli::col_br_cyan('previous quarter')} {.field {value_chr}} from the start of the
-                             {cli::col_yellow({calendar_type})} calendar quarter to the end of the quarter"
-    )
-
-    ,value=value(
-      value_vec            = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec     = "qtd"
-    )
-    ,fn=fn(
-      new_date_column_name = c("date","year","quarter")
-      ,lag_n               = lag_n
-      ,fn_exec             = qtdopq_fn
-      ,fn_name             = "qtdopq"
-      ,fn_long_name        = "Quarter-to-date over full previous quarter"
-      ,shift               = "quarter"
-      ,compare             = "previous full quarter"
-    )
+                             {cli::col_yellow({calendar_type})} calendar quarter to the end of the quarter",
+    col_prefix     = "qtd",
+    date_columns   = c("date","year","quarter"),
+    lag_n          = lag_n,
+    fn_exec        = qtdopq_fn,
+    fn_name        = "qtdopq",
+    fn_long_name   = "Quarter-to-date over full previous quarter",
+    shift          = "quarter",
+    compare        = "previous full quarter"
   )
-  return(out)
 }
 
 
@@ -514,45 +449,33 @@ qtdopq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_ye
 #' library(contoso)
 #' qoq(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 qoq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
-
-  out <- ti(
-    datum(
-      data                 = .data
-      ,calendar_type       = calendar_type
-      ,fiscal_year_start   = fiscal_year_start
-      ,date_vec            = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit             = time_unit("quarter")
-    ,action                = action(
-      value                = c("aggregate","shift","compare")
-      ,method              = "This creates a full quarter {.code sum()} of the {cli::col_br_cyan('previous quarter')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "quarter",
+    action_values  = c("aggregate","shift","compare"),
+    method_string  = "This creates a full quarter {.code sum()} of the {cli::col_br_cyan('previous quarter')}
                              {.field {value_chr}} and {.strong compares} it with the full quarter {.code sum()}
                              {cli::col_cyan('current quarter')} {.field {value_chr}} from the start of the
-                             {cli::col_yellow({calendar_type})} calendar quarter to the end of the quarter"
-    )
-    ,value=value(
-      value_vec             = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec      = "qoq"
-    )
-    ,fn=fn(
-      lag_n                 = lag_n
-      ,new_date_column_name = c("date","year","quarter")
-      ,fn_exec              = qoq_fn
-      ,fn_name              = "qoq"
-      ,fn_long_name         = "Quarter over quarter"
-      ,shift                = "quarter"
-      ,compare              = "previous full quarter"
-    )
+                             {cli::col_yellow({calendar_type})} calendar quarter to the end of the quarter",
+    col_prefix     = "qoq",
+    date_columns   = c("date","year","quarter"),
+    lag_n          = lag_n,
+    fn_exec        = qoq_fn,
+    fn_name        = "qoq",
+    fn_long_name   = "Quarter over quarter",
+    shift          = "quarter",
+    compare        = "previous full quarter"
   )
-
-
-
-  return(out)
 }
 
 
-
-## month related ti_tbl-------------------
+# ==============================================================================
+# Month functions
+# ==============================================================================
 
 #' @title Current period month-to-date
 #' @name mtd
@@ -570,36 +493,23 @@ qoq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_
 #' library(contoso)
 #' mtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 mtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
-
-    out <- ti(
-      datum(
-        data                 = .data
-        ,calendar_type       = calendar_type
-        ,fiscal_year_start   = fiscal_year_start
-        ,date_vec            = rlang::as_label(rlang::enquo(.date))
-      )
-      ,time_unit             = time_unit("day")
-      ,action                = action(
-      value                  = c("aggregate")
-      ,method                = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current month')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = "aggregate",
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current month')}
                              {.field {value_chr}} from the start of the {cli::col_yellow({calendar_type})} calendar
-                              month to the end of the month"
-        )
-      ,value=value(
-        value_vec            = rlang::as_label(rlang::enquo(.value))
-        ,new_column_name_vec     = "mtd"
-      )
-      ,fn=fn(
-        new_date_column_name = c("date","year","quarter","month")
-       ,lag_n                = NA_integer_
-       ,fn_exec              = mtd_fn
-       ,fn_name              = "mtd"
-      ,fn_long_name          = "Month-to-date"
-      )
-    )
-
-  return(out)
-
+                              month to the end of the month",
+    col_prefix     = "mtd",
+    date_columns   = c("date","year","quarter","month"),
+    fn_exec        = mtd_fn,
+    fn_name        = "mtd",
+    fn_long_name   = "Month-to-date"
+  )
 }
 
 
@@ -620,36 +530,25 @@ mtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1)
 #' library(contoso)
 #' pmtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 pmtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
-
-  out <- ti(
-    datum(
-      data                 = .data
-      ,calendar_type       = calendar_type
-      ,fiscal_year_start   = fiscal_year_start
-      ,date_vec            = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit             = time_unit("day")
-    ,action                = action(
-      value                = c("aggregate","shift")
-      ,method              = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous month')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = c("aggregate","shift"),
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous month')}
                              {.field {value_chr}} from the start of the {cli::col_yellow({calendar_type})} calendar
-                             month to the end of the month"
-        )
-    ,value=value(
-      value_vec            = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec     = "pmtd"
-    )
-    ,fn=fn(
-      new_date_column_name = c("date","year","quarter","month")
-      ,lag_n               = lag_n
-      ,fn_exec             = pmtd_fn
-      ,fn_name             = "pmtd"
-      ,fn_long_name        = "Previous month-to-date"
-      ,shift               = "month"
-    )
+                             month to the end of the month",
+    col_prefix     = "pmtd",
+    date_columns   = c("date","year","quarter","month"),
+    lag_n          = lag_n,
+    fn_exec        = pmtd_fn,
+    fn_name        = "pmtd",
+    fn_long_name   = "Previous month-to-date",
+    shift          = "month"
   )
-
-  return(out)
 }
 
 #' @title Current period month to date compared to previous period month-to-date
@@ -668,39 +567,27 @@ pmtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year
 #' library(contoso)
 #' momtd(sales,.date=order_date,.value=quantity,calendar_type="standard", lag_n=1)
 momtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
-
-
-  out <- ti(
-    datum(
-      data                 = .data
-      ,calendar_type       = calendar_type
-      ,fiscal_year_start   = fiscal_year_start
-      ,date_vec            = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit             = time_unit("day")
-    ,action                = action(
-      value                = c("aggregate","shift","compare")
-      ,method              = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous month')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = c("aggregate","shift","compare"),
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous month')}
                              {.field {value_chr}} and {.strong compares} it with the daily {.code cumsum()}
                              {cli::col_cyan('current month')} {.field {value_chr}} from the start of the
-                             {cli::col_yellow({calendar_type})} calendar month to the end of the month"
-    )
-    ,value=value(
-      value_vec            = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec     = "momtd"
-    )
-    ,fn=fn(
-      new_date_column_name = c("date","year","quarter","month")
-      ,lag_n               = lag_n
-      ,fn_exec             = momtd_fn
-      ,fn_name             = "momtd"
-      ,fn_long_name        = "Month-to-date over previous month-to-date"
-      ,compare             = "Previous month-to-date"
-      ,shift               = "month"
-    )
+                             {cli::col_yellow({calendar_type})} calendar month to the end of the month",
+    col_prefix     = "momtd",
+    date_columns   = c("date","year","quarter","month"),
+    lag_n          = lag_n,
+    fn_exec        = momtd_fn,
+    fn_name        = "momtd",
+    fn_long_name   = "Month-to-date over previous month-to-date",
+    shift          = "month",
+    compare        = "Previous month-to-date"
   )
-
-  return(out)
 }
 
 
@@ -722,37 +609,27 @@ momtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_yea
 #' library(contoso)
 #' mtdopm(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 mtdopm <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
-  out <- ti(
-    datum(
-      data                 = .data
-      ,calendar_type       = calendar_type
-      ,fiscal_year_start   = fiscal_year_start
-      ,date_vec            = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit             = time_unit("day")
-    ,action                = action(
-      value                = c("aggregate","shift","compare")
-      ,method              = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current month')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = c("aggregate","shift","compare"),
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current month')}
                              {.field {value_chr}} and {.strong compares} it with the full month {.code sum()}
                              {cli::col_br_cyan('previous month')} {.field {value_chr}} from the start of the
-                             {cli::col_yellow({calendar_type})} calendar month to the end of the month"
-    )
-    ,value=value(
-      value_vec            = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec     = "mtdopm"
-    )
-    ,fn=fn(
-      new_date_column_name = c("date","year","quarter","month")
-      ,lag_n               = lag_n
-      ,fn_exec             = mtdopm_fn
-      ,fn_name             = "mtdopm"
-      ,fn_long_name        = "Month-to-date over full previous month"
-      ,shift               = "month"
-      ,compare             = "previous full month"
-    )
+                             {cli::col_yellow({calendar_type})} calendar month to the end of the month",
+    col_prefix     = "mtdopm",
+    date_columns   = c("date","year","quarter","month"),
+    lag_n          = lag_n,
+    fn_exec        = mtdopm_fn,
+    fn_name        = "mtdopm",
+    fn_long_name   = "Month-to-date over full previous month",
+    shift          = "month",
+    compare        = "previous full month"
   )
-
-  return(out)
 }
 
 #' @title Current full period month over previous full period month
@@ -771,43 +648,33 @@ mtdopm <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_ye
 #' library(contoso)
 #' mom(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 mom <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
-
-  out <- ti(
-    datum(
-      data                 = .data
-      ,calendar_type       = calendar_type
-      ,fiscal_year_start   = fiscal_year_start
-      ,date_vec            = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit             = time_unit("month")
-    ,action                = action(
-      value                = c("aggregate","shift","compare")
-      ,method              = "This creates a full month {.code sum()} of the {cli::col_br_cyan('previous month')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "month",
+    action_values  = c("aggregate","shift","compare"),
+    method_string  = "This creates a full month {.code sum()} of the {cli::col_br_cyan('previous month')}
                              {.field {value_chr}} and {.strong compares} it with the full month {.code sum()}
                              {cli::col_cyan('current month')} {.field {value_chr}} from the start of the
-                             {cli::col_yellow({calendar_type})} calendar month to the end of the month"
-    )
-    ,value=value(
-      value_vec            = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec     = "mom"
-    )
-    ,fn=fn(
-      new_date_column_name = c("date","year","quarter","month")
-      ,lag_n               = lag_n
-      ,fn_exec             = mom_fn
-      ,fn_name             = "mom"
-      ,fn_long_name        = "Month over month"
-      ,compare             = "previous full month"
-      ,shift               = "month"
-    )
+                             {cli::col_yellow({calendar_type})} calendar month to the end of the month",
+    col_prefix     = "mom",
+    date_columns   = c("date","year","quarter","month"),
+    lag_n          = lag_n,
+    fn_exec        = mom_fn,
+    fn_name        = "mom",
+    fn_long_name   = "Month over month",
+    shift          = "month",
+    compare        = "previous full month"
   )
-    return(out)
-
 }
 
 
-## week related ti_tbl-------------
-
+# ==============================================================================
+# Week functions
+# ==============================================================================
 
 #' @title Current period week-to-date
 #' @name wtd
@@ -827,38 +694,23 @@ mom <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_
 #' }
 
 wtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
-
-  # Validate inputs
-
-  out <- ti(
-    datum(
-      data                 = .data
-      ,calendar_type       = calendar_type
-      ,fiscal_year_start   = fiscal_year_start
-      ,date_vec            = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit             = time_unit("day")
-    ,action                = action(
-      value                = c("aggregate")
-      ,method              = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current week')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = "aggregate",
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current week')}
                              {.field {value_chr}} from the start of the {cli::col_yellow({calendar_type})} calendar
-                              week to the end of the week"
-        )
-    ,value=value(
-      value_vec            = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec     = "wtd"
-    )
-    ,fn=fn(
-      new_date_column_name = c("date","year","month","week")
-      ,lag_n               = NA_integer_
-      ,fn_exec             = wtd_fn
-      ,fn_name             = "wtd"
-      ,fn_long_name        = "Week-to-date"
-    )
+                              week to the end of the week",
+    col_prefix     = "wtd",
+    date_columns   = c("date","year","month","week"),
+    fn_exec        = wtd_fn,
+    fn_name        = "wtd",
+    fn_long_name   = "Week-to-date"
   )
-
-  return(out)
-
 }
 
 #' @title Previous period week-to-date
@@ -877,40 +729,26 @@ wtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1)
 #' library(contoso)
 #' pwtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 pwtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
-
-
-  out <- ti(
-    datum(
-      data                 = .data
-      ,calendar_type       = calendar_type
-      ,fiscal_year_start   = fiscal_year_start
-      ,date_vec            = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit             = time_unit("day")
-    ,action                = action(
-      value                = c("aggregate","shift")
-      ,method              = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous week')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = c("aggregate","shift"),
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous week')}
                              {.field {value_chr}} from the start of the {cli::col_yellow({calendar_type})} calendar
-                             week to the end of the week"
-        )
-    ,value=value(
-      value_vec            = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec     = "pwtd"
-    )
-    ,fn=fn(
-      new_date_column_name = c("date","year","month","week")
-      ,lag_n               = lag_n
-      ,fn_exec             = pwtd_fn
-      ,fn_name             = "pwtd"
-      ,fn_long_name        = "Previous Week-to-date"
-      ,shift               = "week"
-    )
+                             week to the end of the week",
+    col_prefix     = "pwtd",
+    date_columns   = c("date","year","month","week"),
+    lag_n          = lag_n,
+    fn_exec        = pwtd_fn,
+    fn_name        = "pwtd",
+    fn_long_name   = "Previous Week-to-date",
+    shift          = "week"
   )
-
-  return(out)
-
 }
-
 
 
 
@@ -930,40 +768,27 @@ pwtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year
 #' library(contoso)
 #' wowtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 wowtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
-
-  # Validate inputs
-
-  out <- ti(
-    datum(
-      data=.data
-      ,calendar_type       = calendar_type
-      ,fiscal_year_start   = fiscal_year_start
-      ,date_vec            = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit             = time_unit("day")
-    ,action                = action(
-      value                = c("aggregate","shift","compare")
-      ,method              = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous week')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = c("aggregate","shift","compare"),
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous week')}
                              {.field {value_chr}} and {.strong compares} it with the daily {.code cumsum()}
                              {cli::col_cyan('current week')} {.field {value_chr}} from the start of the
-                             {cli::col_yellow({calendar_type})} calendar week to the end of the week"
-    )
-    ,value=value(
-      value_vec            = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec     = "wowtd"
-    )
-    ,fn=fn(
-      new_date_column_name = c("date","year","month","week")
-      ,lag_n               = lag_n
-      ,fn_exec             = wowtd_fn
-      ,fn_name             = "wowtd"
-      ,fn_long_name        = "Week-to-date over previous week-to-date"
-      ,compare             = "pwtd"
-      ,shift               = "week"
-
-    )
+                             {cli::col_yellow({calendar_type})} calendar week to the end of the week",
+    col_prefix     = "wowtd",
+    date_columns   = c("date","year","month","week"),
+    lag_n          = lag_n,
+    fn_exec        = wowtd_fn,
+    fn_name        = "wowtd",
+    fn_long_name   = "Week-to-date over previous week-to-date",
+    shift          = "week",
+    compare        = "pwtd"
   )
-  return(out)
 }
 
 
@@ -983,39 +808,27 @@ wowtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_yea
 #' library(contoso)
 #' wtdopw(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 wtdopw <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
-
-  out <- ti(
-    datum(
-      data=.data
-      ,calendar_type=calendar_type
-      ,fiscal_year_start = fiscal_year_start
-      ,date_vec = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit = time_unit("day")
-    ,action                = action(
-      value                = c("aggregate","shift","compare")
-      ,method              = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current week')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = c("aggregate","shift","compare"),
+    method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current week')}
                              {.field {value_chr}} and {.strong compares} it with the full week {.code sum()}
                              {cli::col_br_cyan('previous week')} {.field {value_chr}} from the start of the
-                             {cli::col_yellow({calendar_type})} calendar week to the end of the week"
-    )
-    ,value=value(
-      value_vec = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec  = "wtdopw"
-    )
-    ,fn=fn(
-      new_date_column_name = c("date","year","month","week")
-      ,lag_n               = lag_n
-      ,fn_exec             = wtdopw_fn
-      ,fn_name             = "wtdopw"
-      ,fn_long_name        = "Week-to-date over full previous week"
-      ,compare             = "previous week"
-      ,shift               = "week"
-    )
+                             {cli::col_yellow({calendar_type})} calendar week to the end of the week",
+    col_prefix     = "wtdopw",
+    date_columns   = c("date","year","month","week"),
+    lag_n          = lag_n,
+    fn_exec        = wtdopw_fn,
+    fn_name        = "wtdopw",
+    fn_long_name   = "Week-to-date over full previous week",
+    shift          = "week",
+    compare        = "previous week"
   )
-
-
-  return(out)
 }
 
 
@@ -1035,43 +848,33 @@ wtdopw <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_ye
 #' library(contoso)
 #' wow(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 wow <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
-
-  out <- ti(
-    datum(
-      data=.data
-      ,calendar_type=calendar_type
-      ,fiscal_year_start = fiscal_year_start
-      ,date_vec = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit = time_unit("week")
-    ,action                = action(
-      value                = c("aggregate","shift","compare")
-      ,method              = "This creates a full week {.code sum()} of the {cli::col_br_cyan('previous week')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "week",
+    action_values  = c("aggregate","shift","compare"),
+    method_string  = "This creates a full week {.code sum()} of the {cli::col_br_cyan('previous week')}
                              {.field {value_chr}} and {.strong compares} it with the full week {.code sum()}
                              {cli::col_cyan('current week')} {.field {value_chr}} from the start of the
-                             {cli::col_yellow({calendar_type})} calendar week to the end of the week"
-    )
-    ,value=value(
-      value_vec           = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec    = "wow"
-    )
-    ,fn=fn(
-      new_date_column_name = c("date","week","year","month")
-      ,lag_n               = lag_n
-      ,fn_exec             = wow_fn
-      ,fn_name             = "wow"
-      ,fn_long_name        = "week over week"
-      ,compare             = "previous week"
-      ,shift               = "week"
-    )
+                             {cli::col_yellow({calendar_type})} calendar week to the end of the week",
+    col_prefix     = "wow",
+    date_columns   = c("date","week","year","month"),
+    lag_n          = lag_n,
+    fn_exec        = wow_fn,
+    fn_name        = "wow",
+    fn_long_name   = "week over week",
+    shift          = "week",
+    compare        = "previous week"
   )
-
-    return(out)
-
 }
 
 
-## all related ti_tbl-------------------------
+# ==============================================================================
+# All-to-date and Day functions
+# ==============================================================================
 
 #' @title All period-to-date
 #' @name atd
@@ -1091,40 +894,25 @@ wow <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_
 #' atd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 #' }
 atd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
-
-  out <- ti(
-    datum(
-      data                 = .data
-      ,calendar_type       = calendar_type
-      ,fiscal_year_start   = fiscal_year_start
-      ,date_vec            = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit             = time_unit("day")
-    ,action                = action(
-      value                = c("aggregate")
-      ,method              = "This creates a daily {.code cumsum()}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = "aggregate",
+    method_string  = "This creates a daily {.code cumsum()}
                              {.field {value_chr}} from the earliest date of the {cli::col_yellow({calendar_type})} calendar
-                              until the last date"
-        )
-    ,value=value(
-      value_vec            = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec     = "atd"
-    )
-    ,fn=fn(
-      new_date_column_name = c("date")
-      ,lag_n               = NA_integer_
-      ,fn_exec             = atd_fn
-      ,fn_name             = "atd"
-      ,fn_long_name        = "All-to-date"
-    )
+                              until the last date",
+    col_prefix     = "atd",
+    date_columns   = c("date"),
+    fn_exec        = atd_fn,
+    fn_name        = "atd",
+    fn_long_name   = "All-to-date"
   )
-
-  return(out)
-
 }
 
-
-## Day related functions------------------
 
 #' @title Current period day over previous period day
 #' @name dod
@@ -1144,35 +932,25 @@ atd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1)
 #' dod(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 #' }
 dod <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
-
-  out <- ti(
-    datum(
-      data=.data
-      ,calendar_type=calendar_type
-      ,fiscal_year_start = fiscal_year_start
-      ,date_vec = rlang::as_label(rlang::enquo(.date))
-    )
-    ,time_unit = time_unit("day")
-    ,action                = action(
-      value                = c("aggregate","shift","compare")
-      ,method              = "This creates a full day {.code sum()} of the {cli::col_br_cyan('previous day')}
+  build_ti(
+    .data          = .data,
+    .date_chr      = rlang::as_label(rlang::enquo(.date)),
+    .value_chr     = rlang::as_label(rlang::enquo(.value)),
+    calendar_type  = calendar_type,
+    fiscal_year_start = fiscal_year_start,
+    time_unit_val  = "day",
+    action_values  = c("aggregate","shift","compare"),
+    method_string  = "This creates a full day {.code sum()} of the {cli::col_br_cyan('previous day')}
                              {.field {value_chr}} and {.strong compares} it with the full day {.code sum()}
                              {cli::col_cyan('current day')} {.field {value_chr}} from the start of the
-                             {cli::col_yellow({calendar_type})} calendar day to the end of the day"
-    )
-    ,value=value(
-      value_vec             = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec      = "dod"
-    )
-    ,fn=fn(
-      new_date_column_name = c("date")
-      ,lag_n               = lag_n
-      ,fn_exec             = dod_fn
-      ,fn_name             = "dod"
-      ,fn_long_name        = "Day over day"
-      ,compare             = "previous day"
-      ,shift               = "day"
-    )
+                             {cli::col_yellow({calendar_type})} calendar day to the end of the day",
+    col_prefix     = "dod",
+    date_columns   = c("date"),
+    lag_n          = lag_n,
+    fn_exec        = dod_fn,
+    fn_name        = "dod",
+    fn_long_name   = "Day over day",
+    shift          = "day",
+    compare        = "previous day"
   )
-  return(out)
 }
