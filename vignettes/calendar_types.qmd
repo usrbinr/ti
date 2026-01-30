@@ -87,3 +87,151 @@ The `calendar_type` argument is how you instruct the function on which system to
 * To use a retail calendar, pass the respective structure: `"544"`, `"454"`, or `"445"`
 
 Under the hood, `ti` handles the complexities: it generates the appropriate date keys and ensures that all your metrics are indexed correctly to the start and end of the chosen calendar's periods.
+
+---
+
+### Fiscal Year Start
+
+By default, the retail calendar's fiscal year starts nearest to **January** (`fiscal_year_start = 1`). Many retailers operate on a fiscal year that begins in **February** (e.g., NRF convention). You can control this with the `fiscal_year_start` parameter:
+
+* `fiscal_year_start = 1` -- fiscal year starts nearest to January 1st (default)
+* `fiscal_year_start = 2` -- fiscal year starts nearest to February 1st (common in US retail)
+* `fiscal_year_start = 7` -- fiscal year starts nearest to July 1st
+
+The start date is determined by finding the `week_start` weekday (default: Sunday) nearest to the 1st of the specified month.
+
+---
+
+### Examples
+
+```{r}
+#| label: setup-calendar
+#| echo: false
+#| eval: true
+#| include: false
+
+library(ti)
+library(dplyr)
+```
+
+#### Year-to-date with a 4-4-5 retail calendar
+
+The fiscal year starts nearest to February. Each quarter has 13 weeks split into 4-week, 4-week, and 5-week months.
+
+```{r}
+#| label: ytd-445-echo
+#| echo: true
+#| eval: false
+
+contoso::sales |>
+  ytd(
+    .date = order_date,
+    .value = margin,
+    calendar_type = "445",
+    fiscal_year_start = 2
+  ) |>
+  calculate() |>
+  collect()
+```
+
+```{r}
+#| label: ytd-445-output
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+
+contoso::sales |>
+  ytd(
+    .date = order_date,
+    .value = margin,
+    calendar_type = "445",
+    fiscal_year_start = 2
+  ) |>
+  calculate() |>
+  collect() |>
+  arrange(date) |>
+  head(10) |>
+  tinytable::tt(width = 1)
+```
+
+Notice that the `year`, `quarter`, `month`, and `week` columns now reflect the **fiscal** periods from the 4-4-5 calendar rather than the Gregorian calendar.
+
+#### Month-to-date with a 5-4-4 retail calendar
+
+```{r}
+#| label: mtd-544-echo
+#| echo: true
+#| eval: false
+
+contoso::sales |>
+  mtd(
+    .date = order_date,
+    .value = margin,
+    calendar_type = "544",
+    fiscal_year_start = 2
+  ) |>
+  calculate() |>
+  collect()
+```
+
+```{r}
+#| label: mtd-544-output
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+
+contoso::sales |>
+  mtd(
+    .date = order_date,
+    .value = margin,
+    calendar_type = "544",
+    fiscal_year_start = 2
+  ) |>
+  calculate() |>
+  collect() |>
+  arrange(date) |>
+  head(10) |>
+  tinytable::tt(width = 1)
+```
+
+#### Grouped analysis with a retail calendar
+
+Groups work exactly as they do with the standard calendar. Each group gets a complete fiscal calendar.
+
+```{r}
+#| label: grouped-445-echo
+#| echo: true
+#| eval: false
+
+contoso::sales |>
+  group_by(store_key) |>
+  qtd(
+    .date = order_date,
+    .value = margin,
+    calendar_type = "445",
+    fiscal_year_start = 2
+  ) |>
+  calculate() |>
+  collect()
+```
+
+#### Comparing calendar types
+
+Below is a side-by-side comparison of how the same date is classified under a standard calendar vs. a 4-4-5 retail calendar:
+
+```{r}
+#| label: tbl-comparison
+#| echo: false
+#| eval: true
+
+tibble::tibble(
+  Feature = c("Year", "Quarter", "Month", "Week"),
+  `Standard (2024-03-15)` = c("2024", "1", "3", "11"),
+  `4-4-5 FY starts Feb (2024-03-15)` = c("2024", "1", "2", "7")
+) |>
+  tinytable::tt(width = 0.8)
+```
+
+The retail calendar shifts the fiscal boundaries so that every comparable period contains the same number of weeks, enabling cleaner period-over-period comparisons.

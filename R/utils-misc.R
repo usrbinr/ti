@@ -452,6 +452,10 @@ augment_standard_calendar <- function(.data,.date){
 #'
 complete_standard_calendar <- function(.data,x){
 
+  # Retail calendars already have fiscal year/quarter/month/week from the mapping table
+  if(x@datum@calendar_type %in% c("445", "454", "544")){
+    return(.data)
+  }
 
   if(any(x@fn@new_date_column_name %in% "year")){
 
@@ -580,6 +584,113 @@ make_db_tbl <- function(x) {
 }
 
 
+#' Generate a retail (4-4-5, 4-5-4, or 5-4-4) calendar mapping table
+#'
+#' @param start_date Start date (Date or character YYYY-MM-DD)
+#' @param end_date End date (Date or character YYYY-MM-DD)
+#' @param calendar_type One of "445", "454", "544"
+#' @param fiscal_year_start Integer 1-12, month the fiscal year starts nearest to
+#' @param week_start Integer 1-7, day of week (1=Monday, 7=Sunday)
+#'
+#' @return A tibble with columns: date, year, quarter, month, week
+#' @keywords internal
+generate_retail_calendar <- function(start_date, end_date, calendar_type, fiscal_year_start = 1, week_start = 7) {
+
+  start_date <- as.Date(start_date)
+  end_date <- as.Date(end_date)
+
+  # Map week_start (1=Mon..7=Sun) to wday values
+  # lubridate::wday uses 1=Sun,2=Mon,...,7=Sat by default
+  # We need the target weekday number for base R/lubridate
+  target_wday <- (week_start %% 7) + 1  # convert 1=Mon..7=Sun to 1=Sun..7=Sat
+
+  # Determine the pattern of weeks per month in each quarter
+  pattern <- switch(calendar_type,
+    "445" = c(4L, 4L, 5L),
+    "454" = c(4L, 5L, 4L),
+    "544" = c(5L, 4L, 4L)
+  )
+
+  # Find fiscal year start dates for a range of calendar years
+  # We need extra years on both sides to cover the full date range
+  cal_years <- (lubridate::year(start_date) - 1):(lubridate::year(end_date) + 1)
+
+  # For each calendar year, find the week_start weekday nearest to the 1st of fiscal_year_start month
+  fy_starts <- vapply(cal_years, function(yr) {
+    anchor <- as.Date(paste0(yr, "-", sprintf("%02d", fiscal_year_start), "-01"))
+    # Find the nearest target weekday to this anchor
+    anchor_wday <- lubridate::wday(anchor)  # 1=Sun..7=Sat
+    diff <- target_wday - anchor_wday
+    if (diff > 3) diff <- diff - 7
+    if (diff < -3) diff <- diff + 7
+    as.numeric(anchor + diff)
+  }, numeric(1))
+
+  fy_starts <- as.Date(fy_starts, origin = "1970-01-01")
+  fy_starts <- sort(unique(fy_starts))
+
+  # Build the calendar by iterating over fiscal years
+  all_rows <- vector("list", length(fy_starts) - 1)
+
+  for (i in seq_len(length(fy_starts) - 1)) {
+    fy_start <- fy_starts[i]
+    fy_end <- fy_starts[i + 1] - 1
+    n_days <- as.integer(fy_end - fy_start) + 1
+    n_weeks <- n_days / 7
+
+    # Fiscal year label: the year containing most of the fiscal year
+    fiscal_year <- lubridate::year(fy_start + 180)
+
+    # 52 or 53 week year
+    if (n_weeks == 53) {
+      # Add extra week to the last month of the last quarter
+      weeks_per_month <- c(rep(pattern, 4))
+      weeks_per_month[12] <- weeks_per_month[12] + 1L
+    } else if (n_weeks == 52) {
+      weeks_per_month <- rep(pattern, 4)
+    } else {
+      next
+    }
+
+    # Assign fiscal month/quarter/week to each date
+    current_date <- fy_start
+    fiscal_week <- 0L
+
+    for (m in seq_along(weeks_per_month)) {
+      fiscal_month <- m
+      fiscal_quarter <- ((m - 1) %/% 3) + 1
+      n_weeks_in_month <- weeks_per_month[m]
+
+      for (w in seq_len(n_weeks_in_month)) {
+        fiscal_week <- fiscal_week + 1L
+        week_dates <- current_date + 0:6
+
+        # Only include dates in our target range
+        week_dates <- week_dates[week_dates >= start_date & week_dates <= end_date]
+
+        if (length(week_dates) > 0) {
+          all_rows[[length(all_rows) + 1]] <- tibble::tibble(
+            date = week_dates,
+            year = fiscal_year,
+            quarter = fiscal_quarter,
+            month = fiscal_month,
+            week = fiscal_week
+          )
+        }
+
+        current_date <- current_date + 7
+      }
+    }
+  }
+
+  out <- dplyr::bind_rows(all_rows)
+  out <- dplyr::distinct(out, date, .keep_all = TRUE)
+  out <- dplyr::arrange(out, date)
+
+  return(out)
+}
+
+
 #' Generate a Cross-Dialect SQL Date Series
 #'
 #' @description
@@ -623,7 +734,8 @@ seq_date_sql <- function(
     ,end_date
     ,calendar_type = "standard"
     ,time_unit="day"
-    ,week_start = 7) {
+    ,week_start = 7
+    ,fiscal_year_start = 1) {
 
 
 
@@ -633,10 +745,61 @@ seq_date_sql <- function(
 
   # assertthat::assert_that(assertthat::is.string(end_date), msg = "end_date must be a string (YYYY-MM-DD)")
 
-  assertthat::assert_that(any(calendar_type %in% c("standard")),msg = "calendar_type must be: 'standard'")
+  assertthat::assert_that(any(calendar_type %in% c("standard", "445", "454", "544")),msg = "calendar_type must be one of: 'standard', '445', '454', '544'")
 
   assertthat::assert_that(assertthat::is.number(week_start) && week_start %in% 1:7,msg = "week_start must be an integer between 1 (Monday) and 7 (Sunday)")
 
+
+  if(calendar_type %in% c("445", "454", "544")){
+
+    retail_tbl <- generate_retail_calendar(
+      start_date = start_date,
+      end_date = end_date,
+      calendar_type = calendar_type,
+      fiscal_year_start = fiscal_year_start,
+      week_start = week_start
+    )
+
+    retail_tbl <- retail_tbl |>
+      dplyr::mutate(
+        date = as.Date(date),
+        year = as.integer(year),
+        quarter = as.integer(quarter),
+        month = as.integer(month),
+        week = as.integer(week)
+      )
+
+    # Push to DB as temp table
+    dplyr::copy_to(.con, retail_tbl, name = "retail_calendar", overwrite = TRUE)
+
+    calendar_dbi <- dplyr::tbl(.con, "retail_calendar")
+
+    time_unit_lst <- list(
+      year="year"
+      ,quarter=c("year","quarter")
+      ,month=c("year","quarter","month")
+      ,week=c("year","quarter","month","week")
+      ,day=c("year","quarter","month","week","day")
+    )
+
+    group_col_vec <- c("date",time_unit_lst[[time_unit]])
+
+    out <-
+      calendar_dbi |>
+      dplyr::mutate(
+        day=lubridate::day(date)
+      ) |>
+      dplyr::mutate(
+        date=lubridate::floor_date(date, unit = time_unit)
+      ) |>
+      dplyr::summarise(
+        .by=dplyr::any_of(group_col_vec)
+        ,n=dplyr::n()
+      ) |>
+      dplyr::select(-c(n))
+
+    return(out)
+  }
 
   if(calendar_type=='standard'){
 

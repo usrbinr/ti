@@ -51,7 +51,8 @@ S7::method(create_calendar,ti) <- function(x){
     end_date      = x@datum@max_date,
     calendar_type = x@datum@calendar_type,
     time_unit     = x@time_unit@value,
-    .con          = dbplyr::remote_con(x@datum@data)
+    .con          = dbplyr::remote_con(x@datum@data),
+    fiscal_year_start = x@datum@fiscal_year_start
   )
 
   if (x@datum@group_indicator) {

@@ -4,7 +4,14 @@
 \alias{mom}
 \title{Current full period month over previous full period month}
 \usage{
-mom(.data, .date, .value, calendar_type = "standard", lag_n = 1)
+mom(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}
@@ -13,9 +20,11 @@ mom(.data, .date, .value, calendar_type = "standard", lag_n = 1)
 
 \item{.value}{the value column to summarize}
 
-\item{calendar_type}{select either 'standard' or '5-5-4' calendar, see 'Details' for additional information}
+\item{calendar_type}{select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information}
 
 \item{lag_n}{the number of periods to lag}
+
+\item{fiscal_year_start}{integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544').}
 }
 \value{
 ti object

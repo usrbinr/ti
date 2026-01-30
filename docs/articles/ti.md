@@ -18,13 +18,14 @@ Most time intelligence functions follow the same structure:
   `cogs`, `etc`)
 - If there is a period rollback / rollforward then clarify the number of
   periods to roll
-- Clarify if we are using a “standard” calendar or non-standard
-  variation (currently supports 5-4-4, 4-4-5 and 4-5-4 calendars) see
-  [standard vs. non standard calendar
+- Clarify if we are using a `"standard"` calendar or a retail calendar
+  variation (`"445"`, `"454"`, or `"544"`) – see the [standard
+  vs. non-standard calendar
   article](https://usrbinr.github.io/ti/articles/calendar_types.html)
   for more information
-
-> Non standard calendars are currently not supported in this release
+- If using a retail calendar, optionally specify `fiscal_year_start`
+  (1–12) to control which month the fiscal year begins nearest to
+  (default is January)
 
 When you execute
 [`mtd()`](https://codeberg.org/usrbinr/ti/reference/mtd.md), your
@@ -65,7 +66,7 @@ the standard calendar month to the end of the month
 • A standard calendar is created with 0 groups
 • Calendar ranges from 2021-05-18 to 2024-04-20
 • 222 days were missing and replaced with 0
-• New date column date, year, quarter and month was created from order_date
+• New date column date, year, quarter, month was created from order_date
 ```
 
 ``` fansi
@@ -85,7 +86,7 @@ the standard calendar month to the end of the month
 ```
 
 ``` fansi
-✖Proportion Of Total
+✖Proportion of Total
 ```
 
 ``` fansi
@@ -110,8 +111,8 @@ contoso::sales |>
    calculate()                                                          
 ```
 
-If you using a tibble, under the hood, ti is converting your data to a
-[duckdb](https://github.com/duckdb/duckdb-r) database
+If you’re using a tibble, under the hood, ti is converting your data to
+a [duckdb](https://github.com/duckdb/duckdb-r) database
 
 If your data is in a database, the package will leverage
 [dbplyr](https://dbplyr.tidyverse.org/) to execute all the calculations
@@ -163,11 +164,11 @@ contoso::sales |>
 ## Why do we need this package when we have lubridate?
 
 [Lubridate](https://lubridate.tidyverse.org/) is an excellent package
-and is is at the core of many of ti’s functions. The issue isn’t
-lubridate but rather the challenges and issues in your dataset that
-typically don’t allow you to directly use lubridate.
+and is at the core of many of ti’s functions. The issue isn’t lubridate
+but rather the challenges and issues in your dataset that typically
+don’t allow you to directly use lubridate.
 
-The advantage of this package is that it will perform all the of the
+The advantage of this package is that it will perform all of the
 required pre-processing steps for you.
 
 - Issue 1: Many datasets **do not have continuous dates**, especially if
@@ -175,7 +176,7 @@ required pre-processing steps for you.
 
 - Issue 2: Period imbalances between periods (Eg. the different number
   of days between February vs. January) can create misleading
-  analysis/trends or you analysis requires non-standard calendar types
+  analysis/trends or your analysis requires non-standard calendar types
 
 - Issue 3: Calculating time intelligence for groups can lead to larger
   than memory issues even with smaller datasets
@@ -183,7 +184,7 @@ required pre-processing steps for you.
 ### Issue 1: Continuous Dates
 
 Referencing the [Table 1](#tbl-missing-dates-issues-1) below, if we were
-use
+to use
 [`dplyr::lag()`](https://dplyr.tidyverse.org/reference/lead-lag.html) to
 compare **Day-over-Day (DoD)** margin, we would be missing `2024-01-02`,
 `2024-01-04`, and `2024-01-05` which would lead to incorrect answers or
@@ -238,14 +239,14 @@ those periods.
 
 > In practice you have two choices:
 >
-> - compare periods with similar days (eg. the 28th of February compares
->   should only compare up to the 28th of January) and you omit three
->   days of January sales all together
+> - compare periods with similar days (eg. the 28th of February should
+>   only compare up to the 28th of January) and you omit three days of
+>   January sales altogether
 >
 > - compare have an imbalanced comparison (eg. the 28th of February
 >   compares to the 31st of January so that no days are lost).
 
-This package does the second option to ensure we don’t loose any of
+This package does the second option to ensure we don’t lose any of
 January’s sales but to help flag for imbalance, ti will add a column to
 let you know how many periods (eg. days) are in your comparison period
 to increase transparency to this dynamic.
@@ -268,12 +269,6 @@ and filter the results for February 2022, we would see the below
 On 2022-02-28, we see that is comparing 31 days of the previous period
 to the 28 days in the current period.
 
-| date       | year | month | pmtd_margin | days_in_comparison_period |
-|------------|------|-------|-------------|---------------------------|
-| 2022-02-26 | 2022 | 2     | 129436.2    | 26                        |
-| 2022-02-27 | 2022 | 2     | 132202.3    | 27                        |
-| 2022-02-28 | 2022 | 2     | 142668.5    | 31                        |
-
 Table 3
 
 ### Issues 3: larger than memory
@@ -283,8 +278,8 @@ convert your data to enable larger than memory calculation.
 
 This is necessary for time intelligence functions because when you have
 grouped data, you need to complete calendar for each group combination.
-For even modest datasets, this can quickly multiple and grow you data to
-be larger than memory.
+For even modest datasets, this can quickly multiply and grow your data
+to be larger than memory.
 
 If your data is already in database, then ti will use
 [dbplyr](https://dbplyr.tidyverse.org/) and will convert the functions

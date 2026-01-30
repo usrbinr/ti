@@ -1,4 +1,4 @@
-# Week-to-date execution fucntion
+# Week-to-date execution function
 
 `wtd_fn()` is the function that is called by
 [`wtd()`](https://codeberg.org/usrbinr/ti/reference/wtd.md) when passed

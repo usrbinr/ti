@@ -35,12 +35,8 @@ Most time intelligence functions follow the same structure:
 -  Specify the date column to index the time intelligence functions (eg. `order_date`, `deliver_date`, etc)
 -  Specify the value column to aggregate (eg. `margin`, `net_margin`, `cogs`, `etc`)
 -  If there is a period rollback / rollforward then clarify the number of periods to roll
--  Clarify if we are using a "standard" calendar or non-standard variation (currently supports 5-4-4, 4-4-5 and 4-5-4 calendars) see [standard vs. non standard calendar article](https://usrbinr.github.io/ti/articles/calendar_types.html) for more information
-
-
-
-
-> Non standard calendars are currently not supported in this release
+-  Clarify if we are using a `"standard"` calendar or a retail calendar variation (`"445"`, `"454"`, or `"544"`) -- see the [standard vs. non-standard calendar article](https://usrbinr.github.io/ti/articles/calendar_types.html) for more information
+-  If using a retail calendar, optionally specify `fiscal_year_start` (1--12) to control which month the fiscal year begins nearest to (default is January)
 
 When you execute `mtd()`, your console will return a `ti` object displaying a custom print message:
 
@@ -218,19 +214,19 @@ On 2022-02-28, we see that is comparing 31 days of the previous period to the 28
 ```{r}
 #| label: tbl-issue2-example-no-echo
 #| echo: false
+#| eval: false
 
 
-contoso::sales |> 
-   pmtd(order_date,margin,"standard",1) |> 
-   calculate() |> 
+contoso::sales |>
+   pmtd(order_date,margin,"standard",1) |>
+   calculate() |>
+   dplyr::collect() |>
     dplyr::filter(
-      TRUE
-      ,month %in% c(2)
-      ,day(date) > 25
+      month %in% c(2)
+      ,lubridate::day(date) > 25
       ,year %in% c(2022)
-   ) |> 
-   dplyr::arrange(date)  |> 
-   dplyr::collect() |> 
+   ) |>
+   dplyr::arrange(date)  |>
    tinytable::tt(width=1)
 ```
 

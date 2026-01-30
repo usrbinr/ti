@@ -1,4 +1,4 @@
-# Current year to date over previous year-to-date exection function
+# Current year to date over previous year-to-date execution function
 
 `yoytd_fn()` is the function that is called by
 [`yoytd()`](https://codeberg.org/usrbinr/ti/reference/yoytd.md) when

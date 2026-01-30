@@ -10,7 +10,8 @@ seq_date_sql(
   end_date,
   calendar_type = "standard",
   time_unit = "day",
-  week_start = 7
+  week_start = 7,
+  fiscal_year_start = 1
 )
 }
 \arguments{

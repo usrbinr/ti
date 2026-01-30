@@ -1,4 +1,4 @@
-# Current year to date over previous year-to-date for tibble objects
+# Week-to-date over previous week-to-date execution function
 
 `wowtd_fn()` is the function that is called by
 [`wowtd()`](https://codeberg.org/usrbinr/ti/reference/wowtd.md) when

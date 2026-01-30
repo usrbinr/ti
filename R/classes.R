@@ -100,7 +100,7 @@ datum <- S7::new_class(
         class=S7::class_character
         ,default = "standard"
         ,validator =function(value){
-          valid_names <- c("standard", NA_character_)
+          valid_names <- c("standard", "445", "454", "544", NA_character_)
           if (!all(value %in% valid_names)) {
             return(paste0("Must be one of: ", paste(valid_names, collapse = ", ")))
           }
@@ -112,6 +112,16 @@ datum <- S7::new_class(
           value <- tolower(value)
           self@calendar_type <- value
           return(self)
+        }
+      )
+      ,fiscal_year_start=S7::new_property(
+        class=S7::class_numeric
+        ,default = 1
+        ,validator = function(value){
+          if(length(value) != 1 || !value %in% 1:12){
+            return("fiscal_year_start must be an integer between 1 and 12")
+          }
+          NULL
         }
       )
       ,date_vec=S7::new_property(

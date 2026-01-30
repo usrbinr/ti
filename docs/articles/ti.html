@@ -83,11 +83,9 @@
 <li>Specify the date column to index the time intelligence functions (eg. <code>order_date</code>, <code>deliver_date</code>, etc)</li>
 <li>Specify the value column to aggregate (eg. <code>margin</code>, <code>net_margin</code>, <code>cogs</code>, <code>etc</code>)</li>
 <li>If there is a period rollback / rollforward then clarify the number of periods to roll</li>
-<li>Clarify if we are using a “standard” calendar or non-standard variation (currently supports 5-4-4, 4-4-5 and 4-5-4 calendars) see <a href="https://usrbinr.github.io/ti/articles/calendar_types.html" class="external-link">standard vs. non standard calendar article</a> for more information</li>
+<li>Clarify if we are using a <code>"standard"</code> calendar or a retail calendar variation (<code>"445"</code>, <code>"454"</code>, or <code>"544"</code>) – see the <a href="https://usrbinr.github.io/ti/articles/calendar_types.html" class="external-link">standard vs. non-standard calendar article</a> for more information</li>
+<li>If using a retail calendar, optionally specify <code>fiscal_year_start</code> (1–12) to control which month the fiscal year begins nearest to (default is January)</li>
 </ul>
-<blockquote>
-<p>Non standard calendars are currently not supported in this release</p>
-</blockquote>
 <p>When you execute <code><a href="../reference/mtd.html">mtd()</a></code>, your console will return a <code>ti</code> object displaying a custom print message:</p>
 <ul>
 <li>A summary of the function’s actions</li>
@@ -130,7 +128,7 @@ the <span style="color: #BBBB00;">standard</span> calendar month to the end of t
 • A <span style="color: #FF5555;">standard</span> calendar is created with <span style="color: #00BB00;">0 groups</span>
 • Calendar ranges from <span style="color: #55FF55;">2021-05-18</span> to <span style="color: #55FF55;">2024-04-20</span>
 • <span style="color: #0000BB;">222</span> days were missing and replaced with 0
-• New date column <span style="color: #FF5555;">date</span>, <span style="color: #FF5555;">year</span>, <span style="color: #FF5555;">quarter</span> and <span style="color: #FF5555;">month</span> was created from <span style="color: #FF55FF;">order_date</span>
+• New date column <span style="color: #FF5555;">date</span>, <span style="color: #FF5555;">year</span>, <span style="color: #FF5555;">quarter</span>, <span style="color: #FF5555;">month</span> was created from <span style="color: #FF55FF;">order_date</span>
 </code></pre>
 <pre class="fansi fansi-message"><code>── <span style="font-weight: bold;">Actions:</span> ──
 </code></pre>
@@ -140,7 +138,7 @@ the <span style="color: #BBBB00;">standard</span> calendar month to the end of t
 </code></pre>
 <pre class="fansi fansi-message"><code><span style="color: #BB0000;">✖</span>Compare
 </code></pre>
-<pre class="fansi fansi-message"><code><span style="color: #BB0000;">✖</span>Proportion Of Total
+<pre class="fansi fansi-message"><code><span style="color: #BB0000;">✖</span>Proportion of Total
 </code></pre>
 <pre class="fansi fansi-message"><code><span style="color: #BB0000;">✖</span>Count Distinct
 </code></pre>
@@ -169,7 +167,7 @@ the <span style="color: #BBBB00;">standard</span> calendar month to the end of t
 <span>   <span class="fu"><a href="../reference/mtd.html">mtd</a></span><span class="op">(</span>.date<span class="op">=</span><span class="va">order_date</span>,.value <span class="op">=</span> <span class="va">margin</span>,calendar_type <span class="op">=</span> <span class="st">"standard"</span><span class="op">)</span> <span class="op">|&gt;</span>  </span>
 <span>   <span class="fu"><a href="../reference/calculate.html">calculate</a></span><span class="op">(</span><span class="op">)</span>                                                          </span></code></pre></div>
 </div>
-<p>If you using a tibble, under the hood, ti is converting your data to a <a href="https://github.com/duckdb/duckdb-r" class="external-link">duckdb</a> database</p>
+<p>If you’re using a tibble, under the hood, ti is converting your data to a <a href="https://github.com/duckdb/duckdb-r" class="external-link">duckdb</a> database</p>
 <p>If your data is in a database, the package will leverage <a href="https://dbplyr.tidyverse.org/" class="external-link">dbplyr</a> to execute all the calculations</p>
 <p>Either case use <code><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">dplyr::collect()</a></code> to return your results to a local tibble</p>
 <div class="cell">
@@ -208,16 +206,16 @@ the <span style="color: #BBBB00;">standard</span> calendar month to the end of t
 </div>
 </section></section><section class="level2"><h2 id="why-do-we-need-this-package-when-we-have-lubridate">Why do we need this package when we have lubridate?<a class="anchor" aria-label="anchor" href="#why-do-we-need-this-package-when-we-have-lubridate"></a>
 </h2>
-<p><a href="https://lubridate.tidyverse.org/" class="external-link">Lubridate</a> is an excellent package and is is at the core of many of ti’s functions. The issue isn’t lubridate but rather the challenges and issues in your dataset that typically don’t allow you to directly use lubridate.</p>
-<p>The advantage of this package is that it will perform all the of the required pre-processing steps for you.</p>
+<p><a href="https://lubridate.tidyverse.org/" class="external-link">Lubridate</a> is an excellent package and is at the core of many of ti’s functions. The issue isn’t lubridate but rather the challenges and issues in your dataset that typically don’t allow you to directly use lubridate.</p>
+<p>The advantage of this package is that it will perform all of the required pre-processing steps for you.</p>
 <ul>
 <li><p>Issue 1: Many datasets <strong>do not have continuous dates</strong>, especially if data is recorded only on business days or for active transactions</p></li>
-<li><p>Issue 2: Period imbalances between periods (Eg. the different number of days between February vs. January) can create misleading analysis/trends or you analysis requires non-standard calendar types</p></li>
+<li><p>Issue 2: Period imbalances between periods (Eg. the different number of days between February vs. January) can create misleading analysis/trends or your analysis requires non-standard calendar types</p></li>
 <li><p>Issue 3: Calculating time intelligence for groups can lead to larger than memory issues even with smaller datasets</p></li>
 </ul>
 <section class="level3"><h3 id="issue-1-continuous-dates">Issue 1: Continuous Dates<a class="anchor" aria-label="anchor" href="#issue-1-continuous-dates"></a>
 </h3>
-<p>Referencing the <a href="#tbl-missing-dates-issues-1" class="quarto-xref">Table 1</a> below, if we were use <code><a href="https://dplyr.tidyverse.org/reference/lead-lag.html" class="external-link">dplyr::lag()</a></code> to compare <strong>Day-over-Day (DoD)</strong> margin, we would be missing <code>2024-01-02</code>, <code>2024-01-04</code>, and <code>2024-01-05</code> which would lead to incorrect answers or trends.</p>
+<p>Referencing the <a href="#tbl-missing-dates-issues-1" class="quarto-xref">Table 1</a> below, if we were to use <code><a href="https://dplyr.tidyverse.org/reference/lead-lag.html" class="external-link">dplyr::lag()</a></code> to compare <strong>Day-over-Day (DoD)</strong> margin, we would be missing <code>2024-01-02</code>, <code>2024-01-04</code>, and <code>2024-01-05</code> which would lead to incorrect answers or trends.</p>
 <div class="cell">
 <div id="tbl-missing-dates-issues-1" class="cell quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-missing-dates-issues-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
@@ -228,30 +226,30 @@ Table 1: Incomplete calendar table can lead to wrong conclusions or trends
 
     <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
       // Create table-specific functions using external factory
-      const tableFns_egdlgd4nehg71ibelsd7 = TinyTable.createTableFunctions("tinytable_egdlgd4nehg71ibelsd7");
+      const tableFns_gmh5fb6st79r39l4us3o = TinyTable.createTableFunctions("tinytable_gmh5fb6st79r39l4us3o");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '7', j: 1 }, { i: '7', j: 2 } ], css_id: 'tinytable_css_ekb7jo2j5ufr4dtv3omj',},
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_ypho461788gww2za5t4h',},
+          { positions: [ { i: '7', j: 1 }, { i: '7', j: 2 } ], css_id: 'tinytable_css_3wxfubbyi63lyxyj59vf',},
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 } ], css_id: 'tinytable_css_xu8s8wcm5ifk20fpxwoo',},
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_egdlgd4nehg71ibelsd7.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_gmh5fb6st79r39l4us3o.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
 <style>
     /* tinytable css entries after */
-    #tinytable_egdlgd4nehg71ibelsd7 td.tinytable_css_ekb7jo2j5ufr4dtv3omj, #tinytable_egdlgd4nehg71ibelsd7 th.tinytable_css_ekb7jo2j5ufr4dtv3omj {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
-    #tinytable_egdlgd4nehg71ibelsd7 td.tinytable_css_ypho461788gww2za5t4h, #tinytable_egdlgd4nehg71ibelsd7 th.tinytable_css_ypho461788gww2za5t4h {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_gmh5fb6st79r39l4us3o td.tinytable_css_3wxfubbyi63lyxyj59vf, #tinytable_gmh5fb6st79r39l4us3o th.tinytable_css_3wxfubbyi63lyxyj59vf {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_gmh5fb6st79r39l4us3o td.tinytable_css_xu8s8wcm5ifk20fpxwoo, #tinytable_gmh5fb6st79r39l4us3o th.tinytable_css_xu8s8wcm5ifk20fpxwoo {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
     </style>
 <div class="container">
-      <table class="table tinytable" id="tinytable_egdlgd4nehg71ibelsd7" style="table-layout: fixed; width: 70% !important; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table tinytable" id="tinytable_gmh5fb6st79r39l4us3o" style="table-layout: fixed; width: 70% !important; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead><tr>
 <th scope="col" data-row="0" data-col="1">date</th>
                 <th scope="col" data-row="0" data-col="2">margin</th>
@@ -306,30 +304,30 @@ Table 2: Original table now complete with missing dates and a missing date indi
 
     <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
       // Create table-specific functions using external factory
-      const tableFns_50dpa8vjo4rms8rrqi77 = TinyTable.createTableFunctions("tinytable_50dpa8vjo4rms8rrqi77");
+      const tableFns_by3g5k5ujsrcvb98eje1 = TinyTable.createTableFunctions("tinytable_by3g5k5ujsrcvb98eje1");
       // tinytable span after
       window.addEventListener('load', function () {
           var cellsToStyle = [
             // tinytable style arrays after
-          { positions: [ { i: '11', j: 1 }, { i: '11', j: 2 }, { i: '11', j: 3 }, { i: '11', j: 4 }, { i: '11', j: 5 }, { i: '11', j: 6 }, { i: '11', j: 7 }, { i: '11', j: 8 }, { i: '11', j: 9 } ], css_id: 'tinytable_css_fx5p7p8l49srmyonx24c',},
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 6 }, { i: '0', j: 7 }, { i: '0', j: 8 }, { i: '0', j: 9 } ], css_id: 'tinytable_css_lgkf3bjtqsk88hoenscl',},
+          { positions: [ { i: '11', j: 1 }, { i: '11', j: 2 }, { i: '11', j: 3 }, { i: '11', j: 4 }, { i: '11', j: 5 }, { i: '11', j: 6 }, { i: '11', j: 7 }, { i: '11', j: 8 }, { i: '11', j: 9 } ], css_id: 'tinytable_css_m78qis3nx3vfbdjwr3vk',},
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 6 }, { i: '0', j: 7 }, { i: '0', j: 8 }, { i: '0', j: 9 } ], css_id: 'tinytable_css_h28f5aobbvky8rneff3f',},
           ];
 
           // Loop over the arrays to style the cells
           cellsToStyle.forEach(function (group) {
               group.positions.forEach(function (cell) {
-                  tableFns_50dpa8vjo4rms8rrqi77.styleCell(cell.i, cell.j, group.css_id);
+                  tableFns_by3g5k5ujsrcvb98eje1.styleCell(cell.i, cell.j, group.css_id);
               });
           });
       });
     </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
 <style>
     /* tinytable css entries after */
-    #tinytable_50dpa8vjo4rms8rrqi77 td.tinytable_css_fx5p7p8l49srmyonx24c, #tinytable_50dpa8vjo4rms8rrqi77 th.tinytable_css_fx5p7p8l49srmyonx24c {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
-    #tinytable_50dpa8vjo4rms8rrqi77 td.tinytable_css_lgkf3bjtqsk88hoenscl, #tinytable_50dpa8vjo4rms8rrqi77 th.tinytable_css_lgkf3bjtqsk88hoenscl {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_by3g5k5ujsrcvb98eje1 td.tinytable_css_m78qis3nx3vfbdjwr3vk, #tinytable_by3g5k5ujsrcvb98eje1 th.tinytable_css_m78qis3nx3vfbdjwr3vk {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_by3g5k5ujsrcvb98eje1 td.tinytable_css_h28f5aobbvky8rneff3f, #tinytable_by3g5k5ujsrcvb98eje1 th.tinytable_css_h28f5aobbvky8rneff3f {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
     </style>
 <div class="container">
-      <table class="table tinytable" id="tinytable_50dpa8vjo4rms8rrqi77" style="table-layout: fixed; width: 70% !important; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+      <table class="table tinytable" id="tinytable_by3g5k5ujsrcvb98eje1" style="table-layout: fixed; width: 70% !important; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
 <thead><tr>
 <th scope="col" data-row="0" data-col="1">date</th>
                 <th scope="col" data-row="0" data-col="2">year</th>
@@ -479,11 +477,11 @@ Table 2: Original table now complete with missing dates and a missing date indi
 <blockquote>
 <p>In practice you have two choices:</p>
 <ul>
-<li><p>compare periods with similar days (eg. the 28th of February compares should only compare up to the 28th of January) and you omit three days of January sales all together</p></li>
+<li><p>compare periods with similar days (eg. the 28th of February should only compare up to the 28th of January) and you omit three days of January sales altogether</p></li>
 <li><p>compare have an imbalanced comparison (eg. the 28th of February compares to the 31st of January so that no days are lost).</p></li>
 </ul>
 </blockquote>
-<p>This package does the second option to ensure we don’t loose any of January’s sales but to help flag for imbalance, ti will add a column to let you know how many periods (eg. days) are in your comparison period to increase transparency to this dynamic.</p>
+<p>This package does the second option to ensure we don’t lose any of January’s sales but to help flag for imbalance, ti will add a column to let you know how many periods (eg. days) are in your comparison period to increase transparency to this dynamic.</p>
 <p>To create this example, we will use the <code><a href="../reference/pmtd.html">pmtd()</a></code> function to calculate the prior month to date cumulative margin in the current month.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb16"><pre class="downlit sourceCode r">
@@ -492,82 +490,20 @@ Table 2: Original table now complete with missing dates and a missing date indi
 </div>
 <p>When we pass the ti object through to <code><a href="../reference/calculate.html">calculate()</a></code> and filter the results for February 2022, we would see the below <a href="#tbl-issue2-example-no-echo" class="quarto-xref">Table 3</a>.</p>
 <p>On 2022-02-28, we see that is comparing 31 days of the previous period to the 28 days in the current period.</p>
-<div class="cell">
 <div id="tbl-issue2-example-no-echo" class="cell quarto-float quarto-figure quarto-figure-center">
 <figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-issue2-example-no-echo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table 3
 </figcaption><div aria-describedby="tbl-issue2-example-no-echo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output-display">
-<!-- preamble start -->
+<div>
 
-    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
-      // Create table-specific functions using external factory
-      const tableFns_2eppc92zqmfamm3bkbhl = TinyTable.createTableFunctions("tinytable_2eppc92zqmfamm3bkbhl");
-      // tinytable span after
-      window.addEventListener('load', function () {
-          var cellsToStyle = [
-            // tinytable style arrays after
-          { positions: [ { i: '3', j: 1 }, { i: '3', j: 2 }, { i: '3', j: 3 }, { i: '3', j: 4 }, { i: '3', j: 5 } ], css_id: 'tinytable_css_ct5ltvvyza0h0kzp5fws',},
-          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 } ], css_id: 'tinytable_css_7hckg5rxu9vpveqhxxbh',},
-          ];
-
-          // Loop over the arrays to style the cells
-          cellsToStyle.forEach(function (group) {
-              group.positions.forEach(function (cell) {
-                  tableFns_2eppc92zqmfamm3bkbhl.styleCell(cell.i, cell.j, group.css_id);
-              });
-          });
-      });
-    </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
-<style>
-    /* tinytable css entries after */
-    #tinytable_2eppc92zqmfamm3bkbhl td.tinytable_css_ct5ltvvyza0h0kzp5fws, #tinytable_2eppc92zqmfamm3bkbhl th.tinytable_css_ct5ltvvyza0h0kzp5fws {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
-    #tinytable_2eppc92zqmfamm3bkbhl td.tinytable_css_7hckg5rxu9vpveqhxxbh, #tinytable_2eppc92zqmfamm3bkbhl th.tinytable_css_7hckg5rxu9vpveqhxxbh {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
-    </style>
-<div class="container">
-      <table class="table tinytable" id="tinytable_2eppc92zqmfamm3bkbhl" style="table-layout: fixed; width: 100% !important; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
-<thead><tr>
-<th scope="col" data-row="0" data-col="1">date</th>
-                <th scope="col" data-row="0" data-col="2">year</th>
-                <th scope="col" data-row="0" data-col="3">month</th>
-                <th scope="col" data-row="0" data-col="4">pmtd_margin</th>
-                <th scope="col" data-row="0" data-col="5">days_in_comparison_period</th>
-              </tr></thead>
-<tbody>
-<tr>
-<td data-row="1" data-col="1">2022-02-26</td>
-                  <td data-row="1" data-col="2">2022</td>
-                  <td data-row="1" data-col="3">2</td>
-                  <td data-row="1" data-col="4">129436.2</td>
-                  <td data-row="1" data-col="5">26</td>
-                </tr>
-<tr>
-<td data-row="2" data-col="1">2022-02-27</td>
-                  <td data-row="2" data-col="2">2022</td>
-                  <td data-row="2" data-col="3">2</td>
-                  <td data-row="2" data-col="4">132202.3</td>
-                  <td data-row="2" data-col="5">27</td>
-                </tr>
-<tr>
-<td data-row="3" data-col="1">2022-02-28</td>
-                  <td data-row="3" data-col="2">2022</td>
-                  <td data-row="3" data-col="3">2</td>
-                  <td data-row="3" data-col="4">142668.5</td>
-                  <td data-row="3" data-col="5">31</td>
-                </tr>
-</tbody>
-</table>
-</div>
-<!-- hack to avoid NA insertion in last line -->
 </div>
 </div>
 </figure>
 </div>
-</div>
 </section><section class="level3"><h3 id="issues-3-larger-than-memory">Issues 3: larger than memory<a class="anchor" aria-label="anchor" href="#issues-3-larger-than-memory"></a>
 </h3>
 <p>If your data isn’t already in a database then ti will leverage duckdb to convert your data to enable larger than memory calculation.</p>
-<p>This is necessary for time intelligence functions because when you have grouped data, you need to complete calendar for each group combination. For even modest datasets, this can quickly multiple and grow you data to be larger than memory.</p>
+<p>This is necessary for time intelligence functions because when you have grouped data, you need to complete calendar for each group combination. For even modest datasets, this can quickly multiply and grow your data to be larger than memory.</p>
 <p>If your data is already in database, then ti will use <a href="https://dbplyr.tidyverse.org/" class="external-link">dbplyr</a> and will convert the functions to SQL to write the queries.</p>
 <p>In either scenario, you can use <code><a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link">dplyr::collect()</a></code> to execute your SQL query and return a tibble to your local computer.</p>
 <div class="cell">

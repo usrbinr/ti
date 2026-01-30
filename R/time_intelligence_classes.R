@@ -4,7 +4,8 @@
 #' @param .data tibble or dbi object (either grouped or ungrouped)
 #' @param .date the date column to group by
 #' @param .value the value column to summarize
-#' @param calendar_type select either 'standard' or '5-5-4' calendar, see 'Details' for additional information
+#' @param calendar_type select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information
+#' @param fiscal_year_start integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544').
 #'
 #' @description
 #' -  For each group, [ytd()]  will create the running annual sum of a value based on the calendar type specified
@@ -29,7 +30,7 @@
 #' @examples
 #' library(contoso)
 #' ytd(sales,.date=order_date,.value=quantity,calendar_type="standard")
-ytd <- function(.data,.date,.value,calendar_type='standard'){
+ytd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
 
 
 
@@ -39,6 +40,7 @@ ytd <- function(.data,.date,.value,calendar_type='standard'){
     datum(
       data                 = .data
       ,calendar_type       = calendar_type
+      ,fiscal_year_start   = fiscal_year_start
       ,date_vec            = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit             = time_unit("day")
@@ -83,7 +85,7 @@ ytd <- function(.data,.date,.value,calendar_type='standard'){
 #' @examples
 #' library(contoso)
 #' pytd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-pytd <- function(.data,.date,.value,calendar_type='standard',lag_n){
+pytd <- function(.data,.date,.value,calendar_type='standard',lag_n,fiscal_year_start=1){
 
 
   # assigns inputs to ytd_tbl class
@@ -91,6 +93,7 @@ pytd <- function(.data,.date,.value,calendar_type='standard',lag_n){
     datum(
       data                  = .data
       ,calendar_type        = calendar_type
+      ,fiscal_year_start    = fiscal_year_start
       ,date_vec             = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit              = time_unit("day")
@@ -133,7 +136,7 @@ pytd <- function(.data,.date,.value,calendar_type='standard',lag_n){
 #' @examples
 #' library(contoso)
 #' yoytd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-yoytd <- function(.data,.date,.value,calendar_type='standard',lag_n){
+yoytd <- function(.data,.date,.value,calendar_type='standard',lag_n,fiscal_year_start=1){
 
 
   # Validate inputs
@@ -144,6 +147,7 @@ yoytd <- function(.data,.date,.value,calendar_type='standard',lag_n){
     datum(
       data                 = .data
       ,calendar_type       = calendar_type
+      ,fiscal_year_start   = fiscal_year_start
       ,date_vec            =  rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit             = time_unit("day")
@@ -190,12 +194,13 @@ yoytd <- function(.data,.date,.value,calendar_type='standard',lag_n){
 #' @examples
 #' library(contoso)
 #' yoy(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
-yoy <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
+yoy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
 
   out <- ti(
     datum(
       data                 = .data
       ,calendar_type       = calendar_type
+      ,fiscal_year_start   = fiscal_year_start
       ,date_vec            = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit             = time_unit("year")
@@ -241,12 +246,13 @@ yoy <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @examples
 #' library(contoso)
 #' ytdopy(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
-ytdopy <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
+ytdopy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
 
   out <- ti(
     datum(
       data                 = .data
       ,calendar_type       = calendar_type
+      ,fiscal_year_start   = fiscal_year_start
       ,date_vec            = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit             = time_unit("day")
@@ -297,7 +303,7 @@ ytdopy <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @examples
 #' library(contoso)
 #' qtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
-qtd <- function(.data,.date,.value,calendar_type='standard'){
+qtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
 
 
   # Aggregate data based on provided time unit
@@ -306,6 +312,7 @@ qtd <- function(.data,.date,.value,calendar_type='standard'){
     datum(
       data                       = .data
       ,calendar_type             = calendar_type
+      ,fiscal_year_start         = fiscal_year_start
       ,date_vec                  =  rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit                   = time_unit("day")
@@ -349,7 +356,7 @@ qtd <- function(.data,.date,.value,calendar_type='standard'){
 #' @examples
 #' library(contoso)
 #' pqtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-pqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
+pqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
 
   # Aggregate data based on provided time unit
 
@@ -357,6 +364,7 @@ pqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
     datum(
       data                        = .data
       ,calendar_type              = calendar_type
+      ,fiscal_year_start          = fiscal_year_start
       ,date_vec                   =  rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit                    = time_unit("day")
@@ -401,7 +409,7 @@ pqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @examples
 #' library(contoso)
 #' qoqtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-qoqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
+qoqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
 
   # assigns inputs to yoytd class
 
@@ -409,6 +417,7 @@ qoqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
     datum(
       data                 = .data
       ,calendar_type       = calendar_type
+      ,fiscal_year_start   = fiscal_year_start
       ,date_vec            = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit             = time_unit("day")
@@ -453,12 +462,13 @@ qoqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @examples
 #' library(contoso)
 #' qtdopq(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
-qtdopq <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
+qtdopq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
 
   out <- ti(
     datum(
       data                 = .data
       ,calendar_type       = calendar_type
+      ,fiscal_year_start   = fiscal_year_start
       ,date_vec            = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit             = time_unit("day")
@@ -503,12 +513,13 @@ qtdopq <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @examples
 #' library(contoso)
 #' qoq(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
-qoq <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
+qoq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
 
   out <- ti(
     datum(
       data                 = .data
       ,calendar_type       = calendar_type
+      ,fiscal_year_start   = fiscal_year_start
       ,date_vec            = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit             = time_unit("quarter")
@@ -558,12 +569,13 @@ qoq <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @examples
 #' library(contoso)
 #' mtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
-mtd <- function(.data,.date,.value,calendar_type='standard'){
+mtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
 
     out <- ti(
       datum(
         data                 = .data
         ,calendar_type       = calendar_type
+        ,fiscal_year_start   = fiscal_year_start
         ,date_vec            = rlang::as_label(rlang::enquo(.date))
       )
       ,time_unit             = time_unit("day")
@@ -607,12 +619,13 @@ mtd <- function(.data,.date,.value,calendar_type='standard'){
 #' @examples
 #' library(contoso)
 #' pmtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-pmtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
+pmtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
 
   out <- ti(
     datum(
       data                 = .data
       ,calendar_type       = calendar_type
+      ,fiscal_year_start   = fiscal_year_start
       ,date_vec            = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit             = time_unit("day")
@@ -654,13 +667,14 @@ pmtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @examples
 #' library(contoso)
 #' momtd(sales,.date=order_date,.value=quantity,calendar_type="standard", lag_n=1)
-momtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
+momtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
 
 
   out <- ti(
     datum(
       data                 = .data
       ,calendar_type       = calendar_type
+      ,fiscal_year_start   = fiscal_year_start
       ,date_vec            = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit             = time_unit("day")
@@ -707,11 +721,12 @@ momtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @examples
 #' library(contoso)
 #' mtdopm(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-mtdopm <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
+mtdopm <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
   out <- ti(
     datum(
       data                 = .data
       ,calendar_type       = calendar_type
+      ,fiscal_year_start   = fiscal_year_start
       ,date_vec            = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit             = time_unit("day")
@@ -755,12 +770,13 @@ mtdopm <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @examples
 #' library(contoso)
 #' mom(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
-mom <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
+mom <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
 
   out <- ti(
     datum(
       data                 = .data
       ,calendar_type       = calendar_type
+      ,fiscal_year_start   = fiscal_year_start
       ,date_vec            = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit             = time_unit("month")
@@ -810,7 +826,7 @@ mom <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' wtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 #' }
 
-wtd <- function(.data,.date,.value,calendar_type='standard'){
+wtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
 
   # Validate inputs
 
@@ -818,6 +834,7 @@ wtd <- function(.data,.date,.value,calendar_type='standard'){
     datum(
       data                 = .data
       ,calendar_type       = calendar_type
+      ,fiscal_year_start   = fiscal_year_start
       ,date_vec            = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit             = time_unit("day")
@@ -859,13 +876,14 @@ wtd <- function(.data,.date,.value,calendar_type='standard'){
 #' @examples
 #' library(contoso)
 #' pwtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-pwtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
+pwtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
 
 
   out <- ti(
     datum(
       data                 = .data
       ,calendar_type       = calendar_type
+      ,fiscal_year_start   = fiscal_year_start
       ,date_vec            = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit             = time_unit("day")
@@ -911,7 +929,7 @@ pwtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @examples
 #' library(contoso)
 #' wowtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-wowtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
+wowtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
 
   # Validate inputs
 
@@ -919,6 +937,7 @@ wowtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
     datum(
       data=.data
       ,calendar_type       = calendar_type
+      ,fiscal_year_start   = fiscal_year_start
       ,date_vec            = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit             = time_unit("day")
@@ -963,12 +982,13 @@ wowtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @examples
 #' library(contoso)
 #' wtdopw(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-wtdopw <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
+wtdopw <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
 
   out <- ti(
     datum(
       data=.data
       ,calendar_type=calendar_type
+      ,fiscal_year_start = fiscal_year_start
       ,date_vec = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit = time_unit("day")
@@ -1014,12 +1034,13 @@ wtdopw <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @examples
 #' library(contoso)
 #' wow(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
-wow <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
+wow <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
 
   out <- ti(
     datum(
       data=.data
       ,calendar_type=calendar_type
+      ,fiscal_year_start = fiscal_year_start
       ,date_vec = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit = time_unit("week")
@@ -1069,12 +1090,13 @@ wow <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' library(contoso)
 #' atd(sales,.date=order_date,.value=quantity,calendar_type="standard")
 #' }
-atd <- function(.data,.date,.value,calendar_type='standard'){
+atd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
 
   out <- ti(
     datum(
       data                 = .data
       ,calendar_type       = calendar_type
+      ,fiscal_year_start   = fiscal_year_start
       ,date_vec            = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit             = time_unit("day")
@@ -1121,12 +1143,13 @@ atd <- function(.data,.date,.value,calendar_type='standard'){
 #' library(contoso)
 #' dod(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 #' }
-dod <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
+dod <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
 
   out <- ti(
     datum(
       data=.data
       ,calendar_type=calendar_type
+      ,fiscal_year_start = fiscal_year_start
       ,date_vec = rlang::as_label(rlang::enquo(.date))
     )
     ,time_unit = time_unit("day")

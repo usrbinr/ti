@@ -22,7 +22,7 @@ dbi object
 
 ## Details
 
-The TI and segment functions in **fpaR**—such as
+The TI and segment functions in **ti**—such as
 [`ytd()`](https://codeberg.org/usrbinr/ti/reference/ytd.md) or
 [`cohort()`](https://codeberg.org/usrbinr/ti/reference/cohort.md) and
 others—are designed to be **lazy and database-friendly**. They do not

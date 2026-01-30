@@ -61,9 +61,9 @@
   <main id="main" class="col-md-9"><div class="page-header">
 
       <h1>Standard vs. Non-Standard Calendars</h1>
-      <p class="subtitle">What are non-standard calendars and when do we use it?</p>
+      <p class="subtitle">What are non-standard calendars and when do we use them?</p>
       <p class="author">Alejandro Hagan</p>
-      <p class="date">2026-01-26</p>
+      <p class="date">2026-01-30</p>
 
       <small class="dont-index">Source: <a href="https://codeberg.org/usrbinr/ti/src/branch/HEAD/vignettes/calendar_types.qmd"><code>vignettes/calendar_types.qmd</code></a></small>
       <div class="d-none name"><code></code></div>
@@ -211,7 +211,456 @@
 </li>
 </ul>
 <p>Under the hood, <code>ti</code> handles the complexities: it generates the appropriate date keys and ensures that all your metrics are indexed correctly to the start and end of the chosen calendar’s periods.</p>
-</section></section><script id="quarto-html-after-body" type="application/javascript">
+<hr></section><section class="level3"><h3 id="fiscal-year-start">Fiscal Year Start<a class="anchor" aria-label="anchor" href="#fiscal-year-start"></a>
+</h3>
+<p>By default, the retail calendar’s fiscal year starts nearest to <strong>January</strong> (<code>fiscal_year_start = 1</code>). Many retailers operate on a fiscal year that begins in <strong>February</strong> (e.g., NRF convention). You can control this with the <code>fiscal_year_start</code> parameter:</p>
+<ul>
+<li>
+<code>fiscal_year_start = 1</code> – fiscal year starts nearest to January 1st (default)</li>
+<li>
+<code>fiscal_year_start = 2</code> – fiscal year starts nearest to February 1st (common in US retail)</li>
+<li>
+<code>fiscal_year_start = 7</code> – fiscal year starts nearest to July 1st</li>
+</ul>
+<p>The start date is determined by finding the <code>week_start</code> weekday (default: Sunday) nearest to the 1st of the specified month.</p>
+<hr></section><section class="level3"><h3 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
+</h3>
+<section class="level4"><h4 id="year-to-date-with-a-4-4-5-retail-calendar">Year-to-date with a 4-4-5 retail calendar<a class="anchor" aria-label="anchor" href="#year-to-date-with-a-4-4-5-retail-calendar"></a>
+</h4>
+<p>The fiscal year starts nearest to February. Each quarter has 13 weeks split into 4-week, 4-week, and 5-week months.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">contoso</span><span class="fu">::</span><span class="va"><a href="https://usrbinr.github.io/contoso/reference/sales.html" class="external-link">sales</a></span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/ytd.html">ytd</a></span><span class="op">(</span></span>
+<span>    .date <span class="op">=</span> <span class="va">order_date</span>,</span>
+<span>    .value <span class="op">=</span> <span class="va">margin</span>,</span>
+<span>    calendar_type <span class="op">=</span> <span class="st">"445"</span>,</span>
+<span>    fiscal_year_start <span class="op">=</span> <span class="fl">2</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/calculate.html">calculate</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">collect</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
+      // Create table-specific functions using external factory
+      const tableFns_gw6ncwc6yjsffxum0jh4 = TinyTable.createTableFunctions("tinytable_gw6ncwc6yjsffxum0jh4");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '10', j: 1 }, { i: '10', j: 2 }, { i: '10', j: 3 }, { i: '10', j: 4 }, { i: '10', j: 5 }, { i: '10', j: 6 }, { i: '10', j: 7 }, { i: '10', j: 8 }, { i: '10', j: 9 } ], css_id: 'tinytable_css_vu80prdwgfpns06uoj1x',},
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 6 }, { i: '0', j: 7 }, { i: '0', j: 8 }, { i: '0', j: 9 } ], css_id: 'tinytable_css_bxgz564pugfo4p9zwnvt',},
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_gw6ncwc6yjsffxum0jh4.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+<style>
+    /* tinytable css entries after */
+    #tinytable_gw6ncwc6yjsffxum0jh4 td.tinytable_css_vu80prdwgfpns06uoj1x, #tinytable_gw6ncwc6yjsffxum0jh4 th.tinytable_css_vu80prdwgfpns06uoj1x {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_gw6ncwc6yjsffxum0jh4 td.tinytable_css_bxgz564pugfo4p9zwnvt, #tinytable_gw6ncwc6yjsffxum0jh4 th.tinytable_css_bxgz564pugfo4p9zwnvt {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    </style>
+<div class="container">
+      <table class="table tinytable" id="tinytable_gw6ncwc6yjsffxum0jh4" style="table-layout: fixed; width: 100% !important; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<thead><tr>
+<th scope="col" data-row="0" data-col="1">date</th>
+                <th scope="col" data-row="0" data-col="2">year</th>
+                <th scope="col" data-row="0" data-col="3">quarter</th>
+                <th scope="col" data-row="0" data-col="4">month</th>
+                <th scope="col" data-row="0" data-col="5">week</th>
+                <th scope="col" data-row="0" data-col="6">day</th>
+                <th scope="col" data-row="0" data-col="7">margin</th>
+                <th scope="col" data-row="0" data-col="8">ytd_margin</th>
+                <th scope="col" data-row="0" data-col="9">missing_date_indicator</th>
+              </tr></thead>
+<tbody>
+<tr>
+<td data-row="1" data-col="1">2021-05-18</td>
+                  <td data-row="1" data-col="2">2021</td>
+                  <td data-row="1" data-col="3">2</td>
+                  <td data-row="1" data-col="4">4</td>
+                  <td data-row="1" data-col="5">16</td>
+                  <td data-row="1" data-col="6">18</td>
+                  <td data-row="1" data-col="7">406.840</td>
+                  <td data-row="1" data-col="8">406.840</td>
+                  <td data-row="1" data-col="9">0</td>
+                </tr>
+<tr>
+<td data-row="2" data-col="1">2021-05-19</td>
+                  <td data-row="2" data-col="2">2021</td>
+                  <td data-row="2" data-col="3">2</td>
+                  <td data-row="2" data-col="4">4</td>
+                  <td data-row="2" data-col="5">16</td>
+                  <td data-row="2" data-col="6">19</td>
+                  <td data-row="2" data-col="7">711.351</td>
+                  <td data-row="2" data-col="8">1118.191</td>
+                  <td data-row="2" data-col="9">0</td>
+                </tr>
+<tr>
+<td data-row="3" data-col="1">2021-05-20</td>
+                  <td data-row="3" data-col="2">2021</td>
+                  <td data-row="3" data-col="3">2</td>
+                  <td data-row="3" data-col="4">4</td>
+                  <td data-row="3" data-col="5">16</td>
+                  <td data-row="3" data-col="6">20</td>
+                  <td data-row="3" data-col="7">1424.101</td>
+                  <td data-row="3" data-col="8">2542.292</td>
+                  <td data-row="3" data-col="9">0</td>
+                </tr>
+<tr>
+<td data-row="4" data-col="1">2021-05-21</td>
+                  <td data-row="4" data-col="2">2021</td>
+                  <td data-row="4" data-col="3">2</td>
+                  <td data-row="4" data-col="4">4</td>
+                  <td data-row="4" data-col="5">16</td>
+                  <td data-row="4" data-col="6">21</td>
+                  <td data-row="4" data-col="7">11338.631</td>
+                  <td data-row="4" data-col="8">13880.923</td>
+                  <td data-row="4" data-col="9">0</td>
+                </tr>
+<tr>
+<td data-row="5" data-col="1">2021-05-22</td>
+                  <td data-row="5" data-col="2">2021</td>
+                  <td data-row="5" data-col="3">2</td>
+                  <td data-row="5" data-col="4">4</td>
+                  <td data-row="5" data-col="5">16</td>
+                  <td data-row="5" data-col="6">22</td>
+                  <td data-row="5" data-col="7">5358.767</td>
+                  <td data-row="5" data-col="8">19239.690</td>
+                  <td data-row="5" data-col="9">0</td>
+                </tr>
+<tr>
+<td data-row="6" data-col="1">2021-05-23</td>
+                  <td data-row="6" data-col="2">2021</td>
+                  <td data-row="6" data-col="3">2</td>
+                  <td data-row="6" data-col="4">4</td>
+                  <td data-row="6" data-col="5">17</td>
+                  <td data-row="6" data-col="6">23</td>
+                  <td data-row="6" data-col="7">0.000</td>
+                  <td data-row="6" data-col="8">19239.690</td>
+                  <td data-row="6" data-col="9">1</td>
+                </tr>
+<tr>
+<td data-row="7" data-col="1">2021-05-24</td>
+                  <td data-row="7" data-col="2">2021</td>
+                  <td data-row="7" data-col="3">2</td>
+                  <td data-row="7" data-col="4">4</td>
+                  <td data-row="7" data-col="5">17</td>
+                  <td data-row="7" data-col="6">24</td>
+                  <td data-row="7" data-col="7">0.000</td>
+                  <td data-row="7" data-col="8">19239.690</td>
+                  <td data-row="7" data-col="9">1</td>
+                </tr>
+<tr>
+<td data-row="8" data-col="1">2021-05-25</td>
+                  <td data-row="8" data-col="2">2021</td>
+                  <td data-row="8" data-col="3">2</td>
+                  <td data-row="8" data-col="4">4</td>
+                  <td data-row="8" data-col="5">17</td>
+                  <td data-row="8" data-col="6">25</td>
+                  <td data-row="8" data-col="7">792.933</td>
+                  <td data-row="8" data-col="8">20032.623</td>
+                  <td data-row="8" data-col="9">0</td>
+                </tr>
+<tr>
+<td data-row="9" data-col="1">2021-05-26</td>
+                  <td data-row="9" data-col="2">2021</td>
+                  <td data-row="9" data-col="3">2</td>
+                  <td data-row="9" data-col="4">4</td>
+                  <td data-row="9" data-col="5">17</td>
+                  <td data-row="9" data-col="6">26</td>
+                  <td data-row="9" data-col="7">74.550</td>
+                  <td data-row="9" data-col="8">20107.173</td>
+                  <td data-row="9" data-col="9">0</td>
+                </tr>
+<tr>
+<td data-row="10" data-col="1">2021-05-27</td>
+                  <td data-row="10" data-col="2">2021</td>
+                  <td data-row="10" data-col="3">2</td>
+                  <td data-row="10" data-col="4">4</td>
+                  <td data-row="10" data-col="5">17</td>
+                  <td data-row="10" data-col="6">27</td>
+                  <td data-row="10" data-col="7">1432.710</td>
+                  <td data-row="10" data-col="8">21539.883</td>
+                  <td data-row="10" data-col="9">0</td>
+                </tr>
+</tbody>
+</table>
+</div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+<p>Notice that the <code>year</code>, <code>quarter</code>, <code>month</code>, and <code>week</code> columns now reflect the <strong>fiscal</strong> periods from the 4-4-5 calendar rather than the Gregorian calendar.</p>
+</section><section class="level4"><h4 id="month-to-date-with-a-5-4-4-retail-calendar">Month-to-date with a 5-4-4 retail calendar<a class="anchor" aria-label="anchor" href="#month-to-date-with-a-5-4-4-retail-calendar"></a>
+</h4>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">contoso</span><span class="fu">::</span><span class="va"><a href="https://usrbinr.github.io/contoso/reference/sales.html" class="external-link">sales</a></span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/mtd.html">mtd</a></span><span class="op">(</span></span>
+<span>    .date <span class="op">=</span> <span class="va">order_date</span>,</span>
+<span>    .value <span class="op">=</span> <span class="va">margin</span>,</span>
+<span>    calendar_type <span class="op">=</span> <span class="st">"544"</span>,</span>
+<span>    fiscal_year_start <span class="op">=</span> <span class="fl">2</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/calculate.html">calculate</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">collect</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
+      // Create table-specific functions using external factory
+      const tableFns_udx7k2bpi2jaqv9bszfd = TinyTable.createTableFunctions("tinytable_udx7k2bpi2jaqv9bszfd");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '10', j: 1 }, { i: '10', j: 2 }, { i: '10', j: 3 }, { i: '10', j: 4 }, { i: '10', j: 5 }, { i: '10', j: 6 }, { i: '10', j: 7 }, { i: '10', j: 8 }, { i: '10', j: 9 } ], css_id: 'tinytable_css_yqougvgslbmt0aczuue6',},
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 }, { i: '0', j: 4 }, { i: '0', j: 5 }, { i: '0', j: 6 }, { i: '0', j: 7 }, { i: '0', j: 8 }, { i: '0', j: 9 } ], css_id: 'tinytable_css_ilj45y8gq2641yvzj0gy',},
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_udx7k2bpi2jaqv9bszfd.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+<style>
+    /* tinytable css entries after */
+    #tinytable_udx7k2bpi2jaqv9bszfd td.tinytable_css_yqougvgslbmt0aczuue6, #tinytable_udx7k2bpi2jaqv9bszfd th.tinytable_css_yqougvgslbmt0aczuue6 {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_udx7k2bpi2jaqv9bszfd td.tinytable_css_ilj45y8gq2641yvzj0gy, #tinytable_udx7k2bpi2jaqv9bszfd th.tinytable_css_ilj45y8gq2641yvzj0gy {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    </style>
+<div class="container">
+      <table class="table tinytable" id="tinytable_udx7k2bpi2jaqv9bszfd" style="table-layout: fixed; width: 100% !important; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<thead><tr>
+<th scope="col" data-row="0" data-col="1">date</th>
+                <th scope="col" data-row="0" data-col="2">year</th>
+                <th scope="col" data-row="0" data-col="3">month</th>
+                <th scope="col" data-row="0" data-col="4">quarter</th>
+                <th scope="col" data-row="0" data-col="5">week</th>
+                <th scope="col" data-row="0" data-col="6">day</th>
+                <th scope="col" data-row="0" data-col="7">margin</th>
+                <th scope="col" data-row="0" data-col="8">mtd_margin</th>
+                <th scope="col" data-row="0" data-col="9">missing_date_indicator</th>
+              </tr></thead>
+<tbody>
+<tr>
+<td data-row="1" data-col="1">2021-05-18</td>
+                  <td data-row="1" data-col="2">2021</td>
+                  <td data-row="1" data-col="3">4</td>
+                  <td data-row="1" data-col="4">2</td>
+                  <td data-row="1" data-col="5">16</td>
+                  <td data-row="1" data-col="6">18</td>
+                  <td data-row="1" data-col="7">406.840</td>
+                  <td data-row="1" data-col="8">406.840</td>
+                  <td data-row="1" data-col="9">0</td>
+                </tr>
+<tr>
+<td data-row="2" data-col="1">2021-05-19</td>
+                  <td data-row="2" data-col="2">2021</td>
+                  <td data-row="2" data-col="3">4</td>
+                  <td data-row="2" data-col="4">2</td>
+                  <td data-row="2" data-col="5">16</td>
+                  <td data-row="2" data-col="6">19</td>
+                  <td data-row="2" data-col="7">711.351</td>
+                  <td data-row="2" data-col="8">1118.191</td>
+                  <td data-row="2" data-col="9">0</td>
+                </tr>
+<tr>
+<td data-row="3" data-col="1">2021-05-20</td>
+                  <td data-row="3" data-col="2">2021</td>
+                  <td data-row="3" data-col="3">4</td>
+                  <td data-row="3" data-col="4">2</td>
+                  <td data-row="3" data-col="5">16</td>
+                  <td data-row="3" data-col="6">20</td>
+                  <td data-row="3" data-col="7">1424.101</td>
+                  <td data-row="3" data-col="8">2542.292</td>
+                  <td data-row="3" data-col="9">0</td>
+                </tr>
+<tr>
+<td data-row="4" data-col="1">2021-05-21</td>
+                  <td data-row="4" data-col="2">2021</td>
+                  <td data-row="4" data-col="3">4</td>
+                  <td data-row="4" data-col="4">2</td>
+                  <td data-row="4" data-col="5">16</td>
+                  <td data-row="4" data-col="6">21</td>
+                  <td data-row="4" data-col="7">11338.631</td>
+                  <td data-row="4" data-col="8">13880.923</td>
+                  <td data-row="4" data-col="9">0</td>
+                </tr>
+<tr>
+<td data-row="5" data-col="1">2021-05-22</td>
+                  <td data-row="5" data-col="2">2021</td>
+                  <td data-row="5" data-col="3">4</td>
+                  <td data-row="5" data-col="4">2</td>
+                  <td data-row="5" data-col="5">16</td>
+                  <td data-row="5" data-col="6">22</td>
+                  <td data-row="5" data-col="7">5358.767</td>
+                  <td data-row="5" data-col="8">19239.690</td>
+                  <td data-row="5" data-col="9">0</td>
+                </tr>
+<tr>
+<td data-row="6" data-col="1">2021-05-23</td>
+                  <td data-row="6" data-col="2">2021</td>
+                  <td data-row="6" data-col="3">4</td>
+                  <td data-row="6" data-col="4">2</td>
+                  <td data-row="6" data-col="5">17</td>
+                  <td data-row="6" data-col="6">23</td>
+                  <td data-row="6" data-col="7">0.000</td>
+                  <td data-row="6" data-col="8">19239.690</td>
+                  <td data-row="6" data-col="9">1</td>
+                </tr>
+<tr>
+<td data-row="7" data-col="1">2021-05-24</td>
+                  <td data-row="7" data-col="2">2021</td>
+                  <td data-row="7" data-col="3">4</td>
+                  <td data-row="7" data-col="4">2</td>
+                  <td data-row="7" data-col="5">17</td>
+                  <td data-row="7" data-col="6">24</td>
+                  <td data-row="7" data-col="7">0.000</td>
+                  <td data-row="7" data-col="8">19239.690</td>
+                  <td data-row="7" data-col="9">1</td>
+                </tr>
+<tr>
+<td data-row="8" data-col="1">2021-05-25</td>
+                  <td data-row="8" data-col="2">2021</td>
+                  <td data-row="8" data-col="3">4</td>
+                  <td data-row="8" data-col="4">2</td>
+                  <td data-row="8" data-col="5">17</td>
+                  <td data-row="8" data-col="6">25</td>
+                  <td data-row="8" data-col="7">792.933</td>
+                  <td data-row="8" data-col="8">20032.623</td>
+                  <td data-row="8" data-col="9">0</td>
+                </tr>
+<tr>
+<td data-row="9" data-col="1">2021-05-26</td>
+                  <td data-row="9" data-col="2">2021</td>
+                  <td data-row="9" data-col="3">4</td>
+                  <td data-row="9" data-col="4">2</td>
+                  <td data-row="9" data-col="5">17</td>
+                  <td data-row="9" data-col="6">26</td>
+                  <td data-row="9" data-col="7">74.550</td>
+                  <td data-row="9" data-col="8">20107.173</td>
+                  <td data-row="9" data-col="9">0</td>
+                </tr>
+<tr>
+<td data-row="10" data-col="1">2021-05-27</td>
+                  <td data-row="10" data-col="2">2021</td>
+                  <td data-row="10" data-col="3">4</td>
+                  <td data-row="10" data-col="4">2</td>
+                  <td data-row="10" data-col="5">17</td>
+                  <td data-row="10" data-col="6">27</td>
+                  <td data-row="10" data-col="7">1432.710</td>
+                  <td data-row="10" data-col="8">21539.883</td>
+                  <td data-row="10" data-col="9">0</td>
+                </tr>
+</tbody>
+</table>
+</div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</section><section class="level4"><h4 id="grouped-analysis-with-a-retail-calendar">Grouped analysis with a retail calendar<a class="anchor" aria-label="anchor" href="#grouped-analysis-with-a-retail-calendar"></a>
+</h4>
+<p>Groups work exactly as they do with the standard calendar. Each group gets a complete fiscal calendar.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">contoso</span><span class="fu">::</span><span class="va"><a href="https://usrbinr.github.io/contoso/reference/sales.html" class="external-link">sales</a></span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">group_by</span><span class="op">(</span><span class="va">store_key</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/qtd.html">qtd</a></span><span class="op">(</span></span>
+<span>    .date <span class="op">=</span> <span class="va">order_date</span>,</span>
+<span>    .value <span class="op">=</span> <span class="va">margin</span>,</span>
+<span>    calendar_type <span class="op">=</span> <span class="st">"445"</span>,</span>
+<span>    fiscal_year_start <span class="op">=</span> <span class="fl">2</span></span>
+<span>  <span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu"><a href="../reference/calculate.html">calculate</a></span><span class="op">(</span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>  <span class="fu">collect</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
+</div>
+</section><section class="level4"><h4 id="comparing-calendar-types">Comparing calendar types<a class="anchor" aria-label="anchor" href="#comparing-calendar-types"></a>
+</h4>
+<p>Below is a side-by-side comparison of how the same date is classified under a standard calendar vs. a 4-4-5 retail calendar:</p>
+<div class="cell">
+<div id="tbl-comparison" class="cell quarto-float quarto-figure quarto-figure-center">
+<figure class="quarto-float quarto-float-tbl"><figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table 1
+</figcaption><div aria-describedby="tbl-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<!-- preamble start -->
+
+    <script src="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.js"></script><script>
+      // Create table-specific functions using external factory
+      const tableFns_3dd61t8z19sztqal23lw = TinyTable.createTableFunctions("tinytable_3dd61t8z19sztqal23lw");
+      // tinytable span after
+      window.addEventListener('load', function () {
+          var cellsToStyle = [
+            // tinytable style arrays after
+          { positions: [ { i: '4', j: 1 }, { i: '4', j: 2 }, { i: '4', j: 3 } ], css_id: 'tinytable_css_8d1z5d06ldvl06ei5p9n',},
+          { positions: [ { i: '0', j: 1 }, { i: '0', j: 2 }, { i: '0', j: 3 } ], css_id: 'tinytable_css_gei0718gcq0594ek2sxz',},
+          ];
+
+          // Loop over the arrays to style the cells
+          cellsToStyle.forEach(function (group) {
+              group.positions.forEach(function (cell) {
+                  tableFns_3dd61t8z19sztqal23lw.styleCell(cell.i, cell.j, group.css_id);
+              });
+          });
+      });
+    </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/vincentarelbundock/tinytable@main/inst/tinytable.css">
+<style>
+    /* tinytable css entries after */
+    #tinytable_3dd61t8z19sztqal23lw td.tinytable_css_8d1z5d06ldvl06ei5p9n, #tinytable_3dd61t8z19sztqal23lw th.tinytable_css_8d1z5d06ldvl06ei5p9n {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 0; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.1em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    #tinytable_3dd61t8z19sztqal23lw td.tinytable_css_gei0718gcq0594ek2sxz, #tinytable_3dd61t8z19sztqal23lw th.tinytable_css_gei0718gcq0594ek2sxz {  position: relative; --border-bottom: 1; --border-left: 0; --border-right: 0; --border-top: 1; --line-color-bottom: black; --line-color-left: black; --line-color-right: black; --line-color-top: black; --line-width-bottom: 0.05em; --line-width-left: 0.1em; --line-width-right: 0.1em; --line-width-top: 0.1em; --trim-bottom-left: 0%; --trim-bottom-right: 0%; --trim-left-bottom: 0%; --trim-left-top: 0%; --trim-right-bottom: 0%; --trim-right-top: 0%; --trim-top-left: 0%; --trim-top-right: 0%;  }
+    </style>
+<div class="container">
+      <table class="table tinytable" id="tinytable_3dd61t8z19sztqal23lw" style="table-layout: fixed; width: 80% !important; margin-left: auto; margin-right: auto;" data-quarto-disable-processing="true">
+<thead><tr>
+<th scope="col" data-row="0" data-col="1">Feature</th>
+                <th scope="col" data-row="0" data-col="2">Standard (2024-03-15)</th>
+                <th scope="col" data-row="0" data-col="3">4-4-5 FY starts Feb (2024-03-15)</th>
+              </tr></thead>
+<tbody>
+<tr>
+<td data-row="1" data-col="1">Year</td>
+                  <td data-row="1" data-col="2">2024</td>
+                  <td data-row="1" data-col="3">2024</td>
+                </tr>
+<tr>
+<td data-row="2" data-col="1">Quarter</td>
+                  <td data-row="2" data-col="2">1</td>
+                  <td data-row="2" data-col="3">1</td>
+                </tr>
+<tr>
+<td data-row="3" data-col="1">Month</td>
+                  <td data-row="3" data-col="2">3</td>
+                  <td data-row="3" data-col="3">2</td>
+                </tr>
+<tr>
+<td data-row="4" data-col="1">Week</td>
+                  <td data-row="4" data-col="2">11</td>
+                  <td data-row="4" data-col="3">7</td>
+                </tr>
+</tbody>
+</table>
+</div>
+<!-- hack to avoid NA insertion in last line -->
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The retail calendar shifts the fiscal boundaries so that every comparable period contains the same number of weeks, enabling cleaner period-over-period comparisons.</p>
+</section></section></section><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
       var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
       var mailtoRegex = new RegExp(/^mailto:/);
