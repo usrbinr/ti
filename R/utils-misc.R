@@ -640,7 +640,20 @@ seq_date_sql <- function(
 
   if(calendar_type=='standard'){
 
-    date_seq_sql <- glue::glue_sql("
+    dialect <- detect_sql_dialect(.con)
+
+    if (dialect == "snowflake") {
+      date_seq_sql <- glue::glue_sql("
+  SELECT
+    DATEADD(day, SEQ4(), {start_date}::DATE)::DATE AS date
+    ,EXTRACT(YEAR FROM DATEADD(day, SEQ4(), {start_date}::DATE)) AS year
+    ,EXTRACT(QUARTER FROM DATEADD(day, SEQ4(), {start_date}::DATE)) AS quarter
+    ,EXTRACT(MONTH FROM DATEADD(day, SEQ4(), {start_date}::DATE)) AS month
+    ,FLOOR((EXTRACT(DOY FROM DATEADD(day, SEQ4(), {start_date}::DATE)) - 1) / 7) + 1 AS week
+  FROM TABLE(GENERATOR(ROWCOUNT => DATEDIFF(day, {start_date}::DATE, {end_date}::DATE) + 1))
+",.con=.con)
+    } else {
+      date_seq_sql <- glue::glue_sql("
   WITH DATE_SERIES AS (
   SELECT
 
@@ -667,6 +680,7 @@ seq_date_sql <- function(
   FROM CALENDAR_TBL
 
 ",.con=.con)
+    }
   }
 
 
@@ -703,6 +717,36 @@ seq_date_sql <- function(
 
 }
 
+
+#' Detect SQL dialect from a DBI connection
+#'
+#' @param .con A DBI connection object
+#' @return A character string: "snowflake", "duckdb", or "postgres"
+#' @keywords internal
+detect_sql_dialect <- function(.con) {
+  cls <- tolower(paste(class(.con), collapse = " "))
+  if (grepl("snowflake", cls)) return("snowflake")
+  if (grepl("duckdb", cls)) return("duckdb")
+  if (grepl("postgres|pq", cls)) return("postgres")
+  return("duckdb") # default fallback
+}
+
+#' Generate dialect-appropriate date addition SQL
+#'
+#' @param .con A DBI connection object
+#' @param unit A character string: "month", "week", etc.
+#' @param n_expr An expression string for the number of units
+#' @param date_col A character string for the date column name
+#' @return A `dplyr::sql` object
+#' @keywords internal
+sql_date_add <- function(.con, unit, n_expr, date_col = "date") {
+  dialect <- detect_sql_dialect(.con)
+  if (dialect == "snowflake") {
+    dplyr::sql(glue::glue("DATEADD({unit}, {n_expr}, {date_col})"))
+  } else {
+    dplyr::sql(glue::glue("{date_col} + INTERVAL '1 {unit}' * {n_expr}"))
+  }
+}
 
 utils::globalVariables(
   c(

@@ -289,10 +289,12 @@ pqtd_fn <- function(x){
 
   full_dbi <- create_full_dbi(x)
 
+  .con <- dbplyr::remote_con(full_dbi)
+
   lag_dbi <- full_dbi |>
     dbplyr::window_order(date,quarter,year) |>
     dplyr::mutate(
-      date_lag=as.Date(dplyr::sql(glue::glue("date + INTERVAL '3 months' * {lag_n_vec}")))
+      date_lag=as.Date(sql_date_add(.con, "month", glue::glue("3 * {lag_n_vec}")))
     ) |>
     dplyr::mutate(
       !!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
@@ -514,11 +516,13 @@ pmtd_fn <- function(x){
   full_dbi <- create_full_dbi(x) |>
     dplyr::select(-c(missing_date_indicator))
 
+  .con <- dbplyr::remote_con(full_dbi)
+
   # create lag table
   lag_dbi <- full_dbi |>
     dbplyr::window_order(date) |>
     dplyr::mutate(
-      date_lag=as.Date(dplyr::sql(glue::glue("date + INTERVAL '1 months' * {lag_n_vec}")))
+      date_lag=as.Date(sql_date_add(.con, "month", lag_n_vec))
       ,!!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
       ,.by=c(year,month,!!!x@datum@group_quo)
     ) |>
@@ -748,11 +752,13 @@ pwtd_fn <- function(x){
   full_dbi <- create_full_dbi(x) |>
     dplyr::select(-c(missing_date_indicator))
 
+  .con <- dbplyr::remote_con(full_dbi)
+
   # create lag table
   lag_dbi <- full_dbi|>
     dbplyr::window_order(date) |>
     dplyr::mutate(
-      date_lag=as.Date(dplyr::sql(glue::glue("date + INTERVAL '1 weeks' * {lag_n_vec}")))
+      date_lag=as.Date(sql_date_add(.con, "week", lag_n_vec))
       ,!!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
       ,.by=c(year,month,week,!!!x@datum@group_quo)
     ) |>
