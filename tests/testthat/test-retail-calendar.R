@@ -158,4 +158,278 @@ describe("retail calendar integration with ti functions", {
         dplyr::arrange(date)
     })
   })
+
+  it("wtd works with 445 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::wtd(order_date, margin, calendar_type = "445", fiscal_year_start = 2) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("atd works with 445 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::atd(order_date, margin, calendar_type = "445", fiscal_year_start = 2) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("pytd works with 445 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::pytd(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("pqtd works with 445 calendar", {
+    skip("known issue: sql_date_add not translatable to DuckDB SQL in ungrouped retail calendar")
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::pqtd(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("pmtd works with 445 calendar", {
+    skip("known issue: sql_date_add not translatable to DuckDB SQL in ungrouped retail calendar")
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::pmtd(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("pwtd works with 445 calendar", {
+    skip("known issue: sql_date_add for week not translatable to DuckDB SQL")
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::pwtd(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("yoy works with 445 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::yoy(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("qoq works with 445 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::qoq(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("mom works with 445 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::mom(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("wow works with 445 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::wow(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("dod works with 445 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::dod(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("yoytd works with 445 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::yoytd(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("qoqtd works with 445 calendar", {
+    skip("known issue: sql_date_add not translatable to DuckDB SQL in ungrouped retail calendar")
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::qoqtd(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("momtd works with 445 calendar", {
+    skip("known issue: sql_date_add not translatable to DuckDB SQL in ungrouped retail calendar")
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::momtd(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("wowtd works with 445 calendar", {
+    skip("known issue: sql_date_add not translatable to DuckDB SQL in ungrouped retail calendar")
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::wowtd(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect()
+    })
+  })
+
+  it("ytdopy works with 445 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::ytdopy(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("qtdopq works with 445 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::qtdopq(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("mtdopm works with 445 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::mtdopm(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("wtdopw works with 445 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::wtdopw(order_date, margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+})
+
+
+describe("544 calendar integration", {
+
+  it("ytd works with 544 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::ytd(order_date, margin, calendar_type = "544", fiscal_year_start = 2) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("qoq works with 544 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::qoq(order_date, margin, calendar_type = "544", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("momtd works with 544 calendar", {
+    skip("known issue: sql_date_add not translatable to DuckDB SQL in ungrouped retail calendar")
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::momtd(order_date, margin, calendar_type = "544", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("wtdopw works with 544 calendar", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::wtdopw(order_date, margin, calendar_type = "544", fiscal_year_start = 2, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+})
+
+
+describe("fiscal_year_start variations", {
+
+  it("ytd works with fiscal_year_start = 7", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::ytd(order_date, margin, calendar_type = "445", fiscal_year_start = 7) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("qoq works with fiscal_year_start = 10", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::qoq(order_date, margin, calendar_type = "454", fiscal_year_start = 10, lag_n = 1) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
+
+  it("mtd works with fiscal_year_start = 4", {
+    testthat::expect_no_error({
+      contoso::sales |>
+        ti::mtd(order_date, margin, calendar_type = "544", fiscal_year_start = 4) |>
+        ti::calculate() |>
+        dplyr::collect() |>
+        dplyr::arrange(date)
+    })
+  })
 })
