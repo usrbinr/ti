@@ -1,4 +1,4 @@
-# Month-over-month vs. prior full momth execution function
+# Month-to-date over full previous month execution function
 
 `mtdopm_fn()` is the function that is called by
 [`mtdopm()`](https://codeberg.org/usrbinr/ti/reference/mtdopm.md) when

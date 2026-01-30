@@ -1,4 +1,4 @@
-# Previous month-to-date for tibble objects
+# Previous week-to-date execution function
 
 `pwtd_fn()` is the function that is called by
 [`pwtd()`](https://codeberg.org/usrbinr/ti/reference/pwtd.md) when

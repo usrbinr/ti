@@ -46,10 +46,12 @@
 <url><loc>https://codeberg.org/usrbinr/ti/reference/create_non_standard_month.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/customer.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/date.html</loc></url>
+<url><loc>https://codeberg.org/usrbinr/ti/reference/detect_sql_dialect.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/dod.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/dod_fn.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/fx.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/generate_cli_action.html</loc></url>
+<url><loc>https://codeberg.org/usrbinr/ti/reference/generate_retail_calendar.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/index.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/is_yyyy_mm_dd.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/make_action_cli.html</loc></url>
@@ -69,6 +71,7 @@
 <url><loc>https://codeberg.org/usrbinr/ti/reference/print.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/print.ti.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/print_actions_steps.html</loc></url>
+<url><loc>https://codeberg.org/usrbinr/ti/reference/print_calendar_info.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/print_fn_info.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/print_next_steps.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/product.html</loc></url>
@@ -86,6 +89,7 @@
 <url><loc>https://codeberg.org/usrbinr/ti/reference/qtdopq_fn.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/sales.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/seq_date_sql.html</loc></url>
+<url><loc>https://codeberg.org/usrbinr/ti/reference/sql_date_add.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/store.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/wow.html</loc></url>
 <url><loc>https://codeberg.org/usrbinr/ti/reference/wow_fn.html</loc></url>

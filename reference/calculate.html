@@ -66,7 +66,7 @@ It translates the function blueprint into an actionable query, returning the fin
     </div>
     <div class="section level2">
     <h2 id="details">Details<a class="anchor" aria-label="anchor" href="#details"></a></h2>
-    <p>The TI and segment functions in <strong>fpaR</strong>—such as <code><a href="ytd.html">ytd()</a></code> or <code><a href="cohort.html">cohort()</a></code> and others—are designed to be <strong>lazy and database-friendly</strong>.
+    <p>The TI and segment functions in <strong>ti</strong>—such as <code><a href="ytd.html">ytd()</a></code> or <code><a href="cohort.html">cohort()</a></code> and others—are designed to be <strong>lazy and database-friendly</strong>.
 They do not perform the heavy data transformation immediately.
 Instead, they return a blueprint object (of class <code>ti</code>,<code>segment_abc</code> or <code>segment_cohort</code>) that contains all the parameters and logic needed for the calculation.</p>
 <p><strong><code>calculate()</code></strong> serves as the <strong>execution engine</strong>.</p>

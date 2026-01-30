@@ -1,4 +1,4 @@
-# Current year-to-date over previous period year-to-date eeecution function
+# Current year-to-date over previous period year-to-date execution function
 
 `yoy_fn()` is the function that is called by
 [`yoy()`](https://codeberg.org/usrbinr/ti/reference/yoy.md) when passed

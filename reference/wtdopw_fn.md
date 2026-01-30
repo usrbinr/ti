@@ -1,4 +1,4 @@
-# Year-over-year
+# Week-to-date over full previous week execution function
 
 `wtdopw_fn()` is the function that is called by
 [`wtdopw()`](https://codeberg.org/usrbinr/ti/reference/wtdopw.md) when

@@ -74,11 +74,11 @@ contoso::sales |>
 
     This calculates a rolling cumulative distribution of variable and segments each
     group member's contribution by the break points provided. Helpful to know which
-    group member's proportational contribution to the total.
+    group member's proportional contribution to the total.
 
     ── Category Information ──
 
-    • The data set is summarized by store_key and then sums each group member's margin contribution of the total margin and then finally calculates each groups rolling cumulative porportion of the total
+    • The data set is summarized by store_key and then sums each group member's margin contribution of the total margin and then finally calculates each groups rolling cumulative proportion of the total
     • Then cumulative distribution was then arranged from lowest to highest and finally classified into 4 break points 40%, 70%, 90%, 100%  and labelled into the following categories a, b, c, d
 
     ── Actions: ──
@@ -89,7 +89,7 @@ contoso::sales |>
 
     ✖Compare
 
-    ✔Proportion Of Total
+    ✔Proportion of Total
 
     ✖Count Distinct
 
