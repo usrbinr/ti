@@ -28,7 +28,7 @@ options(crayon.enabled = TRUE)
 
 Simply pass your data in either a tibble or a lazy DBI object to the time intelligence function and input the required arguments.
 
-We will use `mtd()` function to calculate the month-to-date sum of contoso's company' margin from their sales dataset (`contoso::sales`).
+We will use `mtd()` function to calculate the month-to-date sum of Contoso's margin from their sales dataset (`contoso::sales`).
 
 Most time intelligence functions follow the same structure:
 
@@ -232,7 +232,7 @@ contoso::sales |>
 
 
 
-### Issues 3: larger than memory
+### Issue 3: Larger than memory
 
 If your data isn't already in a database then ti will leverage duckdb to convert your data to enable larger than memory calculation. 
 

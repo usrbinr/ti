@@ -89,8 +89,10 @@ build_ti <- function(
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' ytd(sales,.date=order_date,.value=quantity,calendar_type="standard")
+#' }
 ytd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -127,8 +129,10 @@ ytd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1)
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' pytd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+#' }
 pytd <- function(.data,.date,.value,calendar_type='standard',lag_n,fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -165,8 +169,10 @@ pytd <- function(.data,.date,.value,calendar_type='standard',lag_n,fiscal_year_s
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' yoytd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+#' }
 yoytd <- function(.data,.date,.value,calendar_type='standard',lag_n,fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -207,8 +213,10 @@ yoytd <- function(.data,.date,.value,calendar_type='standard',lag_n,fiscal_year_
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' yoy(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
+#' }
 yoy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -246,8 +254,10 @@ yoy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_
 #' @returns ti object
 #' @export
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' ytdopy(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
+#' }
 ytdopy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -290,8 +300,10 @@ ytdopy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_ye
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' qtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
+#' }
 qtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -327,8 +339,10 @@ qtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1)
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' pqtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+#' }
 pqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -366,8 +380,10 @@ pqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' qoqtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+#' }
 qoqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -406,8 +422,10 @@ qoqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_yea
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' qtdopq(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
+#' }
 qtdopq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -446,8 +464,10 @@ qtdopq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_ye
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' qoq(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
+#' }
 qoq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -490,8 +510,10 @@ qoq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_
 #' @returns ti object
 #' @export
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' mtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
+#' }
 mtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -527,8 +549,10 @@ mtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1)
 #' @returns ti object
 #' @export
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' pmtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+#' }
 pmtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -564,8 +588,10 @@ pmtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year
 #' @returns ti object
 #' @export
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' momtd(sales,.date=order_date,.value=quantity,calendar_type="standard", lag_n=1)
+#' }
 momtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -606,8 +632,10 @@ momtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_yea
 #' @export
 #'
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' mtdopm(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+#' }
 mtdopm <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -645,8 +673,10 @@ mtdopm <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_ye
 #' @returns ti object
 #' @export
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' mom(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
+#' }
 mom <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -726,8 +756,10 @@ wtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1)
 #' @returns ti object
 #' @export
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' pwtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+#' }
 pwtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -765,8 +797,10 @@ pwtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year
 #' @returns ti object
 #' @export
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' wowtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+#' }
 wowtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -805,8 +839,10 @@ wowtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_yea
 #' @returns ti object
 #' @export
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' wtdopw(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+#' }
 wtdopw <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
   build_ti(
     .data          = .data,
@@ -845,8 +881,10 @@ wtdopw <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_ye
 #' @returns ti object
 #' @export
 #' @examples
+#' \dontrun{
 #' library(contoso)
 #' wow(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
+#' }
 wow <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
   build_ti(
     .data          = .data,

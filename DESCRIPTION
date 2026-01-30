@@ -1,9 +1,9 @@
 Package: ti
 Title: Common Business Intelligence Functions for Financial Planning & Work
 Description: Tools for financial planning analysis. ti provides functions for calculating financial metrics, analyzing time series data, and generating reports.
-Version: 1.0.0
+Version: 3.0.0
 Authors@R: 
-    person("Alejandro", "Hagan", , "alejandro.hagan@outlook.com", role = c("aut", "cre"))
+    person("Alejandro", "Hagan", "alejandro.hagan@outlook.com", role = c("aut", "cre"))
 License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
@@ -37,4 +37,3 @@ Depends:
     R (>= 3.5)
 URL: https://codeberg.org/usrbinr/ti
 Repository: codeberg
-
