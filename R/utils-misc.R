@@ -53,15 +53,6 @@ make_action_cli <- function(x){
 
   out <- list()
 
-  # if(any(x %in% c("aggregate"))){
-  #
-  #   out$aggregate <- paste0(cli::col_green(cli::symbol$tick)," Aggregate")
-  #
-  # }else{
-  #
-  #   out$aggregate <- c(cli::col_red(cli::symbol$cross),"Aggregate")
-  # }
-
   out[1] <- generate_cli_action(x,"aggregate")
 
   out[2] <- generate_cli_action(x,"shift")
@@ -91,6 +82,22 @@ print_fn_info <- function(x) {
   cli::cli_h2("Description:")
   cli::cli_par()
   cli::cli_text(x@action@method)
+}
+
+#' Print calendar information block
+#'
+#' @param x ti or segment obj
+#'
+#' @returns print
+#' @keywords internal
+print_calendar_info <- function(x) {
+  cli::cli_h2("Calendar:")
+  cli::cat_bullet(paste("The calendar aggregated",cli::col_br_magenta(x@datum@date_vec),"to the",cli::col_yellow(x@time_unit@value),"time unit"))
+  cli::cat_bullet("A ",cli::col_br_red(x@datum@calendar_type)," calendar is created with ",cli::col_green(x@datum@group_count," groups"))
+  cli::cat_bullet(paste("Calendar ranges from",cli::col_br_green(x@datum@min_date),"to",cli::col_br_green(x@datum@max_date)))
+  cli::cat_bullet(paste(cli::col_blue(x@datum@date_missing),"days were missing and replaced with 0"))
+  cli::cat_bullet("New date column ",paste(cli::col_br_red(x@fn@new_date_column_name), collapse = ", ")," was created from ",cli::col_br_magenta(x@datum@date_vec))
+  cli::cat_line("")
 }
 
 #' Prints functions next steps
@@ -249,7 +256,6 @@ augment_standard_calendar_tbl <- function(.data,.date){
       ,days_complete_in_year={{.date}}-year_start_date
       ,days_complete_in_quarter={{.date}}-quarter_start_date
       ,days_complete_in_month={{.date}}-month_start_date
-      ,days_complete_in_year={{.date}}-year_start_date
 
       ,weekend_indicator=dplyr::if_else(day_of_week_label %in% c("Saturday","Sunday"),1,0)
     ) |>
@@ -325,7 +331,7 @@ out <-
     ,month_start_date=lubridate::floor_date({{.date}},unit = "month")
     ,month_end_date=dplyr::sql(glue::glue("date_trunc('month', {date_vec}) + INTERVAL '1' month"))
     ,week_start_date=lubridate::floor_date({{.date}},unit = "week")
-    ,week_end_date=dplyr::sql(glue::glue("date_trunc('month', {date_vec}) + INTERVAL '1' month"))
+    ,week_end_date=dplyr::sql(glue::glue("date_trunc('week', {date_vec}) + INTERVAL '1' week"))
     ,day_of_week=lubridate::wday({{.date}},label = FALSE)
     ,day_of_week_label=lubridate::wday({{.date}},label = TRUE)
     ,day_of_year=lubridate::day({{.date}})
@@ -343,7 +349,6 @@ out <-
     ,days_complete_in_year={{.date}}-year_start_date
     ,days_complete_in_quarter={{.date}}-quarter_start_date
     ,days_complete_in_month={{.date}}-month_start_date
-    ,days_complete_in_year={{.date}}-year_start_date
     ,weekend_indicator=dplyr::if_else(day_of_week_label %in% c("Saturday","Sunday"),1,0)
   ) |>
  dplyr::mutate(
@@ -624,7 +629,7 @@ seq_date_sql <- function(
 
   # assertthat::assert_that(assertthat::is.string(start_date), msg = "start_date must be a string (YYYY-MM-DD)")
 
-  assertthat::assert_that(any(time_unit %in% c("day", "month","quarter", "week","year")),msg = "time_unit must be one of: 'day', 'week','quarter, 'month' or 'year'")
+  assertthat::assert_that(any(time_unit %in% c("day", "month","quarter", "week","year")),msg = "time_unit must be one of: 'day', 'week', 'quarter', 'month' or 'year'")
 
   # assertthat::assert_that(assertthat::is.string(end_date), msg = "end_date must be a string (YYYY-MM-DD)")
 
@@ -725,15 +730,8 @@ utils::globalVariables(
     "order_date",
     "quantity",
     "fn_name_lower",
-    "test",
-    ".cluster",
-    "centers_input",
-    "kmeans_models",
-    "kmeans_results",
-    "tot.withinss",
     "sql",
     "quarter",
-    "quater",
     "date_lag",
     "month",
     "week",

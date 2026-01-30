@@ -21,7 +21,7 @@ pwtd(.data, .date, .value, calendar_type = "standard", lag_n = 1)
 ti object
 }
 \description{
-This calculates the monthly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+This calculates the weekly cumulative sum of targeted value for the previous week using a standard or 5-5-4 calendar respecting
 any groups that are passed through with \code{\link[dplyr:group_by]{dplyr::group_by()}}
 
 Use \link{calculate} to return the results

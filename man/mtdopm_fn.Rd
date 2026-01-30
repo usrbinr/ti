@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_intelligence_fn.R
 \name{mtdopm_fn}
 \alias{mtdopm_fn}
-\title{Month-over-month vs. prior full momth execution function}
+\title{Month-to-date over full previous month execution function}
 \usage{
 mtdopm_fn(x)
 }

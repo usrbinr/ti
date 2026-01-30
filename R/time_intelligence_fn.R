@@ -56,16 +56,6 @@ ytd_fn <- function(x){
 pytd_fn <- function(x){
 
 
-  # x <- fpaR::pytd(.data =sales ,.date = order_date,.value = margin,calendar_type = "standard",lag_n = 2)
-
-
-  # create calendar table
-  # full_dbi <-  create_calendar(x) |>
-  #   dplyr::mutate(
-  #     year=lubridate::year(date)
-  #     ,.before = 1
-  #   )
-
   full_dbi <- create_full_dbi(x)
 
   # create lag table
@@ -103,7 +93,7 @@ pytd_fn <- function(x){
 }
 
 
-#' @title Current year to date over previous year-to-date exection function
+#' @title Current year to date over previous year-to-date execution function
 #' @name yoytd_fn
 #' @param x ti object
 #' @description
@@ -156,7 +146,7 @@ yoytd_fn <- function(x){
 }
 
 
-#' @title Current year-to-date over previous period year-to-date eeecution function
+#' @title Current year-to-date over previous period year-to-date execution function
 #' @name yoy_fn
 #' @param x ti object
 #' @description
@@ -170,14 +160,8 @@ yoytd_fn <- function(x){
 #' @keywords internal
 yoy_fn <- function(x){
 
-  # create calendar
-  # full_dbi <-  create_calendar(x)
-
-
-
 
   full_dbi <- create_full_dbi(x)
-    # dplyr::select(-c(year))
 
   # create lag
   lag_dbi <-
@@ -187,8 +171,6 @@ yoy_fn <- function(x){
     dplyr::mutate(
       date_lag=dplyr::lead(date,n = !!x@fn@lag_n)
       ,!!x@value@new_column_name_vec:=!!x@value@value_quo
-      # ,days_in_current_period=sql("day(last_day(date))")
-      # , days_in_previous_period=sql("day(last_day(date_lag))")
       ,.by=c(!!!x@datum@group_quo)
     ) |>
     dplyr::select(-c(date,!!x@value@value_quo,missing_date_indicator))
@@ -272,15 +254,6 @@ ytdopy_fn <- function(x){
 #' @keywords internal
 qtd_fn <- function(x){
 
-# x <- fpaR::qtd(.data,.date = order_date,.value = margin,calendar_type = "standard")
-
-  # full_dbi <-  create_calendar(x) |>
-  #   dplyr::mutate(
-  #     year=lubridate::year(date)
-  #     ,quarter=lubridate::quarter(date)
-  #     ,.before = 1
-  #   )
-
   full_dbi <- create_full_dbi(x)
 
     out_dbi <- full_dbi |>
@@ -313,15 +286,6 @@ pqtd_fn <- function(x){
 
 
  lag_n_vec <-  x@fn@lag_n |> rlang::as_label()
-
-  # create calendar table
-
-  # full_dbi <-  create_calendar(x) |>
-  #   dplyr::mutate(
-  #     year=lubridate::year(date)
-  #     ,quarter=lubridate::quarter(date)
-  #     ,.before = 1
-  #   )
 
   full_dbi <- create_full_dbi(x)
 
@@ -426,9 +390,6 @@ qtd_dbi <- qtd(.data=x@datum@data,.date=!!x@datum@date_quo,.value = !!x@value@va
 #' @keywords internal
 qoq_fn <- function(x){
 
-  # create calendar
-  # full_dbi <-  fpaR::create_calendar(x)
-
   full_dbi <- create_full_dbi(x)
 
   # create lag
@@ -515,14 +476,6 @@ qtdopq_fn <- function(x){
 #' @keywords internal
 mtd_fn <- function(x){
 
-#
-#   full_dbi <-  create_calendar(x) |>
-#     dplyr::mutate(
-#       year=lubridate::year(date)
-#       ,month=lubridate::month(date)
-#       ,.before = 1
-#     )
-
   full_dbi <- create_full_dbi(x)
 
   out_dbi <- full_dbi |>
@@ -555,21 +508,8 @@ mtd_fn <- function(x){
 pmtd_fn <- function(x){
 
 
-  # x <- pmtd(sales,order_date,quantity,calendar_type = "standard",lag_n = 1)
-
-
  lag_n_vec <-  x@fn@lag_n |>
    rlang::as_label()
-  # create calendar table
-
-  # full_dbi <-  create_calendar(x) |>
-  #   dplyr::mutate(
-  #     year=lubridate::year(date)
-  #     ,month=lubridate::month(date)
-  #     ,.before = 1
-  #   ) |>
-  #   dplyr::select(-c(missing_date_indicator))
-
 
   full_dbi <- create_full_dbi(x) |>
     dplyr::select(-c(missing_date_indicator))
@@ -674,10 +614,7 @@ momtd_fn <- function(x){
 #' @keywords internal
 mom_fn <- function(x){
 
-  # full_dbi <-  create_calendar(x)
-
   full_dbi <- create_full_dbi(x)
-
 
   # create lag
   lag_dbi <- full_dbi |>
@@ -686,8 +623,6 @@ mom_fn <- function(x){
     dplyr::mutate(
       date_lag=dplyr::lead(date,n = !!x@fn@lag_n)
       ,!!x@value@new_column_name_vec:=!!x@value@value_quo
-      # ,days_in_current_period=sql("day(last_day(date))")
-      # ,days_in_previous_period=sql("day(last_day(date_lag))")
       ,.by=c(!!!x@datum@group_quo)
     ) |>
     dplyr::select(-c(date,!!x@value@value_quo,missing_date_indicator))
@@ -707,7 +642,7 @@ mom_fn <- function(x){
 
 }
 
-#' Month-over-month vs. prior full momth execution function
+#' Month-to-date over full previous month execution function
 #' @name mtdopm_fn
 #' @param x ti object
 #' @description
@@ -761,7 +696,7 @@ mtdopm_fn <- function(x){
 
 ## week related functions-----------------
 
-#' Week-to-date execution fucntion
+#' Week-to-date execution function
 #' @name wtd_fn
 #' @param x ti object
 #' @description
@@ -775,17 +710,7 @@ mtdopm_fn <- function(x){
 #' @keywords internal
 wtd_fn <- function(x){
 
-  # full_dbi <-  create_calendar(x) |>
-  #   dplyr::mutate(
-  #     year=lubridate::year(date)
-  #     ,month=lubridate::month(date)
-  #     ,week=dplyr::sql("DATE_PART('week',date)")
-  #     ,.before = 1
-  #   )
-
   full_dbi <- create_full_dbi(x)
-
-
 
   out_dbi <- full_dbi |>
     dbplyr::window_order(date) |>
@@ -804,7 +729,7 @@ wtd_fn <- function(x){
 
 
 
-#' Previous month-to-date for tibble objects
+#' Previous week-to-date execution function
 #' @name pwtd_fn
 #' @param x ti object
 #' @description
@@ -820,18 +745,6 @@ pwtd_fn <- function(x){
 
  lag_n_vec <-  x@fn@lag_n |> rlang::as_label()
 
-  # create calendar table
-
-  # full_dbi <-  create_calendar(x) |>
-  #   dplyr::mutate(
-  #     year=lubridate::year(date)
-  #     ,month=lubridate::month(date)
-  #     ,week=dplyr::sql("DATE_PART('week',date)")
-  #     ,.before = 1
-  #   )
-
-
-
   full_dbi <- create_full_dbi(x) |>
     dplyr::select(-c(missing_date_indicator))
 
@@ -841,7 +754,6 @@ pwtd_fn <- function(x){
     dplyr::mutate(
       date_lag=as.Date(dplyr::sql(glue::glue("date + INTERVAL '1 weeks' * {lag_n_vec}")))
       ,!!x@value@new_column_name_vec:=cumsum(!!x@value@value_quo)
-      # ,week_lag=dplyr::sql("DATE_PART('week',date_lag)")
       ,.by=c(year,month,week,!!!x@datum@group_quo)
     ) |>
     dplyr::select(-c(date,month,year,week,!!x@value@value_quo))
@@ -870,7 +782,7 @@ pwtd_fn <- function(x){
 }
 
 
-#' Current year to date over previous year-to-date for tibble objects
+#' Week-to-date over previous week-to-date execution function
 #' @name wowtd_fn
 #' @param x ti object
 #' @description
@@ -901,9 +813,6 @@ wowtd_fn <- function(x){
     dplyr::group_by(!!!x@datum@group_quo) |>
     pwtd(.data = _,.date = !!x@datum@date_quo,.value = !!x@value@value_quo,calendar_type = x@datum@calendar_type,lag_n=x@fn@lag_n) |>
     calculate()
-    # dplyr::rename(
-    #   !!x@value@second_column_name:=!!x@value@new_column_name_quo
-    # )
 
   # join tables together
 
@@ -936,10 +845,6 @@ wowtd_fn <- function(x){
 wow_fn <- function(x){
 
 
-  # full_dbi <-  create_calendar(x)
-
-
-
 
   full_dbi <- create_full_dbi(x)
 
@@ -967,7 +872,7 @@ wow_fn <- function(x){
 
 }
 
-#' Year-over-year
+#' Week-to-date over full previous week execution function
 #' @name wtdopw_fn
 #' @param x ti object
 #' @description
@@ -1029,9 +934,6 @@ wtdopw_fn <- function(x){
 #' @keywords internal
 atd_fn <- function(x){
 
-  # full_dbi <-  create_calendar(x)
-
-
   full_dbi <- create_full_dbi(x)
 
   out_dbi<- full_dbi |>
@@ -1056,13 +958,12 @@ atd_fn <- function(x){
 #' @seealso [dod()] for the function's intent
 #' @details
 #' This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
-#'by [calculate]
+#' by [calculate]
 #' This will return a dbi object that can converted to a tibble object with [dplyr::collect()]
 #' @returns dbi object
 #' @keywords internal
 dod_fn <- function(x){
 
-  # full_dbi <-  create_calendar(x)
   full_dbi <- create_full_dbi(x)
 
   lag_dbi <- full_dbi |>

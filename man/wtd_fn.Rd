@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_intelligence_fn.R
 \name{wtd_fn}
 \alias{wtd_fn}
-\title{Week-to-date execution fucntion}
+\title{Week-to-date execution function}
 \usage{
 wtd_fn(x)
 }

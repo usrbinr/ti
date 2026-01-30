@@ -61,7 +61,7 @@ action <- S7::new_class(
 )
 
 
-# create data class to capture metadatae ---------------
+# create data class to capture metadata ---------------
 
 datum <- S7::new_class(
   name="datum"
@@ -206,7 +206,7 @@ datum <- S7::new_class(
       ,group_indicator=S7::new_property(
         class=S7::class_logical
         ,getter=\(self){
-          x <- dplyr::if_else(!purrr::is_empty(dplyr::groups(self@data)),TRUE,FALSE)
+          x <- dplyr::if_else(length(dplyr::groups(self@data)) != 0L,TRUE,FALSE)
           x
         }
       )
@@ -281,6 +281,7 @@ value <- S7::new_class(
 
 fn <- S7::new_class(
   "fn"
+  ,package = "ti"
   ,properties = list(
     fn_exec=S7::class_function
     ,fn_name=S7::new_property(
@@ -357,7 +358,7 @@ category <- S7::new_class(
   ,package = "ti"
   ,properties = list(
     category_values=S7::new_property(
-      class=S7:::class_numeric
+      class=S7::class_numeric
       ,default=c(.7,.96,1)
       ,validator = \(value){
         if(assertthat::assert_that(all(value<=1),msg = cli::format_error("Please ensure the category_values are less than or equal to 1"))){}

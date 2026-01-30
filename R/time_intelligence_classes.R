@@ -136,7 +136,7 @@ pytd <- function(.data,.date,.value,calendar_type='standard',lag_n){
 yoytd <- function(.data,.date,.value,calendar_type='standard',lag_n){
 
 
-  # Vali.date inputs
+  # Validate inputs
 
   # assigns inputs to yoytd class
 
@@ -285,7 +285,7 @@ ytdopy <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @name qtd
 #' @inheritParams ytd
 #' @description
-#' This calculates the full year value compared to the previous year value using a standard or 5-5-4 calendar respecting
+#' This calculates the quarterly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
 #' any groups that are passed through with [dplyr::group_by()]
 #'
 #' Use [calculate] to return the results
@@ -797,7 +797,7 @@ mom <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @name wtd
 #' @inheritParams ytd
 #' @description
-#' This calculates the monthly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+#' This calculates the weekly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
 #' any groups that are passed through with [dplyr::group_by()]
 #'
 #' Use [calculate] to return the results
@@ -848,7 +848,7 @@ wtd <- function(.data,.date,.value,calendar_type='standard'){
 #' @name pwtd
 #' @inheritParams pytd
 #' @description
-#' This calculates the monthly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+#' This calculates the weekly cumulative sum of targeted value for the previous week using a standard or 5-5-4 calendar respecting
 #' any groups that are passed through with [dplyr::group_by()]
 #'
 #' Use [calculate] to return the results
@@ -900,7 +900,7 @@ pwtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @name wowtd
 #' @inheritParams pytd
 #' @description
-#' This calculates the monthly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+#' This calculates the weekly cumulative sum of targeted value and compares it with the previous week's cumulative sum using a standard or 5-5-4 calendar respecting
 #' any groups that are passed through with [dplyr::group_by()]
 #'
 #' Use [calculate] to return the results
@@ -913,7 +913,7 @@ pwtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' wowtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 wowtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 
-  # Vali.date inputs
+  # Validate inputs
 
   out <- ti(
     datum(
@@ -952,7 +952,7 @@ wowtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @name wtdopw
 #' @inheritParams pytd
 #' @description
-#' This calculates the monthly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+#' This calculates the weekly cumulative sum of targeted value and compares it with the full previous week's total using a standard or 5-5-4 calendar respecting
 #' any groups that are passed through with [dplyr::group_by()]
 #'
 #' Use [calculate] to return the results
@@ -981,7 +981,7 @@ wtdopw <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
     )
     ,value=value(
       value_vec = rlang::as_label(rlang::enquo(.value))
-      ,new_column_name_vec  = "wtwopw"
+      ,new_column_name_vec  = "wtdopw"
     )
     ,fn=fn(
       new_date_column_name = c("date","year","month","week")
@@ -1003,7 +1003,7 @@ wtdopw <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @name wow
 #' @inheritParams pytd
 #' @description
-#' This calculates the monthly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+#' This calculates the full week value compared to the previous week value using a standard or 5-5-4 calendar respecting
 #' any groups that are passed through with [dplyr::group_by()]
 #'
 #' Use [calculate] to return the results
@@ -1056,7 +1056,7 @@ wow <- function(.data,.date,.value,calendar_type='standard',lag_n=1){
 #' @name atd
 #' @inheritParams ytd
 #' @description
-#' This calculates the monthly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+#' This calculates the all-time cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
 #' any groups that are passed through with [dplyr::group_by()]
 #'
 #' Use [calculate] to return the results
@@ -1108,7 +1108,7 @@ atd <- function(.data,.date,.value,calendar_type='standard'){
 #' @name dod
 #' @inheritParams pytd
 #' @description
-#' This calculates the monthly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+#' This calculates the daily value compared to the previous day's value using a standard or 5-5-4 calendar respecting
 #' any groups that are passed through with [dplyr::group_by()]
 #'
 #' Use [calculate] to return the results

@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_intelligence_fn.R
 \name{wowtd_fn}
 \alias{wowtd_fn}
-\title{Current year to date over previous year-to-date for tibble objects}
+\title{Week-to-date over previous week-to-date execution function}
 \usage{
 wowtd_fn(x)
 }

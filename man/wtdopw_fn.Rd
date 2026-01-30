@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_intelligence_fn.R
 \name{wtdopw_fn}
 \alias{wtdopw_fn}
-\title{Year-over-year}
+\title{Week-to-date over full previous week execution function}
 \usage{
 wtdopw_fn(x)
 }

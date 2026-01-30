@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_intelligence_fn.R
 \name{pwtd_fn}
 \alias{pwtd_fn}
-\title{Previous month-to-date for tibble objects}
+\title{Previous week-to-date execution function}
 \usage{
 pwtd_fn(x)
 }

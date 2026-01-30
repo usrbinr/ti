@@ -19,7 +19,7 @@ qtd(.data, .date, .value, calendar_type = "standard")
 ti object
 }
 \description{
-This calculates the full year value compared to the previous year value using a standard or 5-5-4 calendar respecting
+This calculates the quarterly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
 any groups that are passed through with \code{\link[dplyr:group_by]{dplyr::group_by()}}
 
 Use \link{calculate} to return the results

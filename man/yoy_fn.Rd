@@ -2,7 +2,7 @@
 % Please edit documentation in R/time_intelligence_fn.R
 \name{yoy_fn}
 \alias{yoy_fn}
-\title{Current year-to-date over previous period year-to-date eeecution function}
+\title{Current year-to-date over previous period year-to-date execution function}
 \usage{
 yoy_fn(x)
 }

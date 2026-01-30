@@ -24,12 +24,6 @@
 #'
 abc <- function(.data,category_values,.value){
 
-  # capture value as text
-    # .data <- sales |> group_by(customer_key)
-    # value_vec <- value_vec <- deparse(substitute(margin))
-    # category_values <- c(.4,.7,.8,.96,1)
-
-
   if(!missing(.value)){
 
   value_vec <- deparse(substitute(.value))
@@ -57,7 +51,7 @@ abc <- function(.data,category_values,.value){
       value = c("proportion of total","Aggregate")
       ,method= "This calculates a rolling cumulative distribution of variable
       and segments each group member's contribution by the break points provided.
-      Helpful to know which group member's proportational contribution to the total.
+      Helpful to know which group member's proportional contribution to the total.
       ")
     )
 
@@ -82,14 +76,6 @@ return(x)
 #' @return a dbi objection
 #' @keywords internal
 abc_fn <- function(x){
-
-  #example
-
-  # .data <- fpaR::sales |>
-  #   group_by(customer_key)
-  # value_chr <- "margin"
-  # category_values <- c(.2,.5,.3)
-  # fn="n"
 
   # 1. AGGREGATE DATA
   # We handle both count-based (n) and sum-based (.value) categorization
@@ -125,7 +111,7 @@ abc_fn <- function(x){
   con <- dbplyr::remote_con(stats_dbi)
 
   # Ensure category names exist (default to A, B, C... if empty)
-  cat_names <- x@category@category_names %||% LETTERS[seq_along(x@category@category_values)]
+  cat_names <- if (is.null(x@category@category_names)) LETTERS[seq_along(x@category@category_values)] else x@category@category_names
 
   cat_lookup_df <- data.frame(
     category_value = x@category@category_values,
@@ -192,14 +178,6 @@ abc_fn <- function(x){
 #'
 cohort <- function(.data,.date,.value,time_unit="month",period_label=FALSE){
 
-  ## test data
-
-  # .data <- sales
-  # .date <- "order_date"
-  # .value <- "customer_key"
-  # calendar_type <- "standard"
-
-
   x <-  segment_cohort(
     datum= datum(
       .data
@@ -243,12 +221,6 @@ cohort <- function(.data,.date,.value,time_unit="month",period_label=FALSE){
 #' @keywords internal
 cohort_fn <- function(x){
 
-  ## test data
-
-  # .data <- cohorts::online_cohorts |> janitor::clean_names()
-
-  # x <- cohort(.data,.date=invoice_date,calendar_type = "standard",.value = customer_id,time_unit = "day")
-
   ## summary table
 
   summary_dbi <-   x@datum@data  |>
@@ -262,23 +234,6 @@ cohort_fn <- function(x){
       ,.groups = "drop"
     ) |>
     dplyr::mutate(period_id=dplyr::sql("DENSE_RANK() OVER (ORDER BY date)"))
-
-
-  # complete_summary_dbi <- fpaR::seq_date_sql(
-  #   start_date = x@datum@min_date
-  #   ,end_date = x@datum@max_date
-  #   ,time_unit = x@time_unit@value
-  #   ,con=dbplyr::remote_con(x@datum@data)
-  #   ) |>
-  #   dplyr::cross_join(
-  #     summary_dbi |> select(-date)
-  #   )
-
-  # complete_summary_dbi
-
-  # min_date <- min(complete_summary_dbi |> pull(date),na.rm=TRUE)
-  #
-  # max_date <- max(complete_summary_dbi |> pull(date),na.rm=TRUE)
 
 
   if(!x@fn@label){

@@ -97,7 +97,7 @@ S7::method(create_calendar,ti) <- function(x){
 #' It translates the function blueprint into an actionable query, returning the final data table.
 #'
 #' @details
-#' The TI and segment functions in **fpaR**—such as `ytd()` or `cohort()` and others—are designed to be **lazy and database-friendly**.
+#' The TI and segment functions in **ti**—such as `ytd()` or `cohort()` and others—are designed to be **lazy and database-friendly**.
 #' They do not perform the heavy data transformation immediately.
 #' Instead, they return a blueprint object (of class `ti`,`segment_abc` or `segment_cohort`) that contains all the parameters and logic needed for the calculation.
 #'
@@ -193,13 +193,7 @@ S7::method(print, ti) <- function(x,...){
   ### Calendar information
 
 
-  cli::cli_h2("Calendar:")
-  cli::cat_bullet(paste("The calendar aggregated",cli::col_br_magenta(x@datum@date_vec),"to the",cli::col_yellow(x@time_unit@value),"time unit"))
-  cli::cat_bullet("A ",cli::col_br_red(x@datum@calendar_type)," calendar is created with ",cli::col_green(x@datum@group_count," groups"))
-  cli::cat_bullet(paste("Calendar ranges from",cli::col_br_green(x@datum@min_date),"to",cli::col_br_green(x@datum@max_date)))
-  cli::cat_bullet(paste(cli::col_blue(x@datum@date_missing),"days were missing and replaced with 0"))
-  cli::cat_bullet("New date column ",paste(cli::col_br_red(x@fn@new_date_column_name), collapse = ", ")," was created from ",cli::col_br_magenta(x@datum@date_vec))
-  cli::cat_line("")
+  print_calendar_info(x)
 
   ## Action information
 
@@ -254,7 +248,7 @@ S7::method(print,segment_abc) <- function(x,...){
         ,cli::col_br_magenta("counts")
         ,"each group member's contribution of the total and then finally calculates the"
         ,cli::col_br_magenta("count")
-        ,"of each groups rolling cumulative porportion of the total"
+        ,"of each groups rolling cumulative proportion of the total"
       )
 
     )
@@ -269,7 +263,7 @@ S7::method(print,segment_abc) <- function(x,...){
         ,cli::col_br_magenta(x@value@value_vec)
         ,"contribution of the total"
         ,cli::col_br_magenta(x@value@value_vec)
-        ,"and then finally calculates each groups rolling cumulative porportion of the total"
+        ,"and then finally calculates each groups rolling cumulative proportion of the total"
       )
     )
 
@@ -339,13 +333,7 @@ S7::method(print,segment_cohort) <- function(x,...){
 
 
     ## add if condition for abc vs. cohort
-    cli::cli_h2("Calendar:")
-    cli::cat_bullet(paste("The calendar aggregated",cli::col_br_magenta(x@datum@date_vec),"to the",cli::col_yellow(x@time_unit@value),"time unit"))
-    cli::cat_bullet("A ",cli::col_br_red(x@datum@calendar_type)," calendar is created with ",cli::col_green(x@datum@group_count," groups"))
-    cli::cat_bullet(paste("Calendar ranges from",cli::col_br_green(x@datum@min_date),"to",cli::col_br_green(x@datum@max_date)))
-    cli::cat_bullet(paste(cli::col_blue(x@datum@date_missing),"days were missing and replaced with 0"))
-    cli::cat_bullet("New date column ",paste(cli::col_br_red(x@fn@new_date_column_name), collapse = ", ")," was created from ",cli::col_br_magenta(x@datum@date_vec))
-    cli::cat_line("")
+    print_calendar_info(x)
 
   cli::cat_line("")
 

@@ -14,7 +14,7 @@ The \code{calculate()} function takes an object created by a time function (like
 It translates the function blueprint into an actionable query, returning the final data table.
 }
 \details{
-The TI and segment functions in \strong{fpaR}—such as \code{ytd()} or \code{cohort()} and others—are designed to be \strong{lazy and database-friendly}.
+The TI and segment functions in \strong{ti}—such as \code{ytd()} or \code{cohort()} and others—are designed to be \strong{lazy and database-friendly}.
 They do not perform the heavy data transformation immediately.
 Instead, they return a blueprint object (of class \code{ti},\code{segment_abc} or \code{segment_cohort}) that contains all the parameters and logic needed for the calculation.
 
