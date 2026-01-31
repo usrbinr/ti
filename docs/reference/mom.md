@@ -109,38 +109,8 @@ Other time_intelligence:
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 library(contoso)
 mom(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
-#> 
-#> ── Month over month ────────────────────────────────────────────────────────────
-#> Function: `mom` was executed
-#> 
-#> ── Description: ──
-#> 
-#> This creates a full month `sum()` of the previous month quantity and compares
-#> it with the full month `sum()` current month quantity from the start of the
-#> standard calendar month to the end of the month
-#> 
-#> ── Calendar: ──
-#> 
-#> • The calendar aggregated order_date to the month time unit
-#> • A standard calendar is created with 0 groups
-#> • Calendar ranges from 2021-05-18 to 2024-04-20
-#> • 222 days were missing and replaced with 0
-#> • New date column date, year, quarter, month was created from order_date
-#> 
-#> ── Actions: ──
-#> 
-#> ✔Aggregate quantity
-#> ✔Shift 1 month
-#> ✔Compare previous full month
-#> ✖Proportion of Total
-#> ✖Count Distinct
-#> 
-#> 
-#> ── Next Steps: ──
-#> 
-#> • Use `calculate()` to return the results
-#> ────────────────────────────────────────────────────────────────────────────────
-#> 
+} # }
 ```

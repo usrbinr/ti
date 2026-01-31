@@ -6,7 +6,7 @@
 
 `ti` package is a collection of business intelligence tools designed to
 simplify common **financial planning and analysis (FP&A)** tasks such as
-time intelligence calculations, group members segmentation and
+time intelligence calculations, group member segmentation and
 factor/variance analysis.
 
 The package is inspired by best practices from a collection of blogs,
@@ -30,7 +30,7 @@ Even if you are working with tibbles, all functions are optimized to
 leverage [DuckDB](https://github.com/duckdb/duckdb-r) for increased
 speed and performance[^1]
 
-By default, all functions returns a lazy DBI object which you can return
+By default, all functions return a lazy DBI object which you can return
 as a tibble with `dplyr::collect()`
 
 ## Key features & benefits
@@ -44,10 +44,10 @@ as a tibble with `dplyr::collect()`
 
 ## Installation
 
-Install the development from GitHub:
+Install the development version from Codeberg:
 
 ``` r
-# Install using pak or install.package()
+# Install using pak or install.packages()
 
 remotes::install_git("https://codeberg.org/usrbinr/ti")
 
@@ -59,16 +59,15 @@ pak::pak("ti")
 
 > We recommend using the [Contoso](https://usrbinr.github.io/contoso/)
 > package for any practice analysis. The contoso datasets are fictional
-> business transaction of the Contoso toy company which are helpful for
+> business transactions of the Contoso toy company which are helpful for
 > business intelligence related analysis
 
-There are 3 main categories of functions:
+There are 2 main categories of functions:
 
 - Time intelligence related functions
   (<a href="#tbl-ti-fn" class="quarto-xref">Table 1</a>)
 - Categorization strategies
   (<a href="#tbl-abc-fn" class="quarto-xref">Table 2</a>)
-- Factor analysis (work in progress)
 
 ### Time intelligence
 
@@ -102,27 +101,27 @@ Table 1
 
 | Function | Description | Shift | Aggregate | Compare |
 |----|----|----|----|----|
-| YoY | Full Year over Year |  |  | X |
+| YoY | Full Year over Year |  | X | X |
 | YTD | Year-to-Date |  | X |  |
 | PYTD | Prior Year-to-Date amount | X | X |  |
 | YoYTD | Current Year-to-Date over Prior Year-to-Date | X | X | X |
 | YTDOPY | Year-to-Date over Full Previous Year | X | X | X |
-| QoQ | Full Quarter over Quarter |  |  | X |
+| QoQ | Full Quarter over Quarter |  | X | X |
 | QTD | Quarter-to-Date |  | X |  |
 | PQTD | Prior Quarter-to-Date | X | X |  |
 | QOQTD | Quarter-over-Quarter-to-Date | X | X | X |
 | QTDOPQ | Quarter-to-Date over Full Previous Quarter | X | X | X |
 | MTD | Month-to-Date |  | X |  |
-| MoM | Full Month over Full Month |  |  | X |
+| MoM | Full Month over Full Month |  | X | X |
 | MoMTD | Current Month-to-Date over Prior Month-to-Date | X | X | X |
 | PMTD | Prior Month’s MTD amount | X | X |  |
 | MTDOPM | Month-to-Date over Full Previous Month | X | X | X |
 | WTD | Week-to-Date |  | X |  |
-| WoW | Full Week over Full Week |  |  | X |
+| WoW | Full Week over Full Week |  | X | X |
 | WoWTD | Current Week-to-Date over Prior Week-to-Date | X | X | X |
 | PWTD | Prior Week-to-Date | X | X |  |
-| ATD | cumlaitve total from inception to date |  | x |  |
-| DoD | Full Day over Full Day |  |  | X |
+| ATD | Cumulative total from inception to date |  | X |  |
+| DoD | Full Day over Full Day |  | X | X |
 
 </div>
 
@@ -136,9 +135,9 @@ Table 1
 
 ABC classification is a business analysis technique that categorizes
 items (like products, customers, or suppliers) based on their relative
-contribution of a value. It expands upon the the Pareto Principle (the
-80/20 rule), allowing the user to determine which percentage of items or
-group members contribute to the largest percentage of the total value.
+contribution of a value. It expands upon the Pareto Principle (the 80/20
+rule), allowing the user to determine which percentage of items or group
+members contribute to the largest percentage of the total value.
 
 You assign the break points for the categorization and the function will
 label each category with a letter value.
@@ -176,4 +175,4 @@ Table 2
 
 [^1]: I plan to use
     [duckplyr](https://duckplyr.tidyverse.org/index.html) once it
-    expands support for lubricate functions
+    expands support for lubridate functions

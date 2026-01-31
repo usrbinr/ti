@@ -65,11 +65,10 @@ pak::pak("ti")
 
 >  We recommend using the [Contoso](https://usrbinr.github.io/contoso/) package for any practice analysis. The contoso datasets are fictional business transactions of the Contoso toy company which are helpful for business intelligence related analysis
 
-There are 3 main categories of functions:
+There are 2 main categories of functions:
 
 -   Time intelligence related functions (@tbl-ti-fn)
 -   Categorization strategies (@tbl-abc-fn)
--   Factor analysis (work in progress)
 
 
 ### Time intelligence   

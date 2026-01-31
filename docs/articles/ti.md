@@ -6,8 +6,8 @@ Simply pass your data in either a tibble or a lazy DBI object to the
 time intelligence function and input the required arguments.
 
 We will use [`mtd()`](https://codeberg.org/usrbinr/ti/reference/mtd.md)
-function to calculate the month-to-date sum of contoso’s company’ margin
-from their sales dataset
+function to calculate the month-to-date sum of Contoso’s margin from
+their sales dataset
 ([`contoso::sales`](https://usrbinr.github.io/contoso/reference/sales.html)).
 
 Most time intelligence functions follow the same structure:
@@ -271,7 +271,7 @@ to the 28 days in the current period.
 
 Table 3
 
-### Issues 3: larger than memory
+### Issue 3: Larger than memory
 
 If your data isn’t already in a database then ti will leverage duckdb to
 convert your data to enable larger than memory calculation.
