@@ -98,37 +98,8 @@ Other time_intelligence:
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 library(contoso)
 qtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
-#> 
-#> ── Quarter-to-date ─────────────────────────────────────────────────────────────
-#> Function: `qtd` was executed
-#> 
-#> ── Description: ──
-#> 
-#> This creates a daily `cumsum()` of the current quarter quantity from the start
-#> of the standard calendar quarter to the end of the quarter
-#> 
-#> ── Calendar: ──
-#> 
-#> • The calendar aggregated order_date to the day time unit
-#> • A standard calendar is created with 0 groups
-#> • Calendar ranges from 2021-05-18 to 2024-04-20
-#> • 222 days were missing and replaced with 0
-#> • New date column year, quarter was created from order_date
-#> 
-#> ── Actions: ──
-#> 
-#> ✔Aggregate quantity
-#> ✖Shift
-#> ✖Compare
-#> ✖Proportion of Total
-#> ✖Count Distinct
-#> 
-#> 
-#> ── Next Steps: ──
-#> 
-#> • Use `calculate()` to return the results
-#> ────────────────────────────────────────────────────────────────────────────────
-#> 
+} # }
 ```

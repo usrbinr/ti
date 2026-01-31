@@ -111,38 +111,8 @@ Other time_intelligence:
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 library(contoso)
 yoytd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
-#> 
-#> ── Year-to-date over previous year-to-date ─────────────────────────────────────
-#> Function: `yoytd` was executed
-#> 
-#> ── Description: ──
-#> 
-#> This creates a daily `cumsum()` of the previous year quantity and compares it
-#> with the daily `cumsum()` current year quantity from the start of the standard
-#> calendar year to the end of the year
-#> 
-#> ── Calendar: ──
-#> 
-#> • The calendar aggregated order_date to the day time unit
-#> • A standard calendar is created with 0 groups
-#> • Calendar ranges from 2021-05-18 to 2024-04-20
-#> • 222 days were missing and replaced with 0
-#> • New date column date, year was created from order_date
-#> 
-#> ── Actions: ──
-#> 
-#> ✔Aggregate quantity
-#> ✔Shift 1 year
-#> ✔Compare Previous year-to-date
-#> ✖Proportion of Total
-#> ✖Count Distinct
-#> 
-#> 
-#> ── Next Steps: ──
-#> 
-#> • Use `calculate()` to return the results
-#> ────────────────────────────────────────────────────────────────────────────────
-#> 
+} # }
 ```

@@ -110,38 +110,8 @@ Other time_intelligence:
 ## Examples
 
 ``` r
+if (FALSE) { # \dontrun{
 library(contoso)
 qtdopq(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
-#> 
-#> ── Quarter-to-date over full previous quarter ──────────────────────────────────
-#> Function: `qtdopq` was executed
-#> 
-#> ── Description: ──
-#> 
-#> This creates a daily `cumsum()` of the current quarter quantity and compares it
-#> with the full quarter `sum()` previous quarter quantity from the start of the
-#> standard calendar quarter to the end of the quarter
-#> 
-#> ── Calendar: ──
-#> 
-#> • The calendar aggregated order_date to the day time unit
-#> • A standard calendar is created with 0 groups
-#> • Calendar ranges from 2021-05-18 to 2024-04-20
-#> • 222 days were missing and replaced with 0
-#> • New date column date, year, quarter was created from order_date
-#> 
-#> ── Actions: ──
-#> 
-#> ✔Aggregate quantity
-#> ✔Shift 1 quarter
-#> ✔Compare previous full quarter
-#> ✖Proportion of Total
-#> ✖Count Distinct
-#> 
-#> 
-#> ── Next Steps: ──
-#> 
-#> • Use `calculate()` to return the results
-#> ────────────────────────────────────────────────────────────────────────────────
-#> 
+} # }
 ```
