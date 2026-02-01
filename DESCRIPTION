@@ -1,7 +1,7 @@
 Package: ti
 Title: Common Business Intelligence Functions for Financial Planning & Work
 Description: Tools for financial planning analysis. ti provides functions for calculating financial metrics, analyzing time series data, and generating reports.
-Version: 3.0.0
+Version: 4.0.0
 Authors@R: 
     person(given="Alejandro",family= "Hagan", email="alejandro.hagan@outlook.com", role = c("aut", "cre"))
 License: MIT + file LICENSE
