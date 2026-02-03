@@ -95,8 +95,10 @@ contoso::sales |>
 ```{r}
 #| label: collect-example-no-echo
 #| echo: false
+#| eval: true
 #| warning: false
 #| error: false
+#| column: page
 
 contoso::sales |>                                                                
    mtd(.date=order_date,.value = margin,calendar_type = "standard") |>  
@@ -166,6 +168,8 @@ In @tbl-missing-dates-issue-1-fix-no-echo we see a complete calendar set and a n
 #| label: tbl-missing-dates-issue-1-fix-no-echo
 #| tbl-cap: "Original table now complete with missing dates and a missing date indicator"
 #| echo: false
+#| column: page
+
 
 tibble::tibble(
   order_date=lubridate::ymd(c("2024-01-01","2024-01-03","2024-01-06","2024-01-07","2024-01-08","2024-01-09","2024-01-11"))
@@ -175,7 +179,7 @@ tibble::tibble(
    calculate() |> 
    dplyr::collect() |> 
    dplyr::arrange(date) |> 
-   tinytable::tt(width=.7)
+   gt::gt()
 
 ```
 
@@ -209,12 +213,10 @@ When we pass the ti object through to `calculate()` and filter the results for F
 
 On 2022-02-28, we see that is comparing 31 days of the previous period to the 28 days in the current period.
 
-
-
 ```{r}
 #| label: tbl-issue2-example-no-echo
 #| echo: false
-#| eval: false
+#| eval: true
 
 
 contoso::sales |>
