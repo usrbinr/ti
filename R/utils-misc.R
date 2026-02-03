@@ -806,6 +806,8 @@ seq_date_sql <- function(
     dialect <- detect_sql_dialect(.con)
 
     if (dialect == "snowflake") {
+      # Snowflake GENERATOR requires ROWCOUNT to be a literal constant
+      row_count <- as.integer(as.Date(end_date) - as.Date(start_date)) + 1L
       date_seq_sql <- glue::glue_sql("
   SELECT
     DATEADD(day, SEQ4(), {start_date}::DATE)::DATE AS date
@@ -813,7 +815,7 @@ seq_date_sql <- function(
     ,EXTRACT(QUARTER FROM DATEADD(day, SEQ4(), {start_date}::DATE)) AS quarter
     ,EXTRACT(MONTH FROM DATEADD(day, SEQ4(), {start_date}::DATE)) AS month
     ,FLOOR((EXTRACT(DOY FROM DATEADD(day, SEQ4(), {start_date}::DATE)) - 1) / 7) + 1 AS week
-  FROM TABLE(GENERATOR(ROWCOUNT => DATEDIFF(day, {start_date}::DATE, {end_date}::DATE) + 1))
+  FROM TABLE(GENERATOR(ROWCOUNT => {row_count}))
 ",.con=.con)
     } else {
       date_seq_sql <- glue::glue_sql("

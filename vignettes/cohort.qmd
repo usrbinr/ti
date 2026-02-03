@@ -35,7 +35,7 @@ The `cohort()` function in **ti** provides a **tibble and database-friendly impl
 | `.data` | A `tibble` or DBI object containing your dataset. |
 | `.date` | The date column to base the cohort assignment on. |
 | `.value` | The column representing members to track (e.g., customer ID). |
-| `time_unit` | Argument to group your calendar dates: `day`, `week`,`month`,`quarter` or `year` |
+| `time_unit` | Argument to group your calendar dates: `day`, `week`, `month`, `quarter`, or `year` |
 | `period_label` | Whether to use numeric period labels (`TRUE`) or actual dates (`FALSE`). Default is `FALSE`. |
 
 
@@ -57,5 +57,5 @@ ti::cohort(.data = contoso::sales,
 
 ```
 
-This function is basically a database translation of [PeerChristensen](https://github.com/PeerChristensen/cohorts) cohort package
+This function is essentially a database-compatible translation of the [PeerChristensen](https://github.com/PeerChristensen/cohorts) cohort package.
 

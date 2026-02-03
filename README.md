@@ -1,6 +1,8 @@
 
 
-# ti <img src="man/figures/ti_logo.png" align="right" width="120" />
+# ti
+
+<img src="man/figures/ti_logo.png" align="right" width="120" />
 
 ## A Business Intelligence Toolkit for Financial Planning & Analysis (FP&A)
 
@@ -15,11 +17,11 @@ frequently performed business analyses into a fast, efficient, and
 reusable framework.
 
 In particular, the time intelligence functions are heavily inspired by
-[PowerBI DAX](https://www.sqlbi.com/) functions
+[PowerBI DAX](https://www.sqlbi.com/) functions.
 
 Under the hood, these functions are built upon the great foundations of:
 
-- [dbplyr](https://dbplyr.tidyverse.org/)  
+- [dbplyr](https://dbplyr.tidyverse.org/)
 - [duckdb](https://github.com/duckdb/duckdb-r)
 - [lubridate](https://lubridate.tidyverse.org/)
 
@@ -47,7 +49,7 @@ as a tibble with `dplyr::collect()`
 Install the development version from Codeberg:
 
 ``` r
-# Install using pak or install.packages()
+# Install using pak or remotes
 
 remotes::install_git("https://codeberg.org/usrbinr/ti")
 
@@ -82,14 +84,14 @@ consistent, fast and transparent way.
 **Key benefits:**
 
 - **Auto-fill missing dates**: Ensures no missing periods in your
-  datasets so that right period comparisons are performed
+  datasets so that correct period comparisons are performed
 
 - **Flexible calendar options**: Handle comparisons based on a
   **standard** or **non-standard** fiscal calendar to accommodate
   different reporting frameworks
 
-- **Clear definition**: Full transparency to the calculations that are
-  performed with visibility to any missing or incomplete date periods
+- **Clear definition**: Full transparency into the calculations that are
+  performed, with visibility to any missing or incomplete date periods
 
 Below is the full list of time intelligence functions:
 
@@ -129,7 +131,7 @@ Table 1
 
 ------------------------------------------------------------------------
 
-### **Classification Strategies**
+### Classification Strategies
 
 #### ABC Classification
 
@@ -157,7 +159,7 @@ attributes more clearly.
 
 Table 2
 
-<div class="cell-output-display">
+<div class="cell-output-display column-screen">
 
 | Function | Description | Categorizes | Time-Based | Tracks Over Time |
 |----|----|----|----|----|

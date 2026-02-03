@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Function reference – ti</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-d1df8dc4b7b671d1cc69a36271deb873.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">ti 4.0.0</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./vignettes/ti.html"> 
+<span class="menu-text">Get started</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./reference.html" aria-current="page"> 
+<span class="menu-text">Reference</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-articles" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Articles</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-articles">    
+        <li>
+    <a class="dropdown-item" href="./vignettes/abc.html">
+ <span class="dropdown-text">ABC Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./vignettes/cohort.html">
+ <span class="dropdown-text">Cohort Analysis</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./vignettes/calendar_types.html">
+ <span class="dropdown-text">Calendar Types</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="./citation.html"> 
+<span class="menu-text">Citation</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./NEWS.html"> 
+<span class="menu-text">Changelog</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://codeberg.org/usrbinr/ti"> <i class="bi bi-code-square" role="img" aria-label="Source code">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#time-intelligence-functions" id="toc-time-intelligence-functions" class="nav-link active" data-scroll-target="#time-intelligence-functions">Time Intelligence Functions</a>
+  <ul class="collapse">
+  <li><a href="#yearly" id="toc-yearly" class="nav-link" data-scroll-target="#yearly">Yearly</a></li>
+  <li><a href="#quarterly" id="toc-quarterly" class="nav-link" data-scroll-target="#quarterly">Quarterly</a></li>
+  <li><a href="#monthly" id="toc-monthly" class="nav-link" data-scroll-target="#monthly">Monthly</a></li>
+  <li><a href="#weekly" id="toc-weekly" class="nav-link" data-scroll-target="#weekly">Weekly</a></li>
+  <li><a href="#daily" id="toc-daily" class="nav-link" data-scroll-target="#daily">Daily</a></li>
+  </ul></li>
+  <li><a href="#classification-segmentation" id="toc-classification-segmentation" class="nav-link" data-scroll-target="#classification-segmentation">Classification &amp; Segmentation</a></li>
+  <li><a href="#utilities" id="toc-utilities" class="nav-link" data-scroll-target="#utilities">Utilities</a></li>
+  <li><a href="#function-details" id="toc-function-details" class="nav-link" data-scroll-target="#function-details">Function Details</a>
+  <ul class="collapse">
+  <li><a href="#ytd" id="toc-ytd" class="nav-link" data-scroll-target="#ytd"><code>ytd()</code></a></li>
+  <li><a href="#pytd" id="toc-pytd" class="nav-link" data-scroll-target="#pytd"><code>pytd()</code></a></li>
+  <li><a href="#yoy" id="toc-yoy" class="nav-link" data-scroll-target="#yoy"><code>yoy()</code></a></li>
+  <li><a href="#yoytd" id="toc-yoytd" class="nav-link" data-scroll-target="#yoytd"><code>yoytd()</code></a></li>
+  <li><a href="#ytdopy" id="toc-ytdopy" class="nav-link" data-scroll-target="#ytdopy"><code>ytdopy()</code></a></li>
+  <li><a href="#atd" id="toc-atd" class="nav-link" data-scroll-target="#atd"><code>atd()</code></a></li>
+  <li><a href="#qtd" id="toc-qtd" class="nav-link" data-scroll-target="#qtd"><code>qtd()</code></a></li>
+  <li><a href="#pqtd" id="toc-pqtd" class="nav-link" data-scroll-target="#pqtd"><code>pqtd()</code></a></li>
+  <li><a href="#qoq" id="toc-qoq" class="nav-link" data-scroll-target="#qoq"><code>qoq()</code></a></li>
+  <li><a href="#qoqtd" id="toc-qoqtd" class="nav-link" data-scroll-target="#qoqtd"><code>qoqtd()</code></a></li>
+  <li><a href="#qtdopq" id="toc-qtdopq" class="nav-link" data-scroll-target="#qtdopq"><code>qtdopq()</code></a></li>
+  <li><a href="#mtd" id="toc-mtd" class="nav-link" data-scroll-target="#mtd"><code>mtd()</code></a></li>
+  <li><a href="#pmtd" id="toc-pmtd" class="nav-link" data-scroll-target="#pmtd"><code>pmtd()</code></a></li>
+  <li><a href="#mom" id="toc-mom" class="nav-link" data-scroll-target="#mom"><code>mom()</code></a></li>
+  <li><a href="#momtd" id="toc-momtd" class="nav-link" data-scroll-target="#momtd"><code>momtd()</code></a></li>
+  <li><a href="#mtdopm" id="toc-mtdopm" class="nav-link" data-scroll-target="#mtdopm"><code>mtdopm()</code></a></li>
+  <li><a href="#wtd" id="toc-wtd" class="nav-link" data-scroll-target="#wtd"><code>wtd()</code></a></li>
+  <li><a href="#pwtd" id="toc-pwtd" class="nav-link" data-scroll-target="#pwtd"><code>pwtd()</code></a></li>
+  <li><a href="#wow" id="toc-wow" class="nav-link" data-scroll-target="#wow"><code>wow()</code></a></li>
+  <li><a href="#wowtd" id="toc-wowtd" class="nav-link" data-scroll-target="#wowtd"><code>wowtd()</code></a></li>
+  <li><a href="#wtdopw" id="toc-wtdopw" class="nav-link" data-scroll-target="#wtdopw"><code>wtdopw()</code></a></li>
+  <li><a href="#dod" id="toc-dod" class="nav-link" data-scroll-target="#dod"><code>dod()</code></a></li>
+  <li><a href="#abc" id="toc-abc" class="nav-link" data-scroll-target="#abc"><code>abc()</code></a></li>
+  <li><a href="#cohort" id="toc-cohort" class="nav-link" data-scroll-target="#cohort"><code>cohort()</code></a></li>
+  <li><a href="#calculate" id="toc-calculate" class="nav-link" data-scroll-target="#calculate"><code>calculate()</code></a></li>
+  <li><a href="#create_calendar" id="toc-create_calendar" class="nav-link" data-scroll-target="#create_calendar"><code>create_calendar()</code></a></li>
+  <li><a href="#augment_standard_calendar" id="toc-augment_standard_calendar" class="nav-link" data-scroll-target="#augment_standard_calendar"><code>augment_standard_calendar()</code></a></li>
+  <li><a href="#make_db_tbl" id="toc-make_db_tbl" class="nav-link" data-scroll-target="#make_db_tbl"><code>make_db_tbl()</code></a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Function reference</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>All functions and classes exported by ti.</p>
+<section id="time-intelligence-functions" class="level2">
+<h2 class="anchored" data-anchor-id="time-intelligence-functions">Time Intelligence Functions</h2>
+<section id="yearly" class="level3">
+<h3 class="anchored" data-anchor-id="yearly">Yearly</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#ytd"><code>ytd()</code></a></td>
+<td>Year-to-Date aggregation</td>
+</tr>
+<tr class="even">
+<td><a href="#pytd"><code>pytd()</code></a></td>
+<td>Prior Year-to-Date</td>
+</tr>
+<tr class="odd">
+<td><a href="#yoy"><code>yoy()</code></a></td>
+<td>Full Year over Year comparison</td>
+</tr>
+<tr class="even">
+<td><a href="#yoytd"><code>yoytd()</code></a></td>
+<td>Year-to-Date over Prior Year-to-Date</td>
+</tr>
+<tr class="odd">
+<td><a href="#ytdopy"><code>ytdopy()</code></a></td>
+<td>Year-to-Date over Full Previous Year</td>
+</tr>
+<tr class="even">
+<td><a href="#atd"><code>atd()</code></a></td>
+<td>Cumulative total from inception to date</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="quarterly" class="level3">
+<h3 class="anchored" data-anchor-id="quarterly">Quarterly</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#qtd"><code>qtd()</code></a></td>
+<td>Quarter-to-Date aggregation</td>
+</tr>
+<tr class="even">
+<td><a href="#pqtd"><code>pqtd()</code></a></td>
+<td>Prior Quarter-to-Date</td>
+</tr>
+<tr class="odd">
+<td><a href="#qoq"><code>qoq()</code></a></td>
+<td>Full Quarter over Quarter comparison</td>
+</tr>
+<tr class="even">
+<td><a href="#qoqtd"><code>qoqtd()</code></a></td>
+<td>Quarter-to-Date over Prior Quarter-to-Date</td>
+</tr>
+<tr class="odd">
+<td><a href="#qtdopq"><code>qtdopq()</code></a></td>
+<td>Quarter-to-Date over Full Previous Quarter</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="monthly" class="level3">
+<h3 class="anchored" data-anchor-id="monthly">Monthly</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#mtd"><code>mtd()</code></a></td>
+<td>Month-to-Date aggregation</td>
+</tr>
+<tr class="even">
+<td><a href="#pmtd"><code>pmtd()</code></a></td>
+<td>Prior Month-to-Date</td>
+</tr>
+<tr class="odd">
+<td><a href="#mom"><code>mom()</code></a></td>
+<td>Full Month over Month comparison</td>
+</tr>
+<tr class="even">
+<td><a href="#momtd"><code>momtd()</code></a></td>
+<td>Month-to-Date over Prior Month-to-Date</td>
+</tr>
+<tr class="odd">
+<td><a href="#mtdopm"><code>mtdopm()</code></a></td>
+<td>Month-to-Date over Full Previous Month</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="weekly" class="level3">
+<h3 class="anchored" data-anchor-id="weekly">Weekly</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#wtd"><code>wtd()</code></a></td>
+<td>Week-to-Date aggregation</td>
+</tr>
+<tr class="even">
+<td><a href="#pwtd"><code>pwtd()</code></a></td>
+<td>Prior Week-to-Date</td>
+</tr>
+<tr class="odd">
+<td><a href="#wow"><code>wow()</code></a></td>
+<td>Full Week over Week comparison</td>
+</tr>
+<tr class="even">
+<td><a href="#wowtd"><code>wowtd()</code></a></td>
+<td>Week-to-Date over Prior Week-to-Date</td>
+</tr>
+<tr class="odd">
+<td><a href="#wtdopw"><code>wtdopw()</code></a></td>
+<td>Week-to-Date over Full Previous Week</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="daily" class="level3">
+<h3 class="anchored" data-anchor-id="daily">Daily</h3>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#dod"><code>dod()</code></a></td>
+<td>Day over Day comparison</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="classification-segmentation" class="level2">
+<h2 class="anchored" data-anchor-id="classification-segmentation">Classification &amp; Segmentation</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#abc"><code>abc()</code></a></td>
+<td>ABC Classification (Pareto analysis)</td>
+</tr>
+<tr class="even">
+<td><a href="#cohort"><code>cohort()</code></a></td>
+<td>Cohort analysis for tracking groups over time</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="utilities" class="level2">
+<h2 class="anchored" data-anchor-id="utilities">Utilities</h2>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Function</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="#calculate"><code>calculate()</code></a></td>
+<td>Execute a ti object and return lazy DBI result</td>
+</tr>
+<tr class="even">
+<td><a href="#create_calendar"><code>create_calendar()</code></a></td>
+<td>Generate a calendar table</td>
+</tr>
+<tr class="odd">
+<td><a href="#augment_standard_calendar"><code>augment_standard_calendar()</code></a></td>
+<td>Add calendar columns to existing data</td>
+</tr>
+<tr class="even">
+<td><a href="#make_db_tbl"><code>make_db_tbl()</code></a></td>
+<td>Convert tibble to database table</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="function-details" class="level2">
+<h2 class="anchored" data-anchor-id="function-details">Function Details</h2>
+<section id="ytd" class="level3">
+<h3 class="anchored" data-anchor-id="ytd"><code>ytd()</code></h3>
+<p>Calculate Year-to-Date aggregation.</p>
+<section id="usage" class="level4">
+<h4 class="anchored" data-anchor-id="usage">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ytd</span>(.data, .date, .value, calendar_type, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="arguments" class="level4">
+<h4 class="anchored" data-anchor-id="arguments">Arguments</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 43%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>.data</code></td>
+<td>A tibble or lazy DBI table</td>
+</tr>
+<tr class="even">
+<td><code>.date</code></td>
+<td>The date column to index</td>
+</tr>
+<tr class="odd">
+<td><code>.value</code></td>
+<td>The value column to aggregate</td>
+</tr>
+<tr class="even">
+<td><code>calendar_type</code></td>
+<td>Either <code>"standard"</code> or retail calendar (<code>"445"</code>, <code>"454"</code>, <code>"544"</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>fiscal_year_start</code></td>
+<td>Month (1-12) when fiscal year begins (default: 1)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="pytd" class="level3">
+<h3 class="anchored" data-anchor-id="pytd"><code>pytd()</code></h3>
+<p>Calculate Prior Year-to-Date amount.</p>
+<section id="usage-1" class="level4">
+<h4 class="anchored" data-anchor-id="usage-1">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pytd</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="yoy" class="level3">
+<h3 class="anchored" data-anchor-id="yoy"><code>yoy()</code></h3>
+<p>Calculate Full Year over Year comparison.</p>
+<section id="usage-2" class="level4">
+<h4 class="anchored" data-anchor-id="usage-2">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">yoy</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="yoytd" class="level3">
+<h3 class="anchored" data-anchor-id="yoytd"><code>yoytd()</code></h3>
+<p>Calculate Year-to-Date over Prior Year-to-Date comparison.</p>
+<section id="usage-3" class="level4">
+<h4 class="anchored" data-anchor-id="usage-3">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">yoytd</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="ytdopy" class="level3">
+<h3 class="anchored" data-anchor-id="ytdopy"><code>ytdopy()</code></h3>
+<p>Calculate Year-to-Date over Full Previous Year.</p>
+<section id="usage-4" class="level4">
+<h4 class="anchored" data-anchor-id="usage-4">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ytdopy</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="atd" class="level3">
+<h3 class="anchored" data-anchor-id="atd"><code>atd()</code></h3>
+<p>Calculate cumulative total from inception to date.</p>
+<section id="usage-5" class="level4">
+<h4 class="anchored" data-anchor-id="usage-5">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">atd</span>(.data, .date, .value, calendar_type, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="qtd" class="level3">
+<h3 class="anchored" data-anchor-id="qtd"><code>qtd()</code></h3>
+<p>Calculate Quarter-to-Date aggregation.</p>
+<section id="usage-6" class="level4">
+<h4 class="anchored" data-anchor-id="usage-6">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qtd</span>(.data, .date, .value, calendar_type, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="pqtd" class="level3">
+<h3 class="anchored" data-anchor-id="pqtd"><code>pqtd()</code></h3>
+<p>Calculate Prior Quarter-to-Date amount.</p>
+<section id="usage-7" class="level4">
+<h4 class="anchored" data-anchor-id="usage-7">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pqtd</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="qoq" class="level3">
+<h3 class="anchored" data-anchor-id="qoq"><code>qoq()</code></h3>
+<p>Calculate Full Quarter over Quarter comparison.</p>
+<section id="usage-8" class="level4">
+<h4 class="anchored" data-anchor-id="usage-8">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qoq</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="qoqtd" class="level3">
+<h3 class="anchored" data-anchor-id="qoqtd"><code>qoqtd()</code></h3>
+<p>Calculate Quarter-to-Date over Prior Quarter-to-Date comparison.</p>
+<section id="usage-9" class="level4">
+<h4 class="anchored" data-anchor-id="usage-9">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qoqtd</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="qtdopq" class="level3">
+<h3 class="anchored" data-anchor-id="qtdopq"><code>qtdopq()</code></h3>
+<p>Calculate Quarter-to-Date over Full Previous Quarter.</p>
+<section id="usage-10" class="level4">
+<h4 class="anchored" data-anchor-id="usage-10">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">qtdopq</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="mtd" class="level3">
+<h3 class="anchored" data-anchor-id="mtd"><code>mtd()</code></h3>
+<p>Calculate Month-to-Date aggregation.</p>
+<section id="usage-11" class="level4">
+<h4 class="anchored" data-anchor-id="usage-11">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mtd</span>(.data, .date, .value, calendar_type, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="pmtd" class="level3">
+<h3 class="anchored" data-anchor-id="pmtd"><code>pmtd()</code></h3>
+<p>Calculate Prior Month-to-Date amount.</p>
+<section id="usage-12" class="level4">
+<h4 class="anchored" data-anchor-id="usage-12">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pmtd</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="mom" class="level3">
+<h3 class="anchored" data-anchor-id="mom"><code>mom()</code></h3>
+<p>Calculate Full Month over Month comparison.</p>
+<section id="usage-13" class="level4">
+<h4 class="anchored" data-anchor-id="usage-13">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mom</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="momtd" class="level3">
+<h3 class="anchored" data-anchor-id="momtd"><code>momtd()</code></h3>
+<p>Calculate Month-to-Date over Prior Month-to-Date comparison.</p>
+<section id="usage-14" class="level4">
+<h4 class="anchored" data-anchor-id="usage-14">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">momtd</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="mtdopm" class="level3">
+<h3 class="anchored" data-anchor-id="mtdopm"><code>mtdopm()</code></h3>
+<p>Calculate Month-to-Date over Full Previous Month.</p>
+<section id="usage-15" class="level4">
+<h4 class="anchored" data-anchor-id="usage-15">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">mtdopm</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="wtd" class="level3">
+<h3 class="anchored" data-anchor-id="wtd"><code>wtd()</code></h3>
+<p>Calculate Week-to-Date aggregation.</p>
+<section id="usage-16" class="level4">
+<h4 class="anchored" data-anchor-id="usage-16">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wtd</span>(.data, .date, .value, calendar_type, <span class="at">week_start =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="pwtd" class="level3">
+<h3 class="anchored" data-anchor-id="pwtd"><code>pwtd()</code></h3>
+<p>Calculate Prior Week-to-Date amount.</p>
+<section id="usage-17" class="level4">
+<h4 class="anchored" data-anchor-id="usage-17">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="fu">pwtd</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">week_start =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="wow" class="level3">
+<h3 class="anchored" data-anchor-id="wow"><code>wow()</code></h3>
+<p>Calculate Full Week over Week comparison.</p>
+<section id="usage-18" class="level4">
+<h4 class="anchored" data-anchor-id="usage-18">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wow</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">week_start =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="wowtd" class="level3">
+<h3 class="anchored" data-anchor-id="wowtd"><code>wowtd()</code></h3>
+<p>Calculate Week-to-Date over Prior Week-to-Date comparison.</p>
+<section id="usage-19" class="level4">
+<h4 class="anchored" data-anchor-id="usage-19">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wowtd</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">week_start =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="wtdopw" class="level3">
+<h3 class="anchored" data-anchor-id="wtdopw"><code>wtdopw()</code></h3>
+<p>Calculate Week-to-Date over Full Previous Week.</p>
+<section id="usage-20" class="level4">
+<h4 class="anchored" data-anchor-id="usage-20">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">wtdopw</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">week_start =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="dod" class="level3">
+<h3 class="anchored" data-anchor-id="dod"><code>dod()</code></h3>
+<p>Calculate Day over Day comparison.</p>
+<section id="usage-21" class="level4">
+<h4 class="anchored" data-anchor-id="usage-21">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dod</span>(.data, .date, .value, calendar_type, <span class="at">lag_n =</span> <span class="dv">1</span>, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="abc" class="level3">
+<h3 class="anchored" data-anchor-id="abc"><code>abc()</code></h3>
+<p>Perform ABC Classification (Pareto analysis) on grouped data.</p>
+<section id="usage-22" class="level4">
+<h4 class="anchored" data-anchor-id="usage-22">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="fu">abc</span>(.data, category_values, .value)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="arguments-1" class="level4">
+<h4 class="anchored" data-anchor-id="arguments-1">Arguments</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 43%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>.data</code></td>
+<td>A grouped tibble or lazy DBI table</td>
+</tr>
+<tr class="even">
+<td><code>category_values</code></td>
+<td>Cumulative percentage breakpoints (e.g., <code>c(0.8, 0.95, 1)</code> for 80/95/100)</td>
+</tr>
+<tr class="odd">
+<td><code>.value</code></td>
+<td>The value column to classify on</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="cohort" class="level3">
+<h3 class="anchored" data-anchor-id="cohort"><code>cohort()</code></h3>
+<p>Perform cohort analysis to track entities over time.</p>
+<section id="usage-23" class="level4">
+<h4 class="anchored" data-anchor-id="usage-23">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cohort</span>(.data, .date, .value, <span class="at">time_unit =</span> <span class="st">"month"</span>, <span class="at">period_label =</span> <span class="cn">FALSE</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="arguments-2" class="level4">
+<h4 class="anchored" data-anchor-id="arguments-2">Arguments</h4>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 43%">
+<col style="width: 56%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>.data</code></td>
+<td>A tibble or lazy DBI table</td>
+</tr>
+<tr class="even">
+<td><code>.date</code></td>
+<td>The date column for time periods</td>
+</tr>
+<tr class="odd">
+<td><code>.value</code></td>
+<td>The entity identifier column (e.g., customer_key)</td>
+</tr>
+<tr class="even">
+<td><code>time_unit</code></td>
+<td>Time unit for cohorts (<code>"day"</code>, <code>"week"</code>, <code>"month"</code>, <code>"quarter"</code>, <code>"year"</code>)</td>
+</tr>
+<tr class="odd">
+<td><code>period_label</code></td>
+<td>Whether to include period labels (default: FALSE)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="calculate" class="level3">
+<h3 class="anchored" data-anchor-id="calculate"><code>calculate()</code></h3>
+<p>Execute a ti object and return a lazy DBI result.</p>
+<section id="usage-24" class="level4">
+<h4 class="anchored" data-anchor-id="usage-24">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="fu">calculate</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</section>
+<section id="arguments-3" class="level4">
+<h4 class="anchored" data-anchor-id="arguments-3">Arguments</h4>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Argument</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>x</code></td>
+<td>A ti object returned by a time intelligence function</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+</section>
+<section id="create_calendar" class="level3">
+<h3 class="anchored" data-anchor-id="create_calendar"><code>create_calendar()</code></h3>
+<p>Generate a calendar table for a date range.</p>
+<section id="usage-25" class="level4">
+<h4 class="anchored" data-anchor-id="usage-25">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb26"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="fu">create_calendar</span>(start_date, end_date, calendar_type, <span class="at">fiscal_year_start =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="augment_standard_calendar" class="level3">
+<h3 class="anchored" data-anchor-id="augment_standard_calendar"><code>augment_standard_calendar()</code></h3>
+<p>Add calendar columns (year, quarter, month, week) to existing data.</p>
+<section id="usage-26" class="level4">
+<h4 class="anchored" data-anchor-id="usage-26">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="fu">augment_standard_calendar</span>(.data, .date)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+</section>
+</section>
+<section id="make_db_tbl" class="level3">
+<h3 class="anchored" data-anchor-id="make_db_tbl"><code>make_db_tbl()</code></h3>
+<p>Convert a tibble to a DuckDB database table.</p>
+<section id="usage-27" class="level4">
+<h4 class="anchored" data-anchor-id="usage-27">Usage</h4>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="fu">make_db_tbl</span>(.data)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Built with <a href="https://quarto.org/">Quarto</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>ti 4.0.0</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

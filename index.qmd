@@ -1,7 +1,5 @@
 ---
-format: gfm
+toc: false
 ---
-
-# ti
 
 {{< include _readme-body.qmd >}}

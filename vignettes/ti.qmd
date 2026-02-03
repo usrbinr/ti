@@ -32,8 +32,8 @@ We will use `mtd()` function to calculate the month-to-date sum of Contoso's mar
 
 Most time intelligence functions follow the same structure:
 
--  Specify the date column to index the time intelligence functions (eg. `order_date`, `deliver_date`, etc)
--  Specify the value column to aggregate (eg. `margin`, `net_margin`, `cogs`, `etc`)
+-  Specify the date column to index the time intelligence functions (e.g., `order_date`, `deliver_date`, etc.)
+-  Specify the value column to aggregate (e.g., `margin`, `net_margin`, `cogs`, etc.)
 -  If there is a period rollback / rollforward then clarify the number of periods to roll
 -  Clarify if we are using a `"standard"` calendar or a retail calendar variation (`"445"`, `"454"`, or `"544"`) -- see the [standard vs. non-standard calendar article](https://usrbinr.github.io/ti/articles/calendar_types.html) for more information
 -  If using a retail calendar, optionally specify `fiscal_year_start` (1--12) to control which month the fiscal year begins nearest to (default is January)
@@ -71,11 +71,11 @@ contoso::sales |>
 ```
 
 
-If you're using a tibble, under the hood, ti is converting your data to a [duckdb](https://github.com/duckdb/duckdb-r) database
+If you're using a tibble, under the hood, ti converts your data to a [DuckDB](https://github.com/duckdb/duckdb-r) database.
 
-If your data is in a database, the package will leverage [dbplyr](https://dbplyr.tidyverse.org/) to execute all the calculations
+If your data is in a database, the package will leverage [dbplyr](https://dbplyr.tidyverse.org/) to execute all the calculations.
 
-Either case use `dplyr::collect()` to return your results to a local tibble
+In either case, use `dplyr::collect()` to return your results to a local tibble.
 
 
 ```{r}
@@ -128,7 +128,7 @@ contoso::sales |>
 
 ## Why do we need this package when we have lubridate?
 
-[Lubridate](https://lubridate.tidyverse.org/) is an excellent package and is at the core of many of ti's functions. The issue isn't lubridate but rather the challenges and issues in your dataset that typically don't allow you to directly use lubridate. 
+[Lubridate](https://lubridate.tidyverse.org/) is an excellent package and is at the core of many of ti's functions. The issue is not with lubridate itself, but rather the challenges in your dataset that prevent you from directly using lubridate functions. 
 
 The advantage of this package is that it will perform all of the required pre-processing steps for you.
 
@@ -136,9 +136,9 @@ The advantage of this package is that it will perform all of the required pre-pr
 -   Issue 1: Many datasets **do not have continuous dates**, especially if data is recorded only on business days or for active transactions
 
 
--   Issue 2: Period imbalances between periods (Eg. the different number of days between February vs. January) can create misleading analysis/trends or your analysis requires non-standard calendar types
+-   Issue 2: Imbalances between periods (e.g., the different number of days between February vs. January) can create misleading analysis or trends, or your analysis may require non-standard calendar types
 
--   Issue 3: Calculating time intelligence for groups can lead to larger than memory issues even with smaller datasets
+-   Issue 3: Calculating time intelligence for groups can lead to larger-than-memory issues even with smaller datasets
 
 
 ### Issue 1: Continuous Dates
@@ -185,17 +185,17 @@ tibble::tibble(
 
 ### Issue 2: Period imbalances
 
-When comparing two performance periods with a standard calendar, you can often  compare periods with unequal number of days or periods.
+When comparing two performance periods with a standard calendar, you may end up comparing periods with an unequal number of days.
 
-For example if you want to compare January sales to February you can get misleading conclusions due to the unequal number of weekends and days in those periods.
+For example, if you want to compare January sales to February, you can get misleading conclusions due to the unequal number of weekends and days in those periods.
 
 > In practice you have two choices:
 >
- -  compare periods with similar days (eg. the 28th of February should only compare up to the 28th of January) and you omit three days of January sales altogether
+> -  Compare periods with similar days (e.g., the 28th of February should only compare up to the 28th of January) and you omit three days of January sales altogether
 >
-> -  compare have an imbalanced comparison (eg. the 28th of February compares to the 31st of January so that no days are lost).
+> -  Have an imbalanced comparison (e.g., the 28th of February compares to the 31st of January so that no days are lost)
 
-This package does the second option to  ensure we don't lose any of January's sales but to help flag for imbalance, ti will add a column to let you know how many periods (eg. days) are in your comparison period to increase transparency to this dynamic.
+This package uses the second option to ensure we don't lose any of January's sales, but to help flag the imbalance, ti will add a column to let you know how many periods (e.g., days) are in your comparison period to increase transparency.
 
 To create this example, we will use the `pmtd()` function to calculate the prior month to date cumulative margin in the current month.
 
@@ -234,13 +234,13 @@ contoso::sales |>
 
 
 
-### Issue 3: Larger than memory
+### Issue 3: Larger-than-memory data
 
-If your data isn't already in a database then ti will leverage duckdb to convert your data to enable larger than memory calculation. 
+If your data isn't already in a database, ti will leverage DuckDB to convert your data and enable larger-than-memory calculations.
 
-This is necessary for time intelligence functions because when you have grouped data, you need to complete calendar for each group combination. For even modest datasets, this can quickly multiply and grow your data to be larger than memory. 
+This is necessary for time intelligence functions because, with grouped data, you need to complete the calendar for each group combination. For even modest datasets, this can quickly multiply and grow your data beyond available memory.
 
-If your data is already in database, then ti will use [dbplyr](https://dbplyr.tidyverse.org/) and will convert the functions to SQL to write the queries.
+If your data is already in a database, ti will use [dbplyr](https://dbplyr.tidyverse.org/) to convert the functions to SQL queries.
 
 In either scenario, you can use `dplyr::collect()` to execute your SQL query and return a tibble to your local computer. 
 

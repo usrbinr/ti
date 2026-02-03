@@ -1,0 +1,445 @@
+---
+title: "Function reference"
+---
+
+All functions and classes exported by ti.
+
+## Time Intelligence Functions
+
+### Yearly
+
+| Function | Description |
+|----------|-------------|
+| [`ytd()`](#ytd) | Year-to-Date aggregation |
+| [`pytd()`](#pytd) | Prior Year-to-Date |
+| [`yoy()`](#yoy) | Full Year over Year comparison |
+| [`yoytd()`](#yoytd) | Year-to-Date over Prior Year-to-Date |
+| [`ytdopy()`](#ytdopy) | Year-to-Date over Full Previous Year |
+| [`atd()`](#atd) | Cumulative total from inception to date |
+
+### Quarterly
+
+| Function | Description |
+|----------|-------------|
+| [`qtd()`](#qtd) | Quarter-to-Date aggregation |
+| [`pqtd()`](#pqtd) | Prior Quarter-to-Date |
+| [`qoq()`](#qoq) | Full Quarter over Quarter comparison |
+| [`qoqtd()`](#qoqtd) | Quarter-to-Date over Prior Quarter-to-Date |
+| [`qtdopq()`](#qtdopq) | Quarter-to-Date over Full Previous Quarter |
+
+### Monthly
+
+| Function | Description |
+|----------|-------------|
+| [`mtd()`](#mtd) | Month-to-Date aggregation |
+| [`pmtd()`](#pmtd) | Prior Month-to-Date |
+| [`mom()`](#mom) | Full Month over Month comparison |
+| [`momtd()`](#momtd) | Month-to-Date over Prior Month-to-Date |
+| [`mtdopm()`](#mtdopm) | Month-to-Date over Full Previous Month |
+
+### Weekly
+
+| Function | Description |
+|----------|-------------|
+| [`wtd()`](#wtd) | Week-to-Date aggregation |
+| [`pwtd()`](#pwtd) | Prior Week-to-Date |
+| [`wow()`](#wow) | Full Week over Week comparison |
+| [`wowtd()`](#wowtd) | Week-to-Date over Prior Week-to-Date |
+| [`wtdopw()`](#wtdopw) | Week-to-Date over Full Previous Week |
+
+### Daily
+
+| Function | Description |
+|----------|-------------|
+| [`dod()`](#dod) | Day over Day comparison |
+
+***
+
+## Classification & Segmentation
+
+| Function | Description |
+|----------|-------------|
+| [`abc()`](#abc) | ABC Classification (Pareto analysis) |
+| [`cohort()`](#cohort) | Cohort analysis for tracking groups over time |
+
+***
+
+## Utilities
+
+| Function | Description |
+|----------|-------------|
+| [`calculate()`](#calculate) | Execute a ti object and return lazy DBI result |
+| [`create_calendar()`](#create_calendar) | Generate a calendar table |
+| [`augment_standard_calendar()`](#augment_standard_calendar) | Add calendar columns to existing data |
+| [`make_db_tbl()`](#make_db_tbl) | Convert tibble to database table |
+
+***
+
+## Function Details
+
+### `ytd()` {#ytd}
+
+Calculate Year-to-Date aggregation.
+
+#### Usage
+
+```r
+ytd(.data, .date, .value, calendar_type, fiscal_year_start = 1)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | A tibble or lazy DBI table |
+| `.date` | The date column to index |
+| `.value` | The value column to aggregate |
+| `calendar_type` | Either `"standard"` or retail calendar (`"445"`, `"454"`, `"544"`) |
+| `fiscal_year_start` | Month (1-12) when fiscal year begins (default: 1) |
+
+***
+
+### `pytd()` {#pytd}
+
+Calculate Prior Year-to-Date amount.
+
+#### Usage
+
+```r
+pytd(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `yoy()` {#yoy}
+
+Calculate Full Year over Year comparison.
+
+#### Usage
+
+```r
+yoy(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
+```
+
+***
+### `yoytd()` {#yoytd}
+
+Calculate Year-to-Date over Prior Year-to-Date comparison.
+
+#### Usage
+
+```r
+yoytd(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `ytdopy()` {#ytdopy}
+
+Calculate Year-to-Date over Full Previous Year.
+
+#### Usage
+
+```r
+ytdopy(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `atd()` {#atd}
+
+Calculate cumulative total from inception to date.
+
+#### Usage
+
+```r
+atd(.data, .date, .value, calendar_type, fiscal_year_start = 1)
+```
+
+***
+
+### `qtd()` {#qtd}
+
+Calculate Quarter-to-Date aggregation.
+
+#### Usage
+
+```r
+qtd(.data, .date, .value, calendar_type, fiscal_year_start = 1)
+```
+
+***
+
+### `pqtd()` {#pqtd}
+
+Calculate Prior Quarter-to-Date amount.
+
+#### Usage
+
+```r
+pqtd(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `qoq()` {#qoq}
+
+Calculate Full Quarter over Quarter comparison.
+
+#### Usage
+
+```r
+qoq(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `qoqtd()` {#qoqtd}
+
+Calculate Quarter-to-Date over Prior Quarter-to-Date comparison.
+
+#### Usage
+
+```r
+qoqtd(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `qtdopq()` {#qtdopq}
+
+Calculate Quarter-to-Date over Full Previous Quarter.
+
+#### Usage
+
+```r
+qtdopq(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `mtd()` {#mtd}
+
+Calculate Month-to-Date aggregation.
+
+#### Usage
+
+```r
+mtd(.data, .date, .value, calendar_type, fiscal_year_start = 1)
+```
+
+***
+
+### `pmtd()` {#pmtd}
+
+Calculate Prior Month-to-Date amount.
+
+#### Usage
+
+```r
+pmtd(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `mom()` {#mom}
+
+Calculate Full Month over Month comparison.
+
+#### Usage
+
+```r
+mom(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `momtd()` {#momtd}
+
+Calculate Month-to-Date over Prior Month-to-Date comparison.
+
+#### Usage
+
+```r
+momtd(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `mtdopm()` {#mtdopm}
+
+Calculate Month-to-Date over Full Previous Month.
+
+#### Usage
+
+```r
+mtdopm(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `wtd()` {#wtd}
+
+Calculate Week-to-Date aggregation.
+
+#### Usage
+
+```r
+wtd(.data, .date, .value, calendar_type, week_start = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `pwtd()` {#pwtd}
+
+Calculate Prior Week-to-Date amount.
+
+#### Usage
+
+```r
+pwtd(.data, .date, .value, calendar_type, lag_n = 1, week_start = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `wow()` {#wow}
+
+Calculate Full Week over Week comparison.
+
+#### Usage
+
+```r
+wow(.data, .date, .value, calendar_type, lag_n = 1, week_start = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `wowtd()` {#wowtd}
+
+Calculate Week-to-Date over Prior Week-to-Date comparison.
+
+#### Usage
+
+```r
+wowtd(.data, .date, .value, calendar_type, lag_n = 1, week_start = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `wtdopw()` {#wtdopw}
+
+Calculate Week-to-Date over Full Previous Week.
+
+#### Usage
+
+```r
+wtdopw(.data, .date, .value, calendar_type, lag_n = 1, week_start = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `dod()` {#dod}
+
+Calculate Day over Day comparison.
+
+#### Usage
+
+```r
+dod(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
+```
+
+***
+
+### `abc()` {#abc}
+
+Perform ABC Classification (Pareto analysis) on grouped data.
+
+#### Usage
+
+```r
+abc(.data, category_values, .value)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | A grouped tibble or lazy DBI table |
+| `category_values` | Cumulative percentage breakpoints (e.g., `c(0.8, 0.95, 1)` for 80/95/100) |
+| `.value` | The value column to classify on |
+
+***
+
+### `cohort()` {#cohort}
+
+Perform cohort analysis to track entities over time.
+
+#### Usage
+
+```r
+cohort(.data, .date, .value, time_unit = "month", period_label = FALSE)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | A tibble or lazy DBI table |
+| `.date` | The date column for time periods |
+| `.value` | The entity identifier column (e.g., customer_key) |
+| `time_unit` | Time unit for cohorts (`"day"`, `"week"`, `"month"`, `"quarter"`, `"year"`) |
+| `period_label` | Whether to include period labels (default: FALSE) |
+
+***
+
+### `calculate()` {#calculate}
+
+Execute a ti object and return a lazy DBI result.
+
+#### Usage
+
+```r
+calculate(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | A ti object returned by a time intelligence function |
+
+***
+
+### `create_calendar()` {#create_calendar}
+
+Generate a calendar table for a date range.
+
+#### Usage
+
+```r
+create_calendar(start_date, end_date, calendar_type, fiscal_year_start = 1)
+```
+
+***
+
+### `augment_standard_calendar()` {#augment_standard_calendar}
+
+Add calendar columns (year, quarter, month, week) to existing data.
+
+#### Usage
+
+```r
+augment_standard_calendar(.data, .date)
+```
+
+***
+
+### `make_db_tbl()` {#make_db_tbl}
+
+Convert a tibble to a DuckDB database table.
+
+#### Usage
+
+```r
+make_db_tbl(.data)
+```

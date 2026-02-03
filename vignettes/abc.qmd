@@ -34,7 +34,7 @@ The `abc()` function applies this method by ranking group members according to e
 
 -  Provide the break points that are used to set the cumulative categories
 -  Each break point will get a letter category starting with 'A'
--  If you want to see the stores that make up the top 40% of revenue follow by top 70% and then 90% you should put in `c(0.4,.7,.9,1)`
+-  If you want to see the stores that make up the top 40% of revenue followed by top 70% and then 90%, you should use `c(0.4, 0.7, 0.9, 1)`
 
 
 ```{r}
@@ -72,7 +72,7 @@ When you execute `abc()`, your console will return a `segment_abc` object displa
 contoso::sales |> 
    dplyr::group_by(store_key) |> 
    ti::abc(
-      category_values = c(0.4,.7,.9,1), 
+      category_values = c(0.4, 0.7, 0.9, 1), 
       .value = margin
       )
 ```
@@ -90,7 +90,7 @@ Use `calculate()` to generate the ABC classification table in a lazy DBI object.
 contoso::sales |> 
    dplyr::group_by(store_key) |> 
    ti::abc(
-      category_values = c(0.4,.7,.9,1), 
+      category_values = c(0.4, 0.7, 0.9, 1), 
       .value = margin
       ) |> 
    ti::calculate()

@@ -1,0 +1,28 @@
+---
+title: "Citation"
+---
+
+If you use `ti` in your research or publications, please cite it as:
+
+```
+Hagan A (2025). ti: Business Intelligence Toolkit for Financial Planning & Analysis.
+R package version 4.0.0. https://codeberg.org/usrbinr/ti
+```
+
+### BibTeX
+
+```bibtex
+@Manual{ti,
+  title = {ti: Business Intelligence Toolkit for Financial Planning & Analysis},
+  author = {Alejandro Hagan},
+  year = {2025},
+  url = {https://codeberg.org/usrbinr/ti},
+  note = {R package version 4.0.0},
+}
+```
+
+### In R
+
+```r
+citation("ti")
+```
