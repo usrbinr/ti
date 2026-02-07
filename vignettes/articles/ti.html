@@ -1,0 +1,2450 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alejandro Hagan">
+
+<title>Getting started – ti</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d1df8dc4b7b671d1cc69a36271deb873.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">ti 4.0.0</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-articles" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Articles</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-articles">    
+        <li>
+    <a class="dropdown-item" href="../../vignettes/articles/abc.html">
+ <span class="dropdown-text">ABC Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../vignettes/articles/calendar_types.html">
+ <span class="dropdown-text">Standard vs.&nbsp;Non-Standard Calendars</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../vignettes/articles/cohort.html">
+ <span class="dropdown-text">Cohort</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../vignettes/articles/ti.html">
+ <span class="dropdown-text">Getting started</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../reference.html"> 
+<span class="menu-text">Reference</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../NEWS.html"> 
+<span class="menu-text">Changelog</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://codeberg.org/usrbinr/ti"> <i class="bi bi-code-square" role="img" aria-label="Source code">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a>
+  <ul class="collapse">
+  <li><a href="#what-if-you-need-the-analysis-at-the-group-level" id="toc-what-if-you-need-the-analysis-at-the-group-level" class="nav-link" data-scroll-target="#what-if-you-need-the-analysis-at-the-group-level">What if you need the analysis at the group level?</a></li>
+  </ul></li>
+  <li><a href="#why-do-we-need-this-package-when-we-have-lubridate" id="toc-why-do-we-need-this-package-when-we-have-lubridate" class="nav-link" data-scroll-target="#why-do-we-need-this-package-when-we-have-lubridate">Why do we need this package when we have lubridate?</a>
+  <ul class="collapse">
+  <li><a href="#issue-1-continuous-dates" id="toc-issue-1-continuous-dates" class="nav-link" data-scroll-target="#issue-1-continuous-dates">Issue 1: Continuous Dates</a></li>
+  <li><a href="#issue-2-period-imbalances" id="toc-issue-2-period-imbalances" class="nav-link" data-scroll-target="#issue-2-period-imbalances">Issue 2: Period imbalances</a></li>
+  <li><a href="#issue-3-larger-than-memory-data" id="toc-issue-3-larger-than-memory-data" class="nav-link" data-scroll-target="#issue-3-larger-than-memory-data">Issue 3: Larger-than-memory data</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content page-columns page-full" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Getting started</h1>
+<p class="subtitle lead">How to use time-intelligence functions</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alejandro Hagan </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Simply pass your data in either a tibble or a lazy DBI object to the time intelligence function and input the required arguments.</p>
+<p>We will use <code>mtd()</code> function to calculate the month-to-date sum of Contoso’s margin from their sales dataset (<code>contoso::sales</code>).</p>
+<p>Most time intelligence functions follow the same structure:</p>
+<ul>
+<li>Specify the date column to index the time intelligence functions (e.g., <code>order_date</code>, <code>deliver_date</code>, etc.)</li>
+<li>Specify the value column to aggregate (e.g., <code>margin</code>, <code>net_margin</code>, <code>cogs</code>, etc.)</li>
+<li>If there is a period rollback / rollforward then clarify the number of periods to roll</li>
+<li>Clarify if we are using a <code>"standard"</code> calendar or a retail calendar variation (<code>"445"</code>, <code>"454"</code>, or <code>"544"</code>) – see the <a href="https://usrbinr.github.io/ti/articles/calendar_types.html">standard vs.&nbsp;non-standard calendar article</a> for more information</li>
+<li>If using a retail calendar, optionally specify <code>fiscal_year_start</code> (1–12) to control which month the fiscal year begins nearest to (default is January)</li>
+</ul>
+<p>When you execute <code>mtd()</code>, your console will return a <code>ti</code> object displaying a custom print message:</p>
+<ul>
+<li>A summary of the function’s actions</li>
+<li>Details the calendar’s attributes used to support the calculation</li>
+<li>Describes the main transformation steps and columns that are referenced</li>
+<li>Lists out possible next actions</li>
+</ul>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span> </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>   ti<span class="sc">::</span><span class="fu">mtd</span>(<span class="at">.date=</span>order_date,<span class="at">.value =</span> margin,<span class="at">calendar_type =</span> <span class="st">"standard"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<pre class="fansi fansi-message"><code><span style="color: #00BBBB;">──</span> <span style="font-weight: bold;">Month-to-date</span> <span style="color: #00BBBB;">───────────────────────────────────────────────────────────────</span>
+</code></pre>
+<div class="cell-output cell-output-stderr">
+<pre><code>Function: `mtd` was executed</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<pre class="fansi fansi-message"><code>── <span style="font-weight: bold;">Description:</span> ──
+</code></pre>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<pre class="fansi fansi-message"><code>This creates a daily `cumsum()` of the <span style="color: #00BBBB;">current month</span> <span style="color: #00BB00;">margin</span> from the start of
+the <span style="color: #BBBB00;">standard</span> calendar month to the end of the month
+</code></pre>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<pre class="fansi fansi-message"><code>── <span style="font-weight: bold;">Calendar:</span> ──
+</code></pre>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<pre class="fansi fansi-output"><code>• The calendar aggregated <span style="color: #FF55FF;">order_date</span> to the <span style="color: #BBBB00;">day</span> time unit
+• A <span style="color: #FF5555;">standard</span> calendar is created with <span style="color: #00BB00;">0 groups</span>
+• Calendar ranges from <span style="color: #55FF55;">2021-05-18</span> to <span style="color: #55FF55;">2024-04-20</span>
+• <span style="color: #0000BB;">222</span> days were missing and replaced with 0
+• New date column <span style="color: #FF5555;">date</span>, <span style="color: #FF5555;">year</span>, <span style="color: #FF5555;">quarter</span>, <span style="color: #FF5555;">month</span> was created from <span style="color: #FF55FF;">order_date</span>
+</code></pre>
+<pre class="fansi fansi-message"><code>── <span style="font-weight: bold;">Actions:</span> ──
+</code></pre>
+<pre class="fansi fansi-message"><code><span style="color: #00BB00;">✔</span>Aggregate <span style="color: #0000BB;">margin</span>
+</code></pre>
+<pre class="fansi fansi-message"><code><span style="color: #BB0000;">✖</span>Shift
+</code></pre>
+<pre class="fansi fansi-message"><code><span style="color: #BB0000;">✖</span>Compare
+</code></pre>
+<pre class="fansi fansi-message"><code><span style="color: #BB0000;">✖</span>Proportion of Total
+</code></pre>
+<pre class="fansi fansi-message"><code><span style="color: #BB0000;">✖</span>Count Distinct
+</code></pre>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<pre class="fansi fansi-message"><code>── <span style="font-weight: bold;">Next Steps:</span> ──
+</code></pre>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>• Use `calculate()` to return the results</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>────────────────────────────────────────────────────────────────────────────────</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code></code></pre>
+</div>
+</div>
+<p>To return the results to a lazy DBI object, pass the <code>ti</code> object through to <code>calculate()</code>.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-2"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-2-1" class="code-annotation-target"><a href="#annotated-cell-2-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-2-2" class="code-annotation-target"><a href="#annotated-cell-2-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mtd</span>(<span class="at">.date=</span>order_date,<span class="at">.value =</span> margin,<span class="at">calendar_type =</span> <span class="st">"standard"</span>) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-2" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-2-3" class="code-annotation-target"><a href="#annotated-cell-2-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">calculate</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="1" data-code-annotation="1">select your data source</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="2" data-code-annotation="2">fill in your ti functions arguments</span>
+</dd>
+<dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-2" data-code-lines="3" data-code-annotation="3">use ‘calculate’ to return a lazy_tbl of results instead of a print statement</span>
+</dd>
+</dl>
+</div>
+</div>
+<p>If you’re using a tibble, under the hood, ti converts your data to a <a href="https://github.com/duckdb/duckdb-r">DuckDB</a> database.</p>
+<p>If your data is in a database, the package will leverage <a href="https://dbplyr.tidyverse.org/">dbplyr</a> to execute all the calculations.</p>
+<p>In either case, use <code>dplyr::collect()</code> to return your results to a local tibble.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span>                                                                </span>
+<span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mtd</span>(<span class="at">.date=</span>order_date,<span class="at">.value =</span> margin,<span class="at">calendar_type =</span> <span class="st">"standard"</span>) <span class="sc">|&gt;</span>  </span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">calculate</span>() <span class="sc">|&gt;</span>                                                       </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-4" class="code-annotation-target"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">collect</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="4" data-code-annotation="1">convert any lazy_tbl object into a tibble with ‘dplyr::collect()’</span>
+</dd>
+</dl>
+</div>
+</div>
+<div class="cell" data-layout-align="center">
+<pre class="fansi fansi-output"><code><span style="color: #555555;"># A tibble: 10 × 9</span>
+   date        year month quarter  week   day  margin mtd_margin
+   <span style="color: #555555; font-style: italic;">&lt;date&gt;</span>     <span style="color: #555555; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #555555; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #555555; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #555555; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #555555; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #555555; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #555555; font-style: italic;">&lt;dbl&gt;</span>
+<span style="color: #555555;"> 1</span> 2021-05-18  <span style="text-decoration: underline;">2</span>021     5       2    20    18   407.        407.
+<span style="color: #555555;"> 2</span> 2021-05-19  <span style="text-decoration: underline;">2</span>021     5       2    20    19   711.       <span style="text-decoration: underline;">1</span>118.
+<span style="color: #555555;"> 3</span> 2021-05-20  <span style="text-decoration: underline;">2</span>021     5       2    20    20  <span style="text-decoration: underline;">1</span>424.       <span style="text-decoration: underline;">2</span>542.
+<span style="color: #555555;"> 4</span> 2021-05-21  <span style="text-decoration: underline;">2</span>021     5       2    21    21 <span style="text-decoration: underline;">11</span>339.      <span style="text-decoration: underline;">13</span>881.
+<span style="color: #555555;"> 5</span> 2021-05-22  <span style="text-decoration: underline;">2</span>021     5       2    21    22  <span style="text-decoration: underline;">5</span>359.      <span style="text-decoration: underline;">19</span>240.
+<span style="color: #555555;"> 6</span> 2021-05-23  <span style="text-decoration: underline;">2</span>021     5       2    21    23     0       <span style="text-decoration: underline;">19</span>240.
+<span style="color: #555555;"> 7</span> 2021-05-24  <span style="text-decoration: underline;">2</span>021     5       2    21    24     0       <span style="text-decoration: underline;">19</span>240.
+<span style="color: #555555;"> 8</span> 2021-05-25  <span style="text-decoration: underline;">2</span>021     5       2    21    25   793.      <span style="text-decoration: underline;">20</span>033.
+<span style="color: #555555;"> 9</span> 2021-05-26  <span style="text-decoration: underline;">2</span>021     5       2    21    26    74.6     <span style="text-decoration: underline;">20</span>107.
+<span style="color: #555555;">10</span> 2021-05-27  <span style="text-decoration: underline;">2</span>021     5       2    21    27  <span style="text-decoration: underline;">1</span>433.      <span style="text-decoration: underline;">21</span>540.
+<span style="color: #555555;"># ℹ 1 more variable: missing_date_indicator &lt;dbl&gt;</span>
+</code></pre>
+</div>
+<section id="what-if-you-need-the-analysis-at-the-group-level" class="level3">
+<h3 class="anchored" data-anchor-id="what-if-you-need-the-analysis-at-the-group-level">What if you need the analysis at the group level?</h3>
+<p>Simply pass the groups that you want to <code>dplyr::group_by()</code> and time intelligence function will create a custom calendar for each group level.</p>
+<p>This ensures that each group will have a complete calendar ensuring no group member has any missing dates.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span>   </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">group_by</span>(customer_key,store_key) <span class="sc">|&gt;</span>  </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">yoy</span>(<span class="at">.date=</span>order_date,<span class="at">.value =</span> margin,<span class="at">calendar_type =</span> <span class="st">"standard"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+</section>
+<section id="why-do-we-need-this-package-when-we-have-lubridate" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="why-do-we-need-this-package-when-we-have-lubridate">Why do we need this package when we have lubridate?</h2>
+<p><a href="https://lubridate.tidyverse.org/">Lubridate</a> is an excellent package and is at the core of many of ti’s functions. The issue is not with lubridate itself, but rather the challenges in your dataset that prevent you from directly using lubridate functions.</p>
+<p>The advantage of this package is that it will perform all of the required pre-processing steps for you.</p>
+<ul>
+<li><p>Issue 1: Many datasets <strong>do not have continuous dates</strong>, especially if data is recorded only on business days or for active transactions</p></li>
+<li><p>Issue 2: Imbalances between periods (e.g., the different number of days between February vs.&nbsp;January) can create misleading analysis or trends, or your analysis may require non-standard calendar types</p></li>
+<li><p>Issue 3: Calculating time intelligence for groups can lead to larger-than-memory issues even with smaller datasets</p></li>
+</ul>
+<section id="issue-1-continuous-dates" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="issue-1-continuous-dates">Issue 1: Continuous Dates</h3>
+<p>Referencing the <a href="#tbl-missing-dates-issues-1" class="quarto-xref">Table&nbsp;1</a> below, if we were to use <code>dplyr::lag()</code> to compare <strong>Day-over-Day (DoD)</strong> margin, we would be missing <code>2024-01-02</code>, <code>2024-01-04</code>, and <code>2024-01-05</code> which would lead to incorrect answers or trends.</p>
+<div class="cell">
+<div id="tbl-missing-dates-issues-1" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-missing-dates-issues-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
+</figcaption>
+<div aria-describedby="tbl-missing-dates-issues-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="xlzbkmpkxa" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#xlzbkmpkxa table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#xlzbkmpkxa thead, #xlzbkmpkxa tbody, #xlzbkmpkxa tfoot, #xlzbkmpkxa tr, #xlzbkmpkxa td, #xlzbkmpkxa th {
+  border-style: none;
+}
+
+#xlzbkmpkxa p {
+  margin: 0;
+  padding: 0;
+}
+
+#xlzbkmpkxa .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#xlzbkmpkxa .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#xlzbkmpkxa .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#xlzbkmpkxa .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#xlzbkmpkxa .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xlzbkmpkxa .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xlzbkmpkxa .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#xlzbkmpkxa .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#xlzbkmpkxa .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#xlzbkmpkxa .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#xlzbkmpkxa .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#xlzbkmpkxa .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#xlzbkmpkxa .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#xlzbkmpkxa .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#xlzbkmpkxa .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#xlzbkmpkxa .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#xlzbkmpkxa .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#xlzbkmpkxa .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#xlzbkmpkxa .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xlzbkmpkxa .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#xlzbkmpkxa .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#xlzbkmpkxa .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#xlzbkmpkxa .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xlzbkmpkxa .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#xlzbkmpkxa .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#xlzbkmpkxa .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xlzbkmpkxa .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xlzbkmpkxa .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#xlzbkmpkxa .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xlzbkmpkxa .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#xlzbkmpkxa .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#xlzbkmpkxa .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xlzbkmpkxa .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xlzbkmpkxa .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#xlzbkmpkxa .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#xlzbkmpkxa .gt_left {
+  text-align: left;
+}
+
+#xlzbkmpkxa .gt_center {
+  text-align: center;
+}
+
+#xlzbkmpkxa .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#xlzbkmpkxa .gt_font_normal {
+  font-weight: normal;
+}
+
+#xlzbkmpkxa .gt_font_bold {
+  font-weight: bold;
+}
+
+#xlzbkmpkxa .gt_font_italic {
+  font-style: italic;
+}
+
+#xlzbkmpkxa .gt_super {
+  font-size: 65%;
+}
+
+#xlzbkmpkxa .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#xlzbkmpkxa .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#xlzbkmpkxa .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#xlzbkmpkxa .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#xlzbkmpkxa .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#xlzbkmpkxa .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#xlzbkmpkxa .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<td colspan="2" class="gt_heading gt_title gt_font_normal"><strong>Incomplete Calendar Data</strong></td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="2" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Missing dates can lead to wrong conclusions</td>
+</tr>
+<tr class="gt_col_headings header">
+<th id="date" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-weight: bold" scope="col">date</th>
+<th id="margin" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-weight: bold" scope="col">margin</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2024-01-01</td>
+<td class="gt_row gt_right" headers="margin">1,200</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2024-01-03</td>
+<td class="gt_row gt_right gt_striped" headers="margin">1,100</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2024-01-06</td>
+<td class="gt_row gt_right" headers="margin">1,300</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2024-01-07</td>
+<td class="gt_row gt_right gt_striped" headers="margin">900</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2024-01-08</td>
+<td class="gt_row gt_right" headers="margin">1,200</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2024-01-09</td>
+<td class="gt_row gt_right gt_striped" headers="margin">850</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2024-01-11</td>
+<td class="gt_row gt_right" headers="margin">1,450</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>To correct this, <code>ti</code> will automatically complete your calendar for each group for the missing periods to ensure there are no missing periods when calculating trends.</p>
+<p>In <a href="#tbl-missing-dates-issue-1-fix-no-echo" class="quarto-xref">Table&nbsp;2</a> we see a complete calendar set and a new column, “missing_date_indicator” to indicate how many dates were missing.</p>
+<div class="cell page-columns page-full">
+<div id="tbl-missing-dates-issue-1-fix-no-echo" class="cell quarto-float quarto-figure quarto-figure-center anchored page-columns page-full">
+<figure class="quarto-float quarto-float-tbl figure page-columns page-full">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-missing-dates-issue-1-fix-no-echo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: Original table now complete with missing dates and a missing date indicator
+</figcaption>
+<div aria-describedby="tbl-missing-dates-issue-1-fix-no-echo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
+<div class="cell-output-display column-page">
+<div id="nzrpqhgglb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nzrpqhgglb table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#nzrpqhgglb thead, #nzrpqhgglb tbody, #nzrpqhgglb tfoot, #nzrpqhgglb tr, #nzrpqhgglb td, #nzrpqhgglb th {
+  border-style: none;
+}
+
+#nzrpqhgglb p {
+  margin: 0;
+  padding: 0;
+}
+
+#nzrpqhgglb .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: small;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#nzrpqhgglb .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#nzrpqhgglb .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#nzrpqhgglb .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#nzrpqhgglb .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nzrpqhgglb .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nzrpqhgglb .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#nzrpqhgglb .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#nzrpqhgglb .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#nzrpqhgglb .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#nzrpqhgglb .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#nzrpqhgglb .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#nzrpqhgglb .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#nzrpqhgglb .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#nzrpqhgglb .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#nzrpqhgglb .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#nzrpqhgglb .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#nzrpqhgglb .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#nzrpqhgglb .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nzrpqhgglb .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#nzrpqhgglb .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#nzrpqhgglb .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#nzrpqhgglb .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nzrpqhgglb .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#nzrpqhgglb .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#nzrpqhgglb .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nzrpqhgglb .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nzrpqhgglb .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#nzrpqhgglb .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nzrpqhgglb .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#nzrpqhgglb .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#nzrpqhgglb .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nzrpqhgglb .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nzrpqhgglb .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#nzrpqhgglb .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#nzrpqhgglb .gt_left {
+  text-align: left;
+}
+
+#nzrpqhgglb .gt_center {
+  text-align: center;
+}
+
+#nzrpqhgglb .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#nzrpqhgglb .gt_font_normal {
+  font-weight: normal;
+}
+
+#nzrpqhgglb .gt_font_bold {
+  font-weight: bold;
+}
+
+#nzrpqhgglb .gt_font_italic {
+  font-style: italic;
+}
+
+#nzrpqhgglb .gt_super {
+  font-size: 65%;
+}
+
+#nzrpqhgglb .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#nzrpqhgglb .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#nzrpqhgglb .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#nzrpqhgglb .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#nzrpqhgglb .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#nzrpqhgglb .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#nzrpqhgglb .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table do-not-create-environment cell caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<td colspan="9" class="gt_heading gt_title gt_font_normal"><strong>Complete Calendar with Missing Date Indicator</strong></td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="9" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">ti automatically fills missing dates</td>
+</tr>
+<tr class="gt_col_headings header">
+<th id="date" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">date</th>
+<th id="year" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">year</th>
+<th id="quarter" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">quarter</th>
+<th id="month" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">month</th>
+<th id="week" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">week</th>
+<th id="day" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">day</th>
+<th id="margin" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">margin</th>
+<th id="dod_margin" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">dod_margin</th>
+<th id="missing_date_indicator" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">missing_date_indicator</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2024-01-01</td>
+<td class="gt_row gt_right" headers="year">2024</td>
+<td class="gt_row gt_right" headers="quarter">1</td>
+<td class="gt_row gt_right" headers="month">1</td>
+<td class="gt_row gt_right" headers="week">1</td>
+<td class="gt_row gt_right" headers="day">1</td>
+<td class="gt_row gt_right" headers="margin">1,200</td>
+<td class="gt_row gt_right" headers="dod_margin">NA</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2024-01-02</td>
+<td class="gt_row gt_right gt_striped" headers="year">2024</td>
+<td class="gt_row gt_right gt_striped" headers="quarter">1</td>
+<td class="gt_row gt_right gt_striped" headers="month">1</td>
+<td class="gt_row gt_right gt_striped" headers="week">1</td>
+<td class="gt_row gt_right gt_striped" headers="day">2</td>
+<td class="gt_row gt_right gt_striped" headers="margin">0</td>
+<td class="gt_row gt_right gt_striped" headers="dod_margin">1,200</td>
+<td class="gt_row gt_right gt_striped" headers="missing_date_indicator">1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2024-01-03</td>
+<td class="gt_row gt_right" headers="year">2024</td>
+<td class="gt_row gt_right" headers="quarter">1</td>
+<td class="gt_row gt_right" headers="month">1</td>
+<td class="gt_row gt_right" headers="week">1</td>
+<td class="gt_row gt_right" headers="day">3</td>
+<td class="gt_row gt_right" headers="margin">1,100</td>
+<td class="gt_row gt_right" headers="dod_margin">0</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2024-01-04</td>
+<td class="gt_row gt_right gt_striped" headers="year">2024</td>
+<td class="gt_row gt_right gt_striped" headers="quarter">1</td>
+<td class="gt_row gt_right gt_striped" headers="month">1</td>
+<td class="gt_row gt_right gt_striped" headers="week">1</td>
+<td class="gt_row gt_right gt_striped" headers="day">4</td>
+<td class="gt_row gt_right gt_striped" headers="margin">0</td>
+<td class="gt_row gt_right gt_striped" headers="dod_margin">1,100</td>
+<td class="gt_row gt_right gt_striped" headers="missing_date_indicator">1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2024-01-05</td>
+<td class="gt_row gt_right" headers="year">2024</td>
+<td class="gt_row gt_right" headers="quarter">1</td>
+<td class="gt_row gt_right" headers="month">1</td>
+<td class="gt_row gt_right" headers="week">1</td>
+<td class="gt_row gt_right" headers="day">5</td>
+<td class="gt_row gt_right" headers="margin">0</td>
+<td class="gt_row gt_right" headers="dod_margin">0</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2024-01-06</td>
+<td class="gt_row gt_right gt_striped" headers="year">2024</td>
+<td class="gt_row gt_right gt_striped" headers="quarter">1</td>
+<td class="gt_row gt_right gt_striped" headers="month">1</td>
+<td class="gt_row gt_right gt_striped" headers="week">1</td>
+<td class="gt_row gt_right gt_striped" headers="day">6</td>
+<td class="gt_row gt_right gt_striped" headers="margin">1,300</td>
+<td class="gt_row gt_right gt_striped" headers="dod_margin">0</td>
+<td class="gt_row gt_right gt_striped" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2024-01-07</td>
+<td class="gt_row gt_right" headers="year">2024</td>
+<td class="gt_row gt_right" headers="quarter">1</td>
+<td class="gt_row gt_right" headers="month">1</td>
+<td class="gt_row gt_right" headers="week">1</td>
+<td class="gt_row gt_right" headers="day">7</td>
+<td class="gt_row gt_right" headers="margin">900</td>
+<td class="gt_row gt_right" headers="dod_margin">1,300</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2024-01-08</td>
+<td class="gt_row gt_right gt_striped" headers="year">2024</td>
+<td class="gt_row gt_right gt_striped" headers="quarter">1</td>
+<td class="gt_row gt_right gt_striped" headers="month">1</td>
+<td class="gt_row gt_right gt_striped" headers="week">2</td>
+<td class="gt_row gt_right gt_striped" headers="day">8</td>
+<td class="gt_row gt_right gt_striped" headers="margin">1,200</td>
+<td class="gt_row gt_right gt_striped" headers="dod_margin">900</td>
+<td class="gt_row gt_right gt_striped" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2024-01-09</td>
+<td class="gt_row gt_right" headers="year">2024</td>
+<td class="gt_row gt_right" headers="quarter">1</td>
+<td class="gt_row gt_right" headers="month">1</td>
+<td class="gt_row gt_right" headers="week">2</td>
+<td class="gt_row gt_right" headers="day">9</td>
+<td class="gt_row gt_right" headers="margin">850</td>
+<td class="gt_row gt_right" headers="dod_margin">1,200</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2024-01-10</td>
+<td class="gt_row gt_right gt_striped" headers="year">2024</td>
+<td class="gt_row gt_right gt_striped" headers="quarter">1</td>
+<td class="gt_row gt_right gt_striped" headers="month">1</td>
+<td class="gt_row gt_right gt_striped" headers="week">2</td>
+<td class="gt_row gt_right gt_striped" headers="day">10</td>
+<td class="gt_row gt_right gt_striped" headers="margin">0</td>
+<td class="gt_row gt_right gt_striped" headers="dod_margin">850</td>
+<td class="gt_row gt_right gt_striped" headers="missing_date_indicator">1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2024-01-11</td>
+<td class="gt_row gt_right" headers="year">2024</td>
+<td class="gt_row gt_right" headers="quarter">1</td>
+<td class="gt_row gt_right" headers="month">1</td>
+<td class="gt_row gt_right" headers="week">2</td>
+<td class="gt_row gt_right" headers="day">11</td>
+<td class="gt_row gt_right" headers="margin">1,450</td>
+<td class="gt_row gt_right" headers="dod_margin">0</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="issue-2-period-imbalances" class="level3">
+<h3 class="anchored" data-anchor-id="issue-2-period-imbalances">Issue 2: Period imbalances</h3>
+<p>When comparing two performance periods with a standard calendar, you may end up comparing periods with an unequal number of days.</p>
+<p>For example, if you want to compare January sales to February, you can get misleading conclusions due to the unequal number of weekends and days in those periods.</p>
+<blockquote class="blockquote">
+<p>In practice you have two choices:</p>
+<ul>
+<li><p>Compare periods with similar days (e.g., the 28th of February should only compare up to the 28th of January) and you omit three days of January sales altogether</p></li>
+<li><p>Have an imbalanced comparison (e.g., the 28th of February compares to the 31st of January so that no days are lost)</p></li>
+</ul>
+</blockquote>
+<p>This package uses the second option to ensure we don’t lose any of January’s sales, but to help flag the imbalance, ti will add a column to let you know how many periods (e.g., days) are in your comparison period to increase transparency.</p>
+<p>To create this example, we will use the <code>pmtd()</code> function to calculate the prior month to date cumulative margin in the current month.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pmtd</span>(order_date,margin,<span class="st">"standard"</span>,<span class="at">lag_n =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>When we pass the ti object through to <code>calculate()</code> and filter the results for February 2022, we would see the below <a href="#tbl-issue2-example-no-echo" class="quarto-xref">Table&nbsp;3</a>.</p>
+<p>On 2022-02-28, we see that is comparing 31 days of the previous period to the 28 days in the current period.</p>
+<div class="cell">
+<div id="tbl-issue2-example-no-echo" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-issue2-example-no-echo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3
+</figcaption>
+<div aria-describedby="tbl-issue2-example-no-echo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="hckrpeqmqv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hckrpeqmqv table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#hckrpeqmqv thead, #hckrpeqmqv tbody, #hckrpeqmqv tfoot, #hckrpeqmqv tr, #hckrpeqmqv td, #hckrpeqmqv th {
+  border-style: none;
+}
+
+#hckrpeqmqv p {
+  margin: 0;
+  padding: 0;
+}
+
+#hckrpeqmqv .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: small;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#hckrpeqmqv .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#hckrpeqmqv .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#hckrpeqmqv .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#hckrpeqmqv .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hckrpeqmqv .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hckrpeqmqv .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#hckrpeqmqv .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#hckrpeqmqv .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#hckrpeqmqv .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#hckrpeqmqv .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#hckrpeqmqv .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#hckrpeqmqv .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#hckrpeqmqv .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#hckrpeqmqv .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#hckrpeqmqv .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#hckrpeqmqv .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#hckrpeqmqv .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#hckrpeqmqv .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hckrpeqmqv .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#hckrpeqmqv .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#hckrpeqmqv .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#hckrpeqmqv .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hckrpeqmqv .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#hckrpeqmqv .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#hckrpeqmqv .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hckrpeqmqv .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hckrpeqmqv .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#hckrpeqmqv .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hckrpeqmqv .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#hckrpeqmqv .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#hckrpeqmqv .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hckrpeqmqv .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hckrpeqmqv .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#hckrpeqmqv .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#hckrpeqmqv .gt_left {
+  text-align: left;
+}
+
+#hckrpeqmqv .gt_center {
+  text-align: center;
+}
+
+#hckrpeqmqv .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#hckrpeqmqv .gt_font_normal {
+  font-weight: normal;
+}
+
+#hckrpeqmqv .gt_font_bold {
+  font-weight: bold;
+}
+
+#hckrpeqmqv .gt_font_italic {
+  font-style: italic;
+}
+
+#hckrpeqmqv .gt_super {
+  font-size: 65%;
+}
+
+#hckrpeqmqv .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#hckrpeqmqv .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#hckrpeqmqv .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#hckrpeqmqv .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#hckrpeqmqv .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#hckrpeqmqv .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#hckrpeqmqv .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table do-not-create-environment caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<td colspan="5" class="gt_heading gt_title gt_font_normal"><strong>Period Imbalance Example</strong></td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">February 2022 comparing to January (31 vs 28 days)</td>
+</tr>
+<tr class="gt_col_headings header">
+<th id="date" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">date</th>
+<th id="year" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">year</th>
+<th id="month" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">month</th>
+<th id="pmtd_margin" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">pmtd_margin</th>
+<th id="days_in_comparison_period" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">days_in_comparison_period</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2022-02-26</td>
+<td class="gt_row gt_right" headers="year">2022</td>
+<td class="gt_row gt_right" headers="month">2</td>
+<td class="gt_row gt_right" headers="pmtd_margin">129,436</td>
+<td class="gt_row gt_right" headers="days_in_comparison_period">26</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2022-02-27</td>
+<td class="gt_row gt_right gt_striped" headers="year">2022</td>
+<td class="gt_row gt_right gt_striped" headers="month">2</td>
+<td class="gt_row gt_right gt_striped" headers="pmtd_margin">132,202</td>
+<td class="gt_row gt_right gt_striped" headers="days_in_comparison_period">27</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2022-02-28</td>
+<td class="gt_row gt_right" headers="year">2022</td>
+<td class="gt_row gt_right" headers="month">2</td>
+<td class="gt_row gt_right" headers="pmtd_margin">142,668</td>
+<td class="gt_row gt_right" headers="days_in_comparison_period">31</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+</section>
+<section id="issue-3-larger-than-memory-data" class="level3">
+<h3 class="anchored" data-anchor-id="issue-3-larger-than-memory-data">Issue 3: Larger-than-memory data</h3>
+<p>If your data isn’t already in a database, ti will leverage DuckDB to convert your data and enable larger-than-memory calculations.</p>
+<p>This is necessary for time intelligence functions because, with grouped data, you need to complete the calendar for each group combination. For even modest datasets, this can quickly multiply and grow your data beyond available memory.</p>
+<p>If your data is already in a database, ti will use <a href="https://dbplyr.tidyverse.org/">dbplyr</a> to convert the functions to SQL queries.</p>
+<p>In either scenario, you can use <code>dplyr::collect()</code> to execute your SQL query and return a tibble to your local computer.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># quickly load contoso package to a database via the contoso package</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> contoso<span class="sc">::</span><span class="fu">create_contoso_duckdb</span>()</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># pass through to the same function mtd()</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>db<span class="sc">$</span>sales <span class="sc">|&gt;</span> <span class="fu">mtd</span>(order_date,margin,<span class="st">"standard"</span>)</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># same syntax even though data source is now a tibble</span></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span> <span class="fu">mtd</span>(order_date,margin,<span class="st">"standard"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+
+
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Built with <a href="https://quarto.org/">Quarto</a> and <a href="https://codeberg.org/usrbinr/qrtdown">qrtdown</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>ti 4.0.0</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

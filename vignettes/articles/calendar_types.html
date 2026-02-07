@@ -1,0 +1,2583 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.25">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Alejandro Hagan">
+<meta name="dcterms.date" content="2026-02-06">
+
+<title>Standard vs.&nbsp;Non-Standard Calendars – ti</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-d1df8dc4b7b671d1cc69a36271deb873.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+</head>
+
+<body class="nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">ti 4.0.0</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-articles" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Articles</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-articles">    
+        <li>
+    <a class="dropdown-item" href="../../vignettes/articles/abc.html">
+ <span class="dropdown-text">ABC Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../vignettes/articles/calendar_types.html">
+ <span class="dropdown-text">Standard vs.&nbsp;Non-Standard Calendars</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../vignettes/articles/cohort.html">
+ <span class="dropdown-text">Cohort</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../vignettes/articles/ti.html">
+ <span class="dropdown-text">Getting started</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="../../reference.html"> 
+<span class="menu-text">Reference</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../NEWS.html"> 
+<span class="menu-text">Changelog</span></a>
+  </li>  
+</ul>
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://codeberg.org/usrbinr/ti"> <i class="bi bi-code-square" role="img" aria-label="Source code">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction-beyond-the-gregorian-calendar" id="toc-introduction-beyond-the-gregorian-calendar" class="nav-link active" data-scroll-target="#introduction-beyond-the-gregorian-calendar">Introduction: Beyond the Gregorian Calendar</a>
+  <ul class="collapse">
+  <li><a href="#the-standard-gregorian-calendar" id="toc-the-standard-gregorian-calendar" class="nav-link" data-scroll-target="#the-standard-gregorian-calendar">1. The Standard (Gregorian) Calendar</a></li>
+  <li><a href="#non-standard-retailfiscal-calendars" id="toc-non-standard-retailfiscal-calendars" class="nav-link" data-scroll-target="#non-standard-retailfiscal-calendars">2. Non-Standard (Retail/Fiscal) Calendars</a></li>
+  <li><a href="#calendar-comparison" id="toc-calendar-comparison" class="nav-link" data-scroll-target="#calendar-comparison">Calendar Comparison</a></li>
+  <li><a href="#how-to-reference-in-ti-functions" id="toc-how-to-reference-in-ti-functions" class="nav-link" data-scroll-target="#how-to-reference-in-ti-functions">How to reference in <code>ti</code> functions?</a></li>
+  <li><a href="#fiscal-year-start" id="toc-fiscal-year-start" class="nav-link" data-scroll-target="#fiscal-year-start">Fiscal Year Start</a></li>
+  <li><a href="#examples" id="toc-examples" class="nav-link" data-scroll-target="#examples">Examples</a></li>
+  </ul></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Standard vs.&nbsp;Non-Standard Calendars</h1>
+<p class="subtitle lead">What are non-standard calendars and when do we use them?</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alejandro Hagan </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2026-02-06</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<div class="cell">
+<div class="cell-output-display">
+
+</div>
+</div>
+<section id="introduction-beyond-the-gregorian-calendar" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-beyond-the-gregorian-calendar">Introduction: Beyond the Gregorian Calendar</h2>
+<p>In many <strong>Financial Planning &amp; Analysis (FP&amp;A)</strong> functions, you’ll encounter a <code>calendar_type</code> argument. This might be confusing, as most people assume there is only one type of calendar!</p>
+<p>To accommodate the unique operational and analytical needs of certain industries (particularly retail and manufacturing), <code>ti</code> often involves two primary calendar systems:</p>
+<ol type="1">
+<li><strong>Standard Calendar</strong> (Gregorian)</li>
+<li><strong>Non-Standard Calendars</strong> (e.g., <em>5-4-4, 4-4-5, 4-5-4</em>)</li>
+</ol>
+<p>This guide explains the differences between these calendars and their typical use cases in business analysis.</p>
+<hr>
+<section id="the-standard-gregorian-calendar" class="level3">
+<h3 class="anchored" data-anchor-id="the-standard-gregorian-calendar">1. The Standard (Gregorian) Calendar</h3>
+<p>This is the <strong>conventional calendar</strong> used for general financial reporting, scheduling, and external communication.</p>
+<section id="structure-use" class="level4">
+<h4 class="anchored" data-anchor-id="structure-use">Structure &amp; Use</h4>
+<ul>
+<li><strong>Period Structure:</strong> 12 months of <strong>varying lengths</strong> (28–31 days).</li>
+<li><strong>Days/Weeks:</strong> 365 days per year (366 in a leap year).</li>
+<li><strong>Advantage:</strong> It matches external reporting deadlines, regulatory timelines, and standard corporate schedules.</li>
+</ul>
+</section>
+<section id="disadvantage-inconsistent-comparisons" class="level4">
+<h4 class="anchored" data-anchor-id="disadvantage-inconsistent-comparisons">Disadvantage: Inconsistent Comparisons</h4>
+<p>The primary drawback is that comparing operational metrics (like sales or margin) month-over-month (MoM) or quarter-over-quarter (QoQ) is challenging. The varying number of days or weekends leads to <strong>misleading conclusions</strong>.</p>
+<blockquote class="blockquote">
+<p>For example, comparing sales from a 31-day month to a 28-day month will inherently show a “drop” in total revenue, even if the daily performance was identical. This makes true performance comparison difficult.</p>
+</blockquote>
+<hr>
+</section>
+</section>
+<section id="non-standard-retailfiscal-calendars" class="level3">
+<h3 class="anchored" data-anchor-id="non-standard-retailfiscal-calendars">2. Non-Standard (Retail/Fiscal) Calendars</h3>
+<p>Non-standard calendars are explicitly designed to <strong>control for period-to-period variance</strong>. They achieve this by ensuring every comparable period has an identical number of weeks and, critically, an identical number of <strong>weekends</strong>. This allows for a <strong>cleaner “apples-to-apples” comparison</strong> of operational performance.</p>
+<p>The most common types are the <strong>Retail Calendars</strong> (used in retail, restaurant, and manufacturing), such as <strong>5-4-4</strong>, <strong>4-4-5</strong>, and <strong>4-5-4</strong>.</p>
+<section id="example-the-5-4-4-calendar-structure" class="level4">
+<h4 class="anchored" data-anchor-id="example-the-5-4-4-calendar-structure">Example: The 5-4-4 Calendar Structure</h4>
+<p>The 5-4-4 structure ensures that every quarter is exactly <strong>13 weeks</strong> long, and the month structure repeats perfectly:</p>
+<ul>
+<li><strong>Basis:</strong> Weeks in a period, not days in a month.</li>
+<li><strong>Total Year:</strong> 52 weeks (364 days).</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 26%">
+<col style="width: 26%">
+<col style="width: 26%">
+<col style="width: 21%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Quarter Structure</th>
+<th style="text-align: center;">Weeks</th>
+<th style="text-align: center;">Days</th>
+<th style="text-align: left;">Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: center;"><strong>Period 1</strong></td>
+<td style="text-align: center;">5 Weeks</td>
+<td style="text-align: center;">35 days</td>
+<td style="text-align: left;">Captures seasonal spikes or month-end activity.</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Period 2</strong></td>
+<td style="text-align: center;">4 Weeks</td>
+<td style="text-align: center;">28 days</td>
+<td style="text-align: left;">Standard monthly period.</td>
+</tr>
+<tr class="odd">
+<td style="text-align: center;"><strong>Period 3</strong></td>
+<td style="text-align: center;">4 Weeks</td>
+<td style="text-align: center;">28 days</td>
+<td style="text-align: left;">Standard monthly period.</td>
+</tr>
+<tr class="even">
+<td style="text-align: center;"><strong>Total Quarter</strong></td>
+<td style="text-align: center;">13 Weeks</td>
+<td style="text-align: center;">91 days</td>
+<td style="text-align: left;">Ensures exact period alignment QoQ.</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="the-53rd-week-challenge" class="level4">
+<h4 class="anchored" data-anchor-id="the-53rd-week-challenge">The 53rd Week Challenge</h4>
+<p>Since a 52-week year is 364 days, and the solar year is <span class="math inline">\(\approx 365.25\)</span> days, a <strong>53rd week</strong> must be added every 5 to 6 years to keep the fiscal year aligned with the actual calendar year. This <strong>53-week year</strong> is a crucial planning consideration for businesses using non-standard calendars.</p>
+<hr>
+</section>
+</section>
+<section id="calendar-comparison" class="level3">
+<h3 class="anchored" data-anchor-id="calendar-comparison">Calendar Comparison</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Feature</th>
+<th style="text-align: left;">Standard (Gregorian) Calendar</th>
+<th style="text-align: left;">Non-Standard (e.g., 5-4-4) Calendar</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;"><strong>Basis of Period</strong></td>
+<td style="text-align: left;">Days in month</td>
+<td style="text-align: left;">Weeks in period</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Month/Period Length</strong></td>
+<td style="text-align: left;">Varies (28–31 days)</td>
+<td style="text-align: left;">Fixed (4 or 5 weeks)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;"><strong>Consistency MoM/QoQ</strong></td>
+<td style="text-align: left;">Low: Days/weekends vary</td>
+<td style="text-align: left;">High: Weeks/weekends are identical</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;"><strong>Best For</strong></td>
+<td style="text-align: left;">General reporting, external financial statements (GAAP/IFRS)</td>
+<td style="text-align: left;"><strong>Operational Analysis:</strong> Retail sales, inventory, labor costs, and year-over-year comparisons.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+</section>
+<section id="how-to-reference-in-ti-functions" class="level3">
+<h3 class="anchored" data-anchor-id="how-to-reference-in-ti-functions">How to reference in <code>ti</code> functions?</h3>
+<p>The <code>calendar_type</code> argument is how you instruct the function on which system to use for its internal calculations and indexing.</p>
+<ul>
+<li>To use a traditional calendar, pass: <code>"standard"</code></li>
+<li>To use a retail calendar, pass the respective structure: <code>"544"</code>, <code>"454"</code>, or <code>"445"</code></li>
+</ul>
+<p>Under the hood, <code>ti</code> handles the complexities: it generates the appropriate date keys and ensures that all your metrics are indexed correctly to the start and end of the chosen calendar’s periods.</p>
+<hr>
+</section>
+<section id="fiscal-year-start" class="level3">
+<h3 class="anchored" data-anchor-id="fiscal-year-start">Fiscal Year Start</h3>
+<p>By default, the retail calendar’s fiscal year starts nearest to <strong>January</strong> (<code>fiscal_year_start = 1</code>). Many retailers operate on a fiscal year that begins in <strong>February</strong> (e.g., NRF convention). You can control this with the <code>fiscal_year_start</code> parameter:</p>
+<ul>
+<li><code>fiscal_year_start = 1</code> – fiscal year starts nearest to January 1st (default)</li>
+<li><code>fiscal_year_start = 2</code> – fiscal year starts nearest to February 1st (common in US retail)</li>
+<li><code>fiscal_year_start = 7</code> – fiscal year starts nearest to July 1st</li>
+</ul>
+<p>The start date is determined by finding the <code>week_start</code> weekday (default: Sunday) nearest to the 1st of the specified month.</p>
+<hr>
+</section>
+<section id="examples" class="level3">
+<h3 class="anchored" data-anchor-id="examples">Examples</h3>
+<section id="year-to-date-with-a-4-4-5-retail-calendar" class="level4">
+<h4 class="anchored" data-anchor-id="year-to-date-with-a-4-4-5-retail-calendar">Year-to-date with a 4-4-5 retail calendar</h4>
+<p>The fiscal year starts nearest to February. Each quarter has 13 weeks split into 4-week, 4-week, and 5-week months.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">ytd</span>(</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">.date =</span> order_date,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.value =</span> margin,</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">calendar_type =</span> <span class="st">"445"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fiscal_year_start =</span> <span class="dv">2</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>() <span class="sc">|&gt;</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="gnulepxumn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#gnulepxumn table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#gnulepxumn thead, #gnulepxumn tbody, #gnulepxumn tfoot, #gnulepxumn tr, #gnulepxumn td, #gnulepxumn th {
+  border-style: none;
+}
+
+#gnulepxumn p {
+  margin: 0;
+  padding: 0;
+}
+
+#gnulepxumn .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: small;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#gnulepxumn .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#gnulepxumn .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#gnulepxumn .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#gnulepxumn .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#gnulepxumn .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gnulepxumn .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#gnulepxumn .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#gnulepxumn .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#gnulepxumn .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#gnulepxumn .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#gnulepxumn .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#gnulepxumn .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#gnulepxumn .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#gnulepxumn .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#gnulepxumn .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#gnulepxumn .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#gnulepxumn .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#gnulepxumn .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gnulepxumn .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#gnulepxumn .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#gnulepxumn .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#gnulepxumn .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gnulepxumn .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#gnulepxumn .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#gnulepxumn .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gnulepxumn .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gnulepxumn .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#gnulepxumn .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gnulepxumn .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#gnulepxumn .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#gnulepxumn .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#gnulepxumn .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gnulepxumn .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#gnulepxumn .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#gnulepxumn .gt_left {
+  text-align: left;
+}
+
+#gnulepxumn .gt_center {
+  text-align: center;
+}
+
+#gnulepxumn .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#gnulepxumn .gt_font_normal {
+  font-weight: normal;
+}
+
+#gnulepxumn .gt_font_bold {
+  font-weight: bold;
+}
+
+#gnulepxumn .gt_font_italic {
+  font-style: italic;
+}
+
+#gnulepxumn .gt_super {
+  font-size: 65%;
+}
+
+#gnulepxumn .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#gnulepxumn .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#gnulepxumn .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#gnulepxumn .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#gnulepxumn .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#gnulepxumn .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#gnulepxumn .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<td colspan="9" class="gt_heading gt_title gt_font_normal"><strong>Year-to-Date (4-4-5 Calendar)</strong></td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="9" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">First 10 rows</td>
+</tr>
+<tr class="gt_col_headings header">
+<th id="date" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">date</th>
+<th id="year" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">year</th>
+<th id="quarter" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">quarter</th>
+<th id="month" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">month</th>
+<th id="week" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">week</th>
+<th id="day" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">day</th>
+<th id="margin" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">margin</th>
+<th id="ytd_margin" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">ytd_margin</th>
+<th id="missing_date_indicator" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">missing_date_indicator</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2021-05-18</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="month">4</td>
+<td class="gt_row gt_right" headers="week">16</td>
+<td class="gt_row gt_right" headers="day">18</td>
+<td class="gt_row gt_right" headers="margin">407</td>
+<td class="gt_row gt_right" headers="ytd_margin">407</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2021-05-19</td>
+<td class="gt_row gt_right gt_striped" headers="year">2021</td>
+<td class="gt_row gt_right gt_striped" headers="quarter">2</td>
+<td class="gt_row gt_right gt_striped" headers="month">4</td>
+<td class="gt_row gt_right gt_striped" headers="week">16</td>
+<td class="gt_row gt_right gt_striped" headers="day">19</td>
+<td class="gt_row gt_right gt_striped" headers="margin">711</td>
+<td class="gt_row gt_right gt_striped" headers="ytd_margin">1,118</td>
+<td class="gt_row gt_right gt_striped" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2021-05-20</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="month">4</td>
+<td class="gt_row gt_right" headers="week">16</td>
+<td class="gt_row gt_right" headers="day">20</td>
+<td class="gt_row gt_right" headers="margin">1,424</td>
+<td class="gt_row gt_right" headers="ytd_margin">2,542</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2021-05-21</td>
+<td class="gt_row gt_right gt_striped" headers="year">2021</td>
+<td class="gt_row gt_right gt_striped" headers="quarter">2</td>
+<td class="gt_row gt_right gt_striped" headers="month">4</td>
+<td class="gt_row gt_right gt_striped" headers="week">16</td>
+<td class="gt_row gt_right gt_striped" headers="day">21</td>
+<td class="gt_row gt_right gt_striped" headers="margin">11,339</td>
+<td class="gt_row gt_right gt_striped" headers="ytd_margin">13,881</td>
+<td class="gt_row gt_right gt_striped" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2021-05-22</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="month">4</td>
+<td class="gt_row gt_right" headers="week">16</td>
+<td class="gt_row gt_right" headers="day">22</td>
+<td class="gt_row gt_right" headers="margin">5,359</td>
+<td class="gt_row gt_right" headers="ytd_margin">19,240</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2021-05-23</td>
+<td class="gt_row gt_right gt_striped" headers="year">2021</td>
+<td class="gt_row gt_right gt_striped" headers="quarter">2</td>
+<td class="gt_row gt_right gt_striped" headers="month">4</td>
+<td class="gt_row gt_right gt_striped" headers="week">17</td>
+<td class="gt_row gt_right gt_striped" headers="day">23</td>
+<td class="gt_row gt_right gt_striped" headers="margin">0</td>
+<td class="gt_row gt_right gt_striped" headers="ytd_margin">19,240</td>
+<td class="gt_row gt_right gt_striped" headers="missing_date_indicator">1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2021-05-24</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="month">4</td>
+<td class="gt_row gt_right" headers="week">17</td>
+<td class="gt_row gt_right" headers="day">24</td>
+<td class="gt_row gt_right" headers="margin">0</td>
+<td class="gt_row gt_right" headers="ytd_margin">19,240</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2021-05-25</td>
+<td class="gt_row gt_right gt_striped" headers="year">2021</td>
+<td class="gt_row gt_right gt_striped" headers="quarter">2</td>
+<td class="gt_row gt_right gt_striped" headers="month">4</td>
+<td class="gt_row gt_right gt_striped" headers="week">17</td>
+<td class="gt_row gt_right gt_striped" headers="day">25</td>
+<td class="gt_row gt_right gt_striped" headers="margin">793</td>
+<td class="gt_row gt_right gt_striped" headers="ytd_margin">20,033</td>
+<td class="gt_row gt_right gt_striped" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2021-05-26</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="month">4</td>
+<td class="gt_row gt_right" headers="week">17</td>
+<td class="gt_row gt_right" headers="day">26</td>
+<td class="gt_row gt_right" headers="margin">75</td>
+<td class="gt_row gt_right" headers="ytd_margin">20,107</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2021-05-27</td>
+<td class="gt_row gt_right gt_striped" headers="year">2021</td>
+<td class="gt_row gt_right gt_striped" headers="quarter">2</td>
+<td class="gt_row gt_right gt_striped" headers="month">4</td>
+<td class="gt_row gt_right gt_striped" headers="week">17</td>
+<td class="gt_row gt_right gt_striped" headers="day">27</td>
+<td class="gt_row gt_right gt_striped" headers="margin">1,433</td>
+<td class="gt_row gt_right gt_striped" headers="ytd_margin">21,540</td>
+<td class="gt_row gt_right gt_striped" headers="missing_date_indicator">0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<p>Notice that the <code>year</code>, <code>quarter</code>, <code>month</code>, and <code>week</code> columns now reflect the <strong>fiscal</strong> periods from the 4-4-5 calendar rather than the Gregorian calendar.</p>
+</section>
+<section id="month-to-date-with-a-5-4-4-retail-calendar" class="level4">
+<h4 class="anchored" data-anchor-id="month-to-date-with-a-5-4-4-retail-calendar">Month-to-date with a 5-4-4 retail calendar</h4>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtd</span>(</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">.date =</span> order_date,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.value =</span> margin,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">calendar_type =</span> <span class="st">"544"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">fiscal_year_start =</span> <span class="dv">2</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>() <span class="sc">|&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">collect</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div class="cell">
+<div class="cell-output-display">
+<div id="rxbmvhpvtb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#rxbmvhpvtb table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#rxbmvhpvtb thead, #rxbmvhpvtb tbody, #rxbmvhpvtb tfoot, #rxbmvhpvtb tr, #rxbmvhpvtb td, #rxbmvhpvtb th {
+  border-style: none;
+}
+
+#rxbmvhpvtb p {
+  margin: 0;
+  padding: 0;
+}
+
+#rxbmvhpvtb .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: small;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#rxbmvhpvtb .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#rxbmvhpvtb .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#rxbmvhpvtb .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#rxbmvhpvtb .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#rxbmvhpvtb .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rxbmvhpvtb .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#rxbmvhpvtb .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#rxbmvhpvtb .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#rxbmvhpvtb .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#rxbmvhpvtb .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#rxbmvhpvtb .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#rxbmvhpvtb .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#rxbmvhpvtb .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#rxbmvhpvtb .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#rxbmvhpvtb .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#rxbmvhpvtb .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#rxbmvhpvtb .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#rxbmvhpvtb .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rxbmvhpvtb .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#rxbmvhpvtb .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#rxbmvhpvtb .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#rxbmvhpvtb .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rxbmvhpvtb .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#rxbmvhpvtb .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#rxbmvhpvtb .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rxbmvhpvtb .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rxbmvhpvtb .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#rxbmvhpvtb .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rxbmvhpvtb .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#rxbmvhpvtb .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#rxbmvhpvtb .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#rxbmvhpvtb .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rxbmvhpvtb .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#rxbmvhpvtb .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#rxbmvhpvtb .gt_left {
+  text-align: left;
+}
+
+#rxbmvhpvtb .gt_center {
+  text-align: center;
+}
+
+#rxbmvhpvtb .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#rxbmvhpvtb .gt_font_normal {
+  font-weight: normal;
+}
+
+#rxbmvhpvtb .gt_font_bold {
+  font-weight: bold;
+}
+
+#rxbmvhpvtb .gt_font_italic {
+  font-style: italic;
+}
+
+#rxbmvhpvtb .gt_super {
+  font-size: 65%;
+}
+
+#rxbmvhpvtb .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#rxbmvhpvtb .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#rxbmvhpvtb .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#rxbmvhpvtb .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#rxbmvhpvtb .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#rxbmvhpvtb .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#rxbmvhpvtb .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<td colspan="9" class="gt_heading gt_title gt_font_normal"><strong>Month-to-Date (5-4-4 Calendar)</strong></td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="9" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">First 10 rows</td>
+</tr>
+<tr class="gt_col_headings header">
+<th id="date" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">date</th>
+<th id="year" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">year</th>
+<th id="month" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">month</th>
+<th id="quarter" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">quarter</th>
+<th id="week" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">week</th>
+<th id="day" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">day</th>
+<th id="margin" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">margin</th>
+<th id="mtd_margin" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">mtd_margin</th>
+<th id="missing_date_indicator" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-size: small; font-weight: bold" scope="col">missing_date_indicator</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2021-05-18</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="month">4</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="week">16</td>
+<td class="gt_row gt_right" headers="day">18</td>
+<td class="gt_row gt_right" headers="margin">407</td>
+<td class="gt_row gt_right" headers="mtd_margin">407</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2021-05-19</td>
+<td class="gt_row gt_right gt_striped" headers="year">2021</td>
+<td class="gt_row gt_right gt_striped" headers="month">4</td>
+<td class="gt_row gt_right gt_striped" headers="quarter">2</td>
+<td class="gt_row gt_right gt_striped" headers="week">16</td>
+<td class="gt_row gt_right gt_striped" headers="day">19</td>
+<td class="gt_row gt_right gt_striped" headers="margin">711</td>
+<td class="gt_row gt_right gt_striped" headers="mtd_margin">1,118</td>
+<td class="gt_row gt_right gt_striped" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2021-05-20</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="month">4</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="week">16</td>
+<td class="gt_row gt_right" headers="day">20</td>
+<td class="gt_row gt_right" headers="margin">1,424</td>
+<td class="gt_row gt_right" headers="mtd_margin">2,542</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2021-05-21</td>
+<td class="gt_row gt_right gt_striped" headers="year">2021</td>
+<td class="gt_row gt_right gt_striped" headers="month">4</td>
+<td class="gt_row gt_right gt_striped" headers="quarter">2</td>
+<td class="gt_row gt_right gt_striped" headers="week">16</td>
+<td class="gt_row gt_right gt_striped" headers="day">21</td>
+<td class="gt_row gt_right gt_striped" headers="margin">11,339</td>
+<td class="gt_row gt_right gt_striped" headers="mtd_margin">13,881</td>
+<td class="gt_row gt_right gt_striped" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2021-05-22</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="month">4</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="week">16</td>
+<td class="gt_row gt_right" headers="day">22</td>
+<td class="gt_row gt_right" headers="margin">5,359</td>
+<td class="gt_row gt_right" headers="mtd_margin">19,240</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2021-05-23</td>
+<td class="gt_row gt_right gt_striped" headers="year">2021</td>
+<td class="gt_row gt_right gt_striped" headers="month">4</td>
+<td class="gt_row gt_right gt_striped" headers="quarter">2</td>
+<td class="gt_row gt_right gt_striped" headers="week">17</td>
+<td class="gt_row gt_right gt_striped" headers="day">23</td>
+<td class="gt_row gt_right gt_striped" headers="margin">0</td>
+<td class="gt_row gt_right gt_striped" headers="mtd_margin">19,240</td>
+<td class="gt_row gt_right gt_striped" headers="missing_date_indicator">1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2021-05-24</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="month">4</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="week">17</td>
+<td class="gt_row gt_right" headers="day">24</td>
+<td class="gt_row gt_right" headers="margin">0</td>
+<td class="gt_row gt_right" headers="mtd_margin">19,240</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2021-05-25</td>
+<td class="gt_row gt_right gt_striped" headers="year">2021</td>
+<td class="gt_row gt_right gt_striped" headers="month">4</td>
+<td class="gt_row gt_right gt_striped" headers="quarter">2</td>
+<td class="gt_row gt_right gt_striped" headers="week">17</td>
+<td class="gt_row gt_right gt_striped" headers="day">25</td>
+<td class="gt_row gt_right gt_striped" headers="margin">793</td>
+<td class="gt_row gt_right gt_striped" headers="mtd_margin">20,033</td>
+<td class="gt_row gt_right gt_striped" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2021-05-26</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="month">4</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="week">17</td>
+<td class="gt_row gt_right" headers="day">26</td>
+<td class="gt_row gt_right" headers="margin">75</td>
+<td class="gt_row gt_right" headers="mtd_margin">20,107</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right gt_striped" headers="date">2021-05-27</td>
+<td class="gt_row gt_right gt_striped" headers="year">2021</td>
+<td class="gt_row gt_right gt_striped" headers="month">4</td>
+<td class="gt_row gt_right gt_striped" headers="quarter">2</td>
+<td class="gt_row gt_right gt_striped" headers="week">17</td>
+<td class="gt_row gt_right gt_striped" headers="day">27</td>
+<td class="gt_row gt_right gt_striped" headers="margin">1,433</td>
+<td class="gt_row gt_right gt_striped" headers="mtd_margin">21,540</td>
+<td class="gt_row gt_right gt_striped" headers="missing_date_indicator">0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</section>
+<section id="grouped-analysis-with-a-retail-calendar" class="level4">
+<h4 class="anchored" data-anchor-id="grouped-analysis-with-a-retail-calendar">Grouped analysis with a retail calendar</h4>
+<p>Groups work exactly as they do with the standard calendar. Each group gets a complete fiscal calendar.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-3-1" class="code-annotation-target"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-3-2" class="code-annotation-target"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(store_key) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">qtd</span>(</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="3" onclick="event.preventDefault();">3</a><span id="annotated-cell-3-4" class="code-annotation-target"><a href="#annotated-cell-3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">.date =</span> order_date,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="4" onclick="event.preventDefault();">4</a><span id="annotated-cell-3-5" class="code-annotation-target"><a href="#annotated-cell-3-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">.value =</span> margin,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="5" onclick="event.preventDefault();">5</a><span id="annotated-cell-3-6" class="code-annotation-target"><a href="#annotated-cell-3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">calendar_type =</span> <span class="st">"445"</span>,</span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="6" onclick="event.preventDefault();">6</a><span id="annotated-cell-3-7" class="code-annotation-target"><a href="#annotated-cell-3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">fiscal_year_start =</span> <span class="dv">2</span></span>
+<span id="annotated-cell-3-8"><a href="#annotated-cell-3-8" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="7" onclick="event.preventDefault();">7</a><span id="annotated-cell-3-9" class="code-annotation-target"><a href="#annotated-cell-3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>() <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-3" data-target-annotation="8" onclick="event.preventDefault();">8</a><span id="annotated-cell-3-10" class="code-annotation-target"><a href="#annotated-cell-3-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">collect</span>()</span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-3" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="1" data-code-annotation="1">Pass data through</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="2">2</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="2" data-code-annotation="2">Optionally select a grouping key</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="3">3</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="4" data-code-annotation="3">Select the date column to index</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="4">4</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="5" data-code-annotation="4">Select the value calumn to aggregate</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="5">5</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="6" data-code-annotation="5">Select the type of non-standard calendars</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="6">6</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="7" data-code-annotation="6">Select the non-standard calendar fiscal start date – Sunday closest to February 1st</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="7">7</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="9" data-code-annotation="7">Return a lazy_tbl</span>
+</dd>
+<dt data-target-cell="annotated-cell-3" data-target-annotation="8">8</dt>
+<dd>
+<span data-code-cell="annotated-cell-3" data-code-lines="10" data-code-annotation="8">Return a tibble</span>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+<section id="comparing-calendar-types" class="level4">
+<h4 class="anchored" data-anchor-id="comparing-calendar-types">Comparing calendar types</h4>
+<p>Below is a side-by-side comparison of how the same date is classified under a standard calendar vs.&nbsp;a 4-4-5 retail calendar:</p>
+<div class="cell">
+<div id="tbl-comparison" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl quarto-uncaptioned" id="tbl-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1
+</figcaption>
+<div aria-describedby="tbl-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="arfdiodltf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#arfdiodltf table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#arfdiodltf thead, #arfdiodltf tbody, #arfdiodltf tfoot, #arfdiodltf tr, #arfdiodltf td, #arfdiodltf th {
+  border-style: none;
+}
+
+#arfdiodltf p {
+  margin: 0;
+  padding: 0;
+}
+
+#arfdiodltf .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#arfdiodltf .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#arfdiodltf .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#arfdiodltf .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#arfdiodltf .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#arfdiodltf .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#arfdiodltf .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#arfdiodltf .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#arfdiodltf .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#arfdiodltf .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#arfdiodltf .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#arfdiodltf .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#arfdiodltf .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#arfdiodltf .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#arfdiodltf .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#arfdiodltf .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#arfdiodltf .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#arfdiodltf .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#arfdiodltf .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#arfdiodltf .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#arfdiodltf .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#arfdiodltf .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#arfdiodltf .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#arfdiodltf .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#arfdiodltf .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#arfdiodltf .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#arfdiodltf .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#arfdiodltf .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#arfdiodltf .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#arfdiodltf .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#arfdiodltf .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#arfdiodltf .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#arfdiodltf .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#arfdiodltf .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#arfdiodltf .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#arfdiodltf .gt_left {
+  text-align: left;
+}
+
+#arfdiodltf .gt_center {
+  text-align: center;
+}
+
+#arfdiodltf .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#arfdiodltf .gt_font_normal {
+  font-weight: normal;
+}
+
+#arfdiodltf .gt_font_bold {
+  font-weight: bold;
+}
+
+#arfdiodltf .gt_font_italic {
+  font-style: italic;
+}
+
+#arfdiodltf .gt_super {
+  font-size: 65%;
+}
+
+#arfdiodltf .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#arfdiodltf .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#arfdiodltf .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#arfdiodltf .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#arfdiodltf .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#arfdiodltf .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#arfdiodltf .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table do-not-create-environment caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_heading header">
+<td colspan="3" class="gt_heading gt_title gt_font_normal"><strong>Calendar Comparison</strong></td>
+</tr>
+<tr class="gt_heading even">
+<td colspan="3" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">Same date under different calendar systems</td>
+</tr>
+<tr class="gt_col_headings header">
+<th id="Feature" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-weight: bold" scope="col">Feature</th>
+<th id="Standard (2024-03-15)" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-weight: bold" scope="col">Standard (2024-03-15)</th>
+<th id="4-4-5 FY starts Feb (2024-03-15)" class="gt_col_heading gt_columns_bottom_border gt_center" data-quarto-table-cell-role="th" style="background-color: #F0F0F0; font-weight: bold" scope="col">4-4-5 FY starts Feb (2024-03-15)</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="Feature" style="font-weight: bold">Year</td>
+<td class="gt_row gt_center" headers="Standard (2024-03-15)">2024</td>
+<td class="gt_row gt_center" headers="4-4-5 FY starts Feb (2024-03-15)">2024</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="Feature" style="font-weight: bold">Quarter</td>
+<td class="gt_row gt_center gt_striped" headers="Standard (2024-03-15)">1</td>
+<td class="gt_row gt_center gt_striped" headers="4-4-5 FY starts Feb (2024-03-15)">1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="Feature" style="font-weight: bold">Month</td>
+<td class="gt_row gt_center" headers="Standard (2024-03-15)">3</td>
+<td class="gt_row gt_center" headers="4-4-5 FY starts Feb (2024-03-15)">2</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="Feature" style="font-weight: bold">Week</td>
+<td class="gt_row gt_center gt_striped" headers="Standard (2024-03-15)">11</td>
+<td class="gt_row gt_center gt_striped" headers="4-4-5 FY starts Feb (2024-03-15)">7</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+</figure>
+</div>
+</div>
+<p>The retail calendar shifts the fiscal boundaries so that every comparable period contains the same number of weeks, enabling cleaner period-over-period comparisons.</p>
+
+
+</section>
+</section>
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Built with <a href="https://quarto.org/">Quarto</a> and <a href="https://codeberg.org/usrbinr/qrtdown">qrtdown</a></p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p>ti 4.0.0</p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
