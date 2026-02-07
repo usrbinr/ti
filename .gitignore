@@ -2,6 +2,9 @@
 .Rhistory
 .RData
 .Ruserdata
-
+^\.claude$
 /.quarto/
 **/*.quarto_ipynb
+
+# qrtdown
+_quarto.yml

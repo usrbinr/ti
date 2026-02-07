@@ -1,0 +1,13 @@
+---
+title: Articles
+toc: true
+---
+
+# ti Articles
+
+In-depth guides and tutorials for using the package.
+
+- [ABC Classification](vignettes/articles/abc.qmd)
+- [Standard vs. Non-Standard Calendars](vignettes/articles/calendar_types.qmd)
+- [Cohort](vignettes/articles/cohort.qmd)
+- [Getting started](vignettes/articles/ti.qmd)

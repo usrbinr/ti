@@ -46,8 +46,8 @@ Use \link{calculate} to return the results
 }
 }
 \examples{
-\dontrun{
-wtd(sales,.date=order_date,.value=quantity,calendar_type="standard")
+\donttest{
+wtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard")
 }
 }
 \seealso{

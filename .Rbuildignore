@@ -17,3 +17,16 @@
 ^vignettes$
 ti.Rproj
 ^cran-comments\.md$
+^\.claude$
+^\.quarto$
+^_quarto\.yml$
+^.*\.qmd$
+
+# qrtdown
+^_qrtdown\.yml$
+^reference\.qmd$
+^articles\.qmd$
+^citation\.qmd$
+^index\.qmd$
+^vignettes/articles$
+^llms\.txt$

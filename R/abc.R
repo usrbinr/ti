@@ -18,9 +18,11 @@
 #' @export
 #'
 #' @examples
-#'\dontrun{
-#' abc(contoso::sales,c(.1,.5,.7,.96,1),.value=margin)
-#'}
+#' \donttest{
+#' contoso::sales |>
+#'   dplyr::group_by(product_key) |>
+#'   abc(c(.1,.5,.7,.96,1), .value = margin)
+#' }
 #'
 abc <- function(.data,category_values,.value){
 
@@ -107,7 +109,6 @@ abc_fn <- function(x){
     )
 
   # 3. PREPARE THE LOOKUP TABLE (The Optimization)
-  # Instead of glue/paste SQL strings, we create a small temp table on the DB
   con <- dbplyr::remote_con(stats_dbi)
 
   # Ensure category names exist (default to A, B, C... if empty)
@@ -271,9 +272,7 @@ cohort_fn <- function(x){
         ,values_fill = 0
       ) |>
       dplyr::ungroup() |>
-      # dplyr::compute() |>
       dbplyr::window_order(cohort_date) |>
-      # dplyr::arrange(cohort_date) |>
       dplyr::mutate(cohort_id = dplyr::row_number()) |>
       dplyr::relocate(
         cohort_date
@@ -285,8 +284,5 @@ cohort_fn <- function(x){
   return(out)
 
 }
-
-
-
 
 utils::globalVariables(c("category", "delta", "row_id_rank", "cohort_date", "period_id", "cohort_id", "category_value", "dist_rank"))

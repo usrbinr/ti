@@ -48,12 +48,4 @@ For unit testing, the function supports \code{dbplyr} simulation objects. If a
 \code{TestConnection} is detected, it returns a \code{lazy_frame} to avoid metadata
 field queries that would otherwise fail on a mock connection.
 }
-\examples{
-\dontrun{
-con <- DBI::dbConnect(duckdb::duckdb())
-# Generates a daily sequence for the year 2025
-calendar <- seq_date_sql("2025-01-01", "2025-12-31", "day", con)
-}
-
-}
 \keyword{internal}

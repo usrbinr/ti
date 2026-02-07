@@ -427,18 +427,12 @@ augment_standard_calendar <- function(.data,.date){
 
     return(out)
 
-
   }
-
 
   if(any(data_class %in% "tbl")){
-
     out <- augment_standard_calendar_tbl(.data = .data,.date = !!.date_var)
-
     return(out)
   }
-
-
 
 }
 
@@ -521,8 +515,6 @@ create_full_dbi <- function(x){
     full_dbi <-
       create_calendar(x) |>
       complete_standard_calendar(x=x)
-
-
 
   return(full_dbi)
 
@@ -719,13 +711,6 @@ generate_retail_calendar <- function(start_date, end_date, calendar_type, fiscal
 #' or a \code{dbplyr} simulated connection.
 #'
 #' @return A \code{tbl_lazy} (SQL) object with a single column \code{date}.
-#'
-#' @examples
-#' \dontrun{
-#' con <- DBI::dbConnect(duckdb::duckdb())
-#' # Generates a daily sequence for the year 2025
-#' calendar <- seq_date_sql("2025-01-01", "2025-12-31", "day", con)
-#' }
 #'
 #' @keywords internal
 seq_date_sql <- function(

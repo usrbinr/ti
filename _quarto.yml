@@ -1,40 +1,45 @@
 project:
   type: website
   output-dir: docs
-
+  render:
+  - '*.qmd'
+  - '*.md'
+  - vignettes/articles/*.qmd
+  - vignettes/articles/*.md
+  - '!inst/'
+  - '!renv/'
+  - '!packrat/'
 website:
-  title: "ti"
-  repo-url: https://codeberg.org/usrbinr/ti
+  title: ti
   navbar:
-    title: "ti 4.0.0"
+    title: ti 4.0.0
     left:
-      - text: "Get started"
-        href: vignettes/ti.qmd
-      - text: "Reference"
-        href: reference.qmd
-      - text: "Articles"
-        menu:
-          - text: "ABC Classification"
-            href: vignettes/abc.qmd
-          - text: "Cohort Analysis"
-            href: vignettes/cohort.qmd
-          - text: "Calendar Types"
-            href: vignettes/calendar_types.qmd
-      - text: "Citation"
-        href: citation.qmd
-      - text: "Changelog"
-        href: NEWS.md
+    - text: Articles
+      menu:
+      - text: ABC Classification
+        href: vignettes/articles/abc.qmd
+      - text: Standard vs. Non-Standard Calendars
+        href: vignettes/articles/calendar_types.qmd
+      - text: Cohort
+        href: vignettes/articles/cohort.qmd
+      - text: Getting started
+        href: vignettes/articles/ti.qmd
+    - text: Reference
+      href: reference.qmd
+    - text: Changelog
+      href: NEWS.md
     right:
-      - icon: code-square
-        href: https://codeberg.org/usrbinr/ti
-        aria-label: Source code
+    - icon: code-square
+      href: https://codeberg.org/usrbinr/ti
+      aria-label: Source code
   page-footer:
-    left: "Built with [Quarto](https://quarto.org/)"
-    right: "ti 4.0.0"
-
+    left: Built with [Quarto](https://quarto.org/) and [qrtdown](https://codeberg.org/usrbinr/qrtdown)
+    right: ti 4.0.0
+  repo-url: https://codeberg.org/usrbinr/ti
 format:
   html:
     theme:
       light: cosmo
     toc: true
     code-overflow: wrap
+

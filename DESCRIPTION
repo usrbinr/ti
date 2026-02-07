@@ -1,6 +1,11 @@
 Package: ti
-Title: Common Business Intelligence Functions for Financial Planning & Work
-Description: Tools for financial planning analysis. ti provides functions for calculating financial metrics, analyzing time series data, and generating reports.
+Title: Time Intelligence and Customer Segmentation for Financial Analysis
+Description: Calculate time intelligence metrics for financial planning and
+    analysis. 'ti' provides functions for period-over-period comparisons
+    (year-over-year, month-over-month), period-to-date calculations (YTD, MTD,
+    QTD), and customer segmentation (ABC analysis, cohorts). Supports standard
+    and retail calendars (4-4-5, 4-5-4, 5-4-4) with both in-memory and database
+    backends via 'dbplyr'.
 Version: 4.0.0
 Authors@R: 
     person(given="Alejandro",family= "Hagan", email="alejandro.hagan@outlook.com", role = c("aut", "cre"))
@@ -8,19 +13,20 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-Imports: 
+Imports:
     assertthat,
     cli,
     DBI,
     dbplyr,
     dplyr,
     duckdb,
+    glue,
+    janitor,
     lubridate,
     rlang,
     S7,
-    tidyr,
-    glue,
-    janitor
+    scales,
+    tidyr
 LazyData: true
 Suggests:
     testthat (>= 3.0.0),
@@ -28,12 +34,12 @@ Suggests:
     quarto,
     devtools,
     tibble,
-    tinytable,
+    gt,
     fansi,
     crayon,
     contoso
 Config/testthat/edition: 3
-Depends: 
-    R (>= 3.5)
+Depends:
+    R (>= 4.2.0)
 URL: https://codeberg.org/usrbinr/ti
 Repository: codeberg

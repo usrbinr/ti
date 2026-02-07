@@ -4,355 +4,86 @@ title: "Function reference"
 
 All functions and classes exported by ti.
 
-## Time Intelligence Functions
-
-### Yearly
+## Functions
 
 | Function | Description |
 |----------|-------------|
-| [`ytd()`](#ytd) | Year-to-Date aggregation |
-| [`pytd()`](#pytd) | Prior Year-to-Date |
-| [`yoy()`](#yoy) | Full Year over Year comparison |
-| [`yoytd()`](#yoytd) | Year-to-Date over Prior Year-to-Date |
-| [`ytdopy()`](#ytdopy) | Year-to-Date over Full Previous Year |
-| [`atd()`](#atd) | Cumulative total from inception to date |
-
-### Quarterly
-
-| Function | Description |
-|----------|-------------|
-| [`qtd()`](#qtd) | Quarter-to-Date aggregation |
-| [`pqtd()`](#pqtd) | Prior Quarter-to-Date |
-| [`qoq()`](#qoq) | Full Quarter over Quarter comparison |
-| [`qoqtd()`](#qoqtd) | Quarter-to-Date over Prior Quarter-to-Date |
-| [`qtdopq()`](#qtdopq) | Quarter-to-Date over Full Previous Quarter |
-
-### Monthly
-
-| Function | Description |
-|----------|-------------|
-| [`mtd()`](#mtd) | Month-to-Date aggregation |
-| [`pmtd()`](#pmtd) | Prior Month-to-Date |
-| [`mom()`](#mom) | Full Month over Month comparison |
-| [`momtd()`](#momtd) | Month-to-Date over Prior Month-to-Date |
-| [`mtdopm()`](#mtdopm) | Month-to-Date over Full Previous Month |
-
-### Weekly
-
-| Function | Description |
-|----------|-------------|
-| [`wtd()`](#wtd) | Week-to-Date aggregation |
-| [`pwtd()`](#pwtd) | Prior Week-to-Date |
-| [`wow()`](#wow) | Full Week over Week comparison |
-| [`wowtd()`](#wowtd) | Week-to-Date over Prior Week-to-Date |
-| [`wtdopw()`](#wtdopw) | Week-to-Date over Full Previous Week |
-
-### Daily
-
-| Function | Description |
-|----------|-------------|
-| [`dod()`](#dod) | Day over Day comparison |
-
-***
-
-## Classification & Segmentation
-
-| Function | Description |
-|----------|-------------|
-| [`abc()`](#abc) | ABC Classification (Pareto analysis) |
-| [`cohort()`](#cohort) | Cohort analysis for tracking groups over time |
-
-***
-
-## Utilities
-
-| Function | Description |
-|----------|-------------|
-| [`calculate()`](#calculate) | Execute a ti object and return lazy DBI result |
-| [`create_calendar()`](#create_calendar) | Generate a calendar table |
-| [`augment_standard_calendar()`](#augment_standard_calendar) | Add calendar columns to existing data |
-| [`make_db_tbl()`](#make_db_tbl) | Convert tibble to database table |
+| [`abc()`](#abc) | ABC classification function |
+| [`abc_fn()`](#abc_fn) | Classify a group by proportion of a variable (A,B,C,...) |
+| [`atd()`](#atd) | All period-to-date |
+| [`atd_fn()`](#atd_fn) | All-to-date execution function |
+| [`augment_standard_calendar()`](#augment_standard_calendar) | Add Comprehensive Date-Based Attributes to a DBI  lazy frame or tibble object |
+| [`augment_standard_calendar_dbi()`](#augment_standard_calendar_dbi) | Add Comprehensive Date-Based Attributes to a DBI lazy frame |
+| [`augment_standard_calendar_tbl()`](#augment_standard_calendar_tbl) | Add Comprehensive Date-Based Attributes to a Data Frame |
+| [`calculate()`](#calculate) | Execute time-intelligence or segments class objects to return the underlying tra |
+| [`cohort()`](#cohort) | Cohort Analysis |
+| [`cohort_fn()`](#cohort_fn) | Internal function for the cohort segment object |
+| [`complete_standard_calendar()`](#complete_standard_calendar) | Title |
+| [`create_calendar()`](#create_calendar) | Create Calendar Table |
+| [`create_full_dbi()`](#create_full_dbi) | Title |
+| [`detect_sql_dialect()`](#detect_sql_dialect) | Detect SQL dialect from a DBI connection |
+| [`dod()`](#dod) | Current period day over previous period day |
+| [`dod_fn()`](#dod_fn) | Day-over-day execution function |
+| [`generate_cli_action()`](#generate_cli_action) | Generate CLI actions |
+| [`generate_retail_calendar()`](#generate_retail_calendar) | Generate a retail (4-4-5, 4-5-4, or 5-4-4) calendar mapping table |
+| [`is_yyyy_mm_dd()`](#is_yyyy_mm_dd) | Validate an input is YYYY-MM-DD format |
+| [`make_action_cli()`](#make_action_cli) | Make Action field CLI args |
+| [`make_db_tbl()`](#make_db_tbl) | Make an in memory database from a table |
+| [`mom()`](#mom) | Current full period month over previous full period month |
+| [`mom_fn()`](#mom_fn) | month-over-month execution function |
+| [`momtd()`](#momtd) | Current period month to date compared to previous period month-to-date |
+| [`momtd_fn()`](#momtd_fn) | Current year to date over previous year-to-date for tibble objects |
+| [`mtd()`](#mtd) | Current period month-to-date |
+| [`mtd_fn()`](#mtd_fn) | Month-to-date execution function |
+| [`mtdopm()`](#mtdopm) | Current month-to-date over full previous period month |
+| [`mtdopm_fn()`](#mtdopm_fn) | Month-to-date over full previous month execution function |
+| [`pmtd()`](#pmtd) | Previous period month-to-date |
+| [`pmtd_fn()`](#pmtd_fn) | Previous month-to-date execution function |
+| [`pqtd()`](#pqtd) | Prior period quarter-to-date |
+| [`pqtd_fn()`](#pqtd_fn) | Previous quarter-to-date for tibble objects |
+| [`print()`](#print) | Print ti objects |
+| [`print_actions_steps()`](#print_actions_steps) | Print action steps |
+| [`print_calendar_info()`](#print_calendar_info) | Print calendar information block |
+| [`print_fn_info()`](#print_fn_info) | Prints function header info |
+| [`print_next_steps()`](#print_next_steps) | Prints functions next steps |
+| [`pwtd()`](#pwtd) | Previous period week-to-date |
+| [`pwtd_fn()`](#pwtd_fn) | Previous week-to-date execution function |
+| [`pytd()`](#pytd) | Previous period year-to-date |
+| [`pytd_fn()`](#pytd_fn) | Previous year-to-date execution function |
+| [`qoq()`](#qoq) | Current full period quarter over previous full period quarter |
+| [`qoq_fn()`](#qoq_fn) | Quarter-over-quarter execution function |
+| [`qoqtd()`](#qoqtd) | Current period quarter-to-date compared to previous period quarter-to-date |
+| [`qoqtd_fn()`](#qoqtd_fn) | Current quarter to date over previous quarter-to-date for tibble objects |
+| [`qtd()`](#qtd) | Current period quarter-to-date |
+| [`qtd_fn()`](#qtd_fn) | Quarter-to-date execution function |
+| [`qtdopq()`](#qtdopq) | Current period quarter-to-date over previous period quarter |
+| [`qtdopq_fn()`](#qtdopq_fn) | quarter-to-date over previous quarter execution function |
+| [`seq_date_sql()`](#seq_date_sql) | Generate a Cross-Dialect SQL Date Series |
+| [`sql_date_add()`](#sql_date_add) | Generate dialect-appropriate date addition SQL |
+| [`wow()`](#wow) | Current full period week over full previous period week |
+| [`wow_fn()`](#wow_fn) | Week-over-week execution function |
+| [`wowtd()`](#wowtd) | Current period Week-to-date over previous period week-to-date |
+| [`wowtd_fn()`](#wowtd_fn) | Week-to-date over previous week-to-date execution function |
+| [`wtd()`](#wtd) | Current period week-to-date |
+| [`wtd_fn()`](#wtd_fn) | Week-to-date execution function |
+| [`wtdopw()`](#wtdopw) | Current period week-to-date over full previous period week |
+| [`wtdopw_fn()`](#wtdopw_fn) | Week-to-date over full previous week execution function |
+| [`yoy()`](#yoy) | Current full period year over previous full period year |
+| [`yoy_fn()`](#yoy_fn) | Current year-to-date over previous period year-to-date execution function |
+| [`yoytd()`](#yoytd) | Current period year-to-date compared to previous period year-to-date |
+| [`yoytd_fn()`](#yoytd_fn) | Current year to date over previous year-to-date execution function |
+| [`ytd()`](#ytd) | Current period year-to-date |
+| [`ytd_fn()`](#ytd_fn) | Year-to-date execution function |
+| [`ytdopy()`](#ytdopy) | Current period year-to-date compared to full previous period |
+| [`ytdopy_fn()`](#ytdopy_fn) | Year-to-date over full prior period year |
 
 ***
 
 ## Function Details
 
-### `ytd()` {#ytd}
-
-Calculate Year-to-Date aggregation.
-
-#### Usage
-
-```r
-ytd(.data, .date, .value, calendar_type, fiscal_year_start = 1)
-```
-
-#### Arguments
-
-| Argument | Description |
-|----------|-------------|
-| `.data` | A tibble or lazy DBI table |
-| `.date` | The date column to index |
-| `.value` | The value column to aggregate |
-| `calendar_type` | Either `"standard"` or retail calendar (`"445"`, `"454"`, `"544"`) |
-| `fiscal_year_start` | Month (1-12) when fiscal year begins (default: 1) |
-
-***
-
-### `pytd()` {#pytd}
-
-Calculate Prior Year-to-Date amount.
-
-#### Usage
-
-```r
-pytd(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `yoy()` {#yoy}
-
-Calculate Full Year over Year comparison.
-
-#### Usage
-
-```r
-yoy(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
-```
-
-***
-### `yoytd()` {#yoytd}
-
-Calculate Year-to-Date over Prior Year-to-Date comparison.
-
-#### Usage
-
-```r
-yoytd(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `ytdopy()` {#ytdopy}
-
-Calculate Year-to-Date over Full Previous Year.
-
-#### Usage
-
-```r
-ytdopy(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `atd()` {#atd}
-
-Calculate cumulative total from inception to date.
-
-#### Usage
-
-```r
-atd(.data, .date, .value, calendar_type, fiscal_year_start = 1)
-```
-
-***
-
-### `qtd()` {#qtd}
-
-Calculate Quarter-to-Date aggregation.
-
-#### Usage
-
-```r
-qtd(.data, .date, .value, calendar_type, fiscal_year_start = 1)
-```
-
-***
-
-### `pqtd()` {#pqtd}
-
-Calculate Prior Quarter-to-Date amount.
-
-#### Usage
-
-```r
-pqtd(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `qoq()` {#qoq}
-
-Calculate Full Quarter over Quarter comparison.
-
-#### Usage
-
-```r
-qoq(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `qoqtd()` {#qoqtd}
-
-Calculate Quarter-to-Date over Prior Quarter-to-Date comparison.
-
-#### Usage
-
-```r
-qoqtd(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `qtdopq()` {#qtdopq}
-
-Calculate Quarter-to-Date over Full Previous Quarter.
-
-#### Usage
-
-```r
-qtdopq(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `mtd()` {#mtd}
-
-Calculate Month-to-Date aggregation.
-
-#### Usage
-
-```r
-mtd(.data, .date, .value, calendar_type, fiscal_year_start = 1)
-```
-
-***
-
-### `pmtd()` {#pmtd}
-
-Calculate Prior Month-to-Date amount.
-
-#### Usage
-
-```r
-pmtd(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `mom()` {#mom}
-
-Calculate Full Month over Month comparison.
-
-#### Usage
-
-```r
-mom(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `momtd()` {#momtd}
-
-Calculate Month-to-Date over Prior Month-to-Date comparison.
-
-#### Usage
-
-```r
-momtd(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `mtdopm()` {#mtdopm}
-
-Calculate Month-to-Date over Full Previous Month.
-
-#### Usage
-
-```r
-mtdopm(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `wtd()` {#wtd}
-
-Calculate Week-to-Date aggregation.
-
-#### Usage
-
-```r
-wtd(.data, .date, .value, calendar_type, week_start = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `pwtd()` {#pwtd}
-
-Calculate Prior Week-to-Date amount.
-
-#### Usage
-
-```r
-pwtd(.data, .date, .value, calendar_type, lag_n = 1, week_start = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `wow()` {#wow}
-
-Calculate Full Week over Week comparison.
-
-#### Usage
-
-```r
-wow(.data, .date, .value, calendar_type, lag_n = 1, week_start = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `wowtd()` {#wowtd}
-
-Calculate Week-to-Date over Prior Week-to-Date comparison.
-
-#### Usage
-
-```r
-wowtd(.data, .date, .value, calendar_type, lag_n = 1, week_start = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `wtdopw()` {#wtdopw}
-
-Calculate Week-to-Date over Full Previous Week.
-
-#### Usage
-
-```r
-wtdopw(.data, .date, .value, calendar_type, lag_n = 1, week_start = 1, fiscal_year_start = 1)
-```
-
-***
-
-### `dod()` {#dod}
-
-Calculate Day over Day comparison.
-
-#### Usage
-
-```r
-dod(.data, .date, .value, calendar_type, lag_n = 1, fiscal_year_start = 1)
-```
-
-***
-
 ### `abc()` {#abc}
 
-Perform ABC Classification (Pareto analysis) on grouped data.
+ABC classification function
 
 #### Usage
 
@@ -364,15 +95,401 @@ abc(.data, category_values, .value)
 
 | Argument | Description |
 |----------|-------------|
-| `.data` | A grouped tibble or lazy DBI table |
-| `category_values` | Cumulative percentage breakpoints (e.g., `c(0.8, 0.95, 1)` for 80/95/100) |
-| `.value` | The value column to classify on |
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `category_values` | vector of break points between 0 and 1 |
+| `.value` | optional: if left blank,abc() will use the number of rows per group to categorize, alternatively you can pass a column name to categorize |
+
+#### Value
+
+abc object
+
+#### Description
+
+For your group variable, abc()  will categorize which groups make up what proportion of the totals according to the category_values that you have entered
+ The function returns a segment object which prints out the execution steps and actions that it will take to categorize your data
+ Use calculate to return the results
+
+#### Details
+
+This function is helpful to understand which groups of make up what proportion of the cumulative contribution
+ If you do not provide a .value then it will count the transactions per group, if you provide .value then it will sum() the .value per group
+ The function creates a segment object, which pre-processes the data into its components
+
+#### Examples
+
+```r
+contoso::sales |>
+  dplyr::group_by(product_key) |>
+  abc(c(.1,.5,.7,.96,1), .value = margin)
+```
+
+***
+
+### `abc_fn()` {#abc_fn}
+
+Classify a group by proportion of a variable (A,B,C,...)
+
+#### Usage
+
+```r
+abc_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | segment object |
+
+#### Value
+
+a dbi objection
+
+#### Description
+
+This returns a table that will segment your data into A,B or C segments based on custom
+thresholds
+
+***
+
+### `atd()` {#atd}
+
+All period-to-date
+
+#### Usage
+
+```r
+atd(.data, .date, .value, calendar_type = "standard", fiscal_year_start = 1)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the all-time cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+
+Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+atd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard")
+```
+
+***
+
+### `atd_fn()` {#atd_fn}
+
+All-to-date execution function
+
+#### Usage
+
+```r
+atd_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+atd_fn() is the function that is called by atd() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `augment_standard_calendar()` {#augment_standard_calendar}
+
+Add Comprehensive Date-Based Attributes to a DBI  lazy frame or tibble object
+
+#### Usage
+
+```r
+augment_standard_calendar(.data, .date)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | A data frame or tibble containing at least one date column. |
+| `.date` | A column containing Date values, passed using tidy-eval (e.g., {{ date_col ). |
+
+#### Value
+
+A dbi or  tibble containing the original data along with all generated
+date-based attributes.
+
+#### Description
+
+This function takes a data frame and a date column and generates a wide set of
+derived date attributes. These include start/end dates for year, quarter,
+month, and week; day-of-week indicators; completed and remaining days in each
+time unit; and additional convenience variables such as weekend indicators.
+
+It is designed for time-based feature engineering and is useful in reporting,
+forecasting, time-series modeling, and data enrichment workflows.
+
+#### Details
+
+The function creates the following groups of attributes:
+
+1. Start and end dates
+
+ year_start_date, year_end_date
+ quarter_start_date, quarter_end_date
+ month_start_date, month_end_date
+ week_start_date, week_end_date
+
+2. Day-of-week fields
+
+ day_of_week – numeric day of the week (1–7)
+ day_of_week_label – ordered factor label (e.g., Mon, Tue, …)
+
+3. Duration fields
+
+ days_in_year – total days in the year interval
+ days_in_quarter – total days in the quarter interval
+ days_in_month – total days in the month
+
+4. Completed/remaining days
+
+ days_complete_in_week, days_remaining_in_week
+ days_complete_in_month, days_remaining_in_month
+ days_complete_in_quarter, days_remaining_in_quarter
+ days_complete_in_year, days_remaining_in_year
+
+5. Miscellaneous
+
+ weekend_indicator – equals 1 if Saturday or Sunday; otherwise 0
+
+All date-derived fields ending in _date are coerced to class Date.
+
+***
+
+### `augment_standard_calendar_dbi()` {#augment_standard_calendar_dbi}
+
+Add Comprehensive Date-Based Attributes to a DBI lazy frame
+
+#### Usage
+
+```r
+augment_standard_calendar_dbi(.data, .date)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | A data frame or tibble containing at least one date column. |
+| `.date` | A column containing Date values, passed using tidy-eval (e.g., {{ date_col ). |
+
+#### Value
+
+A dbi containing the original data along with all generated
+date-based attributes.
+
+#### Description
+
+This function takes a data frame and a date column and generates a wide set of
+derived date attributes. These include start/end dates for year, quarter,
+month, and week; day-of-week indicators; completed and remaining days in each
+time unit; and additional convenience variables such as weekend indicators.
+
+It is designed for time-based feature engineering and is useful in reporting,
+forecasting, time-series modeling, and data enrichment workflows.
+
+#### Details
+
+The function creates the following groups of attributes:
+
+1. Start and end dates
+
+ year_start_date, year_end_date
+ quarter_start_date, quarter_end_date
+ month_start_date, month_end_date
+ week_start_date, week_end_date
+
+2. Day-of-week fields
+
+ day_of_week – numeric day of the week (1–7)
+ day_of_week_label – ordered factor label (e.g., Mon, Tue, …)
+
+3. Duration fields
+
+ days_in_year – total days in the year interval
+ days_in_quarter – total days in the quarter interval
+ days_in_month – total days in the month
+
+4. Completed/remaining days
+
+ days_complete_in_week, days_remaining_in_week
+ days_complete_in_month, days_remaining_in_month
+ days_complete_in_quarter, days_remaining_in_quarter
+ days_complete_in_year, days_remaining_in_year
+
+5. Miscellaneous
+
+ weekend_indicator – equals 1 if Saturday or Sunday; otherwise 0
+
+All date-derived fields ending in _date are coerced to class Date.
+
+***
+
+### `augment_standard_calendar_tbl()` {#augment_standard_calendar_tbl}
+
+Add Comprehensive Date-Based Attributes to a Data Frame
+
+#### Usage
+
+```r
+augment_standard_calendar_tbl(.data, .date)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | A data frame or tibble containing at least one date column. |
+| `.date` | A column containing Date values, passed using tidy-eval (e.g., {{ date_col ). |
+
+#### Value
+
+A tibble containing the original data along with all generated
+date-based attributes.
+
+#### Description
+
+This function takes a data frame and a date column and generates a wide set of
+derived date attributes. These include start/end dates for year, quarter,
+month, and week; day-of-week indicators; completed and remaining days in each
+time unit; and additional convenience variables such as weekend indicators.
+
+It is designed for time-based feature engineering and is useful in reporting,
+forecasting, time-series modeling, and data enrichment workflows.
+
+#### Details
+
+The function creates the following groups of attributes:
+
+1. Start and end dates
+
+ year_start_date, year_end_date
+ quarter_start_date, quarter_end_date
+ month_start_date, month_end_date
+ week_start_date, week_end_date
+
+2. Day-of-week fields
+
+ day_of_week – numeric day of the week (1–7)
+ day_of_week_label – ordered factor label (e.g., Mon, Tue, …)
+
+3. Duration fields
+
+ days_in_year – total days in the year interval
+ days_in_quarter – total days in the quarter interval
+ days_in_month – total days in the month
+
+4. Completed/remaining days
+
+ days_complete_in_week, days_remaining_in_week
+ days_complete_in_month, days_remaining_in_month
+ days_complete_in_quarter, days_remaining_in_quarter
+ days_complete_in_year, days_remaining_in_year
+
+5. Miscellaneous
+
+ weekend_indicator – equals 1 if Saturday or Sunday; otherwise 0
+
+All date-derived fields ending in _date are coerced to class Date.
+
+***
+
+### `calculate()` {#calculate}
+
+Execute time-intelligence or segments class objects to return the underlying transformed table
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+The calculate() function takes an object created by a time function (like ytd(), mtd(), or qtd()) or a segment function (like cohort() or abc()) and executes the underlying transformation logic.
+It translates the function blueprint into an actionable query, returning the final data table.
+
+#### Details
+
+The TI and segment functions in ti—such as ytd() or cohort() and others—are designed to be lazy and database-friendly.
+They do not perform the heavy data transformation immediately.
+Instead, they return a blueprint object (of class ti,segment_abc or segment_cohort) that contains all the parameters and logic needed for the calculation.
+
+calculate() serves as the execution engine.
+
+When called, it interprets the blueprint and generates optimized R code or SQL code (using the dbplyr package) that is then executed efficiently on the data source, whether it's an in-memory tibble or a remote database backend (like duckdb or snowflake).
+This approach minimizes data transfer and improves performance for large datasets.
+
+The resulting table will be sorted by the relevant date column to ensure the correct temporal ordering of the calculated metrics.
+
+#### Examples
+
+```r
+x <- ytd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard")
+calculate(x)
+```
 
 ***
 
 ### `cohort()` {#cohort}
 
-Perform cohort analysis to track entities over time.
+Cohort Analysis
 
 #### Usage
 
@@ -384,62 +501,2410 @@ cohort(.data, .date, .value, time_unit = "month", period_label = FALSE)
 
 | Argument | Description |
 |----------|-------------|
-| `.data` | A tibble or lazy DBI table |
-| `.date` | The date column for time periods |
-| `.value` | The entity identifier column (e.g., customer_key) |
-| `time_unit` | Time unit for cohorts (`"day"`, `"week"`, `"month"`, `"quarter"`, `"year"`) |
-| `period_label` | Whether to include period labels (default: FALSE) |
+| `.data` | tibble or dbi object |
+| `.date` | date column |
+| `.value` | id column |
+| `time_unit` | do you want summarize the date column to 'day', 'week', 'month','quarter' or 'year' |
+| `period_label` | do you want period labels or the dates c(TRUE , FALSE) |
+
+#### Value
+
+segment object
+
+#### Description
+
+Database-friendly cohort analysis function.
+A remake of https://github.com/PeerChristensen/cohorts, combining
+cohort_table_month, cohort_table_year, and cohort_table_day into a single package.
+Rewritten for database compatibility and tested with Snowflake and DuckDB.
+
+#### Details
+
+Groups your .value column by shared time attributes from the .date column.
+ Assigns each member to a cohort based on their first entry in .date.
+ Aggregates the cohort by the time_unit argument (day, week, month, quarter, or year).
+ Computes the distinct count of each cohort member over time.
 
 ***
 
-### `calculate()` {#calculate}
+### `cohort_fn()` {#cohort_fn}
 
-Execute a ti object and return a lazy DBI result.
+Internal function for the cohort segment object
 
 #### Usage
 
 ```r
-calculate(x)
+cohort_fn(x)
 ```
 
 #### Arguments
 
 | Argument | Description |
 |----------|-------------|
-| `x` | A ti object returned by a time intelligence function |
+| `x` | segment object |
+
+#### Value
+
+function
+
+***
+
+### `complete_standard_calendar()` {#complete_standard_calendar}
+
+Title
+
+#### Usage
+
+```r
+complete_standard_calendar(.data, x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | DBI object |
+| `x` | ti object |
+
+#### Value
+
+DBI object
 
 ***
 
 ### `create_calendar()` {#create_calendar}
 
-Generate a calendar table for a date range.
+Create Calendar Table
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+create_calendar() summarizes a tibble to target time unit and completes the calendar to ensure
+no missing days, month, quarter or years. If a grouped tibble is passed through it will complete the calendar
+for each combination of the group
+
+#### Details
+
+This is in internal function to make it easier to ensure data has no missing dates to
+simplify the use of time intelligence functions downstream of the application.
+If you want to summarize to a particular group, simply pass the tibble through to the dplyr::group_by() argument
+prior to function and the function will make summarize and make a complete calendar for each group item.
+
+***
+
+### `create_full_dbi()` {#create_full_dbi}
+
+Title
 
 #### Usage
 
 ```r
-create_calendar(start_date, end_date, calendar_type, fiscal_year_start = 1)
+create_full_dbi(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+DBI object
+
+***
+
+### `detect_sql_dialect()` {#detect_sql_dialect}
+
+Detect SQL dialect from a DBI connection
+
+#### Usage
+
+```r
+detect_sql_dialect(.con)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.con` | A DBI connection object |
+
+#### Value
+
+A character string: "snowflake", "duckdb", or "postgres"
+
+***
+
+### `dod()` {#dod}
+
+Current period day over previous period day
+
+#### Usage
+
+```r
+dod(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the daily value compared to the previous day's value using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+
+Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+dod(contoso::sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 ```
 
 ***
 
-### `augment_standard_calendar()` {#augment_standard_calendar}
+### `dod_fn()` {#dod_fn}
 
-Add calendar columns (year, quarter, month, week) to existing data.
+Day-over-day execution function
 
 #### Usage
 
 ```r
-augment_standard_calendar(.data, .date)
+dod_fn(x)
 ```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+dod_fn() is the function that is called by dod() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `generate_cli_action()` {#generate_cli_action}
+
+Generate CLI actions
+
+#### Usage
+
+```r
+generate_cli_action(x, word)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | input to test against |
+| `word` | the key word to validate |
+
+#### Value
+
+list
+
+***
+
+### `generate_retail_calendar()` {#generate_retail_calendar}
+
+Generate a retail (4-4-5, 4-5-4, or 5-4-4) calendar mapping table
+
+#### Usage
+
+```r
+generate_retail_calendar(
+  start_date,
+  end_date,
+  calendar_type,
+  fiscal_year_start = 1,
+  week_start = 7
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `start_date` | Start date (Date or character YYYY-MM-DD) |
+| `end_date` | End date (Date or character YYYY-MM-DD) |
+| `calendar_type` | One of "445", "454", "544" |
+| `fiscal_year_start` | Integer 1-12, month the fiscal year starts nearest to |
+| `week_start` | Integer 1-7, day of week (1=Monday, 7=Sunday) |
+
+#### Value
+
+A tibble with columns: date, year, quarter, month, week
+
+***
+
+### `is_yyyy_mm_dd()` {#is_yyyy_mm_dd}
+
+Validate an input is YYYY-MM-DD format
+
+#### Usage
+
+```r
+is_yyyy_mm_dd(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | date column |
+
+#### Value
+
+logical
+
+***
+
+### `make_action_cli()` {#make_action_cli}
+
+Make Action field CLI args
+
+#### Usage
+
+```r
+make_action_cli(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | action class |
+
+#### Value
+
+list
 
 ***
 
 ### `make_db_tbl()` {#make_db_tbl}
 
-Convert a tibble to a DuckDB database table.
+Make an in memory database from a table
 
 #### Usage
 
 ```r
-make_db_tbl(.data)
+make_db_tbl(x)
 ```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | A tibble, data.frame, or tbl_dbi object. |
+
+#### Value
+
+dbi object
+
+A tbl_dbi object backed by DuckDB.
+
+#### Description
+
+Ensures the input is a database-backed object. If a data.frame is provided,
+it is registered into a temporary, in-memory DuckDB instance. If already
+a tbl_dbi, it is returned unchanged.
+
+#### Details
+
+When converting a data.frame, this function preserves existing dplyr
+groups. It uses DuckDB's duckdb_register, which is a virtual registration
+and does not perform a physical copy of the data, making it extremely fast.
+
+***
+
+### `mom()` {#mom}
+
+Current full period month over previous full period month
+
+#### Usage
+
+```r
+mom(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the monthly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+
+Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+mom(contoso::sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
+```
+
+***
+
+### `mom_fn()` {#mom_fn}
+
+month-over-month execution function
+
+#### Usage
+
+```r
+mom_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+mom_fn() is the function that is called by mom() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `momtd()` {#momtd}
+
+Current period month to date compared to previous period month-to-date
+
+#### Usage
+
+```r
+momtd(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the monthly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+
+Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+momtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard", lag_n=1)
+```
+
+***
+
+### `momtd_fn()` {#momtd_fn}
+
+Current year to date over previous year-to-date for tibble objects
+
+#### Usage
+
+```r
+momtd_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+momtd_fn() is the function that is called by momtd() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `mtd()` {#mtd}
+
+Current period month-to-date
+
+#### Usage
+
+```r
+mtd(.data, .date, .value, calendar_type = "standard", fiscal_year_start = 1)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the monthly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+
+Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+mtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard")
+```
+
+***
+
+### `mtd_fn()` {#mtd_fn}
+
+Month-to-date execution function
+
+#### Usage
+
+```r
+mtd_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+mtd_fn() is the function that is called by mtd() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `mtdopm()` {#mtdopm}
+
+Current month-to-date over full previous period month
+
+#### Usage
+
+```r
+mtdopm(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the monthly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+
+Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+mtdopm(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+```
+
+***
+
+### `mtdopm_fn()` {#mtdopm_fn}
+
+Month-to-date over full previous month execution function
+
+#### Usage
+
+```r
+mtdopm_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+mtdopm_fn() is the function that is called by mtdopm() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `pmtd()` {#pmtd}
+
+Previous period month-to-date
+
+#### Usage
+
+```r
+pmtd(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the monthly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+
+Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+pmtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+```
+
+***
+
+### `pmtd_fn()` {#pmtd_fn}
+
+Previous month-to-date execution function
+
+#### Usage
+
+```r
+pmtd_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+pmtd_fn() is the function that is called by pmtd() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `pqtd()` {#pqtd}
+
+Prior period quarter-to-date
+
+#### Usage
+
+```r
+pqtd(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the quarterly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+
+use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+pqtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+```
+
+***
+
+### `pqtd_fn()` {#pqtd_fn}
+
+Previous quarter-to-date for tibble objects
+
+#### Usage
+
+```r
+pqtd_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+pqtd_fn() is the function that is called by pqtd() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `print()` {#print}
+
+Print ti objects
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | A ti object. |
+| `...` | Unused. Present for S3/S7 compatibility; additional arguments are ignored. |
+
+#### Value
+
+ti object
+
+segment object
+
+segment object
+
+#### Description
+
+Print ti objects
+
+Print segment objects
+
+Print segment objects
+
+***
+
+### `print_actions_steps()` {#print_actions_steps}
+
+Print action steps
+
+#### Usage
+
+```r
+print_actions_steps(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | an S7 class |
+
+#### Value
+
+cli messages
+
+***
+
+### `print_calendar_info()` {#print_calendar_info}
+
+Print calendar information block
+
+#### Usage
+
+```r
+print_calendar_info(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti or segment obj |
+
+#### Value
+
+print
+
+***
+
+### `print_fn_info()` {#print_fn_info}
+
+Prints function header info
+
+#### Usage
+
+```r
+print_fn_info(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti or segment obj |
+
+#### Value
+
+print
+
+***
+
+### `print_next_steps()` {#print_next_steps}
+
+Prints functions next steps
+
+#### Usage
+
+```r
+print_next_steps()
+```
+
+#### Value
+
+print
+
+***
+
+### `pwtd()` {#pwtd}
+
+Previous period week-to-date
+
+#### Usage
+
+```r
+pwtd(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the weekly cumulative sum of targeted value for the previous week using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+
+Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+pwtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+```
+
+***
+
+### `pwtd_fn()` {#pwtd_fn}
+
+Previous week-to-date execution function
+
+#### Usage
+
+```r
+pwtd_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+pwtd_fn() is the function that is called by pwtd() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `pytd()` {#pytd}
+
+Previous period year-to-date
+
+#### Usage
+
+```r
+pytd(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+For each group, pytd()  will create the running annual sum of a value based on the calendar type for the previous year compared to the current year calendar date
+ If no period exists, it will return NA
+ The function returns a ti object which prints out the summary of steps and actions that will take to create the calendar table and calculations
+ Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+pytd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+```
+
+***
+
+### `pytd_fn()` {#pytd_fn}
+
+Previous year-to-date execution function
+
+#### Usage
+
+```r
+pytd_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+pytd_fn() is the function that is called by pytd() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `qoq()` {#qoq}
+
+Current full period quarter over previous full period quarter
+
+#### Usage
+
+```r
+qoq(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the full quarter value compared to the previous quarter value respecting
+any groups that are passed through with dplyr::group_by()
+ Use calculate to return the results
+
+#### Examples
+
+```r
+qoq(contoso::sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
+```
+
+***
+
+### `qoq_fn()` {#qoq_fn}
+
+Quarter-over-quarter execution function
+
+#### Usage
+
+```r
+qoq_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+qoq_fn() is the function that is called by qoq() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `qoqtd()` {#qoqtd}
+
+Current period quarter-to-date compared to previous period quarter-to-date
+
+#### Usage
+
+```r
+qoqtd(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the annual cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+ Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+qoqtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+```
+
+***
+
+### `qoqtd_fn()` {#qoqtd_fn}
+
+Current quarter to date over previous quarter-to-date for tibble objects
+
+#### Usage
+
+```r
+qoqtd_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+qoqtd_fn() is the function that is called by qoqtd() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `qtd()` {#qtd}
+
+Current period quarter-to-date
+
+#### Usage
+
+```r
+qtd(.data, .date, .value, calendar_type = "standard", fiscal_year_start = 1)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the quarterly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+
+Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+qtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard")
+```
+
+***
+
+### `qtd_fn()` {#qtd_fn}
+
+Quarter-to-date execution function
+
+#### Usage
+
+```r
+qtd_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+qtd_fn() is the function that is called by qtd() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `qtdopq()` {#qtdopq}
+
+Current period quarter-to-date over previous period quarter
+
+#### Usage
+
+```r
+qtdopq(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the quarterly cumulative sum of a targeted value and compares it with the previous full quarter's total value respecting
+any groups that are passed through with dplyr::group_by()
+ Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+qtdopq(contoso::sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
+```
+
+***
+
+### `qtdopq_fn()` {#qtdopq_fn}
+
+quarter-to-date over previous quarter execution function
+
+#### Usage
+
+```r
+qtdopq_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+qtdopq_fn() is the function that is called by qtdopq() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `seq_date_sql()` {#seq_date_sql}
+
+Generate a Cross-Dialect SQL Date Series
+
+#### Usage
+
+```r
+seq_date_sql(
+  .con,
+  start_date,
+  end_date,
+  calendar_type = "standard",
+  time_unit = "day",
+  week_start = 7,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.con` | A valid DBI connection object (e.g., DuckDB, Postgres, Snowflake) or a dbplyr simulated connection. |
+| `start_date` | A character string in 'YYYY-MM-DD' format or a Date object representing the start of the series. |
+| `end_date` | A character string in 'YYYY-MM-DD' format or a Date object representing the end of the series. |
+| `time_unit` | A character string specifying the interval. Must be one of: "day", "week", "month", "quarter", or "year". |
+| `week_start` | description |
+
+#### Value
+
+A tbl_lazy (SQL) object with a single column date.
+
+#### Description
+
+Creates a lazy dbplyr table containing a continuous sequence of dates.
+The function automatically detects the SQL dialect of the connection and
+dispatches the most efficient native series generator (e.g., GENERATE_SERIES
+for DuckDB/Postgres or GENERATOR for Snowflake).
+
+#### Details
+
+This function is designed to be "nestable," meaning the resulting SQL can be
+used safely inside larger dplyr pipelines. It avoids WITH clauses in
+dialects like DuckDB to prevent parser errors when dbplyr wraps the query
+in a subquery (e.g., SELECT * FROM (...) AS q01).
+
+For unit testing, the function supports dbplyr simulation objects. If a
+TestConnection is detected, it returns a lazy_frame to avoid metadata
+field queries that would otherwise fail on a mock connection.
+
+***
+
+### `sql_date_add()` {#sql_date_add}
+
+Generate dialect-appropriate date addition SQL
+
+#### Usage
+
+```r
+sql_date_add(.con, unit, n_expr, date_col = "date")
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.con` | A DBI connection object |
+| `unit` | A character string: "month", "week", etc. |
+| `n_expr` | An expression string for the number of units |
+| `date_col` | A character string for the date column name |
+
+#### Value
+
+A dplyr::sql object
+
+***
+
+### `wow()` {#wow}
+
+Current full period week over full previous period week
+
+#### Usage
+
+```r
+wow(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the full week value compared to the previous week value using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+
+Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+wow(contoso::sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
+```
+
+***
+
+### `wow_fn()` {#wow_fn}
+
+Week-over-week execution function
+
+#### Usage
+
+```r
+wow_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+wow_fn() is the function that is called by wow() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `wowtd()` {#wowtd}
+
+Current period Week-to-date over previous period week-to-date
+
+#### Usage
+
+```r
+wowtd(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the weekly cumulative sum of targeted value and compares it with the previous week's cumulative sum using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+
+Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+wowtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+```
+
+***
+
+### `wowtd_fn()` {#wowtd_fn}
+
+Week-to-date over previous week-to-date execution function
+
+#### Usage
+
+```r
+wowtd_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+wowtd_fn() is the function that is called by wowtd() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `wtd()` {#wtd}
+
+Current period week-to-date
+
+#### Usage
+
+```r
+wtd(.data, .date, .value, calendar_type = "standard", fiscal_year_start = 1)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the weekly cumulative sum of targeted value using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+
+Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+wtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard")
+```
+
+***
+
+### `wtd_fn()` {#wtd_fn}
+
+Week-to-date execution function
+
+#### Usage
+
+```r
+wtd_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+wtd_fn() is the function that is called by wtd() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `wtdopw()` {#wtdopw}
+
+Current period week-to-date over full previous period week
+
+#### Usage
+
+```r
+wtdopw(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the weekly cumulative sum of targeted value and compares it with the full previous week's total using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+
+Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+wtdopw(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+```
+
+***
+
+### `wtdopw_fn()` {#wtdopw_fn}
+
+Week-to-date over full previous week execution function
+
+#### Usage
+
+```r
+wtdopw_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+wtdopw_fn() is the function that is called by wtdopw() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `yoy()` {#yoy}
+
+Current full period year over previous full period year
+
+#### Usage
+
+```r
+yoy(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the full year value compared to the previous year value respecting
+any groups that are passed through with dplyr::group_by()
+ Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+yoy(contoso::sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
+```
+
+***
+
+### `yoy_fn()` {#yoy_fn}
+
+Current year-to-date over previous period year-to-date execution function
+
+#### Usage
+
+```r
+yoy_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+yoy_fn() is the function that is called by yoy() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `yoytd()` {#yoytd}
+
+Current period year-to-date compared to previous period year-to-date
+
+#### Usage
+
+```r
+yoytd(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the annual cumulative sum of targeted value and compares it with the previous period's annual cumulative to date sum using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+ Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+yoytd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+```
+
+***
+
+### `yoytd_fn()` {#yoytd_fn}
+
+Current year to date over previous year-to-date execution function
+
+#### Usage
+
+```r
+yoytd_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+yoytd_fn() is the function that is called by yoytd() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `ytd()` {#ytd}
+
+Current period year-to-date
+
+#### Usage
+
+```r
+ytd(.data, .date, .value, calendar_type = "standard", fiscal_year_start = 1)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+For each group, ytd()  will create the running annual sum of a value based on the calendar type specified
+ The function returns a ti object which prints out the summary of steps and actions that will take to create the calendar table and calculations
+ Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+ytd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard")
+```
+
+***
+
+### `ytd_fn()` {#ytd_fn}
+
+Year-to-date execution function
+
+#### Usage
+
+```r
+ytd_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+ytd_fn() is the function that is called by ytd() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with dplyr::collect()
+
+***
+
+### `ytdopy()` {#ytdopy}
+
+Current period year-to-date compared to full previous period
+
+#### Usage
+
+```r
+ytdopy(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+#### Value
+
+ti object
+
+#### Description
+
+This calculates the full year value compared to the previous year value using a standard or 5-5-4 calendar respecting
+any groups that are passed through with dplyr::group_by()
+ Use calculate to return the results
+
+#### Details
+
+This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+ If you provide a grouped object with dplyr::group_by(), it will generate a complete calendar for each group
+ The function creates a ti object, which pre-processes the data and arguments for further downstream functions
+
+standard calendar
+
+ The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+ It automatically accounts for leap years every four years to match the Gregorian calendar
+
+5-5-4 calendar
+
+ The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+ This system is commonly used in retail and financial reporting
+
+#### Examples
+
+```r
+ytdopy(contoso::sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
+```
+
+***
+
+### `ytdopy_fn()` {#ytdopy_fn}
+
+Year-to-date over full prior period year
+
+#### Usage
+
+```r
+ytdopy_fn(x)
+```
+
+#### Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+#### Value
+
+dbi object
+
+#### Description
+
+ytdopy_fn() is the function that is called by ytdopy() when passed through to calculate
+
+#### Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object withdplyr::collect()
+
+***
+

@@ -31,8 +31,10 @@ abc object
 }
 }
 \examples{
-\dontrun{
-abc(contoso::sales,c(.1,.5,.7,.96,1),.value=margin)
+\donttest{
+contoso::sales |>
+  dplyr::group_by(product_key) |>
+  abc(c(.1,.5,.7,.96,1), .value = margin)
 }
 
 }

@@ -37,9 +37,8 @@ any groups that are passed through with \code{\link[dplyr:group_by]{dplyr::group
 }
 }
 \examples{
-\dontrun{
-library(contoso)
-qoq(sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
+\donttest{
+qoq(contoso::sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 }
 }
 \seealso{

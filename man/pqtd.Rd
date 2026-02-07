@@ -57,9 +57,8 @@ use \link{calculate} to return the results
 }
 }
 \examples{
-\dontrun{
-library(contoso)
-pqtd(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+\donttest{
+pqtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 }
 }
 \seealso{

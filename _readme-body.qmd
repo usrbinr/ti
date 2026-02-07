@@ -115,12 +115,26 @@ tibble::tribble(
    "PWTD", "Prior Week-to-Date", "X", "X", "",
    "ATD","Cumulative total from inception to date","","X","",
    "DoD", "Full Day over Full Day", "", "X", "X") |>
-  dplyr::mutate(
-    id=dplyr::row_number()
-  ) |>
-   dplyr::arrange(id) |>
-   dplyr::select(-id) |>
-   tinytable::tt()
+   gt::gt() |>
+   gt::tab_header(
+      title = gt::md("**Time Intelligence Functions**")
+   ) |>
+   gt::cols_align(align = "center", columns = c(Shift, Aggregate, Compare)) |>
+   gt::cols_align(align = "left", columns = c(Function, Description)) |>
+   gt::tab_style(
+      style = gt::cell_text(weight = "bold", font = gt::google_font("Fira Code")),
+      locations = gt::cells_body(columns = Function)
+   ) |>
+   gt::tab_style(
+      style = gt::cell_fill(color = "#f0f0f0"),
+      locations = gt::cells_column_labels()
+   ) |>
+   gt::tab_style(
+      style = gt::cell_text(weight = "bold"),
+      locations = gt::cells_column_labels()
+   ) |>
+   gt::opt_row_striping() |>
+   gt::opt_table_lines("default")
 
 
 
@@ -160,7 +174,26 @@ tibble::tribble(
   "Cohort analysis groups entities by a shared start point and analyzes behavior over time.",
   "", "X", "X"
 ) |>
-   tinytable::tt( width = c(.3, 3.5, .5, .5, .5))
+   gt::gt() |>
+   gt::tab_header(
+      title = gt::md("**Classification Functions**")
+   ) |>
+   gt::cols_align(align = "center", columns = c(Categorizes, `Time-Based`, `Tracks Over Time`)) |>
+   gt::cols_align(align = "left", columns = c(Function, Description)) |>
+   gt::tab_style(
+      style = gt::cell_text(weight = "bold", font = gt::google_font("Fira Code")),
+      locations = gt::cells_body(columns = Function)
+   ) |>
+   gt::tab_style(
+      style = gt::cell_fill(color = "#f0f0f0"),
+      locations = gt::cells_column_labels()
+   ) |>
+   gt::tab_style(
+      style = gt::cell_text(weight = "bold"),
+      locations = gt::cells_column_labels()
+   ) |>
+   gt::opt_row_striping() |>
+   gt::opt_table_lines("default")
 
 
 ```

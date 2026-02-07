@@ -49,7 +49,24 @@ tibble::tibble(
     "A numeric vector of breakpoints between 0 and 1, representing cumulative proportions for ABC categories.",
     "Optional. A column to sum for categorization. If not provided, the function counts the number of rows per group."
   )
-) |> tinytable::tt()
+) |>
+   gt::gt() |>
+   gt::tab_header(
+      title = gt::md("**Function Arguments**")
+   ) |>
+   gt::tab_style(
+      style = gt::cell_text(weight = "bold", font = gt::google_font("Fira Code")),
+      locations = gt::cells_body(columns = Argument)
+   ) |>
+   gt::tab_style(
+      style = list(
+         gt::cell_fill(color = "#f0f0f0"),
+         gt::cell_text(weight = "bold")
+      ),
+      locations = gt::cells_column_labels()
+   ) |>
+   gt::opt_row_striping() |>
+   gt::opt_table_lines("default")
 
 ```
 
@@ -105,20 +122,49 @@ contoso::sales |>
 #| include: true
 #| column: screen
 
-contoso::sales |> 
+contoso::sales |>
    dplyr::filter(
       store_key!="999999"
-   ) |> 
-   dplyr::group_by(store_key) |> 
+   ) |>
+   dplyr::group_by(store_key) |>
    ti::abc(
-      category_values = c( 0.4,.7,.9,1), 
+      category_values = c( 0.4,.7,.9,1),
       .value = margin
-      ) |> 
-   ti::calculate() |> 
-   dplyr::collect() |> 
-   dplyr::arrange(row_id) |> 
+      ) |>
+   ti::calculate() |>
+   dplyr::collect() |>
+   dplyr::arrange(row_id) |>
    head(10) |>
-   tinytable::tt()
+   gt::gt() |>
+   gt::tab_header(
+      title = gt::md("**ABC Classification Results**"),
+      subtitle = "Top 10 stores by margin contribution"
+   ) |>
+   gt::fmt_number(
+      columns = where(is.numeric),
+      decimals = 0,
+      use_seps = TRUE
+   ) |>
+   gt::fmt_number(
+      columns = tidyselect::any_of(c("year", "month", "week", "quarter", "row_id", "max_row_id")),
+      decimals = 0,
+      use_seps = FALSE
+   ) |>
+   gt::fmt_percent(columns = tidyselect::contains("prop"), decimals = 0) |>
+   gt::tab_style(
+      style = list(
+         gt::cell_fill(color = "#f0f0f0"),
+         gt::cell_text(weight = "bold", size = "small")
+      ),
+      locations = gt::cells_column_labels()
+   ) |>
+   gt::tab_style(
+      style = gt::cell_text(weight = "bold"),
+      locations = gt::cells_body(columns = category_name)
+   ) |>
+   gt::opt_row_striping() |>
+   gt::opt_table_lines("default") |>
+   gt::tab_options(table.font.size = "small")
 ```
 
 
@@ -174,8 +220,32 @@ tibble::tibble(
     "0.4, 0.7, 0.9",
     "\"A\", \"B\", \"C\""
   )
-) |> 
-   tinytable::tt()
+) |>
+   gt::gt() |>
+   gt::tab_header(
+      title = gt::md("**Output Column Descriptions**")
+   ) |>
+   gt::cols_label(
+      Column_Name = "Column",
+      Example_Values = "Examples"
+   ) |>
+   gt::tab_style(
+      style = gt::cell_text(weight = "bold", font = gt::google_font("Fira Code")),
+      locations = gt::cells_body(columns = Column_Name)
+   ) |>
+   gt::tab_style(
+      style = gt::cell_text(font = gt::google_font("Fira Code"), size = "small"),
+      locations = gt::cells_body(columns = Example_Values)
+   ) |>
+   gt::tab_style(
+      style = list(
+         gt::cell_fill(color = "#f0f0f0"),
+         gt::cell_text(weight = "bold")
+      ),
+      locations = gt::cells_column_labels()
+   ) |>
+   gt::opt_row_striping() |>
+   gt::opt_table_lines("default")
 
 
 ```

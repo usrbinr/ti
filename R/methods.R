@@ -1,4 +1,5 @@
-
+#' @importFrom scales percent
+NULL
 
 # create generics -----------
 
@@ -83,10 +84,7 @@ S7::method(create_calendar,ti) <- function(x){
       !!x@value@value_vec := dplyr::coalesce(!!x@value@value_quo, 0)
     )
 
-
   return(full_dbi)
-
-
 }
 
 
@@ -113,10 +111,10 @@ S7::method(create_calendar,ti) <- function(x){
 #' @returns dbi object
 #' @export
 #' @examples
-#'\dontrun{
-#' x <- ytd(sales,.date=order_date,.value=quantity,calendar_type="standard")
+#' \donttest{
+#' x <- ytd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard")
 #' calculate(x)
-#'}
+#' }
 
 S7::method(calculate,ti) <- function(x){
 
@@ -178,7 +176,6 @@ S7::method(print, ti) <- function(x,...){
 
 
   ## start print message
-
 
   ### general information
 

@@ -55,9 +55,8 @@ Use \link{calculate} to return the results
 }
 }
 \examples{
-\dontrun{
-library(contoso)
-wtdopw(sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+\donttest{
+wtdopw(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 }
 }
 \seealso{

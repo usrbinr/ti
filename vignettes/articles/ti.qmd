@@ -65,11 +65,14 @@ To return the results to a lazy DBI object, pass the `ti` object through to `cal
 #| error: false
 #| message: false
 
-contoso::sales |>                                                          
-   mtd(.date=order_date,.value = margin,calendar_type = "standard") |>  
-   calculate()                                                          
+contoso::sales |>                    #<1>                                      
+   mtd(.date=order_date,.value = margin,calendar_type = "standard") |>  #<2> 
+   calculate()                                                         #<3> 
 ```
 
+1. select your data source
+2. fill in your ti functions arguments
+3. use 'calculate' to return a lazy_tbl of results instead of a print statement
 
 If you're using a tibble, under the hood, ti converts your data to a [DuckDB](https://github.com/duckdb/duckdb-r) database.
 
@@ -88,9 +91,11 @@ In either case, use `dplyr::collect()` to return your results to a local tibble.
 contoso::sales |>                                                                
    mtd(.date=order_date,.value = margin,calendar_type = "standard") |>  
    calculate() |>                                                       
-   dplyr::collect()
+   dplyr::collect() #<1>
 
 ```
+
+1. convert any lazy_tbl object into a tibble with 'dplyr::collect()'
 
 ```{r}
 #| label: collect-example-no-echo
@@ -98,7 +103,7 @@ contoso::sales |>
 #| eval: true
 #| warning: false
 #| error: false
-#| column: page
+#| layout-align: center
 
 contoso::sales |>                                                                
    mtd(.date=order_date,.value = margin,calendar_type = "standard") |>  
@@ -154,8 +159,22 @@ would be missing `2024-01-02`, `2024-01-04`, and `2024-01-05` which would lead t
 tibble::tibble(
   date=c(" 2024-01-01","2024-01-03","2024-01-06","2024-01-07","2024-01-08","2024-01-09","2024-01-11")
   ,margin=c(1200,1100,1300,900,1200,850,1450)
-) |> 
-  tinytable::tt(width=.7)
+) |>
+  gt::gt() |>
+  gt::tab_header(
+     title = gt::md("**Incomplete Calendar Data**"),
+     subtitle = "Missing dates can lead to wrong conclusions"
+  ) |>
+  gt::fmt_number(columns = margin, decimals = 0, use_seps = TRUE) |>
+  gt::tab_style(
+     style = list(
+        gt::cell_fill(color = "#f0f0f0"),
+        gt::cell_text(weight = "bold")
+     ),
+     locations = gt::cells_column_labels()
+  ) |>
+  gt::opt_row_striping() |>
+  gt::opt_table_lines("default")
 ```
 
 
@@ -174,12 +193,36 @@ In @tbl-missing-dates-issue-1-fix-no-echo we see a complete calendar set and a n
 tibble::tibble(
   order_date=lubridate::ymd(c("2024-01-01","2024-01-03","2024-01-06","2024-01-07","2024-01-08","2024-01-09","2024-01-11"))
   ,margin=c(1200,1100,1300,900,1200,850,1450)
-) |> 
-   dod(.date = order_date,.value = margin,calendar_type = "standard") |> 
-   calculate() |> 
-   dplyr::collect() |> 
-   dplyr::arrange(date) |> 
-   gt::gt()
+) |>
+   dod(.date = order_date,.value = margin,calendar_type = "standard") |>
+   calculate() |>
+   dplyr::collect() |>
+   dplyr::arrange(date) |>
+   gt::gt() |>
+   gt::tab_header(
+      title = gt::md("**Complete Calendar with Missing Date Indicator**"),
+      subtitle = "ti automatically fills missing dates"
+   ) |>
+   gt::fmt_number(
+      columns = where(is.numeric),
+      decimals = 0,
+      use_seps = TRUE
+   ) |>
+   gt::fmt_number(
+      columns = tidyselect::any_of(c("year", "month", "week", "quarter", "day")),
+      decimals = 0,
+      use_seps = FALSE
+   ) |>
+   gt::tab_style(
+      style = list(
+         gt::cell_fill(color = "#f0f0f0"),
+         gt::cell_text(weight = "bold", size = "small")
+      ),
+      locations = gt::cells_column_labels()
+   ) |>
+   gt::opt_row_striping() |>
+   gt::opt_table_lines("default") |>
+   gt::tab_options(table.font.size = "small")
 
 ```
 
@@ -229,7 +272,31 @@ contoso::sales |>
       ,year %in% c(2022)
    ) |>
    dplyr::arrange(date)  |>
-   tinytable::tt(width=1)
+   gt::gt() |>
+   gt::tab_header(
+      title = gt::md("**Period Imbalance Example**"),
+      subtitle = "February 2022 comparing to January (31 vs 28 days)"
+   ) |>
+   gt::fmt_number(
+      columns = where(is.numeric),
+      decimals = 0,
+      use_seps = TRUE
+   ) |>
+   gt::fmt_number(
+      columns = tidyselect::any_of(c("year", "month", "week", "quarter", "day")),
+      decimals = 0,
+      use_seps = FALSE
+   ) |>
+   gt::tab_style(
+      style = list(
+         gt::cell_fill(color = "#f0f0f0"),
+         gt::cell_text(weight = "bold", size = "small")
+      ),
+      locations = gt::cells_column_labels()
+   ) |>
+   gt::opt_row_striping() |>
+   gt::opt_table_lines("default") |>
+   gt::tab_options(table.font.size = "small")
 ```
 
 

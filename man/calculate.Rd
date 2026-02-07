@@ -26,8 +26,8 @@ This approach minimizes data transfer and improves performance for large dataset
 The resulting table will be sorted by the relevant date column to ensure the correct temporal ordering of the calculated metrics.
 }
 \examples{
-\dontrun{
-x <- ytd(sales,.date=order_date,.value=quantity,calendar_type="standard")
+\donttest{
+x <- ytd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard")
 calculate(x)
 }
 }

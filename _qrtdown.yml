@@ -1,0 +1,19 @@
+url: https://codeberg.org/usrbinr/ti
+template:
+  theme: cosmo
+  code_overflow: wrap
+navbar:
+  title: ti 4.0.0
+  left:
+  - text: Articles
+    href: articles.qmd
+  - text: Reference
+    href: reference.qmd
+  - text: Changelog
+    href: NEWS.md
+  right:
+  - icon: code-square
+    href: https://codeberg.org/usrbinr/ti
+    aria-label: Source code
+reference: []
+articles: []

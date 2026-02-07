@@ -91,36 +91,32 @@ ul.task-list li input[type="checkbox"] {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
-  <li class="nav-item">
-    <a class="nav-link" href="./vignettes/ti.html"> 
-<span class="menu-text">Get started</span></a>
-  </li>  
-  <li class="nav-item">
-    <a class="nav-link" href="./reference.html"> 
-<span class="menu-text">Reference</span></a>
-  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-articles" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Articles</span>
     </a>
     <ul class="dropdown-menu" aria-labelledby="nav-menu-articles">    
         <li>
-    <a class="dropdown-item" href="./vignettes/abc.html">
+    <a class="dropdown-item" href="./vignettes/articles/abc.html">
  <span class="dropdown-text">ABC Classification</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./vignettes/cohort.html">
- <span class="dropdown-text">Cohort Analysis</span></a>
+    <a class="dropdown-item" href="./vignettes/articles/calendar_types.html">
+ <span class="dropdown-text">Standard vs.&nbsp;Non-Standard Calendars</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="./vignettes/calendar_types.html">
- <span class="dropdown-text">Calendar Types</span></a>
+    <a class="dropdown-item" href="./vignettes/articles/cohort.html">
+ <span class="dropdown-text">Cohort</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="./vignettes/articles/ti.html">
+ <span class="dropdown-text">Getting started</span></a>
   </li>  
     </ul>
   </li>
   <li class="nav-item">
-    <a class="nav-link" href="./citation.html"> 
-<span class="menu-text">Citation</span></a>
+    <a class="nav-link" href="./reference.html"> 
+<span class="menu-text">Reference</span></a>
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="./NEWS.html"> 
@@ -150,6 +146,7 @@ ul.task-list li input[type="checkbox"] {
    
   <ul>
   <li><a href="#r-cmd-check-results" id="toc-r-cmd-check-results" class="nav-link active" data-scroll-target="#r-cmd-check-results">R CMD check results</a></li>
+  <li><a href="#resubmission" id="toc-resubmission" class="nav-link" data-scroll-target="#resubmission">Resubmission</a></li>
   </ul>
 </nav>
     </div>
@@ -163,9 +160,20 @@ ul.task-list li input[type="checkbox"] {
 <h2 class="anchored" data-anchor-id="r-cmd-check-results">R CMD check results</h2>
 <p>0 errors | 0 warnings | 1 note</p>
 <ul>
-<li>This is a new release.</li>
-<li>This package should be under the name of ‘ti’ but previous submissions were under the name of fpa which caused lots of errors. I’m hoping thi is fixed now</li>
+<li><p>This is a new submission.</p></li>
+<li><p>The flagged words (YTD, MTD, QTD) are standard financial acronyms for Year-to-date, Month-to-date, and Quarter-to-date respectively. “backends” refers to database backends and is intentional.</p></li>
 </ul>
+</section>
+<section id="resubmission" class="level2">
+<h2 class="anchored" data-anchor-id="resubmission">Resubmission</h2>
+<p>This is a resubmission addressing the following reviewer feedback:</p>
+<ol type="1">
+<li><p><strong>Package names in single quotes</strong>: Updated DESCRIPTION to use ‘ti’ and ‘dbplyr’ in single quotes as required.</p></li>
+<li><p><strong>Removed “Tools for” from description</strong>: Rewrote the Description field to begin with the package’s purpose directly.</p></li>
+<li><p><strong>References</strong>: This package implements time intelligence calculations commonly used in financial planning tools. The methodology is based on standard period-over-period and period-to-date calculations; there are no specific academic references to cite.</p></li>
+<li><p><strong>Examples for unexported function</strong>: Removed examples from the internal function <code>seq_date_sql()</code> which is marked with <code>@keywords internal</code>.</p></li>
+<li><p><strong>Replaced \dontrun{} with \donttest{}</strong>: All examples now use <code>\donttest{}</code> instead of <code>\dontrun{}</code> as the examples depend on the suggested package ‘contoso’ for sample data.</p></li>
+</ol>
 
 
 </section>
@@ -575,7 +583,7 @@ ul.task-list li input[type="checkbox"] {
 <footer class="footer">
   <div class="nav-footer">
     <div class="nav-footer-left">
-<p>Built with <a href="https://quarto.org/">Quarto</a></p>
+<p>Built with <a href="https://quarto.org/">Quarto</a> and <a href="https://codeberg.org/usrbinr/qrtdown">qrtdown</a></p>
 </div>   
     <div class="nav-footer-center">
       &nbsp;
