@@ -1,0 +1,26 @@
+---
+title: "detect_sql_dialect"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/utils-misc.R#L876)
+
+# `detect_sql_dialect()`
+
+Detect SQL dialect from a DBI connection
+
+## Usage
+
+```r
+detect_sql_dialect(.con)
+```
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.con` | A DBI connection object |
+
+## Value
+
+A character string: "snowflake", "duckdb", or "postgres"
+

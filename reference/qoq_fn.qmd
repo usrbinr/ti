@@ -1,0 +1,40 @@
+---
+title: "qoq_fn"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/time_intelligence_fn.R#L472)
+
+# `qoq_fn()`
+
+Quarter-over-quarter execution function
+
+## Usage
+
+```r
+qoq_fn(x)
+```
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+## Value
+
+dbi object
+
+## Description
+
+`qoq_fn()` is the function that is called by `qoq()` when passed through to calculate
+
+## Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with `dplyr::collect()`
+
+## See also
+
+`qoq()` for the function's intent
+

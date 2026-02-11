@@ -1,0 +1,26 @@
+---
+title: "print_fn_info"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/utils-misc.R#L78)
+
+# `print_fn_info()`
+
+Prints function header info
+
+## Usage
+
+```r
+print_fn_info(x)
+```
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti or segment obj |
+
+## Value
+
+print
+

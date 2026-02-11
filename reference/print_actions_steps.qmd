@@ -1,0 +1,26 @@
+---
+title: "print_actions_steps"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/utils-misc.R#L123)
+
+# `print_actions_steps()`
+
+Print action steps
+
+## Usage
+
+```r
+print_actions_steps(x)
+```
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | an S7 class |
+
+## Value
+
+cli messages
+

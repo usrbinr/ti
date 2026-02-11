@@ -1,0 +1,26 @@
+---
+title: "create_full_dbi"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/utils-misc.R#L513)
+
+# `create_full_dbi()`
+
+Title
+
+## Usage
+
+```r
+create_full_dbi(x)
+```
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+## Value
+
+DBI object
+

@@ -1,0 +1,26 @@
+---
+title: "is_yyyy_mm_dd"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/utils-misc.R#L7)
+
+# `is_yyyy_mm_dd()`
+
+Validate an input is YYYY-MM-DD format
+
+## Usage
+
+```r
+is_yyyy_mm_dd(x)
+```
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | date column |
+
+## Value
+
+logical
+

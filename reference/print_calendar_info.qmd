@@ -1,0 +1,26 @@
+---
+title: "print_calendar_info"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/utils-misc.R#L93)
+
+# `print_calendar_info()`
+
+Print calendar information block
+
+## Usage
+
+```r
+print_calendar_info(x)
+```
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti or segment obj |
+
+## Value
+
+print
+

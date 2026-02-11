@@ -1,0 +1,40 @@
+---
+title: "yoy_fn"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/time_intelligence_fn.R#L351)
+
+# `yoy_fn()`
+
+Current year-to-date over previous period year-to-date execution function
+
+## Usage
+
+```r
+yoy_fn(x)
+```
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+## Value
+
+dbi object
+
+## Description
+
+`yoy_fn()` is the function that is called by `yoy()` when passed through to calculate
+
+## Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with `dplyr::collect()`
+
+## See also
+
+`yoy()` for the function's intent
+

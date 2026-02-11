@@ -1,0 +1,27 @@
+---
+title: "complete_standard_calendar"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/utils-misc.R#L447)
+
+# `complete_standard_calendar()`
+
+Title
+
+## Usage
+
+```r
+complete_standard_calendar(.data, x)
+```
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | DBI object |
+| `x` | ti object |
+
+## Value
+
+DBI object
+

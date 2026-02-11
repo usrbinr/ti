@@ -1,19 +1,27 @@
 project:
   type: website
   output-dir: docs
+  resources:
+  - man/figures/**
+  - vignettes/articles/**
   render:
   - '*.qmd'
   - '*.md'
+  - reference/*.qmd
   - vignettes/articles/*.qmd
   - vignettes/articles/*.md
   - '!inst/'
   - '!renv/'
   - '!packrat/'
+execute:
+  freeze: auto
 website:
   title: ti
   navbar:
     title: ti 4.0.0
     left:
+    - text: Get started
+      href: vignettes/articles/ti.qmd
     - text: Articles
       menu:
       - text: ABC Classification
@@ -22,8 +30,6 @@ website:
         href: vignettes/articles/calendar_types.qmd
       - text: Cohort
         href: vignettes/articles/cohort.qmd
-      - text: Getting started
-        href: vignettes/articles/ti.qmd
     - text: Reference
       href: reference.qmd
     - text: Changelog

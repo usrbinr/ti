@@ -30,3 +30,6 @@ ti.Rproj
 ^index\.qmd$
 ^vignettes/articles$
 ^llms\.txt$
+
+# qrtdown
+^reference$

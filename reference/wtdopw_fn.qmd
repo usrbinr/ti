@@ -1,0 +1,40 @@
+---
+title: "wtdopw_fn"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/time_intelligence_fn.R#L725)
+
+# `wtdopw_fn()`
+
+Week-to-date over full previous week execution function
+
+## Usage
+
+```r
+wtdopw_fn(x)
+```
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | ti object |
+
+## Value
+
+dbi object
+
+## Description
+
+`wtdopw_fn()` is the function that is called by `wtdopw()` when passed through to calculate
+
+## Details
+
+This is internal non exported function that is nested in ti class and is called upon when the underlying function is called
+by calculate
+This will return a dbi object that can converted to a tibble object with `dplyr::collect()`
+
+## See also
+
+`wtdopw()` for the function's intent
+

@@ -1,0 +1,33 @@
+---
+title: "print"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/methods.R#L158)
+
+# `print()`
+
+Print ti objects
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | A `ti` object. |
+| `...` | Unused. Present for S3/S7 compatibility; additional arguments are ignored. |
+
+## Value
+
+ti object
+
+segment object
+
+segment object
+
+## Description
+
+Print ti objects
+
+Print segment objects
+
+Print segment objects
+

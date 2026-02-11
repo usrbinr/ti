@@ -1,0 +1,96 @@
+---
+title: "wowtd"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/time_intelligence_classes.R#L771)
+
+# `wowtd()`
+
+Current period Week-to-date over previous period week-to-date
+
+## Usage
+
+```r
+wowtd(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  lag_n = 1,
+  fiscal_year_start = 1
+)
+```
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | tibble or dbi object (either grouped or ungrouped) |
+| `.date` | the date column to group by |
+| `.value` | the value column to summarize |
+| `calendar_type` | select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information |
+| `lag_n` | the number of periods to lag |
+| `fiscal_year_start` | integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544'). |
+
+## Value
+
+ti object
+
+## Description
+
+This calculates the weekly cumulative sum of targeted value and compares it with the previous week's cumulative sum using a standard or 5-5-4 calendar respecting
+any groups that are passed through with `dplyr::group_by()`
+
+Use calculate to return the results
+
+## Details
+
+- This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
+
+- If you provide a grouped object with `dplyr::group_by()`, it will generate a complete calendar for each group
+
+- The function creates a `ti` object, which pre-processes the data and arguments for further downstream functions
+
+**standard calendar**
+
+- The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week
+
+- It automatically accounts for leap years every four years to match the Gregorian calendar
+
+**5-5-4 calendar**
+
+- The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
+
+- This system is commonly used in retail and financial reporting
+
+## Examples
+
+```r
+wowtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
+```
+
+## See also
+
+Other time_intelligence: 
+`atd()`,
+`dod()`,
+`mom()`,
+`momtd()`,
+`mtd()`,
+`mtdopm()`,
+`pmtd()`,
+`pqtd()`,
+`pwtd()`,
+`pytd()`,
+`qoq()`,
+`qoqtd()`,
+`qtd()`,
+`qtdopq()`,
+`wow()`,
+`wtd()`,
+`wtdopw()`,
+`yoy()`,
+`yoytd()`,
+`ytd()`,
+`ytdopy()`
+

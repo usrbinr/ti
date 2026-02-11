@@ -1,0 +1,26 @@
+---
+title: "make_action_cli"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/utils-misc.R#L52)
+
+# `make_action_cli()`
+
+Make Action field CLI args
+
+## Usage
+
+```r
+make_action_cli(x)
+```
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | action class |
+
+## Value
+
+list
+

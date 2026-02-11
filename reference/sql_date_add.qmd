@@ -1,0 +1,29 @@
+---
+title: "sql_date_add"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/utils-misc.R#L892)
+
+# `sql_date_add()`
+
+Generate dialect-appropriate date addition SQL
+
+## Usage
+
+```r
+sql_date_add(.con, unit, n_expr, date_col = "date")
+```
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.con` | A DBI connection object |
+| `unit` | A character string: "month", "week", etc. |
+| `n_expr` | An expression string for the number of units |
+| `date_col` | A character string for the date column name |
+
+## Value
+
+A `dplyr::sql` object
+

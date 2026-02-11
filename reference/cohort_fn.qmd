@@ -1,0 +1,26 @@
+---
+title: "cohort_fn"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/abc.R#L223)
+
+# `cohort_fn()`
+
+Internal function for the cohort segment object
+
+## Usage
+
+```r
+cohort_fn(x)
+```
+
+## Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `x` | segment object |
+
+## Value
+
+function
+

@@ -3,4 +3,24 @@ title: ti
 toc: false
 ---
 
+::: {.column-margin}
+
+### Links
+
+- [Source Code](https://codeberg.org/usrbinr/ti)
+
+### License
+
+MIT + file LICENSE
+
+### Citation
+
+[Citing this package](citation.qmd)
+
+### Authors
+
+- Alejandro Hagan (author, maintainer)
+
+:::
+
 {{< include _readme-body.qmd >}}

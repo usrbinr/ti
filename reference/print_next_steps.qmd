@@ -1,0 +1,20 @@
+---
+title: "print_next_steps"
+---
+
+[< Back to Reference](../reference.qmd) | [View source](https://codeberg.org/usrbinr/ti/src/branch/main/R/utils-misc.R#L107)
+
+# `print_next_steps()`
+
+Prints functions next steps
+
+## Usage
+
+```r
+print_next_steps()
+```
+
+## Value
+
+print
+

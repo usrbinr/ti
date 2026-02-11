@@ -1,0 +1,61 @@
+---
+title: "Cohort"
+author: "Alejandro Hagan"
+subtitle: "What is cohort analysis and how to use it?"
+eval: false
+---
+```{r}
+#| echo: false
+#| eval: true
+
+quarto::write_yaml_metadata_block(
+   date=format(Sys.Date())
+   )
+
+```
+
+
+Cohort analysis is the practice of segmenting users or customers into groups (cohorts) based on a shared initial experience, usually a specific time period of acquisition. 
+
+By monitoring these cohorts over time, analysts can gain deep insights into retention rates, lifetime value (LTV), feature usage, and behavioral trends that are hidden when looking at aggregate metrics. It shifts the focus from "what is happening now" to "how are groups behaving over their lifecycle".
+
+The `cohort()` function in **ti** provides a **tibble and database-friendly implementation** of cohort analysis that is compatible with modern backends.
+
+## How does it work?
+
+- Assigns each member in your dataset to a **time-based cohort** based on the first occurrence in the `.date` column
+- Aggregates distinct counts of cohort members over time
+- Supports multiple time units (`day`, `week`, `month`, `quarter`, `year`)
+- Returns a **segment object**, which can be processed using `calculate()` to generate the cohort table
+
+# Arguments
+
+| Argument | Description |
+|----------|-------------|
+| `.data` | A `tibble` or DBI object containing your dataset. |
+| `.date` | The date column to base the cohort assignment on. |
+| `.value` | The column representing members to track (e.g., customer ID). |
+| `time_unit` | Argument to group your calendar dates: `day`, `week`, `month`, `quarter`, or `year` |
+| `period_label` | Whether to use numeric period labels (`TRUE`) or actual dates (`FALSE`). Default is `FALSE`. |
+
+
+# Output
+
+The function returns a **segment_cohort** object. Use `calculate()` to retrieve the cohort table:
+
+```{r}
+#| label: cohort-example
+#| eval: false
+
+# Example cohort analysis
+ti::cohort(.data = contoso::sales,
+                  .date = order_date,
+                  .value = customer_key,
+                  time_unit = "month",
+                  period_label = FALSE
+             )
+
+```
+
+This function is essentially a database-compatible translation of the [PeerChristensen](https://github.com/PeerChristensen/cohorts) cohort package.
+
