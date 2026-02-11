@@ -1,0 +1,338 @@
+---
+title: "Getting started"
+subtitle: "How to use time-intelligence functions"
+author: "Alejandro Hagan"
+format: html
+---
+
+```{r}
+#| label: setup
+#| eval: true
+#| echo: false
+#| include: false
+
+library(ti)
+library(dplyr)
+
+quarto::write_yaml_metadata_block(
+   date=format(Sys.Date())
+   )
+
+hook <- fansi::set_knit_hooks(knitr::knit_hooks, which = c("output", "warning", "error", "message"))
+
+options(crayon.enabled = TRUE)
+
+```
+
+## Introduction
+
+Simply pass your data in either a tibble or a lazy DBI object to the time intelligence function and input the required arguments.
+
+We will use `mtd()` function to calculate the month-to-date sum of Contoso's margin from their sales dataset (`contoso::sales`).
+
+Most time intelligence functions follow the same structure:
+
+-  Specify the date column to index the time intelligence functions (e.g., `order_date`, `deliver_date`, etc.)
+-  Specify the value column to aggregate (e.g., `margin`, `net_margin`, `cogs`, etc.)
+-  If there is a period rollback / rollforward then clarify the number of periods to roll
+-  Clarify if we are using a `"standard"` calendar or a retail calendar variation (`"445"`, `"454"`, or `"544"`) -- see the [standard vs. non-standard calendar article](https://usrbinr.github.io/ti/articles/calendar_types.html) for more information
+-  If using a retail calendar, optionally specify `fiscal_year_start` (1--12) to control which month the fiscal year begins nearest to (default is January)
+
+When you execute `mtd()`, your console will return a `ti` object displaying a custom print message:
+
+-  A summary of the function's actions
+-  Details the calendar's attributes used to support the calculation
+-  Describes the main transformation steps and columns that are referenced
+-  Lists out possible next actions
+
+```{r}
+#| label: print-example-run
+#| echo: true
+#| eval: true
+
+contoso::sales |> 
+   ti::mtd(.date=order_date,.value = margin,calendar_type = "standard")
+
+```
+
+To return the results to a lazy DBI object, pass the `ti` object through to `calculate()`.
+
+```{r}
+#| label: calculate-example
+#| eval: false
+#| echo: true
+#| warning: false
+#| error: false
+#| message: false
+
+contoso::sales |>                    #<1>                                      
+   mtd(.date=order_date,.value = margin,calendar_type = "standard") |>  #<2> 
+   calculate()                                                         #<3> 
+```
+
+1. Pass through your data source
+2. Select the ti function, arguments and calendar_type
+3. Use 'calculate' to return a lazy_tbl of results instead of a print statement
+
+If you're using a tibble, under the hood, ti converts your data to a [DuckDB](https://github.com/duckdb/duckdb-r) database.
+
+If your data is in a database, the package will leverage [dbplyr](https://dbplyr.tidyverse.org/) to execute all the calculations.
+
+In either case, use `dplyr::collect()` to return your results to a local tibble.
+
+
+```{r}
+#| label: collect-example-echo
+#| echo: true
+#| eval: false
+#| warning: false
+#| error: false
+#| column: body
+
+contoso::sales |>                                                                
+   mtd(.date=order_date,.value = margin,calendar_type = "standard") |>  
+   calculate() |>                                                       
+   dplyr::collect() #<1>
+
+```
+
+1. convert any lazy_tbl object into a tibble with 'dplyr::collect()'
+
+```{r}
+#| label: collect-example-no-echo
+#| echo: false
+#| eval: true
+#| warning: false
+#| error: false
+#| layout-align: center
+
+
+contoso::sales |>                                                                
+   mtd(.date=order_date,.value = margin,calendar_type = "standard") |>  
+   calculate() |>                                                       
+   dplyr::collect() |>  
+   dplyr::arrange(date) |> 
+   head(10) |> 
+   gt::gt()
+```
+
+### What if you need the analysis at the group level?
+
+Simply pass the groups that you want to `dplyr::group_by()` and time intelligence function will create a custom calendar for each group level.
+
+This ensures that each group will have a complete calendar ensuring no group member has any missing dates. 
+
+```{r}
+#| label: group_by-example
+#| echo: true
+#| eval: false
+
+contoso::sales |>   
+   dplyr::group_by(customer_key,store_key) |> #<1> 
+   yoy(.date=order_date,.value = margin,calendar_type = "standard") 
+
+
+```
+
+1. Select the dimensions you want to group and pass a grouped column to your ti function
+
+## Why do we need this package when we have lubridate?
+
+[Lubridate](https://lubridate.tidyverse.org/) is an excellent package and is at the core of many of ti's functions. The issue is not with lubridate itself, but rather the challenges in your dataset that prevent you from directly using lubridate functions. 
+
+The advantage of this package is that it will perform all of the required pre-processing steps for you.
+
+
+-   Issue 1: Many datasets **do not have continuous dates**, especially if data is recorded only on business days or for active transactions
+
+
+-   Issue 2: Imbalances between periods (e.g., the different number of days between February vs. January) can create misleading analysis or trends, or your analysis may require non-standard calendar types
+
+-   Issue 3: Calculating time intelligence for groups can lead to larger-than-memory issues even with smaller datasets
+
+
+### Issue 1: Continuous Dates
+
+Referencing the @tbl-missing-dates-issues-1 below, if we were to use `dplyr::lag()` to compare **Day-over-Day (DoD)** margin, we
+would be missing `2024-01-02`, `2024-01-04`, and `2024-01-05` which would lead to incorrect answers or trends.
+
+```{r}
+#| label: tbl-missing-dates-issues-1
+#| tbl-cap: "Incomplete calendar table can lead to wrong conclusions or trends"
+#| echo: false
+
+tibble::tibble(
+  date=c(" 2024-01-01","2024-01-03","2024-01-06","2024-01-07","2024-01-08","2024-01-09","2024-01-11")
+  ,margin=c(1200,1100,1300,900,1200,850,1450)
+) |>
+  gt::gt() |>
+  gt::tab_header(
+     title = gt::md("**Incomplete Calendar Data**"),
+     subtitle = "Missing dates can lead to wrong conclusions"
+  ) |>
+  gt::fmt_number(columns = margin, decimals = 0, use_seps = TRUE) |>
+  gt::tab_style(
+     style = list(
+        gt::cell_fill(color = "#f0f0f0"),
+        gt::cell_text(weight = "bold")
+     ),
+     locations = gt::cells_column_labels()
+  ) |>
+  gt::opt_row_striping() |>
+  gt::opt_table_lines("default")
+```
+
+
+To correct this, `ti` will automatically complete your calendar for each group for the missing periods to ensure there are no missing periods when calculating trends.
+
+In @tbl-missing-dates-issue-1-fix-no-echo we see a complete calendar set and a new column, "missing_date_indicator" to indicate how many dates were missing.
+
+
+```{r}
+#| label: tbl-missing-dates-issue-1-fix-no-echo
+#| tbl-cap: "Original table now complete with missing dates and a missing date indicator"
+#| echo: false
+#| column: page
+
+
+tibble::tibble(
+  order_date=lubridate::ymd(c("2024-01-01","2024-01-03","2024-01-06","2024-01-07","2024-01-08","2024-01-09","2024-01-11"))
+  ,margin=c(1200,1100,1300,900,1200,850,1450)
+) |>
+   dod(.date = order_date,.value = margin,calendar_type = "standard") |>
+   calculate() |>
+   dplyr::collect() |>
+   dplyr::arrange(date) |>
+   gt::gt() |>
+   gt::tab_header(
+      title = gt::md("**Complete Calendar with Missing Date Indicator**"),
+      subtitle = "ti automatically fills missing dates"
+   ) |>
+   gt::fmt_number(
+      columns = where(is.numeric),
+      decimals = 0,
+      use_seps = TRUE
+   ) |>
+   gt::fmt_number(
+      columns = tidyselect::any_of(c("year", "month", "week", "quarter", "day")),
+      decimals = 0,
+      use_seps = FALSE
+   ) |>
+   gt::tab_style(
+      style = list(
+         gt::cell_fill(color = "#f0f0f0"),
+         gt::cell_text(weight = "bold", size = "small")
+      ),
+      locations = gt::cells_column_labels()
+   ) |>
+   gt::opt_row_striping() |>
+   gt::opt_table_lines("default") |>
+   gt::tab_options(table.font.size = "small")
+
+```
+
+### Issue 2: Period imbalances
+
+When comparing two performance periods with a standard calendar, you may end up comparing periods with an unequal number of days.
+
+For example, if you want to compare January sales to February, you can get misleading conclusions due to the unequal number of weekends and days in those periods.
+
+> In practice you have two choices:
+>
+> -  Compare periods with similar days (e.g., the 28th of February should only compare up to the 28th of January) and you omit three days of January sales altogether
+>
+> -  Have an imbalanced comparison (e.g., the 28th of February compares to the 31st of January so that no days are lost)
+
+This package uses the second option to ensure we don't lose any of January's sales, but to help flag the imbalance, ti will add a column to let you know how many periods (e.g., days) are in your comparison period to increase transparency.
+
+To create this example, we will use the `pmtd()` function to calculate the prior month to date cumulative margin in the current month.
+
+```{r}
+#| label: issue2-example-echo
+#| echo: true
+#| eval: false
+
+contoso::sales |>
+   pmtd(order_date,margin,"standard",lag_n = 1)
+
+```
+
+When we pass the ti object through to `calculate()` and filter the results for February 2022, we would see the below @tbl-issue2-example-no-echo.
+
+On 2022-02-28, we see that is comparing 31 days of the previous period to the 28 days in the current period.
+
+```{r}
+#| label: tbl-issue2-example-no-echo
+#| echo: false
+#| eval: true
+
+
+contoso::sales |>
+   pmtd(order_date,margin,"standard",1) |>
+   calculate() |>
+   dplyr::collect() |>
+    dplyr::filter(
+      month %in% c(2)
+      ,lubridate::day(date) > 25
+      ,year %in% c(2022)
+   ) |>
+   dplyr::arrange(date)  |>
+   gt::gt() |>
+   gt::tab_header(
+      title = gt::md("**Period Imbalance Example**"),
+      subtitle = "February 2022 comparing to January (31 vs 28 days)"
+   ) |>
+   gt::fmt_number(
+      columns = where(is.numeric),
+      decimals = 0,
+      use_seps = TRUE
+   ) |>
+   gt::fmt_number(
+      columns = tidyselect::any_of(c("year", "month", "week", "quarter", "day")),
+      decimals = 0,
+      use_seps = FALSE
+   ) |>
+   gt::tab_style(
+      style = list(
+         gt::cell_fill(color = "#f0f0f0"),
+         gt::cell_text(weight = "bold", size = "small")
+      ),
+      locations = gt::cells_column_labels()
+   ) |>
+   gt::opt_row_striping() |>
+   gt::opt_table_lines("default") |>
+   gt::tab_options(table.font.size = "small")
+```
+
+
+
+### Issue 3: Larger-than-memory data
+
+If your data isn't already in a database, ti will leverage DuckDB to convert your data and enable larger-than-memory calculations.
+
+This is necessary for time intelligence functions because, with grouped data, you need to complete the calendar for each group combination. For even modest datasets, this can quickly multiply and grow your data beyond available memory.
+
+If your data is already in a database, ti will use [dbplyr](https://dbplyr.tidyverse.org/) to convert the functions to SQL queries.
+
+In either scenario, you can use `dplyr::collect()` to execute your SQL query and return a tibble to your local computer. 
+
+
+```{r}
+#| label: db-vs-excel
+#| echo: true
+#| eval: false
+#| warning: false
+#| message: false
+#| include: true
+
+# quickly load contoso package to a database via the contoso package
+db <- contoso::create_contoso_duckdb()
+
+# pass through to the same function mtd()
+db$sales |> mtd(order_date,margin,"standard")
+
+# same syntax even though data source is now a tibble
+
+contoso::sales |> mtd(order_date,margin,"standard")
+```
+

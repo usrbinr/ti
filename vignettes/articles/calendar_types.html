@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Alejandro Hagan">
-<meta name="dcterms.date" content="2026-02-06">
+<meta name="dcterms.date" content="2026-02-10">
 
 <title>Standard vs.&nbsp;Non-Standard Calendars – ti</title>
 <style>
@@ -74,10 +74,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5acddea9ec7addd5e9532e878e20728d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-e3345c6ef29c45a7958e8df45469d16f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5acddea9ec7addd5e9532e878e20728d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-d1df8dc4b7b671d1cc69a36271deb873.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-c85bf800f77521da5fb58a3d41a41409.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-95b7c47c30a34e4c5c1b5ad6043067cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-c85bf800f77521da5fb58a3d41a41409.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -138,7 +142,169 @@ window.Quarto = {
 
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -157,6 +323,10 @@ window.Quarto = {
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../vignettes/articles/ti.html"> 
+<span class="menu-text">Get started</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-articles" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Articles</span>
@@ -173,10 +343,6 @@ window.Quarto = {
         <li>
     <a class="dropdown-item" href="../../vignettes/articles/cohort.html">
  <span class="dropdown-text">Cohort</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../vignettes/articles/ti.html">
- <span class="dropdown-text">Getting started</span></a>
   </li>  
     </ul>
   </li>
@@ -198,6 +364,7 @@ window.Quarto = {
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -226,6 +393,7 @@ window.Quarto = {
 <!-- main -->
 <main class="content" id="quarto-document-content">
 
+
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Standard vs.&nbsp;Non-Standard Calendars</h1>
@@ -246,7 +414,7 @@ window.Quarto = {
     <div>
     <div class="quarto-title-meta-heading">Published</div>
     <div class="quarto-title-meta-contents">
-      <p class="date">2026-02-06</p>
+      <p class="date">2026-02-10</p>
     </div>
   </div>
   
@@ -432,23 +600,23 @@ window.Quarto = {
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="gnulepxumn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#gnulepxumn table {
+<div id="nmsnghrvup" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#nmsnghrvup table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#gnulepxumn thead, #gnulepxumn tbody, #gnulepxumn tfoot, #gnulepxumn tr, #gnulepxumn td, #gnulepxumn th {
+#nmsnghrvup thead, #nmsnghrvup tbody, #nmsnghrvup tfoot, #nmsnghrvup tr, #nmsnghrvup td, #nmsnghrvup th {
   border-style: none;
 }
 
-#gnulepxumn p {
+#nmsnghrvup p {
   margin: 0;
   padding: 0;
 }
 
-#gnulepxumn .gt_table {
+#nmsnghrvup .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -474,12 +642,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#gnulepxumn .gt_caption {
+#nmsnghrvup .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#gnulepxumn .gt_title {
+#nmsnghrvup .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -491,7 +659,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#gnulepxumn .gt_subtitle {
+#nmsnghrvup .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -503,7 +671,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#gnulepxumn .gt_heading {
+#nmsnghrvup .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -515,13 +683,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#gnulepxumn .gt_bottom_border {
+#nmsnghrvup .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#gnulepxumn .gt_col_headings {
+#nmsnghrvup .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -536,7 +704,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#gnulepxumn .gt_col_heading {
+#nmsnghrvup .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -556,7 +724,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#gnulepxumn .gt_column_spanner_outer {
+#nmsnghrvup .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -568,15 +736,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#gnulepxumn .gt_column_spanner_outer:first-child {
+#nmsnghrvup .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#gnulepxumn .gt_column_spanner_outer:last-child {
+#nmsnghrvup .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#gnulepxumn .gt_column_spanner {
+#nmsnghrvup .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -588,11 +756,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#gnulepxumn .gt_spanner_row {
+#nmsnghrvup .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#gnulepxumn .gt_group_heading {
+#nmsnghrvup .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -618,7 +786,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#gnulepxumn .gt_empty_group_heading {
+#nmsnghrvup .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -633,15 +801,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#gnulepxumn .gt_from_md > :first-child {
+#nmsnghrvup .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#gnulepxumn .gt_from_md > :last-child {
+#nmsnghrvup .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#gnulepxumn .gt_row {
+#nmsnghrvup .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -660,7 +828,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#gnulepxumn .gt_stub {
+#nmsnghrvup .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -673,7 +841,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#gnulepxumn .gt_stub_row_group {
+#nmsnghrvup .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -687,15 +855,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#gnulepxumn .gt_row_group_first td {
+#nmsnghrvup .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#gnulepxumn .gt_row_group_first th {
+#nmsnghrvup .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#gnulepxumn .gt_summary_row {
+#nmsnghrvup .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -705,16 +873,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#gnulepxumn .gt_first_summary_row {
+#nmsnghrvup .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#gnulepxumn .gt_first_summary_row.thick {
+#nmsnghrvup .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#gnulepxumn .gt_last_summary_row {
+#nmsnghrvup .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -724,7 +892,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#gnulepxumn .gt_grand_summary_row {
+#nmsnghrvup .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -734,7 +902,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#gnulepxumn .gt_first_grand_summary_row {
+#nmsnghrvup .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -744,7 +912,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#gnulepxumn .gt_last_grand_summary_row_top {
+#nmsnghrvup .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -754,11 +922,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#gnulepxumn .gt_striped {
+#nmsnghrvup .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#gnulepxumn .gt_table_body {
+#nmsnghrvup .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -767,7 +935,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#gnulepxumn .gt_footnotes {
+#nmsnghrvup .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -781,7 +949,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#gnulepxumn .gt_footnote {
+#nmsnghrvup .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -790,7 +958,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#gnulepxumn .gt_sourcenotes {
+#nmsnghrvup .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -804,7 +972,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#gnulepxumn .gt_sourcenote {
+#nmsnghrvup .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -812,63 +980,63 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#gnulepxumn .gt_left {
+#nmsnghrvup .gt_left {
   text-align: left;
 }
 
-#gnulepxumn .gt_center {
+#nmsnghrvup .gt_center {
   text-align: center;
 }
 
-#gnulepxumn .gt_right {
+#nmsnghrvup .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#gnulepxumn .gt_font_normal {
+#nmsnghrvup .gt_font_normal {
   font-weight: normal;
 }
 
-#gnulepxumn .gt_font_bold {
+#nmsnghrvup .gt_font_bold {
   font-weight: bold;
 }
 
-#gnulepxumn .gt_font_italic {
+#nmsnghrvup .gt_font_italic {
   font-style: italic;
 }
 
-#gnulepxumn .gt_super {
+#nmsnghrvup .gt_super {
   font-size: 65%;
 }
 
-#gnulepxumn .gt_footnote_marks {
+#nmsnghrvup .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#gnulepxumn .gt_asterisk {
+#nmsnghrvup .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#gnulepxumn .gt_indent_1 {
+#nmsnghrvup .gt_indent_1 {
   text-indent: 5px;
 }
 
-#gnulepxumn .gt_indent_2 {
+#nmsnghrvup .gt_indent_2 {
   text-indent: 10px;
 }
 
-#gnulepxumn .gt_indent_3 {
+#nmsnghrvup .gt_indent_3 {
   text-indent: 15px;
 }
 
-#gnulepxumn .gt_indent_4 {
+#nmsnghrvup .gt_indent_4 {
   text-indent: 20px;
 }
 
-#gnulepxumn .gt_indent_5 {
+#nmsnghrvup .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1027,23 +1195,23 @@ window.Quarto = {
 </div>
 <div class="cell">
 <div class="cell-output-display">
-<div id="rxbmvhpvtb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#rxbmvhpvtb table {
+<div id="aljboqbkym" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#aljboqbkym table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#rxbmvhpvtb thead, #rxbmvhpvtb tbody, #rxbmvhpvtb tfoot, #rxbmvhpvtb tr, #rxbmvhpvtb td, #rxbmvhpvtb th {
+#aljboqbkym thead, #aljboqbkym tbody, #aljboqbkym tfoot, #aljboqbkym tr, #aljboqbkym td, #aljboqbkym th {
   border-style: none;
 }
 
-#rxbmvhpvtb p {
+#aljboqbkym p {
   margin: 0;
   padding: 0;
 }
 
-#rxbmvhpvtb .gt_table {
+#aljboqbkym .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1069,12 +1237,12 @@ window.Quarto = {
   border-left-color: #D3D3D3;
 }
 
-#rxbmvhpvtb .gt_caption {
+#aljboqbkym .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#rxbmvhpvtb .gt_title {
+#aljboqbkym .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1086,7 +1254,7 @@ window.Quarto = {
   border-bottom-width: 0;
 }
 
-#rxbmvhpvtb .gt_subtitle {
+#aljboqbkym .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1098,7 +1266,7 @@ window.Quarto = {
   border-top-width: 0;
 }
 
-#rxbmvhpvtb .gt_heading {
+#aljboqbkym .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1110,13 +1278,13 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#rxbmvhpvtb .gt_bottom_border {
+#aljboqbkym .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#rxbmvhpvtb .gt_col_headings {
+#aljboqbkym .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1131,7 +1299,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#rxbmvhpvtb .gt_col_heading {
+#aljboqbkym .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1151,7 +1319,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#rxbmvhpvtb .gt_column_spanner_outer {
+#aljboqbkym .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1163,15 +1331,15 @@ window.Quarto = {
   padding-right: 4px;
 }
 
-#rxbmvhpvtb .gt_column_spanner_outer:first-child {
+#aljboqbkym .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#rxbmvhpvtb .gt_column_spanner_outer:last-child {
+#aljboqbkym .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#rxbmvhpvtb .gt_column_spanner {
+#aljboqbkym .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1183,11 +1351,11 @@ window.Quarto = {
   width: 100%;
 }
 
-#rxbmvhpvtb .gt_spanner_row {
+#aljboqbkym .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#rxbmvhpvtb .gt_group_heading {
+#aljboqbkym .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1213,7 +1381,7 @@ window.Quarto = {
   text-align: left;
 }
 
-#rxbmvhpvtb .gt_empty_group_heading {
+#aljboqbkym .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1228,15 +1396,15 @@ window.Quarto = {
   vertical-align: middle;
 }
 
-#rxbmvhpvtb .gt_from_md > :first-child {
+#aljboqbkym .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#rxbmvhpvtb .gt_from_md > :last-child {
+#aljboqbkym .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#rxbmvhpvtb .gt_row {
+#aljboqbkym .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1255,7 +1423,7 @@ window.Quarto = {
   overflow-x: hidden;
 }
 
-#rxbmvhpvtb .gt_stub {
+#aljboqbkym .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1268,7 +1436,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#rxbmvhpvtb .gt_stub_row_group {
+#aljboqbkym .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1282,15 +1450,15 @@ window.Quarto = {
   vertical-align: top;
 }
 
-#rxbmvhpvtb .gt_row_group_first td {
+#aljboqbkym .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#rxbmvhpvtb .gt_row_group_first th {
+#aljboqbkym .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#rxbmvhpvtb .gt_summary_row {
+#aljboqbkym .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1300,16 +1468,16 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#rxbmvhpvtb .gt_first_summary_row {
+#aljboqbkym .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#rxbmvhpvtb .gt_first_summary_row.thick {
+#aljboqbkym .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#rxbmvhpvtb .gt_last_summary_row {
+#aljboqbkym .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1319,7 +1487,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#rxbmvhpvtb .gt_grand_summary_row {
+#aljboqbkym .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1329,7 +1497,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#rxbmvhpvtb .gt_first_grand_summary_row {
+#aljboqbkym .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1339,7 +1507,7 @@ window.Quarto = {
   border-top-color: #D3D3D3;
 }
 
-#rxbmvhpvtb .gt_last_grand_summary_row_top {
+#aljboqbkym .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1349,11 +1517,11 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#rxbmvhpvtb .gt_striped {
+#aljboqbkym .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#rxbmvhpvtb .gt_table_body {
+#aljboqbkym .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1362,7 +1530,7 @@ window.Quarto = {
   border-bottom-color: #D3D3D3;
 }
 
-#rxbmvhpvtb .gt_footnotes {
+#aljboqbkym .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1376,7 +1544,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#rxbmvhpvtb .gt_footnote {
+#aljboqbkym .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1385,7 +1553,7 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#rxbmvhpvtb .gt_sourcenotes {
+#aljboqbkym .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1399,7 +1567,7 @@ window.Quarto = {
   border-right-color: #D3D3D3;
 }
 
-#rxbmvhpvtb .gt_sourcenote {
+#aljboqbkym .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1407,63 +1575,63 @@ window.Quarto = {
   padding-right: 5px;
 }
 
-#rxbmvhpvtb .gt_left {
+#aljboqbkym .gt_left {
   text-align: left;
 }
 
-#rxbmvhpvtb .gt_center {
+#aljboqbkym .gt_center {
   text-align: center;
 }
 
-#rxbmvhpvtb .gt_right {
+#aljboqbkym .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#rxbmvhpvtb .gt_font_normal {
+#aljboqbkym .gt_font_normal {
   font-weight: normal;
 }
 
-#rxbmvhpvtb .gt_font_bold {
+#aljboqbkym .gt_font_bold {
   font-weight: bold;
 }
 
-#rxbmvhpvtb .gt_font_italic {
+#aljboqbkym .gt_font_italic {
   font-style: italic;
 }
 
-#rxbmvhpvtb .gt_super {
+#aljboqbkym .gt_super {
   font-size: 65%;
 }
 
-#rxbmvhpvtb .gt_footnote_marks {
+#aljboqbkym .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#rxbmvhpvtb .gt_asterisk {
+#aljboqbkym .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#rxbmvhpvtb .gt_indent_1 {
+#aljboqbkym .gt_indent_1 {
   text-indent: 5px;
 }
 
-#rxbmvhpvtb .gt_indent_2 {
+#aljboqbkym .gt_indent_2 {
   text-indent: 10px;
 }
 
-#rxbmvhpvtb .gt_indent_3 {
+#aljboqbkym .gt_indent_3 {
   text-indent: 15px;
 }
 
-#rxbmvhpvtb .gt_indent_4 {
+#aljboqbkym .gt_indent_4 {
   text-indent: 20px;
 }
 
-#rxbmvhpvtb .gt_indent_5 {
+#aljboqbkym .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1669,23 +1837,23 @@ Table&nbsp;1
 </figcaption>
 <div aria-describedby="tbl-comparison-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="arfdiodltf" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#arfdiodltf table {
+<div id="hoqhkbrobd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hoqhkbrobd table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#arfdiodltf thead, #arfdiodltf tbody, #arfdiodltf tfoot, #arfdiodltf tr, #arfdiodltf td, #arfdiodltf th {
+#hoqhkbrobd thead, #hoqhkbrobd tbody, #hoqhkbrobd tfoot, #hoqhkbrobd tr, #hoqhkbrobd td, #hoqhkbrobd th {
   border-style: none;
 }
 
-#arfdiodltf p {
+#hoqhkbrobd p {
   margin: 0;
   padding: 0;
 }
 
-#arfdiodltf .gt_table {
+#hoqhkbrobd .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1711,12 +1879,12 @@ Table&nbsp;1
   border-left-color: #D3D3D3;
 }
 
-#arfdiodltf .gt_caption {
+#hoqhkbrobd .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#arfdiodltf .gt_title {
+#hoqhkbrobd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1728,7 +1896,7 @@ Table&nbsp;1
   border-bottom-width: 0;
 }
 
-#arfdiodltf .gt_subtitle {
+#hoqhkbrobd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1740,7 +1908,7 @@ Table&nbsp;1
   border-top-width: 0;
 }
 
-#arfdiodltf .gt_heading {
+#hoqhkbrobd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1752,13 +1920,13 @@ Table&nbsp;1
   border-right-color: #D3D3D3;
 }
 
-#arfdiodltf .gt_bottom_border {
+#hoqhkbrobd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#arfdiodltf .gt_col_headings {
+#hoqhkbrobd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1773,7 +1941,7 @@ Table&nbsp;1
   border-right-color: #D3D3D3;
 }
 
-#arfdiodltf .gt_col_heading {
+#hoqhkbrobd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1793,7 +1961,7 @@ Table&nbsp;1
   overflow-x: hidden;
 }
 
-#arfdiodltf .gt_column_spanner_outer {
+#hoqhkbrobd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1805,15 +1973,15 @@ Table&nbsp;1
   padding-right: 4px;
 }
 
-#arfdiodltf .gt_column_spanner_outer:first-child {
+#hoqhkbrobd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#arfdiodltf .gt_column_spanner_outer:last-child {
+#hoqhkbrobd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#arfdiodltf .gt_column_spanner {
+#hoqhkbrobd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1825,11 +1993,11 @@ Table&nbsp;1
   width: 100%;
 }
 
-#arfdiodltf .gt_spanner_row {
+#hoqhkbrobd .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#arfdiodltf .gt_group_heading {
+#hoqhkbrobd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1855,7 +2023,7 @@ Table&nbsp;1
   text-align: left;
 }
 
-#arfdiodltf .gt_empty_group_heading {
+#hoqhkbrobd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1870,15 +2038,15 @@ Table&nbsp;1
   vertical-align: middle;
 }
 
-#arfdiodltf .gt_from_md > :first-child {
+#hoqhkbrobd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#arfdiodltf .gt_from_md > :last-child {
+#hoqhkbrobd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#arfdiodltf .gt_row {
+#hoqhkbrobd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1897,7 +2065,7 @@ Table&nbsp;1
   overflow-x: hidden;
 }
 
-#arfdiodltf .gt_stub {
+#hoqhkbrobd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1910,7 +2078,7 @@ Table&nbsp;1
   padding-right: 5px;
 }
 
-#arfdiodltf .gt_stub_row_group {
+#hoqhkbrobd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1924,15 +2092,15 @@ Table&nbsp;1
   vertical-align: top;
 }
 
-#arfdiodltf .gt_row_group_first td {
+#hoqhkbrobd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#arfdiodltf .gt_row_group_first th {
+#hoqhkbrobd .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#arfdiodltf .gt_summary_row {
+#hoqhkbrobd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1942,16 +2110,16 @@ Table&nbsp;1
   padding-right: 5px;
 }
 
-#arfdiodltf .gt_first_summary_row {
+#hoqhkbrobd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#arfdiodltf .gt_first_summary_row.thick {
+#hoqhkbrobd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#arfdiodltf .gt_last_summary_row {
+#hoqhkbrobd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1961,7 +2129,7 @@ Table&nbsp;1
   border-bottom-color: #D3D3D3;
 }
 
-#arfdiodltf .gt_grand_summary_row {
+#hoqhkbrobd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1971,7 +2139,7 @@ Table&nbsp;1
   padding-right: 5px;
 }
 
-#arfdiodltf .gt_first_grand_summary_row {
+#hoqhkbrobd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1981,7 +2149,7 @@ Table&nbsp;1
   border-top-color: #D3D3D3;
 }
 
-#arfdiodltf .gt_last_grand_summary_row_top {
+#hoqhkbrobd .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1991,11 +2159,11 @@ Table&nbsp;1
   border-bottom-color: #D3D3D3;
 }
 
-#arfdiodltf .gt_striped {
+#hoqhkbrobd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#arfdiodltf .gt_table_body {
+#hoqhkbrobd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -2004,7 +2172,7 @@ Table&nbsp;1
   border-bottom-color: #D3D3D3;
 }
 
-#arfdiodltf .gt_footnotes {
+#hoqhkbrobd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2018,7 +2186,7 @@ Table&nbsp;1
   border-right-color: #D3D3D3;
 }
 
-#arfdiodltf .gt_footnote {
+#hoqhkbrobd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -2027,7 +2195,7 @@ Table&nbsp;1
   padding-right: 5px;
 }
 
-#arfdiodltf .gt_sourcenotes {
+#hoqhkbrobd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -2041,7 +2209,7 @@ Table&nbsp;1
   border-right-color: #D3D3D3;
 }
 
-#arfdiodltf .gt_sourcenote {
+#hoqhkbrobd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -2049,63 +2217,63 @@ Table&nbsp;1
   padding-right: 5px;
 }
 
-#arfdiodltf .gt_left {
+#hoqhkbrobd .gt_left {
   text-align: left;
 }
 
-#arfdiodltf .gt_center {
+#hoqhkbrobd .gt_center {
   text-align: center;
 }
 
-#arfdiodltf .gt_right {
+#hoqhkbrobd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#arfdiodltf .gt_font_normal {
+#hoqhkbrobd .gt_font_normal {
   font-weight: normal;
 }
 
-#arfdiodltf .gt_font_bold {
+#hoqhkbrobd .gt_font_bold {
   font-weight: bold;
 }
 
-#arfdiodltf .gt_font_italic {
+#hoqhkbrobd .gt_font_italic {
   font-style: italic;
 }
 
-#arfdiodltf .gt_super {
+#hoqhkbrobd .gt_super {
   font-size: 65%;
 }
 
-#arfdiodltf .gt_footnote_marks {
+#hoqhkbrobd .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#arfdiodltf .gt_asterisk {
+#hoqhkbrobd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#arfdiodltf .gt_indent_1 {
+#hoqhkbrobd .gt_indent_1 {
   text-indent: 5px;
 }
 
-#arfdiodltf .gt_indent_2 {
+#hoqhkbrobd .gt_indent_2 {
   text-indent: 10px;
 }
 
-#arfdiodltf .gt_indent_3 {
+#hoqhkbrobd .gt_indent_3 {
   text-indent: 15px;
 }
 
-#arfdiodltf .gt_indent_4 {
+#hoqhkbrobd .gt_indent_4 {
   text-indent: 20px;
 }
 
-#arfdiodltf .gt_indent_5 {
+#hoqhkbrobd .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2164,6 +2332,19 @@ Table&nbsp;1
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {

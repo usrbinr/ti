@@ -73,10 +73,14 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="../../site_libs/quarto-html/anchor.min.js"></script>
 <link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-7b89279ff1a6dce999919e0e67d4d9ec.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5acddea9ec7addd5e9532e878e20728d.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark-e3345c6ef29c45a7958e8df45469d16f.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-5acddea9ec7addd5e9532e878e20728d.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../site_libs/bootstrap/bootstrap-d1df8dc4b7b671d1cc69a36271deb873.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-c85bf800f77521da5fb58a3d41a41409.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark-95b7c47c30a34e4c5c1b5ad6043067cf.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../site_libs/bootstrap/bootstrap-c85bf800f77521da5fb58a3d41a41409.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -108,7 +112,169 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </head>
 
-<body class="nav-fixed quarto-light">
+<body class="nav-fixed quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
 
 <div id="quarto-search-results"></div>
   <header id="quarto-header" class="headroom fixed-top">
@@ -127,6 +293,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </button>
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link active" href="../../vignettes/articles/ti.html" aria-current="page"> 
+<span class="menu-text">Get started</span></a>
+  </li>  
   <li class="nav-item dropdown ">
     <a class="nav-link dropdown-toggle" href="#" id="nav-menu-articles" role="link" data-bs-toggle="dropdown" aria-expanded="false">
  <span class="menu-text">Articles</span>
@@ -143,10 +313,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
         <li>
     <a class="dropdown-item" href="../../vignettes/articles/cohort.html">
  <span class="dropdown-text">Cohort</span></a>
-  </li>  
-        <li>
-    <a class="dropdown-item" href="../../vignettes/articles/ti.html">
- <span class="dropdown-text">Getting started</span></a>
   </li>  
     </ul>
   </li>
@@ -168,6 +334,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </ul>
           </div> <!-- /navcollapse -->
             <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
 </div>
       </div> <!-- /container-fluid -->
     </nav>
@@ -197,6 +364,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- main -->
 <main class="content page-columns page-full" id="quarto-document-content">
 
+
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
 <h1 class="title">Getting started</h1>
@@ -223,7 +391,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<section id="introduction" class="level2">
+<section id="introduction" class="level2 page-columns page-full">
 <h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
 <p>Simply pass your data in either a tibble or a lazy DBI object to the time intelligence function and input the required arguments.</p>
 <p>We will use <code>mtd()</code> function to calculate the month-to-date sum of Contoso’s margin from their sales dataset (<code>contoso::sales</code>).</p>
@@ -317,15 +485,15 @@ the <span style="color: #BBBB00;">standard</span> calendar month to the end of t
 <dl class="code-annotation-container-grid">
 <dt data-target-cell="annotated-cell-2" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="1" data-code-annotation="1">select your data source</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="1" data-code-annotation="1">Pass through your data source</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="2" data-code-annotation="2">fill in your ti functions arguments</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="2" data-code-annotation="2">Select the ti function, arguments and calendar_type</span>
 </dd>
 <dt data-target-cell="annotated-cell-2" data-target-annotation="3">3</dt>
 <dd>
-<span data-code-cell="annotated-cell-2" data-code-lines="3" data-code-annotation="3">use ‘calculate’ to return a lazy_tbl of results instead of a print statement</span>
+<span data-code-cell="annotated-cell-2" data-code-lines="3" data-code-annotation="3">Use ‘calculate’ to return a lazy_tbl of results instead of a print statement</span>
 </dd>
 </dl>
 </div>
@@ -333,7 +501,7 @@ the <span style="color: #BBBB00;">standard</span> calendar month to the end of t
 <p>If you’re using a tibble, under the hood, ti converts your data to a <a href="https://github.com/duckdb/duckdb-r">DuckDB</a> database.</p>
 <p>If your data is in a database, the package will leverage <a href="https://dbplyr.tidyverse.org/">dbplyr</a> to execute all the calculations.</p>
 <p>In either case, use <code>dplyr::collect()</code> to return your results to a local tibble.</p>
-<div class="cell">
+<div class="cell column-body">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-3"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-3-1"><a href="#annotated-cell-3-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span>                                                                </span>
 <span id="annotated-cell-3-2"><a href="#annotated-cell-3-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">mtd</span>(<span class="at">.date=</span>order_date,<span class="at">.value =</span> margin,<span class="at">calendar_type =</span> <span class="st">"standard"</span>) <span class="sc">|&gt;</span>  </span>
 <span id="annotated-cell-3-3"><a href="#annotated-cell-3-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">calculate</span>() <span class="sc">|&gt;</span>                                                       </span>
@@ -348,70 +516,24 @@ the <span style="color: #BBBB00;">standard</span> calendar month to the end of t
 </div>
 </div>
 <div class="cell" data-layout-align="center">
-<pre class="fansi fansi-output"><code><span style="color: #555555;"># A tibble: 10 × 9</span>
-   date        year month quarter  week   day  margin mtd_margin
-   <span style="color: #555555; font-style: italic;">&lt;date&gt;</span>     <span style="color: #555555; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #555555; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #555555; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #555555; font-style: italic;">&lt;dbl&gt;</span> <span style="color: #555555; font-style: italic;">&lt;dbl&gt;</span>   <span style="color: #555555; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #555555; font-style: italic;">&lt;dbl&gt;</span>
-<span style="color: #555555;"> 1</span> 2021-05-18  <span style="text-decoration: underline;">2</span>021     5       2    20    18   407.        407.
-<span style="color: #555555;"> 2</span> 2021-05-19  <span style="text-decoration: underline;">2</span>021     5       2    20    19   711.       <span style="text-decoration: underline;">1</span>118.
-<span style="color: #555555;"> 3</span> 2021-05-20  <span style="text-decoration: underline;">2</span>021     5       2    20    20  <span style="text-decoration: underline;">1</span>424.       <span style="text-decoration: underline;">2</span>542.
-<span style="color: #555555;"> 4</span> 2021-05-21  <span style="text-decoration: underline;">2</span>021     5       2    21    21 <span style="text-decoration: underline;">11</span>339.      <span style="text-decoration: underline;">13</span>881.
-<span style="color: #555555;"> 5</span> 2021-05-22  <span style="text-decoration: underline;">2</span>021     5       2    21    22  <span style="text-decoration: underline;">5</span>359.      <span style="text-decoration: underline;">19</span>240.
-<span style="color: #555555;"> 6</span> 2021-05-23  <span style="text-decoration: underline;">2</span>021     5       2    21    23     0       <span style="text-decoration: underline;">19</span>240.
-<span style="color: #555555;"> 7</span> 2021-05-24  <span style="text-decoration: underline;">2</span>021     5       2    21    24     0       <span style="text-decoration: underline;">19</span>240.
-<span style="color: #555555;"> 8</span> 2021-05-25  <span style="text-decoration: underline;">2</span>021     5       2    21    25   793.      <span style="text-decoration: underline;">20</span>033.
-<span style="color: #555555;"> 9</span> 2021-05-26  <span style="text-decoration: underline;">2</span>021     5       2    21    26    74.6     <span style="text-decoration: underline;">20</span>107.
-<span style="color: #555555;">10</span> 2021-05-27  <span style="text-decoration: underline;">2</span>021     5       2    21    27  <span style="text-decoration: underline;">1</span>433.      <span style="text-decoration: underline;">21</span>540.
-<span style="color: #555555;"># ℹ 1 more variable: missing_date_indicator &lt;dbl&gt;</span>
-</code></pre>
-</div>
-<section id="what-if-you-need-the-analysis-at-the-group-level" class="level3">
-<h3 class="anchored" data-anchor-id="what-if-you-need-the-analysis-at-the-group-level">What if you need the analysis at the group level?</h3>
-<p>Simply pass the groups that you want to <code>dplyr::group_by()</code> and time intelligence function will create a custom calendar for each group level.</p>
-<p>This ensures that each group will have a complete calendar ensuring no group member has any missing dates.</p>
-<div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span>   </span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">group_by</span>(customer_key,store_key) <span class="sc">|&gt;</span>  </span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">yoy</span>(<span class="at">.date=</span>order_date,<span class="at">.value =</span> margin,<span class="at">calendar_type =</span> <span class="st">"standard"</span>) </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-</section>
-</section>
-<section id="why-do-we-need-this-package-when-we-have-lubridate" class="level2 page-columns page-full">
-<h2 class="anchored" data-anchor-id="why-do-we-need-this-package-when-we-have-lubridate">Why do we need this package when we have lubridate?</h2>
-<p><a href="https://lubridate.tidyverse.org/">Lubridate</a> is an excellent package and is at the core of many of ti’s functions. The issue is not with lubridate itself, but rather the challenges in your dataset that prevent you from directly using lubridate functions.</p>
-<p>The advantage of this package is that it will perform all of the required pre-processing steps for you.</p>
-<ul>
-<li><p>Issue 1: Many datasets <strong>do not have continuous dates</strong>, especially if data is recorded only on business days or for active transactions</p></li>
-<li><p>Issue 2: Imbalances between periods (e.g., the different number of days between February vs.&nbsp;January) can create misleading analysis or trends, or your analysis may require non-standard calendar types</p></li>
-<li><p>Issue 3: Calculating time intelligence for groups can lead to larger-than-memory issues even with smaller datasets</p></li>
-</ul>
-<section id="issue-1-continuous-dates" class="level3 page-columns page-full">
-<h3 class="anchored" data-anchor-id="issue-1-continuous-dates">Issue 1: Continuous Dates</h3>
-<p>Referencing the <a href="#tbl-missing-dates-issues-1" class="quarto-xref">Table&nbsp;1</a> below, if we were to use <code>dplyr::lag()</code> to compare <strong>Day-over-Day (DoD)</strong> margin, we would be missing <code>2024-01-02</code>, <code>2024-01-04</code>, and <code>2024-01-05</code> which would lead to incorrect answers or trends.</p>
-<div class="cell">
-<div id="tbl-missing-dates-issues-1" class="cell quarto-float quarto-figure quarto-figure-center anchored">
-<figure class="quarto-float quarto-float-tbl figure">
-<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-missing-dates-issues-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
-</figcaption>
-<div aria-describedby="tbl-missing-dates-issues-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="xlzbkmpkxa" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#xlzbkmpkxa table {
+<div id="smlizrzsiz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#smlizrzsiz table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#xlzbkmpkxa thead, #xlzbkmpkxa tbody, #xlzbkmpkxa tfoot, #xlzbkmpkxa tr, #xlzbkmpkxa td, #xlzbkmpkxa th {
+#smlizrzsiz thead, #smlizrzsiz tbody, #smlizrzsiz tfoot, #smlizrzsiz tr, #smlizrzsiz td, #smlizrzsiz th {
   border-style: none;
 }
 
-#xlzbkmpkxa p {
+#smlizrzsiz p {
   margin: 0;
   padding: 0;
 }
 
-#xlzbkmpkxa .gt_table {
+#smlizrzsiz .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -437,12 +559,12 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   border-left-color: #D3D3D3;
 }
 
-#xlzbkmpkxa .gt_caption {
+#smlizrzsiz .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#xlzbkmpkxa .gt_title {
+#smlizrzsiz .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -454,7 +576,7 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   border-bottom-width: 0;
 }
 
-#xlzbkmpkxa .gt_subtitle {
+#smlizrzsiz .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -466,7 +588,7 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   border-top-width: 0;
 }
 
-#xlzbkmpkxa .gt_heading {
+#smlizrzsiz .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -478,13 +600,13 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   border-right-color: #D3D3D3;
 }
 
-#xlzbkmpkxa .gt_bottom_border {
+#smlizrzsiz .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#xlzbkmpkxa .gt_col_headings {
+#smlizrzsiz .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -499,7 +621,7 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   border-right-color: #D3D3D3;
 }
 
-#xlzbkmpkxa .gt_col_heading {
+#smlizrzsiz .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -519,7 +641,7 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   overflow-x: hidden;
 }
 
-#xlzbkmpkxa .gt_column_spanner_outer {
+#smlizrzsiz .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -531,15 +653,15 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   padding-right: 4px;
 }
 
-#xlzbkmpkxa .gt_column_spanner_outer:first-child {
+#smlizrzsiz .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#xlzbkmpkxa .gt_column_spanner_outer:last-child {
+#smlizrzsiz .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#xlzbkmpkxa .gt_column_spanner {
+#smlizrzsiz .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -551,11 +673,11 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   width: 100%;
 }
 
-#xlzbkmpkxa .gt_spanner_row {
+#smlizrzsiz .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#xlzbkmpkxa .gt_group_heading {
+#smlizrzsiz .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -581,7 +703,7 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   text-align: left;
 }
 
-#xlzbkmpkxa .gt_empty_group_heading {
+#smlizrzsiz .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -596,15 +718,15 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   vertical-align: middle;
 }
 
-#xlzbkmpkxa .gt_from_md > :first-child {
+#smlizrzsiz .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#xlzbkmpkxa .gt_from_md > :last-child {
+#smlizrzsiz .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#xlzbkmpkxa .gt_row {
+#smlizrzsiz .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -623,7 +745,7 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   overflow-x: hidden;
 }
 
-#xlzbkmpkxa .gt_stub {
+#smlizrzsiz .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -636,7 +758,7 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   padding-right: 5px;
 }
 
-#xlzbkmpkxa .gt_stub_row_group {
+#smlizrzsiz .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -650,15 +772,15 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   vertical-align: top;
 }
 
-#xlzbkmpkxa .gt_row_group_first td {
+#smlizrzsiz .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#xlzbkmpkxa .gt_row_group_first th {
+#smlizrzsiz .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#xlzbkmpkxa .gt_summary_row {
+#smlizrzsiz .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -668,16 +790,16 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   padding-right: 5px;
 }
 
-#xlzbkmpkxa .gt_first_summary_row {
+#smlizrzsiz .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#xlzbkmpkxa .gt_first_summary_row.thick {
+#smlizrzsiz .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#xlzbkmpkxa .gt_last_summary_row {
+#smlizrzsiz .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -687,7 +809,7 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   border-bottom-color: #D3D3D3;
 }
 
-#xlzbkmpkxa .gt_grand_summary_row {
+#smlizrzsiz .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -697,7 +819,7 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   padding-right: 5px;
 }
 
-#xlzbkmpkxa .gt_first_grand_summary_row {
+#smlizrzsiz .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -707,7 +829,7 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   border-top-color: #D3D3D3;
 }
 
-#xlzbkmpkxa .gt_last_grand_summary_row_top {
+#smlizrzsiz .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -717,11 +839,11 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   border-bottom-color: #D3D3D3;
 }
 
-#xlzbkmpkxa .gt_striped {
+#smlizrzsiz .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#xlzbkmpkxa .gt_table_body {
+#smlizrzsiz .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -730,7 +852,7 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   border-bottom-color: #D3D3D3;
 }
 
-#xlzbkmpkxa .gt_footnotes {
+#smlizrzsiz .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -744,7 +866,7 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   border-right-color: #D3D3D3;
 }
 
-#xlzbkmpkxa .gt_footnote {
+#smlizrzsiz .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -753,7 +875,7 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   padding-right: 5px;
 }
 
-#xlzbkmpkxa .gt_sourcenotes {
+#smlizrzsiz .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -767,7 +889,7 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   border-right-color: #D3D3D3;
 }
 
-#xlzbkmpkxa .gt_sourcenote {
+#smlizrzsiz .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -775,63 +897,674 @@ Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
   padding-right: 5px;
 }
 
-#xlzbkmpkxa .gt_left {
+#smlizrzsiz .gt_left {
   text-align: left;
 }
 
-#xlzbkmpkxa .gt_center {
+#smlizrzsiz .gt_center {
   text-align: center;
 }
 
-#xlzbkmpkxa .gt_right {
+#smlizrzsiz .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#xlzbkmpkxa .gt_font_normal {
+#smlizrzsiz .gt_font_normal {
   font-weight: normal;
 }
 
-#xlzbkmpkxa .gt_font_bold {
+#smlizrzsiz .gt_font_bold {
   font-weight: bold;
 }
 
-#xlzbkmpkxa .gt_font_italic {
+#smlizrzsiz .gt_font_italic {
   font-style: italic;
 }
 
-#xlzbkmpkxa .gt_super {
+#smlizrzsiz .gt_super {
   font-size: 65%;
 }
 
-#xlzbkmpkxa .gt_footnote_marks {
+#smlizrzsiz .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#xlzbkmpkxa .gt_asterisk {
+#smlizrzsiz .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#xlzbkmpkxa .gt_indent_1 {
+#smlizrzsiz .gt_indent_1 {
   text-indent: 5px;
 }
 
-#xlzbkmpkxa .gt_indent_2 {
+#smlizrzsiz .gt_indent_2 {
   text-indent: 10px;
 }
 
-#xlzbkmpkxa .gt_indent_3 {
+#smlizrzsiz .gt_indent_3 {
   text-indent: 15px;
 }
 
-#xlzbkmpkxa .gt_indent_4 {
+#smlizrzsiz .gt_indent_4 {
   text-indent: 20px;
 }
 
-#xlzbkmpkxa .gt_indent_5 {
+#smlizrzsiz .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table caption-top table table-sm table-striped small" data-quarto-bootstrap="false">
+<thead>
+<tr class="gt_col_headings header">
+<th id="date" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">date</th>
+<th id="year" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">year</th>
+<th id="month" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">month</th>
+<th id="quarter" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">quarter</th>
+<th id="week" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">week</th>
+<th id="day" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">day</th>
+<th id="margin" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">margin</th>
+<th id="mtd_margin" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">mtd_margin</th>
+<th id="missing_date_indicator" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" scope="col">missing_date_indicator</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2021-05-18</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="month">5</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="week">20</td>
+<td class="gt_row gt_right" headers="day">18</td>
+<td class="gt_row gt_right" headers="margin">406.840</td>
+<td class="gt_row gt_right" headers="mtd_margin">406.840</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="date">2021-05-19</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="month">5</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="week">20</td>
+<td class="gt_row gt_right" headers="day">19</td>
+<td class="gt_row gt_right" headers="margin">711.351</td>
+<td class="gt_row gt_right" headers="mtd_margin">1118.191</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2021-05-20</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="month">5</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="week">20</td>
+<td class="gt_row gt_right" headers="day">20</td>
+<td class="gt_row gt_right" headers="margin">1424.101</td>
+<td class="gt_row gt_right" headers="mtd_margin">2542.292</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="date">2021-05-21</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="month">5</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="week">21</td>
+<td class="gt_row gt_right" headers="day">21</td>
+<td class="gt_row gt_right" headers="margin">11338.631</td>
+<td class="gt_row gt_right" headers="mtd_margin">13880.923</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2021-05-22</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="month">5</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="week">21</td>
+<td class="gt_row gt_right" headers="day">22</td>
+<td class="gt_row gt_right" headers="margin">5358.767</td>
+<td class="gt_row gt_right" headers="mtd_margin">19239.690</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="date">2021-05-23</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="month">5</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="week">21</td>
+<td class="gt_row gt_right" headers="day">23</td>
+<td class="gt_row gt_right" headers="margin">0.000</td>
+<td class="gt_row gt_right" headers="mtd_margin">19239.690</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">1</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2021-05-24</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="month">5</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="week">21</td>
+<td class="gt_row gt_right" headers="day">24</td>
+<td class="gt_row gt_right" headers="margin">0.000</td>
+<td class="gt_row gt_right" headers="mtd_margin">19239.690</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">1</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="date">2021-05-25</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="month">5</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="week">21</td>
+<td class="gt_row gt_right" headers="day">25</td>
+<td class="gt_row gt_right" headers="margin">792.933</td>
+<td class="gt_row gt_right" headers="mtd_margin">20032.623</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_right" headers="date">2021-05-26</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="month">5</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="week">21</td>
+<td class="gt_row gt_right" headers="day">26</td>
+<td class="gt_row gt_right" headers="margin">74.550</td>
+<td class="gt_row gt_right" headers="mtd_margin">20107.173</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_right" headers="date">2021-05-27</td>
+<td class="gt_row gt_right" headers="year">2021</td>
+<td class="gt_row gt_right" headers="month">5</td>
+<td class="gt_row gt_right" headers="quarter">2</td>
+<td class="gt_row gt_right" headers="week">21</td>
+<td class="gt_row gt_right" headers="day">27</td>
+<td class="gt_row gt_right" headers="margin">1432.710</td>
+<td class="gt_row gt_right" headers="mtd_margin">21539.883</td>
+<td class="gt_row gt_right" headers="missing_date_indicator">0</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
+</div>
+<section id="what-if-you-need-the-analysis-at-the-group-level" class="level3">
+<h3 class="anchored" data-anchor-id="what-if-you-need-the-analysis-at-the-group-level">What if you need the analysis at the group level?</h3>
+<p>Simply pass the groups that you want to <code>dplyr::group_by()</code> and time intelligence function will create a custom calendar for each group level.</p>
+<p>This ensures that each group will have a complete calendar ensuring no group member has any missing dates.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="annotated-cell-4"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-4-1"><a href="#annotated-cell-4-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span>   </span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-4" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-4-2" class="code-annotation-target"><a href="#annotated-cell-4-2" aria-hidden="true" tabindex="-1"></a>   dplyr<span class="sc">::</span><span class="fu">group_by</span>(customer_key,store_key) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-4-3"><a href="#annotated-cell-4-3" aria-hidden="true" tabindex="-1"></a>   <span class="fu">yoy</span>(<span class="at">.date=</span>order_date,<span class="at">.value =</span> margin,<span class="at">calendar_type =</span> <span class="st">"standard"</span>) </span><div class="code-annotation-gutter-bg"></div><div class="code-annotation-gutter"></div></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-annotation">
+<dl class="code-annotation-container-grid">
+<dt data-target-cell="annotated-cell-4" data-target-annotation="1">1</dt>
+<dd>
+<span data-code-cell="annotated-cell-4" data-code-lines="2" data-code-annotation="1">Select the dimensions you want to group and pass a grouped column to your ti function</span>
+</dd>
+</dl>
+</div>
+</div>
+</section>
+</section>
+<section id="why-do-we-need-this-package-when-we-have-lubridate" class="level2 page-columns page-full">
+<h2 class="anchored" data-anchor-id="why-do-we-need-this-package-when-we-have-lubridate">Why do we need this package when we have lubridate?</h2>
+<p><a href="https://lubridate.tidyverse.org/">Lubridate</a> is an excellent package and is at the core of many of ti’s functions. The issue is not with lubridate itself, but rather the challenges in your dataset that prevent you from directly using lubridate functions.</p>
+<p>The advantage of this package is that it will perform all of the required pre-processing steps for you.</p>
+<ul>
+<li><p>Issue 1: Many datasets <strong>do not have continuous dates</strong>, especially if data is recorded only on business days or for active transactions</p></li>
+<li><p>Issue 2: Imbalances between periods (e.g., the different number of days between February vs.&nbsp;January) can create misleading analysis or trends, or your analysis may require non-standard calendar types</p></li>
+<li><p>Issue 3: Calculating time intelligence for groups can lead to larger-than-memory issues even with smaller datasets</p></li>
+</ul>
+<section id="issue-1-continuous-dates" class="level3 page-columns page-full">
+<h3 class="anchored" data-anchor-id="issue-1-continuous-dates">Issue 1: Continuous Dates</h3>
+<p>Referencing the <a href="#tbl-missing-dates-issues-1" class="quarto-xref">Table&nbsp;1</a> below, if we were to use <code>dplyr::lag()</code> to compare <strong>Day-over-Day (DoD)</strong> margin, we would be missing <code>2024-01-02</code>, <code>2024-01-04</code>, and <code>2024-01-05</code> which would lead to incorrect answers or trends.</p>
+<div class="cell">
+<div id="tbl-missing-dates-issues-1" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-missing-dates-issues-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Incomplete calendar table can lead to wrong conclusions or trends
+</figcaption>
+<div aria-describedby="tbl-missing-dates-issues-1-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<div class="cell-output-display">
+<div id="dfynwmchbg" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#dfynwmchbg table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#dfynwmchbg thead, #dfynwmchbg tbody, #dfynwmchbg tfoot, #dfynwmchbg tr, #dfynwmchbg td, #dfynwmchbg th {
+  border-style: none;
+}
+
+#dfynwmchbg p {
+  margin: 0;
+  padding: 0;
+}
+
+#dfynwmchbg .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#dfynwmchbg .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#dfynwmchbg .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#dfynwmchbg .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#dfynwmchbg .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#dfynwmchbg .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dfynwmchbg .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#dfynwmchbg .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#dfynwmchbg .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#dfynwmchbg .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#dfynwmchbg .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#dfynwmchbg .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#dfynwmchbg .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#dfynwmchbg .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#dfynwmchbg .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#dfynwmchbg .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#dfynwmchbg .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#dfynwmchbg .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#dfynwmchbg .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dfynwmchbg .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#dfynwmchbg .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#dfynwmchbg .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#dfynwmchbg .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dfynwmchbg .gt_first_summary_row {
+  border-top-style: solid;
+  border-top-color: #D3D3D3;
+}
+
+#dfynwmchbg .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#dfynwmchbg .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dfynwmchbg .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dfynwmchbg .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#dfynwmchbg .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: double;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dfynwmchbg .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#dfynwmchbg .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#dfynwmchbg .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#dfynwmchbg .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dfynwmchbg .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#dfynwmchbg .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#dfynwmchbg .gt_left {
+  text-align: left;
+}
+
+#dfynwmchbg .gt_center {
+  text-align: center;
+}
+
+#dfynwmchbg .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#dfynwmchbg .gt_font_normal {
+  font-weight: normal;
+}
+
+#dfynwmchbg .gt_font_bold {
+  font-weight: bold;
+}
+
+#dfynwmchbg .gt_font_italic {
+  font-style: italic;
+}
+
+#dfynwmchbg .gt_super {
+  font-size: 65%;
+}
+
+#dfynwmchbg .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#dfynwmchbg .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#dfynwmchbg .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#dfynwmchbg .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#dfynwmchbg .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#dfynwmchbg .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#dfynwmchbg .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -897,23 +1630,23 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
 </figcaption>
 <div aria-describedby="tbl-missing-dates-issue-1-fix-no-echo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca" class="page-columns page-full">
 <div class="cell-output-display column-page">
-<div id="nzrpqhgglb" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#nzrpqhgglb table {
+<div id="cybshwgjid" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#cybshwgjid table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#nzrpqhgglb thead, #nzrpqhgglb tbody, #nzrpqhgglb tfoot, #nzrpqhgglb tr, #nzrpqhgglb td, #nzrpqhgglb th {
+#cybshwgjid thead, #cybshwgjid tbody, #cybshwgjid tfoot, #cybshwgjid tr, #cybshwgjid td, #cybshwgjid th {
   border-style: none;
 }
 
-#nzrpqhgglb p {
+#cybshwgjid p {
   margin: 0;
   padding: 0;
 }
 
-#nzrpqhgglb .gt_table {
+#cybshwgjid .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -939,12 +1672,12 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   border-left-color: #D3D3D3;
 }
 
-#nzrpqhgglb .gt_caption {
+#cybshwgjid .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#nzrpqhgglb .gt_title {
+#cybshwgjid .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -956,7 +1689,7 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   border-bottom-width: 0;
 }
 
-#nzrpqhgglb .gt_subtitle {
+#cybshwgjid .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -968,7 +1701,7 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   border-top-width: 0;
 }
 
-#nzrpqhgglb .gt_heading {
+#cybshwgjid .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -980,13 +1713,13 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   border-right-color: #D3D3D3;
 }
 
-#nzrpqhgglb .gt_bottom_border {
+#cybshwgjid .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#nzrpqhgglb .gt_col_headings {
+#cybshwgjid .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1001,7 +1734,7 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   border-right-color: #D3D3D3;
 }
 
-#nzrpqhgglb .gt_col_heading {
+#cybshwgjid .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1021,7 +1754,7 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   overflow-x: hidden;
 }
 
-#nzrpqhgglb .gt_column_spanner_outer {
+#cybshwgjid .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1033,15 +1766,15 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   padding-right: 4px;
 }
 
-#nzrpqhgglb .gt_column_spanner_outer:first-child {
+#cybshwgjid .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#nzrpqhgglb .gt_column_spanner_outer:last-child {
+#cybshwgjid .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#nzrpqhgglb .gt_column_spanner {
+#cybshwgjid .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1053,11 +1786,11 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   width: 100%;
 }
 
-#nzrpqhgglb .gt_spanner_row {
+#cybshwgjid .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#nzrpqhgglb .gt_group_heading {
+#cybshwgjid .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1083,7 +1816,7 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   text-align: left;
 }
 
-#nzrpqhgglb .gt_empty_group_heading {
+#cybshwgjid .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1098,15 +1831,15 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   vertical-align: middle;
 }
 
-#nzrpqhgglb .gt_from_md > :first-child {
+#cybshwgjid .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#nzrpqhgglb .gt_from_md > :last-child {
+#cybshwgjid .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#nzrpqhgglb .gt_row {
+#cybshwgjid .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1125,7 +1858,7 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   overflow-x: hidden;
 }
 
-#nzrpqhgglb .gt_stub {
+#cybshwgjid .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1138,7 +1871,7 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   padding-right: 5px;
 }
 
-#nzrpqhgglb .gt_stub_row_group {
+#cybshwgjid .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1152,15 +1885,15 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   vertical-align: top;
 }
 
-#nzrpqhgglb .gt_row_group_first td {
+#cybshwgjid .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#nzrpqhgglb .gt_row_group_first th {
+#cybshwgjid .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#nzrpqhgglb .gt_summary_row {
+#cybshwgjid .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1170,16 +1903,16 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   padding-right: 5px;
 }
 
-#nzrpqhgglb .gt_first_summary_row {
+#cybshwgjid .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#nzrpqhgglb .gt_first_summary_row.thick {
+#cybshwgjid .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#nzrpqhgglb .gt_last_summary_row {
+#cybshwgjid .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1189,7 +1922,7 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   border-bottom-color: #D3D3D3;
 }
 
-#nzrpqhgglb .gt_grand_summary_row {
+#cybshwgjid .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1199,7 +1932,7 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   padding-right: 5px;
 }
 
-#nzrpqhgglb .gt_first_grand_summary_row {
+#cybshwgjid .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1209,7 +1942,7 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   border-top-color: #D3D3D3;
 }
 
-#nzrpqhgglb .gt_last_grand_summary_row_top {
+#cybshwgjid .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1219,11 +1952,11 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   border-bottom-color: #D3D3D3;
 }
 
-#nzrpqhgglb .gt_striped {
+#cybshwgjid .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#nzrpqhgglb .gt_table_body {
+#cybshwgjid .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1232,7 +1965,7 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   border-bottom-color: #D3D3D3;
 }
 
-#nzrpqhgglb .gt_footnotes {
+#cybshwgjid .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1246,7 +1979,7 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   border-right-color: #D3D3D3;
 }
 
-#nzrpqhgglb .gt_footnote {
+#cybshwgjid .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1255,7 +1988,7 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   padding-right: 5px;
 }
 
-#nzrpqhgglb .gt_sourcenotes {
+#cybshwgjid .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1269,7 +2002,7 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   border-right-color: #D3D3D3;
 }
 
-#nzrpqhgglb .gt_sourcenote {
+#cybshwgjid .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1277,63 +2010,63 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
   padding-right: 5px;
 }
 
-#nzrpqhgglb .gt_left {
+#cybshwgjid .gt_left {
   text-align: left;
 }
 
-#nzrpqhgglb .gt_center {
+#cybshwgjid .gt_center {
   text-align: center;
 }
 
-#nzrpqhgglb .gt_right {
+#cybshwgjid .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#nzrpqhgglb .gt_font_normal {
+#cybshwgjid .gt_font_normal {
   font-weight: normal;
 }
 
-#nzrpqhgglb .gt_font_bold {
+#cybshwgjid .gt_font_bold {
   font-weight: bold;
 }
 
-#nzrpqhgglb .gt_font_italic {
+#cybshwgjid .gt_font_italic {
   font-style: italic;
 }
 
-#nzrpqhgglb .gt_super {
+#cybshwgjid .gt_super {
   font-size: 65%;
 }
 
-#nzrpqhgglb .gt_footnote_marks {
+#cybshwgjid .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#nzrpqhgglb .gt_asterisk {
+#cybshwgjid .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#nzrpqhgglb .gt_indent_1 {
+#cybshwgjid .gt_indent_1 {
   text-indent: 5px;
 }
 
-#nzrpqhgglb .gt_indent_2 {
+#cybshwgjid .gt_indent_2 {
   text-indent: 10px;
 }
 
-#nzrpqhgglb .gt_indent_3 {
+#cybshwgjid .gt_indent_3 {
   text-indent: 15px;
 }
 
-#nzrpqhgglb .gt_indent_4 {
+#cybshwgjid .gt_indent_4 {
   text-indent: 20px;
 }
 
-#nzrpqhgglb .gt_indent_5 {
+#cybshwgjid .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -1504,8 +2237,8 @@ Table&nbsp;2: Original table now complete with missing dates and a missing date 
 <p>This package uses the second option to ensure we don’t lose any of January’s sales, but to help flag the imbalance, ti will add a column to let you know how many periods (e.g., days) are in your comparison period to increase transparency.</p>
 <p>To create this example, we will use the <code>pmtd()</code> function to calculate the prior month to date cumulative margin in the current month.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pmtd</span>(order_date,margin,<span class="st">"standard"</span>,<span class="at">lag_n =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">pmtd</span>(order_date,margin,<span class="st">"standard"</span>,<span class="at">lag_n =</span> <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>When we pass the ti object through to <code>calculate()</code> and filter the results for February 2022, we would see the below <a href="#tbl-issue2-example-no-echo" class="quarto-xref">Table&nbsp;3</a>.</p>
 <p>On 2022-02-28, we see that is comparing 31 days of the previous period to the 28 days in the current period.</p>
@@ -1517,23 +2250,23 @@ Table&nbsp;3
 </figcaption>
 <div aria-describedby="tbl-issue2-example-no-echo-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<div id="hckrpeqmqv" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#hckrpeqmqv table {
+<div id="pvnbhqqffd" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#pvnbhqqffd table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#hckrpeqmqv thead, #hckrpeqmqv tbody, #hckrpeqmqv tfoot, #hckrpeqmqv tr, #hckrpeqmqv td, #hckrpeqmqv th {
+#pvnbhqqffd thead, #pvnbhqqffd tbody, #pvnbhqqffd tfoot, #pvnbhqqffd tr, #pvnbhqqffd td, #pvnbhqqffd th {
   border-style: none;
 }
 
-#hckrpeqmqv p {
+#pvnbhqqffd p {
   margin: 0;
   padding: 0;
 }
 
-#hckrpeqmqv .gt_table {
+#pvnbhqqffd .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -1559,12 +2292,12 @@ Table&nbsp;3
   border-left-color: #D3D3D3;
 }
 
-#hckrpeqmqv .gt_caption {
+#pvnbhqqffd .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#hckrpeqmqv .gt_title {
+#pvnbhqqffd .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -1576,7 +2309,7 @@ Table&nbsp;3
   border-bottom-width: 0;
 }
 
-#hckrpeqmqv .gt_subtitle {
+#pvnbhqqffd .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -1588,7 +2321,7 @@ Table&nbsp;3
   border-top-width: 0;
 }
 
-#hckrpeqmqv .gt_heading {
+#pvnbhqqffd .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -1600,13 +2333,13 @@ Table&nbsp;3
   border-right-color: #D3D3D3;
 }
 
-#hckrpeqmqv .gt_bottom_border {
+#pvnbhqqffd .gt_bottom_border {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#hckrpeqmqv .gt_col_headings {
+#pvnbhqqffd .gt_col_headings {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1621,7 +2354,7 @@ Table&nbsp;3
   border-right-color: #D3D3D3;
 }
 
-#hckrpeqmqv .gt_col_heading {
+#pvnbhqqffd .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1641,7 +2374,7 @@ Table&nbsp;3
   overflow-x: hidden;
 }
 
-#hckrpeqmqv .gt_column_spanner_outer {
+#pvnbhqqffd .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1653,15 +2386,15 @@ Table&nbsp;3
   padding-right: 4px;
 }
 
-#hckrpeqmqv .gt_column_spanner_outer:first-child {
+#pvnbhqqffd .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#hckrpeqmqv .gt_column_spanner_outer:last-child {
+#pvnbhqqffd .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#hckrpeqmqv .gt_column_spanner {
+#pvnbhqqffd .gt_column_spanner {
   border-bottom-style: solid;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -1673,11 +2406,11 @@ Table&nbsp;3
   width: 100%;
 }
 
-#hckrpeqmqv .gt_spanner_row {
+#pvnbhqqffd .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#hckrpeqmqv .gt_group_heading {
+#pvnbhqqffd .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1703,7 +2436,7 @@ Table&nbsp;3
   text-align: left;
 }
 
-#hckrpeqmqv .gt_empty_group_heading {
+#pvnbhqqffd .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -1718,15 +2451,15 @@ Table&nbsp;3
   vertical-align: middle;
 }
 
-#hckrpeqmqv .gt_from_md > :first-child {
+#pvnbhqqffd .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#hckrpeqmqv .gt_from_md > :last-child {
+#pvnbhqqffd .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#hckrpeqmqv .gt_row {
+#pvnbhqqffd .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1745,7 +2478,7 @@ Table&nbsp;3
   overflow-x: hidden;
 }
 
-#hckrpeqmqv .gt_stub {
+#pvnbhqqffd .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1758,7 +2491,7 @@ Table&nbsp;3
   padding-right: 5px;
 }
 
-#hckrpeqmqv .gt_stub_row_group {
+#pvnbhqqffd .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -1772,15 +2505,15 @@ Table&nbsp;3
   vertical-align: top;
 }
 
-#hckrpeqmqv .gt_row_group_first td {
+#pvnbhqqffd .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#hckrpeqmqv .gt_row_group_first th {
+#pvnbhqqffd .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#hckrpeqmqv .gt_summary_row {
+#pvnbhqqffd .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1790,16 +2523,16 @@ Table&nbsp;3
   padding-right: 5px;
 }
 
-#hckrpeqmqv .gt_first_summary_row {
+#pvnbhqqffd .gt_first_summary_row {
   border-top-style: solid;
   border-top-color: #D3D3D3;
 }
 
-#hckrpeqmqv .gt_first_summary_row.thick {
+#pvnbhqqffd .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#hckrpeqmqv .gt_last_summary_row {
+#pvnbhqqffd .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1809,7 +2542,7 @@ Table&nbsp;3
   border-bottom-color: #D3D3D3;
 }
 
-#hckrpeqmqv .gt_grand_summary_row {
+#pvnbhqqffd .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -1819,7 +2552,7 @@ Table&nbsp;3
   padding-right: 5px;
 }
 
-#hckrpeqmqv .gt_first_grand_summary_row {
+#pvnbhqqffd .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1829,7 +2562,7 @@ Table&nbsp;3
   border-top-color: #D3D3D3;
 }
 
-#hckrpeqmqv .gt_last_grand_summary_row_top {
+#pvnbhqqffd .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -1839,11 +2572,11 @@ Table&nbsp;3
   border-bottom-color: #D3D3D3;
 }
 
-#hckrpeqmqv .gt_striped {
+#pvnbhqqffd .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#hckrpeqmqv .gt_table_body {
+#pvnbhqqffd .gt_table_body {
   border-top-style: solid;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -1852,7 +2585,7 @@ Table&nbsp;3
   border-bottom-color: #D3D3D3;
 }
 
-#hckrpeqmqv .gt_footnotes {
+#pvnbhqqffd .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1866,7 +2599,7 @@ Table&nbsp;3
   border-right-color: #D3D3D3;
 }
 
-#hckrpeqmqv .gt_footnote {
+#pvnbhqqffd .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -1875,7 +2608,7 @@ Table&nbsp;3
   padding-right: 5px;
 }
 
-#hckrpeqmqv .gt_sourcenotes {
+#pvnbhqqffd .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -1889,7 +2622,7 @@ Table&nbsp;3
   border-right-color: #D3D3D3;
 }
 
-#hckrpeqmqv .gt_sourcenote {
+#pvnbhqqffd .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -1897,63 +2630,63 @@ Table&nbsp;3
   padding-right: 5px;
 }
 
-#hckrpeqmqv .gt_left {
+#pvnbhqqffd .gt_left {
   text-align: left;
 }
 
-#hckrpeqmqv .gt_center {
+#pvnbhqqffd .gt_center {
   text-align: center;
 }
 
-#hckrpeqmqv .gt_right {
+#pvnbhqqffd .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#hckrpeqmqv .gt_font_normal {
+#pvnbhqqffd .gt_font_normal {
   font-weight: normal;
 }
 
-#hckrpeqmqv .gt_font_bold {
+#pvnbhqqffd .gt_font_bold {
   font-weight: bold;
 }
 
-#hckrpeqmqv .gt_font_italic {
+#pvnbhqqffd .gt_font_italic {
   font-style: italic;
 }
 
-#hckrpeqmqv .gt_super {
+#pvnbhqqffd .gt_super {
   font-size: 65%;
 }
 
-#hckrpeqmqv .gt_footnote_marks {
+#pvnbhqqffd .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#hckrpeqmqv .gt_asterisk {
+#pvnbhqqffd .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#hckrpeqmqv .gt_indent_1 {
+#pvnbhqqffd .gt_indent_1 {
   text-indent: 5px;
 }
 
-#hckrpeqmqv .gt_indent_2 {
+#pvnbhqqffd .gt_indent_2 {
   text-indent: 10px;
 }
 
-#hckrpeqmqv .gt_indent_3 {
+#pvnbhqqffd .gt_indent_3 {
   text-indent: 15px;
 }
 
-#hckrpeqmqv .gt_indent_4 {
+#pvnbhqqffd .gt_indent_4 {
   text-indent: 20px;
 }
 
-#hckrpeqmqv .gt_indent_5 {
+#pvnbhqqffd .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -2013,15 +2746,15 @@ Table&nbsp;3
 <p>If your data is already in a database, ti will use <a href="https://dbplyr.tidyverse.org/">dbplyr</a> to convert the functions to SQL queries.</p>
 <p>In either scenario, you can use <code>dplyr::collect()</code> to execute your SQL query and return a tibble to your local computer.</p>
 <div class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># quickly load contoso package to a database via the contoso package</span></span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> contoso<span class="sc">::</span><span class="fu">create_contoso_duckdb</span>()</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a><span class="co"># pass through to the same function mtd()</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>db<span class="sc">$</span>sales <span class="sc">|&gt;</span> <span class="fu">mtd</span>(order_date,margin,<span class="st">"standard"</span>)</span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a><span class="co"># same syntax even though data source is now a tibble</span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span> <span class="fu">mtd</span>(order_date,margin,<span class="st">"standard"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># quickly load contoso package to a database via the contoso package</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> contoso<span class="sc">::</span><span class="fu">create_contoso_duckdb</span>()</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="co"># pass through to the same function mtd()</span></span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>db<span class="sc">$</span>sales <span class="sc">|&gt;</span> <span class="fu">mtd</span>(order_date,margin,<span class="st">"standard"</span>)</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a><span class="co"># same syntax even though data source is now a tibble</span></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span> <span class="fu">mtd</span>(order_date,margin,<span class="st">"standard"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 
 
@@ -2031,6 +2764,19 @@ Table&nbsp;3
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
     const icon = "";
     const anchorJS = new window.AnchorJS();
     anchorJS.options = {

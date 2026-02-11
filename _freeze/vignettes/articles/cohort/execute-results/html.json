@@ -1,0 +1,15 @@
+{
+  "hash": "35f7c43b168e89bde6336d6e96c445f4",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Cohort\"\nauthor: \"Alejandro Hagan\"\nsubtitle: \"What is cohort analysis and how to use it?\"\neval: false\n---\n\n::: {.cell}\n::: {.cell-output-display}\n---\ndate: '2026-02-10'\n---\n\n:::\n:::\n\n\n\nCohort analysis is the practice of segmenting users or customers into groups (cohorts) based on a shared initial experience, usually a specific time period of acquisition. \n\nBy monitoring these cohorts over time, analysts can gain deep insights into retention rates, lifetime value (LTV), feature usage, and behavioral trends that are hidden when looking at aggregate metrics. It shifts the focus from \"what is happening now\" to \"how are groups behaving over their lifecycle\".\n\nThe `cohort()` function in **ti** provides a **tibble and database-friendly implementation** of cohort analysis that is compatible with modern backends.\n\n## How does it work?\n\n- Assigns each member in your dataset to a **time-based cohort** based on the first occurrence in the `.date` column\n- Aggregates distinct counts of cohort members over time\n- Supports multiple time units (`day`, `week`, `month`, `quarter`, `year`)\n- Returns a **segment object**, which can be processed using `calculate()` to generate the cohort table\n\n# Arguments\n\n| Argument | Description |\n|----------|-------------|\n| `.data` | A `tibble` or DBI object containing your dataset. |\n| `.date` | The date column to base the cohort assignment on. |\n| `.value` | The column representing members to track (e.g., customer ID). |\n| `time_unit` | Argument to group your calendar dates: `day`, `week`, `month`, `quarter`, or `year` |\n| `period_label` | Whether to use numeric period labels (`TRUE`) or actual dates (`FALSE`). Default is `FALSE`. |\n\n\n# Output\n\nThe function returns a **segment_cohort** object. Use `calculate()` to retrieve the cohort table:\n\n\n::: {.cell}\n\n```{.r .cell-code}\n# Example cohort analysis\nti::cohort(.data = contoso::sales,\n                  .date = order_date,\n                  .value = customer_key,\n                  time_unit = \"month\",\n                  period_label = FALSE\n             )\n```\n:::\n\n\nThis function is essentially a database-compatible translation of the [PeerChristensen](https://github.com/PeerChristensen/cohorts) cohort package.\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

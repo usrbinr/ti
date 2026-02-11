@@ -1,0 +1,313 @@
+---
+title: "Standard vs. Non-Standard Calendars"
+subtitle: "What are non-standard calendars and when do we use them?"
+author: "Alejandro Hagan"
+format: html
+---
+
+```{r}
+#| echo: false
+quarto::write_yaml_metadata_block(
+   date=format(Sys.Date())
+   )
+```
+
+## Introduction: Beyond the Gregorian Calendar
+
+In many **Financial Planning & Analysis (FP&A)** functions, you'll encounter a `calendar_type` argument. This might be confusing, as most people assume there is only one type of calendar!
+
+To accommodate the unique operational and analytical needs of certain industries (particularly retail and manufacturing), `ti` often involves two primary calendar systems:
+
+1.  **Standard Calendar** (Gregorian)
+2.  **Non-Standard Calendars** (e.g., *5-4-4, 4-4-5, 4-5-4*)
+
+This guide explains the differences between these calendars and their typical use cases in business analysis.
+
+---
+
+### 1. The Standard (Gregorian) Calendar
+
+This is the **conventional calendar** used for general financial reporting, scheduling, and external communication.
+
+#### Structure & Use
+* **Period Structure:** 12 months of **varying lengths** (28–31 days).
+* **Days/Weeks:** 365 days per year (366 in a leap year).
+* **Advantage:** It matches external reporting deadlines, regulatory timelines, and standard corporate schedules.
+
+#### Disadvantage: Inconsistent Comparisons
+
+The primary drawback is that comparing operational metrics (like sales or margin) month-over-month (MoM) or quarter-over-quarter (QoQ) is challenging. The varying number of days or weekends leads to **misleading conclusions**.
+
+> For example, comparing sales from a 31-day month to a 28-day month will inherently show a "drop" in total revenue, even if the daily performance was identical. This makes true performance comparison difficult.
+
+---
+
+### 2. Non-Standard (Retail/Fiscal) Calendars 
+
+Non-standard calendars are explicitly designed to **control for period-to-period variance**. They achieve this by ensuring every comparable period has an identical number of weeks and, critically, an identical number of **weekends**. This allows for a **cleaner "apples-to-apples" comparison** of operational performance.
+
+The most common types are the **Retail Calendars** (used in retail, restaurant, and manufacturing), such as **5-4-4**, **4-4-5**, and **4-5-4**.
+
+#### Example: The 5-4-4 Calendar Structure
+
+The 5-4-4 structure ensures that every quarter is exactly **13 weeks** long, and the month structure repeats perfectly:
+
+* **Basis:** Weeks in a period, not days in a month.
+* **Total Year:** 52 weeks (364 days).
+
+| Quarter Structure | Weeks | Days | Purpose |
+| :---: | :---: | :---: | :--- |
+| **Period 1** | 5 Weeks | 35 days | Captures seasonal spikes or month-end activity. |
+| **Period 2** | 4 Weeks | 28 days | Standard monthly period. |
+| **Period 3** | 4 Weeks | 28 days | Standard monthly period. |
+| **Total Quarter** | 13 Weeks | 91 days | Ensures exact period alignment QoQ. |
+
+#### The 53rd Week Challenge
+
+Since a 52-week year is 364 days, and the solar year is $\approx 365.25$ days, a **53rd week** must be added every 5 to 6 years to keep the fiscal year aligned with the actual calendar year. This **53-week year** is a crucial planning consideration for businesses using non-standard calendars.
+
+---
+
+### Calendar Comparison
+
+| Feature | Standard (Gregorian) Calendar | Non-Standard (e.g., 5-4-4) Calendar |
+| :--- | :--- | :--- |
+| **Basis of Period** | Days in month | Weeks in period |
+| **Month/Period Length** | Varies (28–31 days) | Fixed (4 or 5 weeks) |
+| **Consistency MoM/QoQ** | Low: Days/weekends vary | High: Weeks/weekends are identical |
+| **Best For** | General reporting, external financial statements (GAAP/IFRS) | **Operational Analysis:** Retail sales, inventory, labor costs, and year-over-year comparisons. |
+
+---
+
+### How to reference in `ti` functions?
+
+The `calendar_type` argument is how you instruct the function on which system to use for its internal calculations and indexing.
+
+* To use a traditional calendar, pass: `"standard"`
+* To use a retail calendar, pass the respective structure: `"544"`, `"454"`, or `"445"`
+
+Under the hood, `ti` handles the complexities: it generates the appropriate date keys and ensures that all your metrics are indexed correctly to the start and end of the chosen calendar's periods.
+
+---
+
+### Fiscal Year Start
+
+By default, the retail calendar's fiscal year starts nearest to **January** (`fiscal_year_start = 1`). Many retailers operate on a fiscal year that begins in **February** (e.g., NRF convention). You can control this with the `fiscal_year_start` parameter:
+
+* `fiscal_year_start = 1` -- fiscal year starts nearest to January 1st (default)
+* `fiscal_year_start = 2` -- fiscal year starts nearest to February 1st (common in US retail)
+* `fiscal_year_start = 7` -- fiscal year starts nearest to July 1st
+
+The start date is determined by finding the `week_start` weekday (default: Sunday) nearest to the 1st of the specified month.
+
+---
+
+### Examples
+
+```{r}
+#| label: setup-calendar
+#| echo: false
+#| eval: true
+#| include: false
+
+library(ti)
+library(dplyr)
+```
+
+#### Year-to-date with a 4-4-5 retail calendar
+
+The fiscal year starts nearest to February. Each quarter has 13 weeks split into 4-week, 4-week, and 5-week months.
+
+```{r}
+#| label: ytd-445-echo
+#| echo: true
+#| eval: false
+
+contoso::sales |>
+  ytd(
+    .date = order_date,
+    .value = margin,
+    calendar_type = "445",
+    fiscal_year_start = 2
+  ) |>
+  calculate() |>
+  dplyr::collect()
+```
+
+```{r}
+#| label: ytd-445-output
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+
+contoso::sales |>
+  ytd(
+    .date = order_date,
+    .value = margin,
+    calendar_type = "445",
+    fiscal_year_start = 2
+  ) |>
+  calculate() |>
+  dplyr::collect() |>
+  dplyr::arrange(date) |>
+  head(10) |>
+  gt::gt() |>
+  gt::tab_header(
+     title = gt::md("**Year-to-Date (4-4-5 Calendar)**"),
+     subtitle = "First 10 rows"
+  ) |>
+  gt::fmt_number(
+     columns = where(is.numeric),
+     decimals = 0,
+     use_seps = TRUE
+  ) |>
+  gt::fmt_number(
+     columns = tidyselect::any_of(c("year", "month", "week", "quarter", "day")),
+     decimals = 0,
+     use_seps = FALSE
+  ) |>
+  gt::tab_style(
+     style = list(
+        gt::cell_fill(color = "#f0f0f0"),
+        gt::cell_text(weight = "bold", size = "small")
+     ),
+     locations = gt::cells_column_labels()
+  ) |>
+  gt::opt_row_striping() |>
+  gt::opt_table_lines("default") |>
+  gt::tab_options(table.font.size = "small")
+```
+
+Notice that the `year`, `quarter`, `month`, and `week` columns now reflect the **fiscal** periods from the 4-4-5 calendar rather than the Gregorian calendar.
+
+#### Month-to-date with a 5-4-4 retail calendar
+
+```{r}
+#| label: mtd-544-echo
+#| echo: true
+#| eval: false
+
+contoso::sales |>
+  mtd(
+    .date = order_date,
+    .value = margin,
+    calendar_type = "544",
+    fiscal_year_start = 2
+  ) |>
+  calculate() |>
+  dplyr::collect()
+```
+
+```{r}
+#| label: mtd-544-output
+#| echo: false
+#| eval: true
+#| warning: false
+#| message: false
+
+contoso::sales |>
+  mtd(
+    .date = order_date,
+    .value = margin,
+    calendar_type = "544",
+    fiscal_year_start = 2
+  ) |>
+  calculate() |>
+  dplyr::collect() |>
+  dplyr::arrange(date) |>
+  head(10) |>
+  gt::gt() |>
+  gt::tab_header(
+     title = gt::md("**Month-to-Date (5-4-4 Calendar)**"),
+     subtitle = "First 10 rows"
+  ) |>
+  gt::fmt_number(
+     columns = where(is.numeric),
+     decimals = 0,
+     use_seps = TRUE
+  ) |>
+  gt::fmt_number(
+     columns = tidyselect::any_of(c("year", "month", "week", "quarter", "day")),
+     decimals = 0,
+     use_seps = FALSE
+  ) |>
+  gt::tab_style(
+     style = list(
+        gt::cell_fill(color = "#f0f0f0"),
+        gt::cell_text(weight = "bold", size = "small")
+     ),
+     locations = gt::cells_column_labels()
+  ) |>
+  gt::opt_row_striping() |>
+  gt::opt_table_lines("default") |>
+  gt::tab_options(table.font.size = "small")
+```
+
+#### Grouped analysis with a retail calendar
+
+Groups work exactly as they do with the standard calendar. Each group gets a complete fiscal calendar.
+
+```{r}
+#| label: grouped-445-echo
+#| echo: true
+#| eval: false
+
+contoso::sales |>  #<1>
+  dplyr::group_by(store_key) |>  #<2>
+  qtd(
+    .date = order_date,  #<3>
+    .value = margin, #<4>
+    calendar_type = "445", #<5>
+    fiscal_year_start = 2 #<6>
+  ) |>
+  calculate() |> #<7>
+  dplyr::collect() #<8>
+```
+
+
+1. Pass data through
+2. Optionally select a grouping key
+3. Select the date column to index
+4. Select the value calumn to aggregate
+5. Select the type of non-standard calendars
+6. Select the non-standard calendar fiscal start date -- Sunday closest to February 1st
+7. Return a lazy_tbl
+8. Return a tibble
+
+#### Comparing calendar types
+
+Below is a side-by-side comparison of how the same date is classified under a standard calendar vs. a 4-4-5 retail calendar:
+
+```{r}
+#| label: tbl-comparison
+#| echo: false
+#| eval: true
+
+tibble::tibble(
+  Feature = c("Year", "Quarter", "Month", "Week"),
+  `Standard (2024-03-15)` = c("2024", "1", "3", "11"),
+  `4-4-5 FY starts Feb (2024-03-15)` = c("2024", "1", "2", "7")
+) |>
+  gt::gt() |>
+  gt::tab_header(
+     title = gt::md("**Calendar Comparison**"),
+     subtitle = "Same date under different calendar systems"
+  ) |>
+  gt::tab_style(
+     style = gt::cell_text(weight = "bold"),
+     locations = gt::cells_body(columns = Feature)
+  ) |>
+  gt::tab_style(
+     style = list(
+        gt::cell_fill(color = "#f0f0f0"),
+        gt::cell_text(weight = "bold")
+     ),
+     locations = gt::cells_column_labels()
+  ) |>
+  gt::cols_align(align = "center", columns = -Feature) |>
+  gt::opt_row_striping() |>
+  gt::opt_table_lines("default")
+```
+
+The retail calendar shifts the fiscal boundaries so that every comparable period contains the same number of weeks, enabling cleaner period-over-period comparisons.
