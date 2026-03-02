@@ -6,7 +6,7 @@ Description: Calculate time intelligence metrics for financial planning and
     QTD), and customer segmentation (ABC analysis, cohorts). Supports standard
     and retail calendars (4-4-5, 4-5-4, 5-4-4) with both in-memory and database
     backends via 'dbplyr'.
-Version: 4.0.0
+Version: 4.1.0
 Authors@R: 
     person(given="Alejandro",family= "Hagan", email="alejandro.hagan@outlook.com", role = c("aut", "cre"))
 License: MIT + file LICENSE

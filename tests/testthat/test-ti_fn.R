@@ -6,7 +6,7 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::ytd(order_date, margin, "standard") |>
+        ti::ytd(order_date, gross_margin, "standard") |>
         ti::calculate() |>
         dplyr::collect() |>
         dplyr::filter(store_key == "999999") |>
@@ -18,7 +18,7 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::qtd(order_date, margin, "standard") |>
+        ti::qtd(order_date, gross_margin, "standard") |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
@@ -29,7 +29,7 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::mtd(order_date, margin, "standard") |>
+        ti::mtd(order_date, gross_margin, "standard") |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
@@ -40,7 +40,7 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::wtd(order_date, margin, "standard") |>
+        ti::wtd(order_date, gross_margin, "standard") |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
@@ -51,7 +51,7 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::atd(order_date, margin, "standard") |>
+        ti::atd(order_date, gross_margin, "standard") |>
         ti::calculate() |>
         dplyr::collect() |>
         dplyr::filter(store_key == "999999") |>
@@ -63,7 +63,7 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::yoy(order_date, margin, "standard", 1) |>
+        ti::yoy(order_date, gross_margin, "standard", 1) |>
         ti::calculate() |>
         dplyr::arrange(date) |>
         dplyr::filter(store_key == "999999") |>
@@ -75,7 +75,7 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::qoq(order_date, margin, "standard") |>
+        ti::qoq(order_date, gross_margin, "standard") |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
@@ -86,7 +86,7 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::mom(order_date, margin, "standard") |>
+        ti::mom(order_date, gross_margin, "standard") |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
@@ -97,7 +97,7 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::wow(order_date, margin, "standard") |>
+        ti::wow(order_date, gross_margin, "standard") |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
@@ -108,7 +108,7 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::dod(order_date, margin, "standard") |>
+        ti::dod(order_date, gross_margin, "standard") |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date)
@@ -119,38 +119,38 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::yoytd(order_date, margin, "standard", 1) |>
+        ti::yoytd(order_date, gross_margin, "standard", 1) |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
         dplyr::arrange(date) |>
-        dplyr::filter(!is.na(pytd_margin))
+        dplyr::filter(!is.na(pytd_gross_margin))
     })
   })
 
   it("qoqtd works", {
     testthat::expect_no_error({
       contoso::sales |>
-        ti::qoqtd(order_date, margin, "standard", 1) |>
+        ti::qoqtd(order_date, gross_margin, "standard", 1) |>
         ti::calculate() |>
         dplyr::arrange(date) |>
-        dplyr::filter(!is.na(pqtd_margin))
+        dplyr::filter(!is.na(pqtd_gross_margin))
     })
   })
 
   it("momtd works", {
     testthat::expect_no_error({
       contoso::sales |>
-        ti::momtd(order_date, margin, "standard", 1) |>
+        ti::momtd(order_date, gross_margin, "standard", 1) |>
         ti::calculate() |>
         dplyr::arrange(date) |>
-        dplyr::filter(!is.na(pmtd_margin))
+        dplyr::filter(!is.na(pmtd_gross_margin))
     })
   })
 
   it("wowtd works", {
     testthat::expect_no_error({
       contoso::sales |>
-        ti::wowtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
+        ti::wowtd(.date = order_date, .value = gross_margin, calendar_type = "standard", lag_n = 1) |>
         ti::calculate()
     })
   })
@@ -159,10 +159,10 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::pytd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
+        ti::pytd(.date = order_date, .value = gross_margin, calendar_type = "standard", lag_n = 1) |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
-        dplyr::filter(!is.na(pytd_margin))
+        dplyr::filter(!is.na(pytd_gross_margin))
     })
   })
 
@@ -170,10 +170,10 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::pqtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
+        ti::pqtd(.date = order_date, .value = gross_margin, calendar_type = "standard", lag_n = 1) |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
-        dplyr::filter(!is.na(pqtd_margin))
+        dplyr::filter(!is.na(pqtd_gross_margin))
     })
   })
 
@@ -181,10 +181,10 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::pmtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
+        ti::pmtd(.date = order_date, .value = gross_margin, calendar_type = "standard", lag_n = 1) |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
-        dplyr::filter(!is.na(pmtd_margin)) |>
+        dplyr::filter(!is.na(pmtd_gross_margin)) |>
         dplyr::arrange(date)
     })
   })
@@ -193,10 +193,10 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::pwtd(.date = order_date, .value = margin, calendar_type = "standard", lag_n = 1) |>
+        ti::pwtd(.date = order_date, .value = gross_margin, calendar_type = "standard", lag_n = 1) |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
-        dplyr::filter(!is.na(pwtd_margin))
+        dplyr::filter(!is.na(pwtd_gross_margin))
     })
   })
 
@@ -204,10 +204,10 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::ytdopy(order_date, margin, calendar_type = "standard", lag_n = 1) |>
+        ti::ytdopy(order_date, gross_margin, calendar_type = "standard", lag_n = 1) |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
-        dplyr::filter(!is.na(yoy_margin))
+        dplyr::filter(!is.na(yoy_gross_margin))
     })
   })
 
@@ -215,10 +215,10 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::mtdopm(order_date, margin, calendar_type = "standard", lag_n = 1) |>
+        ti::mtdopm(order_date, gross_margin, calendar_type = "standard", lag_n = 1) |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999") |>
-        dplyr::filter(!is.na(mom_margin)) |>
+        dplyr::filter(!is.na(mom_gross_margin)) |>
         dplyr::arrange(date)
     })
   })
@@ -227,7 +227,7 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::qtdopq(order_date, margin, calendar_type = "standard", lag_n = 1) |>
+        ti::qtdopq(order_date, gross_margin, calendar_type = "standard", lag_n = 1) |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999")
     })
@@ -237,7 +237,7 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::wtdopw(order_date, margin, lag_n = 1, calendar_type = "standard") |>
+        ti::wtdopw(order_date, gross_margin, lag_n = 1, calendar_type = "standard") |>
         ti::calculate() |>
         dplyr::filter(store_key == "999999")
     })
@@ -247,7 +247,7 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::abc(category_values = c(.3, .5, .7, .8), .value = margin) |>
+        ti::abc(category_values = c(.3, .5, .7, .8), .value = gross_margin) |>
         ti::calculate()
     })
   })
@@ -256,7 +256,7 @@ describe("ti functions", {
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
-        ti::cohort(.date = order_date, .value = margin, time_unit = "month", period_label = FALSE) |>
+        ti::cohort(.date = order_date, .value = gross_margin, time_unit = "month", period_label = FALSE) |>
         ti::calculate()
     })
   })
