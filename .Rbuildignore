@@ -33,3 +33,6 @@ ti.Rproj
 
 # qrtdown
 ^reference$
+^_brand\.yml$
+^_freeze$
+^_qrtdown-styles\.css$
