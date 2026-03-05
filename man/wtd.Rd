@@ -9,9 +9,9 @@ wtd(.data, .date, .value, calendar_type = "standard", fiscal_year_start = 1)
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}
 
-\item{.date}{the date column to group by}
+\item{.date}{the date column to group by. Must be a Date or POSIXt type.}
 
-\item{.value}{the value column to summarize}
+\item{.value}{the value column to summarize. Must be numeric.}
 
 \item{calendar_type}{select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information}
 
@@ -32,6 +32,13 @@ Use \link{calculate} to return the results
 \item If you provide a grouped object with \code{\link[dplyr:group_by]{dplyr::group_by()}}, it will generate a complete calendar for each group
 \item The function creates a \code{ti} object, which pre-processes the data and arguments for further downstream functions
 }
+\subsection{\strong{NA Handling}}{
+\itemize{
+\item NA values in the \code{.value} column propagate through cumulative sums (cumsum returns NA once an NA is encountered)
+\item NA values in the \code{.date} column are excluded from the calendar join and will not appear in results
+\item 
+\item Missing dates (gaps in your data) are filled with 0 values, not NA
+}
 
 \strong{standard calendar}
 \itemize{
@@ -43,6 +50,7 @@ Use \link{calculate} to return the results
 \itemize{
 \item The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
 \item This system is commonly used in retail and financial reporting
+}
 }
 }
 \examples{

@@ -2,30 +2,41 @@
 
 0 errors | 0 warnings | 1 note
 
-* This is a new submission.
+* The NOTE about "unable to verify current time" is a local system issue
+  and not related to the package.
 
-* The flagged words (YTD, MTD, QTD) are standard financial acronyms
-  for Year-to-date, Month-to-date, and Quarter-to-date respectively.
-  "backends" refers to database backends and is intentional.
+## Changes in this version (4.2.0)
 
-## Resubmission
+### Bug Fixes
+- Fixed test compatibility with contoso >= 2.1.0 (column renamed)
+- Fixed ABC temp table naming to prevent collisions in parallel usage
+- Fixed example in `abc()` documentation
 
-This is a resubmission addressing the following reviewer feedback:
+### Improvements
+- Added input validation for date/value column types with helpful error messages
+- Added comprehensive error handling tests (16 new tests, 102 total)
+- Replaced `assertthat` dependency with `cli::cli_abort` for consistent error handling
+- Removed `scales` dependency (inlined percent formatting)
+- Documented NA handling behavior in function documentation
 
-1. **Package names in single quotes**: Updated DESCRIPTION to use 'ti' and
-   'dbplyr' in single quotes as required.
+### Dependencies Reduced
+- Removed: `assertthat`, `scales`
+- Current Imports: cli, DBI, dbplyr, dplyr, duckdb, glue, janitor, lubridate, rlang, S7, tidyr
 
-2. **Removed "Tools for" from description**: Rewrote the Description field
-   to begin with the package's purpose directly.
+## Test environments
 
-3. **References**: This package implements time intelligence calculations
-   commonly used in financial planning tools. The methodology is based on
-   standard period-over-period and period-to-date calculations; there are
-   no specific academic references to cite.
+* local: Pop!_OS 22.04 LTS, R 4.5.2
+* GitHub Actions: ubuntu-latest, R release
+* R-hub: Windows, macOS, Linux
 
-4. **Examples for unexported function**: Removed examples from the internal
-   function `seq_date_sql()` which is marked with `@keywords internal`.
+## Previous CRAN feedback addressed
 
-5. **Replaced \\dontrun{} with \\donttest{}**: All examples now use
-   `\donttest{}` instead of `\dontrun{}` as the examples depend on the
-   suggested package 'contoso' for sample data.
+1. **Package names in single quotes**: DESCRIPTION uses 'ti' and 'dbplyr' in single quotes.
+
+2. **Removed "Tools for" from description**: Description begins with the package's purpose directly.
+
+3. **References**: This package implements standard time intelligence calculations
+   commonly used in financial planning tools (YTD, MTD, QTD, YoY, etc.).
+
+4. **Examples**: All examples use `\donttest{}` as they depend on the suggested
+   package 'contoso' for sample data.

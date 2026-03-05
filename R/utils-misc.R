@@ -1,3 +1,7 @@
+# ANSI escape code for green text (used by cli package)
+# Used to detect if an action string contains green styling
+CLI_GREEN_ANSI <- "32m"
+
 #' Validate an input is YYYY-MM-DD format
 #'
 #' @param x date column
@@ -125,7 +129,7 @@ print_actions_steps <- function(x){
   cli::cli_h2("Actions:")
 
 
-  if(any(grepl("32m",x@action@value[[1]]))){
+  if(any(grepl(CLI_GREEN_ANSI,x@action@value[[1]]))){
 
 
     cli::cli_text(x@action@value[[1]]," ",cli::col_blue(x@value@value_vec))
@@ -147,7 +151,7 @@ print_actions_steps <- function(x){
 
   ## prop of total
 
-  if(any(grepl("32m", x@action@value[[4]]))){
+  if(any(grepl(CLI_GREEN_ANSI, x@action@value[[4]]))){
 
 
     cli::cli_text(x@action@value[[4]])
@@ -161,7 +165,7 @@ print_actions_steps <- function(x){
   ## distinct count
 
 
-  if(any(grepl("32m", x@action@value[[5]]))){
+  if(any(grepl(CLI_GREEN_ANSI, x@action@value[[5]]))){
 
 
     cli::cli_text(x@action@value[[5]]," ",cli::col_blue(x@value@value_vec))
@@ -416,10 +420,9 @@ augment_standard_calendar <- function(.data,.date){
 
   .date_var <- rlang::enquo(.date)
 
-  assertthat::assert_that(
-    any(data_class %in% c("tbl","tbl_lazy"))
-    ,msg = ".data must be regular tibble or DBI lazy object"
-    )
+  if (!any(data_class %in% c("tbl", "tbl_lazy"))) {
+    cli::cli_abort("{.arg .data} must be a regular tibble or DBI lazy object.")
+  }
 
   if(any(data_class %in% "tbl_lazy")){
 
@@ -545,10 +548,9 @@ create_full_dbi <- function(x){
 make_db_tbl <- function(x) {
 
   # 1. Type Validation
-  assertthat::assert_that(
-    inherits(x, "data.frame") || inherits(x, "tbl_dbi"),
-    msg = "Input must be a data.frame, tibble, or tbl_dbi object."
-  )
+  if (!inherits(x, "data.frame") && !inherits(x, "tbl_dbi")) {
+    cli::cli_abort("Input must be a {.cls data.frame}, {.cls tibble}, or {.cls tbl_dbi} object.")
+  }
 
   # 2. Return early if already in a DB
   if (inherits(x, "tbl_dbi")) {
@@ -724,15 +726,19 @@ seq_date_sql <- function(
 
 
 
-  # assertthat::assert_that(assertthat::is.string(start_date), msg = "start_date must be a string (YYYY-MM-DD)")
+  valid_time_units <- c("day", "month", "quarter", "week", "year")
+  if (!any(time_unit %in% valid_time_units)) {
+    cli::cli_abort("{.arg time_unit} must be one of: {.val {valid_time_units}}.")
+  }
 
-  assertthat::assert_that(any(time_unit %in% c("day", "month","quarter", "week","year")),msg = "time_unit must be one of: 'day', 'week', 'quarter', 'month' or 'year'")
+  valid_calendar_types <- c("standard", "445", "454", "544")
+  if (!any(calendar_type %in% valid_calendar_types)) {
+    cli::cli_abort("{.arg calendar_type} must be one of: {.val {valid_calendar_types}}.")
+  }
 
-  # assertthat::assert_that(assertthat::is.string(end_date), msg = "end_date must be a string (YYYY-MM-DD)")
-
-  assertthat::assert_that(any(calendar_type %in% c("standard", "445", "454", "544")),msg = "calendar_type must be one of: 'standard', '445', '454', '544'")
-
-  assertthat::assert_that(assertthat::is.number(week_start) && week_start %in% 1:7,msg = "week_start must be an integer between 1 (Monday) and 7 (Sunday)")
+  if (!is.numeric(week_start) || length(week_start) != 1 || !week_start %in% 1:7) {
+    cli::cli_abort("{.arg week_start} must be an integer between 1 (Monday) and 7 (Sunday).")
+  }
 
 
   if(calendar_type %in% c("445", "454", "544")){

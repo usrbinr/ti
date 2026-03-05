@@ -21,19 +21,36 @@
 #' \donttest{
 #' contoso::sales |>
 #'   dplyr::group_by(product_key) |>
-#'   abc(c(.1,.5,.7,.96,1), .value = margin)
+#'   abc(c(.1,.5,.7,.96,1), .value = gross_margin)
 #' }
 #'
 abc <- function(.data,category_values,.value){
 
   if(!missing(.value)){
+    value_vec <- deparse(substitute(.value))
 
-  value_vec <- deparse(substitute(.value))
+    # Validate value column exists
+    col_names <- colnames(.data)
+    if (!value_vec %in% col_names) {
+      cli::cli_abort(c(
+        "Column {.field {value_vec}} not found in data.",
+        "i" = "Available columns: {.field {col_names}}"
+      ))
+    }
 
+    # Validate value column is numeric (for local data frames only)
+    if (inherits(.data, "data.frame") && !inherits(.data, "tbl_lazy")) {
+      value_col <- .data[[value_vec]]
+      if (!is.numeric(value_col)) {
+        cli::cli_abort(c(
+          "Column {.field {value_vec}} must be numeric.",
+          "x" = "Column {.field {value_vec}} has type {.cls {class(value_col)}}.",
+          "i" = "Convert with {.code as.numeric()}."
+        ))
+      }
+    }
   }else{
-
     value_vec="n"
-
   }
 
 
@@ -57,9 +74,9 @@ abc <- function(.data,category_values,.value){
       ")
     )
 
-  assertthat::assert_that(
-    x@datum@group_indicator,msg=cli::format_error(message="{.fn abc} expects a grouped tibble or dbi object. Please use {.fn group_by} to pass a grouped objected")
-  )
+  if (!x@datum@group_indicator) {
+    cli::cli_abort("{.fn abc} expects a grouped tibble or dbi object. Please use {.fn group_by} to pass a grouped object.")
+  }
 
 
 return(x)
@@ -123,7 +140,7 @@ abc_fn <- function(x){
   category_dbi <- dplyr::copy_to(
     dest = con,
     df = cat_lookup_df,
-    name = paste0("tmp_abc_", sample(1000:9999, 1)), # Random name to avoid collisions
+    name = paste0("tmp_abc_", format(Sys.time(), "%Y%m%d%H%M%S"), "_", sample(1e8, 1)),
     overwrite = TRUE,
     temporary = TRUE
   )

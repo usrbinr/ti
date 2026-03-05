@@ -24,7 +24,7 @@ execute:
 website:
   title: ti
   navbar:
-    title: ti 4.1.0
+    title: ti 4.2.0
     left:
     - text: Get started
       href: vignettes/articles/ti.qmd
@@ -46,7 +46,7 @@ website:
       aria-label: Source code
   page-footer:
     left: Built with [Quarto](https://quarto.org/) and [qrtdown](https://codeberg.org/usrbinr/qrtdown)
-    right: ti 4.1.0
+    right: ti 4.2.0
   repo-url: https://codeberg.org/usrbinr/ti
 format:
   html:

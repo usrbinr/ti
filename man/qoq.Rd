@@ -16,9 +16,9 @@ qoq(
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}
 
-\item{.date}{the date column to group by}
+\item{.date}{the date column to group by. Must be a Date or POSIXt type.}
 
-\item{.value}{the value column to summarize}
+\item{.value}{the value column to summarize. Must be numeric.}
 
 \item{calendar_type}{select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information}
 

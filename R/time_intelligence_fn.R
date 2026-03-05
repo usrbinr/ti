@@ -401,19 +401,7 @@ ytdopy_fn <- function(x) {
 #' @returns dbi object
 #' @keywords internal
 qtd_fn <- function(x) {
-  full_dbi <- create_full_dbi(x)
-
-  out_dbi <- full_dbi |>
-    dbplyr::window_order(date) |>
-    dplyr::mutate(
-      !!x@value@new_column_name_vec := base::cumsum(!!x@value@value_quo)
-      ,.by = c(year, quarter, !!!x@datum@group_quo)
-    ) |>
-    dplyr::ungroup() |>
-    dplyr::relocate(date, year) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"), .after = dplyr::last_col())
-
-  return(out_dbi)
+  td_template(x, by_cols = c("year", "quarter"), relocate_cols = c("date", "year"))
 }
 
 #' Previous quarter-to-date for tibble objects
@@ -563,26 +551,19 @@ pmtd_fn <- function(x) {
 #' @returns dbi object
 #' @keywords internal
 momtd_fn <- function(x) {
-
-  mtd_dbi <- mtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type) |>
-    calculate()
-
-  pmtd_dbi <- pmtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, lag_n = x@fn@lag_n) |>
-    calculate()
-
-  out_dbi <-
-    dplyr::full_join(
-      mtd_dbi
-      ,pmtd_dbi
-      ,by = dplyr::join_by(date == date, year, month, !!!x@datum@group_quo)
-    ) |>
-    dplyr::summarise(
-      dplyr::across(dplyr::contains(x@value@value_vec), \(x) sum(x, na.rm = TRUE))
-      ,.by = c(date, year, month, !!!x@datum@group_quo)
-    ) |>
-    dplyr::relocate(date, year, month)
-
-  return(out_dbi)
+  xoxtd_template(
+    x,
+    td_fn_call = function(x) {
+      mtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type) |>
+        mtd_fn()
+    },
+    ptd_fn_call = function(x) {
+      pmtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, lag_n = x@fn@lag_n) |>
+        pmtd_fn()
+    },
+    join_by_cols = c("year", "month"),
+    relocate_cols = c("date", "year", "month")
+  )
 }
 
 #' month-over-month execution function
@@ -680,29 +661,18 @@ pwtd_fn <- function(x) {
 #' @returns dbi object
 #' @keywords internal
 wowtd_fn <- function(x) {
+  # Note: Cannot use xoxtd_template because pwtd_fn drops 'week' column,
 
-  wtd_dbi <-
-    x@datum@data |>
-    dplyr::group_by(!!!x@datum@group_quo) |>
-    wtd(.data = _, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type) |>
-    calculate()
+  # and wowtd needs to preserve it via left_join without summarise.
+  wtd_dbi <- wtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type) |>
+    wtd_fn()
 
-  pwtd_dbi <-
-    x@datum@data |>
-    dplyr::group_by(!!!x@datum@group_quo) |>
-    pwtd(.data = _, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, lag_n = x@fn@lag_n) |>
-    calculate()
+  pwtd_dbi <- pwtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, lag_n = x@fn@lag_n) |>
+    pwtd_fn()
 
-  out_tbl <-
-    dplyr::left_join(
-      wtd_dbi
-      ,pwtd_dbi
-      ,by = dplyr::join_by(date, year, month, !!!x@datum@group_quo)
-    ) |>
+  dplyr::left_join(wtd_dbi, pwtd_dbi, by = dplyr::join_by(date, year, month, !!!x@datum@group_quo)) |>
     dplyr::relocate(date, year, month, week) |>
     dplyr::relocate(dplyr::any_of("missing_date_indicator"), .after = dplyr::last_col())
-
-  return(out_tbl)
 }
 
 #' Week-over-week execution function

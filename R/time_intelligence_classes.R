@@ -25,6 +25,42 @@ build_ti <- function(
     compare = NA_character_
 ) {
 
+ # Validate column existence
+  col_names <- colnames(.data)
+  if (!.date_chr %in% col_names) {
+    cli::cli_abort(c(
+      "Column {.field {(.date_chr)}} not found in data.",
+      "i" = "Available columns: {.field {col_names}}"
+    ))
+  }
+  if (!.value_chr %in% col_names) {
+    cli::cli_abort(c(
+      "Column {.field {(.value_chr)}} not found in data.",
+      "i" = "Available columns: {.field {col_names}}"
+    ))
+  }
+
+  # Validate column types (for local data frames only - can't check dbi types easily)
+  if (inherits(.data, "data.frame") && !inherits(.data, "tbl_lazy")) {
+    date_col <- .data[[.date_chr]]
+    if (!inherits(date_col, "Date") && !inherits(date_col, "POSIXt")) {
+      cli::cli_abort(c(
+        "Column {.field {(.date_chr)}} must be a Date or POSIXt type.",
+        "x" = "Column {.field {(.date_chr)}} has type {.cls {class(date_col)}}.",
+        "i" = "Convert with {.code as.Date()} or {.code lubridate::as_date()}."
+      ))
+    }
+
+    value_col <- .data[[.value_chr]]
+    if (!is.numeric(value_col)) {
+      cli::cli_abort(c(
+        "Column {.field {(.value_chr)}} must be numeric.",
+        "x" = "Column {.field {(.value_chr)}} has type {.cls {class(value_col)}}.",
+        "i" = "Convert with {.code as.numeric()}."
+      ))
+    }
+  }
+
   ti(
     datum(
       data             = .data
@@ -61,8 +97,8 @@ build_ti <- function(
 #' @title Current period year-to-date
 #' @name ytd
 #' @param .data tibble or dbi object (either grouped or ungrouped)
-#' @param .date the date column to group by
-#' @param .value the value column to summarize
+#' @param .date the date column to group by. Must be a Date or POSIXt type.
+#' @param .value the value column to summarize. Must be numeric.
 #' @param calendar_type select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information
 #' @param fiscal_year_start integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544').
 #'
@@ -74,6 +110,13 @@ build_ti <- function(
 #' -  This function creates a complete calendar object that fills in any missing days, weeks, months, quarters, or years
 #' -  If you provide a grouped object with [dplyr::group_by()], it will generate a complete calendar for each group
 #' -  The function creates a `ti` object, which pre-processes the data and arguments for further downstream functions
+#'
+#' **NA Handling**
+#' -
+#' -  NA values in the `.value` column propagate through cumulative sums (cumsum returns NA once an NA is encountered)
+#' -  NA values in the `.date` column are excluded from the calendar join and will not appear in results
+#' -
+#' -  Missing dates (gaps in your data) are filled with 0 values, not NA
 #'
 #' **standard calendar**
 #' -  The standard calendar splits the year into 12 months (with 28–31 days each) and uses a 7-day week

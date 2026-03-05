@@ -371,7 +371,10 @@ category <- S7::new_class(
       class=S7::class_numeric
       ,default=c(.7,.96,1)
       ,validator = \(value){
-        if(assertthat::assert_that(all(value<=1),msg = cli::format_error("Please ensure the category_values are less than or equal to 1"))){}
+        if (!all(value <= 1)) {
+          return("Please ensure the category_values are less than or equal to 1")
+        }
+        NULL
       }
     )
     ,category_names=S7::new_property(

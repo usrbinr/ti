@@ -1,4 +1,3 @@
-#' @importFrom scales percent
 NULL
 
 # create generics -----------
@@ -272,7 +271,7 @@ S7::method(print,segment_abc) <- function(x,...){
       "Then cumulative distribution was then arranged from lowest to highest and finally classified into"
       ,n_values_len
       ,"break points"
-      ,cli::col_yellow(paste(scales::percent(x@category@category_values), collapse = ", "))
+      ,cli::col_yellow(paste(paste0(round(x@category@category_values * 100), "%"), collapse = ", "))
       ," and labelled into the following categories"
       ,cli::col_br_blue(paste(x@category@category_names, collapse = ", "))
     )
