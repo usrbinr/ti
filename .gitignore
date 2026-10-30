@@ -18,3 +18,6 @@ _quarto.yml
 /articles/
 /citation.qmd
 /_freeze/
+
+# dev notes (local only)
+AI_TOOLING_PLAN.md

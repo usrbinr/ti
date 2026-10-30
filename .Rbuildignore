@@ -41,3 +41,7 @@ ti.Rproj
 ^_qrtdown$
 ^articles$
 ^README\.Rmd$
+
+# dev notes
+^AI_TOOLING_PLAN\.md$
+^CALCULATE_ROW_ORDER\.md$

@@ -19,4 +19,4 @@ MIT + file LICENSE
 
 :::
 
-{{< include README.qmd >}}
+{{< include README.md >}}
