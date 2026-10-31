@@ -31,8 +31,12 @@ This is also why only some flavours reported ERROR: the macOS flavours, where
 * Merged two roxygen blocks in `R/utils-misc.R` that had run together, which
   produced a malformed `@keywords` entry.
 
-Version 4.2.0 was prepared with the first of these fixes but was never published;
-4.2.1 is the version being submitted. See NEWS.md for the full list of changes
+* Removed empty list items from the inherited "NA Handling" details section,
+  which caused the "trimming empty <li>" HTML manual NOTE on the 4.2.1
+  pretest.
+
+Versions 4.2.0 and 4.2.1 were never published; 4.2.2 is the version being
+submitted. See NEWS.md for the full list of changes
 since 4.0.0.
 
 ## R CMD check results

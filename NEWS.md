@@ -1,3 +1,10 @@
+# ti 4.2.2
+
+## Documentation
+- Removed empty bullets from the "NA Handling" section of `ytd()` details,
+  inherited by 21 help pages, which produced "trimming empty <li>" HTML
+  validation NOTEs
+
 # ti 4.2.1
 
 ## Bug Fixes

@@ -10,13 +10,13 @@
 calculate(x, ...)
 
 ## S7 method for class <ti::ti>
-calculate(x, ...)
+\special{calculate(x, ...)}
 
 ## S7 method for class <ti::segment_cohort>
-calculate(x, ...)
+\special{calculate(x, ...)}
 
 ## S7 method for class <ti::segment_abc>
-calculate(x, ...)
+\special{calculate(x, ...)}
 }
 \arguments{
 \item{x}{ti object}

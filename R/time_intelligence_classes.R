@@ -112,10 +112,8 @@ build_ti <- function(
 #' -  The function creates a `ti` object, which pre-processes the data and arguments for further downstream functions
 #'
 #' **NA Handling**
-#' -
 #' -  NA values in the `.value` column propagate through cumulative sums (cumsum returns NA once an NA is encountered)
 #' -  NA values in the `.date` column are excluded from the calendar join and will not appear in results
-#' -
 #' -  Missing dates (gaps in your data) are filled with 0 values, not NA
 #'
 #' **standard calendar**

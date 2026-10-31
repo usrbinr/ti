@@ -3,7 +3,7 @@ template:
   theme: cosmo
   code_overflow: wrap
 navbar:
-  title: ti 4.2.1
+  title: ti 4.2.2
   left:
   - text: Articles
     href: articles.qmd

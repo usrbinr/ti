@@ -8,7 +8,7 @@
 create_calendar(x, ...)
 
 ## S7 method for class <ti::ti>
-create_calendar(x, ...)
+\special{create_calendar(x, ...)}
 }
 \arguments{
 \item{x}{ti object}

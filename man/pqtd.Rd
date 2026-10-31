@@ -43,11 +43,11 @@ use \link{calculate} to return the results
 \item If you provide a grouped object with \code{\link[dplyr:group_by]{dplyr::group_by()}}, it will generate a complete calendar for each group
 \item The function creates a \code{ti} object, which pre-processes the data and arguments for further downstream functions
 }
-\subsection{\strong{NA Handling}}{
+
+\strong{NA Handling}
 \itemize{
 \item NA values in the \code{.value} column propagate through cumulative sums (cumsum returns NA once an NA is encountered)
 \item NA values in the \code{.date} column are excluded from the calendar join and will not appear in results
-\item 
 \item Missing dates (gaps in your data) are filled with 0 values, not NA
 }
 
@@ -61,7 +61,6 @@ use \link{calculate} to return the results
 \itemize{
 \item The 5-5-4 calendar divides the fiscal year into 52 weeks (occasionally 53), organizing each quarter into two 5-week periods and one 4-week period.
 \item This system is commonly used in retail and financial reporting
-}
 }
 }
 \examples{
