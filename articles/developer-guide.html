@@ -350,6 +350,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul class="collapse">
 <li><a href="#the-actions-checklist" id="toc-the-actions-checklist" class="nav-link" data-scroll-target="#the-actions-checklist">The Actions checklist</a></li>
   <li><a href="#the-assumptions-block" id="toc-the-assumptions-block" class="nav-link" data-scroll-target="#the-assumptions-block">The Assumptions block</a></li>
+  <li><a href="#settings-that-have-no-effect" id="toc-settings-that-have-no-effect" class="nav-link" data-scroll-target="#settings-that-have-no-effect">Settings that have no effect</a></li>
   <li><a href="#the-segment-classes-print-differently" id="toc-the-segment-classes-print-differently" class="nav-link" data-scroll-target="#the-segment-classes-print-differently">The segment classes print differently</a></li>
   <li><a href="#when-you-add-a-function" id="toc-when-you-add-a-function" class="nav-link" data-scroll-target="#when-you-add-a-function">When you add a function</a></li>
   </ul>
@@ -591,7 +592,7 @@ This persists across sessions and is shared with the DuckDB CLI and other client
     xox_template(x, drop_cols = c("year", "quarter", "month", 
         "week"), relocate_cols = c("date", "year", "month", "week"))
 }
-&lt;bytecode: 0x60e041f67690&gt;
+&lt;bytecode: 0x64ad84bc1ad0&gt;
 &lt;environment: namespace:ti&gt;</code></pre>
 </div>
 </div>
@@ -837,11 +838,79 @@ This persists across sessions and is shared with the DuckDB CLI and other client
 <td>Grouped data.</td>
 </tr>
 <tr class="even">
+<td>A changed <code>week_start</code> or <code>fiscal_year_start</code> that has no effect here, e.g. <code>week_start = 1</code> on <a href="../reference/mom.html"><code>mom()</code></a> with the standard calendar</td>
+<td>Standard calendar, when the setting differs from its default.</td>
+</tr>
+<tr class="odd">
 <td>The database has not been tested</td>
 <td>Connections other than DuckDB.</td>
 </tr>
 </tbody>
-</table>
+</table></section><section id="settings-that-have-no-effect" class="level3"><h3 class="anchored" data-anchor-id="settings-that-have-no-effect">Settings that have no effect</h3>
+<p><code>week_start</code> and <code>fiscal_year_start</code> are on every function because the retail calendars build every fiscal period from whole weeks. On the standard calendar <code>fiscal_year_start</code> does nothing, and <code>week_start</code> only affects the week functions and the <code>week</code> column of daily results. <a href="../reference/ignored_settings.html"><code>ignored_settings()</code></a> returns one sentence for each setting that was changed from its default but has no effect. <code>build_ti()</code> shows it as a message when the object is built, and <a href="../reference/print_assumptions.html"><code>print_assumptions()</code></a> adds it to the Assumptions block:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mom</span>(<span class="at">.date =</span> order_date, <span class="at">.value =</span> net_revenue, <span class="at">week_start =</span> <span class="dv">1</span>)</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>duckdb is storing downloaded extensions and secrets under ~/.duckdb:
+ℹ /home/hagan/.duckdb
+This persists across sessions and is shared with the DuckDB CLI and other clients.
+ℹ Run duckdb(shared_home = FALSE) to use a temporary directory instead.
+ℹ See ?duckdb_storage for details and alternatives.
+
+
+── Month over month ────────────────────────────────────────────────────────────
+
+Function: `mom` (nothing has been calculated yet)
+
+
+
+── Description: ──
+
+
+
+This creates a full month `sum()` of the previous month net_revenue and
+compares it with the full month `sum()` current month net_revenue from the
+start of the standard calendar month to the end of the month
+
+
+
+── Calendar: ──</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>• The calendar aggregated order_date to the month time unit
+• A standard calendar is created with 0 groups
+• Calendar ranges from 2021-05-18 to 2024-04-20
+• 0 of 36 months had no data and are filled with 0
+• New date column date, year, quarter, month was created from order_date</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Assumptions: ──
+
+• One row per month, dated by the first day of the month
+• Each month's total is shown next to the total 1 month earlier; the first
+  month has no earlier month and shows NA
+
+── Actions: ──</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>✔ Aggregate net_revenue
+✔ Shift 1 month
+✔ Compare previous full month
+✖ Proportion of Total
+✖ Count Distinct</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Next Steps: ──
+
+• Use `calculate()` to return the results
+────────────────────────────────────────────────────────────────────────────────</code></pre>
+</div>
+</div>
+<p>Compound functions such as <a href="../reference/yoytd.html"><code>yoytd()</code></a> build inner objects (<a href="../reference/ytd.html"><code>ytd()</code></a> and <a href="../reference/pytd.html"><code>pytd()</code></a>) during <a href="../reference/calculate.html"><code>calculate()</code></a>, and those inner calls always pass the settings on. <a href="../reference/calculate.html"><code>calculate()</code></a> sets the option <code>ti.inner_call</code> while it runs, and <code>build_ti()</code> stays quiet when it is set, so the message appears once.</p>
 <p><a href="../reference/print_assumptions.html"><code>print_assumptions()</code></a> uses two lookups on <code>fn@fn_name</code>: the template family and the period unit (<code>pmtd</code> is <code>ptd</code> and <code>month</code>). It builds every line from settings, so it runs no query.</p>
 </section><section id="the-segment-classes-print-differently" class="level3"><h3 class="anchored" data-anchor-id="the-segment-classes-print-differently">The segment classes print differently</h3>
 <p><code>segment_abc</code> and <code>segment_cohort</code> have their own <a href="../reference/print.html"><code>print()</code></a> methods. They share <a href="../reference/print_fn_info.html"><code>print_fn_info()</code></a> for the header, then replace the calendar block with a <strong>Category Information</strong> block. For <a href="../reference/abc.html"><code>abc()</code></a> that describes how the groups are ranked and bucketed into the <code>category_values</code> thresholds; for <a href="../reference/cohort.html"><code>cohort()</code></a> it describes how members are assigned to their first period.</p>
@@ -893,10 +962,10 @@ This persists across sessions and is shared with the DuckDB CLI and other client
 <p>You can see the SQL at any point with <code>show_query()</code>. The full query is several hundred lines, so only the start is shown here:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>sql <span class="ot">&lt;-</span> contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
-<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wow</span>(<span class="at">.date =</span> order_date, <span class="at">.value =</span> net_revenue) <span class="sc">|&gt;</span></span>
-<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>() <span class="sc">|&gt;</span></span>
-<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  dbplyr<span class="sc">::</span><span class="fu">sql_render</span>()</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>sql <span class="ot">&lt;-</span> contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wow</span>(<span class="at">.date =</span> order_date, <span class="at">.value =</span> net_revenue) <span class="sc">|&gt;</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>() <span class="sc">|&gt;</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  dbplyr<span class="sc">::</span><span class="fu">sql_render</span>()</span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <div class="cell-output cell-output-stderr">
@@ -907,14 +976,14 @@ This persists across sessions and is shared with the DuckDB CLI and other client
 ℹ See ?duckdb_storage for details and alternatives.</code></pre>
 </div>
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">strsplit</span>(sql, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)[[<span class="dv">1</span>]])   <span class="co"># lines of SQL</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">strsplit</span>(sql, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)[[<span class="dv">1</span>]])   <span class="co"># lines of SQL</span></span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] 347</code></pre>
 </div>
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">head</span>(<span class="fu">strsplit</span>(sql, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)[[<span class="dv">1</span>]], <span class="dv">30</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">head</span>(<span class="fu">strsplit</span>(sql, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)[[<span class="dv">1</span>]], <span class="dv">30</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <div class="cell-output cell-output-stdout">
@@ -1040,13 +1109,13 @@ FROM (
 <p>This is how weeks behave on the standard calendar with Sunday weeks. 2024-01-01 is a Monday:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">date =</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">"2023-12-29"</span>), <span class="fu">as.Date</span>(<span class="st">"2024-01-09"</span>), <span class="st">"day"</span>), <span class="at">value =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
-<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wtd</span>(<span class="at">.date =</span> date, <span class="at">.value =</span> value) <span class="sc">|&gt;</span></span>
-<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>() <span class="sc">|&gt;</span></span>
-<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
-<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">|&gt;</span></span>
-<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weekday =</span> <span class="fu">weekdays</span>(<span class="fu">as.Date</span>(date))) <span class="sc">|&gt;</span></span>
-<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, weekday, year, month, week, wtd_value)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">date =</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">"2023-12-29"</span>), <span class="fu">as.Date</span>(<span class="st">"2024-01-09"</span>), <span class="st">"day"</span>), <span class="at">value =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wtd</span>(<span class="at">.date =</span> date, <span class="at">.value =</span> value) <span class="sc">|&gt;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>() <span class="sc">|&gt;</span></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">|&gt;</span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weekday =</span> <span class="fu">weekdays</span>(<span class="fu">as.Date</span>(date))) <span class="sc">|&gt;</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, weekday, year, month, week, wtd_value)</span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <div class="cell-output cell-output-stderr">
@@ -1090,12 +1159,12 @@ This persists across sessions and is shared with the DuckDB CLI and other client
 <p>You can call the internal function directly when debugging:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
-<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wow</span>(<span class="at">.date =</span> order_date, <span class="at">.value =</span> net_revenue) <span class="sc">|&gt;</span></span>
-<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  ti<span class="sc">:::</span><span class="fu">create_full_dbi</span>() <span class="sc">|&gt;</span></span>
-<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
-<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">|&gt;</span></span>
-<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb42"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wow</span>(<span class="at">.date =</span> order_date, <span class="at">.value =</span> net_revenue) <span class="sc">|&gt;</span></span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>  ti<span class="sc">:::</span><span class="fu">create_full_dbi</span>() <span class="sc">|&gt;</span></span>
+<span id="cb42-4"><a href="#cb42-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
+<span id="cb42-5"><a href="#cb42-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">|&gt;</span></span>
+<span id="cb42-6"><a href="#cb42-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <div class="cell-output cell-output-stderr">
@@ -1174,9 +1243,9 @@ This persists across sessions and is shared with the DuckDB CLI and other client
 <section id="td_template-running-totals" class="level3"><h3 class="anchored" data-anchor-id="td_template-running-totals">
 <code>td_template</code>: running totals</h3>
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>full_dbi <span class="sc">|&gt;</span></span>
-<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  dbplyr<span class="sc">::</span><span class="fu">window_order</span>(date) <span class="sc">|&gt;</span></span>
-<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">wtd_value =</span> <span class="fu">cumsum</span>(value), <span class="at">.by =</span> <span class="fu">c</span>(year, week, <span class="sc">&lt;</span>groups<span class="sc">&gt;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>full_dbi <span class="sc">|&gt;</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>  dbplyr<span class="sc">::</span><span class="fu">window_order</span>(date) <span class="sc">|&gt;</span></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">wtd_value =</span> <span class="fu">cumsum</span>(value), <span class="at">.by =</span> <span class="fu">c</span>(year, week, <span class="sc">&lt;</span>groups<span class="sc">&gt;</span>))</span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <p><code>.by</code> decides where the running total restarts: <code>year</code> for <code>ytd</code>, <code>year, quarter</code> for <code>qtd</code>, <code>year, month</code> for <code>mtd</code>, <code>year, week</code> for <code>wtd</code>, and only the groups for <code>atd</code>. It becomes a SQL window function: <code>SUM(value) OVER (PARTITION BY year, week ORDER BY date)</code>.</p>
@@ -1282,10 +1351,10 @@ This persists across sessions and is shared with the DuckDB CLI and other client
 <code>ptd_template</code>: previous period to date</h3>
 <p>For each calendar day, <code>ptd_template</code> works out the <strong>cutoff</strong>: the same point in the earlier period. It then looks up the earlier period’s running total on that cutoff date.</p>
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>td  <span class="ot">&lt;-</span> full_dbi <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">.ti_td =</span> <span class="fu">cumsum</span>(value), <span class="at">.by =</span> <span class="fu">c</span>(year, month, <span class="sc">&lt;</span>groups<span class="sc">&gt;</span>))</span>
-<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> full_dbi <span class="sc">|&gt;</span></span>
-<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.ti_cutoff =</span> <span class="sc">&lt;</span>cutoff SQL<span class="sc">&gt;</span>) <span class="sc">|&gt;</span></span>
-<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(td, <span class="at">by =</span> <span class="fu">c</span>(<span class="at">.ti_cutoff =</span> date, <span class="sc">&lt;</span>groups<span class="sc">&gt;</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb46"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a>td  <span class="ot">&lt;-</span> full_dbi <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">.ti_td =</span> <span class="fu">cumsum</span>(value), <span class="at">.by =</span> <span class="fu">c</span>(year, month, <span class="sc">&lt;</span>groups<span class="sc">&gt;</span>))</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> full_dbi <span class="sc">|&gt;</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.ti_cutoff =</span> <span class="sc">&lt;</span>cutoff SQL<span class="sc">&gt;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(td, <span class="at">by =</span> <span class="fu">c</span>(<span class="at">.ti_cutoff =</span> date, <span class="sc">&lt;</span>groups<span class="sc">&gt;</span>))</span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <p>The cutoff comes from <a href="../reference/sql_period_cutoff.html"><code>sql_period_cutoff()</code></a> in <code>R/utils-misc.R</code>:</p>
@@ -1423,7 +1492,7 @@ This persists across sessions and is shared with the DuckDB CLI and other client
 <li>Add a line to <code>specs</code> in <code>test-reference-values.R</code>:</li>
 </ol>
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>newfn <span class="ot">=</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"td"</span>, <span class="at">unit =</span> <span class="st">"month"</span>, <span class="at">cols =</span> <span class="fu">c</span>(<span class="at">td =</span> <span class="st">"newfn_value"</span>))</span></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>newfn <span class="ot">=</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"td"</span>, <span class="at">unit =</span> <span class="st">"month"</span>, <span class="at">cols =</span> <span class="fu">c</span>(<span class="at">td =</span> <span class="st">"newfn_value"</span>))</span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <ol start="4" type="1">

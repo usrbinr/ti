@@ -358,6 +358,8 @@ ul.task-list li input[type="checkbox"] {
 </ul></section><section id="changes" class="level2"><h2 class="anchored" data-anchor-id="changes">Changes</h2>
 <ul>
 <li>New <code>week_start</code> argument on every time intelligence function (1 = Monday to 7 = Sunday, default 7). On the standard calendar, weeks start on that day and week 1 is the week containing 1 January, so only the weeks either side of 1 January can be partial. Weeks no longer split at month ends. On retail calendars, <code>week_start</code> sets the weekday fiscal periods start on.</li>
+<li>
+<code>week_start</code> and <code>fiscal_year_start</code> are on every function because the retail calendars build every fiscal period from whole weeks. On the standard calendar <code>fiscal_year_start</code> has no effect and <code>week_start</code> only affects the week functions and the <code>week</code> column. Changing either where it has no effect now shows a message, and the printed summary says the same.</li>
 <li>The <code>week</code> column now follows <code>week_start</code>. It was previously the ISO week for day-level results.</li>
 <li>
 <a href="reference/wtd.html"><code>wtd()</code></a>, <a href="reference/pwtd.html"><code>pwtd()</code></a> and <a href="reference/wowtd.html"><code>wowtd()</code></a> now reset at the start of each week. They previously reset at seven-day blocks counted from 1 January and at every month end.</li>
