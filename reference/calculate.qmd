@@ -48,7 +48,7 @@ Instead, they return a blueprint object (of class <code>ti</code>,<code>segment_
 </p>
 <p><strong><code>calculate()</code></strong> serves as the <strong>execution engine</strong>.
 </p>
-<p>When called, it interprets the blueprint and generates optimized R code or SQL code (using the <code>dbplyr</code> package) that is then executed efficiently on the data source, whether it's an in-memory <code>tibble</code> or a remote database backend (like <code>duckdb</code> or <code>snowflake</code>).
+<p>When called, it interprets the blueprint and generates optimized R code or SQL code (using the <code>dbplyr</code> package) that is then executed efficiently on the data source, whether it's an in-memory <code>tibble</code> or a 'DuckDB' table.
 This approach minimizes data transfer and improves performance for large datasets.
 </p>
 <p>The resulting table will be sorted by the relevant date column to ensure the correct temporal ordering of the calculated metrics.

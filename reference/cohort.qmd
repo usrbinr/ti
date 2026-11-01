@@ -10,7 +10,7 @@ Source: [`R/abc.R`](https://codeberg.org/usrbinr/ti/src/branch/main/R/abc.R)
 <p>Database-friendly cohort analysis function.
 A remake of <a href="https://github.com/PeerChristensen/cohorts">https://github.com/PeerChristensen/cohorts</a>, combining
 <code>cohort_table_month</code>, <code>cohort_table_year</code>, and <code>cohort_table_day</code> into a single package.
-Rewritten for database compatibility and tested with Snowflake and DuckDB.
+Rewritten for database compatibility; runs entirely in SQL without writing tables.
 </p>
 
 ## Usage

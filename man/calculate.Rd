@@ -37,7 +37,7 @@ Instead, they return a blueprint object (of class \code{ti},\code{segment_abc} o
 
 \strong{\code{calculate()}} serves as the \strong{execution engine}.
 
-When called, it interprets the blueprint and generates optimized R code or SQL code (using the \code{dbplyr} package) that is then executed efficiently on the data source, whether it's an in-memory \code{tibble} or a remote database backend (like \code{duckdb} or \code{snowflake}).
+When called, it interprets the blueprint and generates optimized R code or SQL code (using the \code{dbplyr} package) that is then executed efficiently on the data source, whether it's an in-memory \code{tibble} or a 'DuckDB' table.
 This approach minimizes data transfer and improves performance for large datasets.
 
 The resulting table will be sorted by the relevant date column to ensure the correct temporal ordering of the calculated metrics.

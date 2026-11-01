@@ -1,0 +1,1910 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<meta name="author" content="Alejandro Hagan">
+<title>How ti Works: A Developer Guide – ti</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script><script src="../site_libs/quarto-nav/headroom.min.js"></script><script src="../site_libs/clipboard/clipboard.min.js"></script><script src="../site_libs/quarto-search/autocomplete.umd.js"></script><script src="../site_libs/quarto-search/fuse.min.js"></script><script src="../site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script><script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script><script src="../site_libs/quarto-html/popper.min.js"></script><script src="../site_libs/quarto-html/tippy.umd.min.js"></script><script src="../site_libs/quarto-html/anchor.min.js"></script><link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-9b13294eb98a7ccc9837366643235be5.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-ad7a70ee837950f74c3137b2b7f1bb4b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-9b13294eb98a7ccc9837366643235be5.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script><link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-ba65e179c372ab0ad923dd8256d1e903.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e88222ba7634d963ea3bd0cd043d76cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-ba65e179c372ab0ad923dd8256d1e903.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script><script src="../site_libs/quarto-diagram/mermaid.min.js"></script><script src="../site_libs/quarto-diagram/mermaid-init.js"></script><link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+<link rel="stylesheet" href="../_qrtdown-styles.css">
+</head>
+<body class="nav-fixed quarto-light">
+<script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script><div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">ti 4.3.0</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+<li class="nav-item">
+    <a class="nav-link" href="../articles/ti.html"> 
+<span class="menu-text">Get started</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-articles" role="link" data-bs-toggle="dropdown" aria-expanded="false">
+ <span class="menu-text">Articles</span>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="nav-menu-articles">
+<li>
+    <a class="dropdown-item" href="../articles/abc.html">
+ <span class="dropdown-text">ABC Classification</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/calendar_types.html">
+ <span class="dropdown-text">Standard vs. Non-Standard Calendars</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/cohort.html">
+ <span class="dropdown-text">Cohort</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/databases.html">
+ <span class="dropdown-text">Working with Databases</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/developer-guide.html">
+ <span class="dropdown-text">How ti Works: A Developer Guide</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../articles/index.html">
+ <span class="dropdown-text">More articles… (3 more)</span></a>
+  </li>  
+    </ul>
+</li>
+  <li class="nav-item">
+    <a class="nav-link" href="../reference/index.html"> 
+<span class="menu-text">Reference</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../NEWS.html"> 
+<span class="menu-text">Changelog</span></a>
+  </li>  
+</ul>
+<ul class="navbar-nav navbar-nav-scroll ms-auto">
+<li class="nav-item compact">
+    <a class="nav-link" href="https://codeberg.org/usrbinr/ti"> <i class="bi bi-code-square" role="img" aria-label="Source code">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+</div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav></header><!-- content --><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active"><h2 id="toc-title">On this page</h2>
+   
+  <ul>
+<li><a href="#the-principles" id="toc-the-principles" class="nav-link active" data-scroll-target="#the-principles">The principles</a></li>
+  <li>
+<a href="#the-s7-classes" id="toc-the-s7-classes" class="nav-link" data-scroll-target="#the-s7-classes">The S7 classes</a>
+  <ul class="collapse">
+<li><a href="#methods" id="toc-methods" class="nav-link" data-scroll-target="#methods">Methods</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#printing-explain-before-computing" id="toc-printing-explain-before-computing" class="nav-link" data-scroll-target="#printing-explain-before-computing">Printing: explain before computing</a>
+  <ul class="collapse">
+<li><a href="#the-actions-checklist" id="toc-the-actions-checklist" class="nav-link" data-scroll-target="#the-actions-checklist">The Actions checklist</a></li>
+  <li><a href="#the-assumptions-block" id="toc-the-assumptions-block" class="nav-link" data-scroll-target="#the-assumptions-block">The Assumptions block</a></li>
+  <li><a href="#the-segment-classes-print-differently" id="toc-the-segment-classes-print-differently" class="nav-link" data-scroll-target="#the-segment-classes-print-differently">The segment classes print differently</a></li>
+  <li><a href="#when-you-add-a-function" id="toc-when-you-add-a-function" class="nav-link" data-scroll-target="#when-you-add-a-function">When you add a function</a></li>
+  </ul>
+</li>
+  <li><a href="#from-a-call-to-a-result" id="toc-from-a-call-to-a-result" class="nav-link" data-scroll-target="#from-a-call-to-a-result">From a call to a result</a></li>
+  <li>
+<a href="#the-calendar" id="toc-the-calendar" class="nav-link" data-scroll-target="#the-calendar">The calendar</a>
+  <ul class="collapse">
+<li><a href="#labels-define-the-periods" id="toc-labels-define-the-periods" class="nav-link" data-scroll-target="#labels-define-the-periods">Labels define the periods</a></li>
+  <li><a href="#why-labels-instead-of-floor_date" id="toc-why-labels-instead-of-floor_date" class="nav-link" data-scroll-target="#why-labels-instead-of-floor_date">Why labels instead of <code>floor_date()</code></a></li>
+  <li><a href="#data-goes-through-the-same-map" id="toc-data-goes-through-the-same-map" class="nav-link" data-scroll-target="#data-goes-through-the-same-map">Data goes through the same map</a></li>
+  <li><a href="#grouped-data" id="toc-grouped-data" class="nav-link" data-scroll-target="#grouped-data">Grouped data</a></li>
+  </ul>
+</li>
+  <li>
+<a href="#the-five-templates" id="toc-the-five-templates" class="nav-link" data-scroll-target="#the-five-templates">The five templates</a>
+  <ul class="collapse">
+<li><a href="#td_template-running-totals" id="toc-td_template-running-totals" class="nav-link" data-scroll-target="#td_template-running-totals"><code>td_template</code>: running totals</a></li>
+  <li><a href="#xox_template-period-over-period" id="toc-xox_template-period-over-period" class="nav-link" data-scroll-target="#xox_template-period-over-period"><code>xox_template</code>: period over period</a></li>
+  <li><a href="#ptd_template-previous-period-to-date" id="toc-ptd_template-previous-period-to-date" class="nav-link" data-scroll-target="#ptd_template-previous-period-to-date"><code>ptd_template</code>: previous period to date</a></li>
+  <li><a href="#xoxtd_template-and-tdopx_template-combinations" id="toc-xoxtd_template-and-tdopx_template-combinations" class="nav-link" data-scroll-target="#xoxtd_template-and-tdopx_template-combinations"><code>xoxtd_template</code> and <code>tdopx_template</code>: combinations</a></li>
+  </ul>
+</li>
+  <li><a href="#database-support" id="toc-database-support" class="nav-link" data-scroll-target="#database-support">Database support</a></li>
+  <li>
+<a href="#testing" id="toc-testing" class="nav-link" data-scroll-target="#testing">Testing</a>
+  <ul class="collapse">
+<li><a href="#what-runs-on-cran" id="toc-what-runs-on-cran" class="nav-link" data-scroll-target="#what-runs-on-cran">What runs on CRAN</a></li>
+  <li><a href="#adding-a-new-function" id="toc-adding-a-new-function" class="nav-link" data-scroll-target="#adding-a-new-function">Adding a new function</a></li>
+  </ul>
+</li>
+  <li><a href="#known-rough-edges" id="toc-known-rough-edges" class="nav-link" data-scroll-target="#known-rough-edges">Known rough edges</a></li>
+  <li><a href="#where-things-live" id="toc-where-things-live" class="nav-link" data-scroll-target="#where-things-live">Where things live</a></li>
+  </ul></nav>
+</div>
+<!-- main -->
+<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block default"><div class="quarto-title">
+<h1 class="title">How ti Works: A Developer Guide</h1>
+<p class="subtitle lead">The objects, the calendar, the templates, and how every number is tested</p>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Alejandro Hagan </p>
+          </div>
+  </div>
+    
+  
+    
+  </div>
+  
+
+
+</header><p>This article is for working <strong>on</strong> <code>ti</code> rather than <strong>with</strong> it. It walks through what happens between calling <a href="../reference/wow.html"><code>wow()</code></a> and getting a table back, why the code is shaped the way it is, and where to look when something goes wrong.</p>
+<section id="the-principles" class="level2"><h2 class="anchored" data-anchor-id="the-principles">The principles</h2>
+<p>Everything else in the package follows from six rules.</p>
+<ol type="1">
+<li>
+<strong>Lazy, and run in the database.</strong> A function like <a href="../reference/ytd.html"><code>ytd()</code></a> only <em>describes</em> the calculation. <a href="../reference/calculate.html"><code>calculate()</code></a> turns that description into SQL, and nothing runs until <code>collect()</code>. Tibbles are put into an in-memory DuckDB first, so there is one code path for everything.</li>
+<li>
+<strong>One read-only query.</strong> <code>ti</code> never writes to the user’s database. The calendar is generated inside the query (a CTE on the standard calendar, <a href="https://dbplyr.tidyverse.org/reference/copy_inline.html" class="external-link"><code>dbplyr::copy_inline()</code></a> on the retail calendars), so read-only access is enough.</li>
+<li>
+<strong>Calendar first.</strong> Every calculation starts from a complete calendar: exactly one row per period, with no gaps. Running totals, shifts and comparisons are only correct if that holds, so it is tested on its own (see <a href="#testing">Testing</a>).</li>
+<li>
+<strong>Periods come from labels, never from date arithmetic.</strong> A week, month, quarter or year is <em>the set of days that share its labels</em> (for example <code>year = 2024, week = 5</code>), dated by its first day. Rounding dates down with <code>floor_date()</code> is what caused the 4.2 duplicate-row bugs, because a calendar unit and a period’s labels can disagree.</li>
+<li>
+<strong>Objects describe, templates compute.</strong> S7 objects hold the settings, and a small number of shared <em>templates</em> do the work. Twenty-two functions share five templates, so a fix in one template fixes every function that uses it.</li>
+<li>
+<strong>Explain before computing.</strong> Printing an object shows, in plain language, what it <em>will</em> do: the calculation, the calendar it will build, the <strong>assumptions</strong> behind its numbers, the steps it will take, and what to call next. You can check a calculation’s setup before running a query, and a reviewer can read what a number means without reading the code.</li>
+</ol></section><section id="the-s7-classes" class="level2"><h2 class="anchored" data-anchor-id="the-s7-classes">The S7 classes</h2>
+<p>All objects are <a href="https://rconsortium.github.io/S7/" class="external-link">S7</a> classes defined in <code>R/classes.R</code>. A time intelligence function returns a <code>ti</code> object, which is made of five smaller objects:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p>
+<figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">classDiagram
+  class ti {
+    datum
+    time_unit
+    value
+    fn
+    action
+  }
+  class datum {
+    data
+    calendar_type
+    fiscal_year_start
+    week_start
+    date_vec
+    computed: date_quo, min_date, max_date, group_quo, ...
+  }
+  class time_unit {
+    value: day | week | month | quarter | year
+  }
+  class value {
+    value_vec
+    new_column_name_vec
+    computed: value_quo, new_column_name_quo
+  }
+  class fn {
+    fn_exec
+    fn_name, fn_long_name
+    lag_n, shift, compare
+    new_date_column_name
+  }
+  class action {
+    value
+    method
+  }
+  ti *-- datum
+  ti *-- time_unit
+  ti *-- value
+  ti *-- fn
+  ti *-- action
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead><tr class="header">
+<th>Class</th>
+<th>What it holds</th>
+<th>Notes</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>datum</code></td>
+<td>The data and everything about its dates: which column is the date, the calendar type, <code>fiscal_year_start</code>, <code>week_start</code>, and the groups.</td>
+<td>The <code>data</code> setter runs <a href="../reference/make_db_tbl.html"><code>make_db_tbl()</code></a>, so a tibble becomes a DuckDB table the moment it is stored. Most other properties are <strong>computed getters</strong> (<code>min_date</code>, <code>max_date</code>, <code>group_quo</code>, …) that are recalculated every time they are read.</td>
+</tr>
+<tr class="even">
+<td><code>time_unit</code></td>
+<td>The grain of the calendar: <code>"day"</code>, <code>"week"</code>, <code>"month"</code>, <code>"quarter"</code> or <code>"year"</code>.</td>
+<td>
+<a href="../reference/ytd.html"><code>ytd()</code></a> works daily, <a href="../reference/yoy.html"><code>yoy()</code></a> yearly, <a href="../reference/wow.html"><code>wow()</code></a> weekly.</td>
+</tr>
+<tr class="odd">
+<td><code>value</code></td>
+<td>The column being measured, and the output column name.</td>
+<td>Setting <code>new_column_name_vec</code> to <code>"wow"</code> stores <code>"wow_net_revenue"</code>. The <code>_quo</code> getters turn names into symbols for tidy evaluation.</td>
+</tr>
+<tr class="even">
+<td><code>fn</code></td>
+<td>Which function to run and its parameters.</td>
+<td>
+<code>fn_exec</code> is the important one: it is the internal <code>*_fn()</code> that <a href="../reference/calculate.html"><code>calculate()</code></a> calls. <code>lag_n</code> lives here too.</td>
+</tr>
+<tr class="odd">
+<td><code>action</code></td>
+<td>Text for <a href="../reference/print.html"><code>print()</code></a>: the description and the ticked/unticked steps.</td>
+<td>It has no effect on the numbers.</td>
+</tr>
+</tbody>
+</table>
+<p>Two more top-level classes reuse the same pieces:</p>
+<ul>
+<li>
+<code>segment_abc</code> (from <a href="../reference/abc.html"><code>abc()</code></a>): <code>datum</code>, <code>category</code>, <code>time_unit</code>, <code>fn</code>, <code>action</code>, <code>value</code>. The <code>category</code> class holds the thresholds (<code>category_values</code>) and the names.</li>
+<li>
+<code>segment_cohort</code> (from <a href="../reference/cohort.html"><code>cohort()</code></a>): <code>datum</code>, <code>time_unit</code>, <code>fn</code>, <code>action</code>, <code>value</code>.</li>
+</ul>
+<p>You can look inside any object with <code>@</code>:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>x <span class="ot">&lt;-</span> contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wow</span>(<span class="at">.date =</span> order_date, <span class="at">.value =</span> net_revenue, <span class="at">week_start =</span> <span class="dv">1</span>)</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>duckdb is storing downloaded extensions and secrets under ~/.duckdb:
+ℹ /home/hagan/.duckdb
+This persists across sessions and is shared with the DuckDB CLI and other clients.
+ℹ Run duckdb(shared_home = FALSE) to use a temporary directory instead.
+ℹ See ?duckdb_storage for details and alternatives.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(x)</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "ti::ti"    "S7_object"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">@</span>time_unit<span class="sc">@</span>value</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "week"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">@</span>datum<span class="sc">@</span>calendar_type</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "standard"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">@</span>datum<span class="sc">@</span>week_start</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">@</span>value<span class="sc">@</span>new_column_name_vec</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "wow_net_revenue"</code></pre>
+</div>
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">@</span>fn<span class="sc">@</span>lag_n</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 1</code></pre>
+</div>
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>x<span class="sc">@</span>fn<span class="sc">@</span>fn_exec   <span class="co"># the internal function calculate() will call</span></span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>function (x) 
+{
+    xox_template(x, drop_cols = c("year", "quarter", "month", 
+        "week"), relocate_cols = c("date", "year", "month", "week"))
+}
+&lt;bytecode: 0x60e041f67690&gt;
+&lt;environment: namespace:ti&gt;</code></pre>
+</div>
+</div>
+<section id="methods" class="level3"><h3 class="anchored" data-anchor-id="methods">Methods</h3>
+<p>Generics are created with <a href="https://rconsortium.github.io/S7/reference/new_generic.html" class="external-link"><code>S7::new_generic()</code></a> in <code>R/methods.R</code>, and methods are registered with <a href="https://rconsortium.github.io/S7/reference/method.html" class="external-link"><code>S7::method()</code></a>:</p>
+<table class="caption-top table">
+<thead><tr class="header">
+<th>Generic</th>
+<th>Methods for</th>
+<th>What it does</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><a href="../reference/calculate.html"><code>calculate()</code></a></td>
+<td>
+<code>ti</code>, <code>segment_abc</code>, <code>segment_cohort</code>
+</td>
+<td>Calls <code>x@fn@fn_exec(x)</code> and returns a lazy table.</td>
+</tr>
+<tr class="even">
+<td><a href="../reference/create_calendar.html"><code>create_calendar()</code></a></td>
+<td><code>ti</code></td>
+<td>Builds the complete calendar with the data’s totals (see <a href="#the-calendar">The calendar</a>).</td>
+</tr>
+<tr class="odd">
+<td><a href="../reference/print.html"><code>print()</code></a></td>
+<td>
+<code>ti</code>, <code>segment_abc</code>, <code>segment_cohort</code>
+</td>
+<td>The summary you see when an object is printed.</td>
+</tr>
+</tbody>
+</table>
+<p><a href="../reference/calculate.html"><code>calculate()</code></a> for <code>ti</code> is two lines. All of the logic is in <code>fn_exec</code>:</p>
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>S7<span class="sc">::</span><span class="fu">method</span>(calculate, ti) <span class="ot">&lt;-</span> <span class="cf">function</span>(x, ...) {</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  x<span class="sc">@</span>fn<span class="sc">@</span><span class="fu">fn_exec</span>(x) <span class="sc">|&gt;</span> dbplyr<span class="sc">::</span><span class="fu">window_order</span>(date)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+</section></section><section id="printing-explain-before-computing" class="level2"><h2 class="anchored" data-anchor-id="printing-explain-before-computing">Printing: explain before computing</h2>
+<p>Printing an object is the step between describing and computing. It runs no calculation; it reads the object’s properties and describes them with the <a href="https://cli.r-lib.org/" class="external-link">cli</a> package. The only query it sends is one <code>SELECT DISTINCT</code> of the dates, used for the date range and the count of periods without data.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">group_by</span>(store_key) <span class="sc">|&gt;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wow</span>(<span class="at">.date =</span> order_date, <span class="at">.value =</span> net_revenue, <span class="at">week_start =</span> <span class="dv">1</span>)</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>duckdb is storing downloaded extensions and secrets under ~/.duckdb:
+ℹ /home/hagan/.duckdb
+This persists across sessions and is shared with the DuckDB CLI and other clients.
+ℹ Run duckdb(shared_home = FALSE) to use a temporary directory instead.
+ℹ See ?duckdb_storage for details and alternatives.
+
+
+── week over week ──────────────────────────────────────────────────────────────
+
+Function: `wow` (nothing has been calculated yet)
+
+
+
+── Description: ──
+
+
+
+This creates a full week `sum()` of the previous week net_revenue and compares
+it with the full week `sum()` current week net_revenue from the start of the
+standard calendar week to the end of the week
+
+
+
+── Calendar: ──</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>• The calendar aggregated order_date to the week time unit
+• A standard calendar is created with 1 groups
+• Calendar ranges from 2021-05-18 to 2024-04-20
+• 7 of 155 weeks had no data and are filled with 0
+• New date column date, week, year, month was created from order_date</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Assumptions: ──
+
+• One row per week per store_key, dated by the first day of the week
+• Each week's total is shown next to the total 1 week earlier; the first week
+  has no earlier week and shows NA
+• Weeks start on Monday; week 1 contains 1 January, so the weeks either side of
+  1 January can be partial
+• Running totals and comparisons stay within each store_key; each group's
+  calendar runs from its first to its last week with data
+
+── Actions: ──</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>✔ Aggregate net_revenue
+✔ Shift 1 week
+✔ Compare previous week
+✖ Proportion of Total
+✖ Count Distinct</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Next Steps: ──
+
+• Use `calculate()` to return the results
+────────────────────────────────────────────────────────────────────────────────</code></pre>
+</div>
+</div>
+<p>The output has five blocks, and each one comes from a different part of the object:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead><tr class="header">
+<th>Block</th>
+<th>Printed by</th>
+<th>Comes from</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Title and <strong>Description</strong>
+</td>
+<td><a href="../reference/print_fn_info.html"><code>print_fn_info()</code></a></td>
+<td>
+<code>fn@fn_long_name</code>, <code>fn@fn_name</code>, and <code>action@method</code>, the sentence each function passes to <code>build_ti()</code> as <code>method_string</code>.</td>
+</tr>
+<tr class="even">
+<td><strong>Calendar</strong></td>
+<td><a href="../reference/print_calendar_info.html"><code>print_calendar_info()</code></a></td>
+<td>
+<code>datum</code>: the date column, time unit, calendar type, number of groups, and the date range. Also how many periods <em>at the function’s grain</em> have no data (“6 of 14 weeks had no data”), worked out in R with <a href="../reference/period_keys.html"><code>period_keys()</code></a>, which uses the same week and fiscal definitions as the calendar SQL.</td>
+</tr>
+<tr class="odd">
+<td><strong>Assumptions</strong></td>
+<td><a href="../reference/print_assumptions.html"><code>print_assumptions()</code></a></td>
+<td>The conventions that decide the numbers, built from <code>fn@fn_name</code>, <code>time_unit</code>, <code>fn@lag_n</code>, <code>datum@calendar_type</code>, <code>datum@week_start</code>, <code>datum@fiscal_year_start</code> and the groups. See below.</td>
+</tr>
+<tr class="even">
+<td><strong>Actions</strong></td>
+<td><a href="../reference/print_actions_steps.html"><code>print_actions_steps()</code></a></td>
+<td>
+<code>action@value</code> plus <code>fn@lag_n</code>, <code>fn@shift</code> and <code>fn@compare</code>.</td>
+</tr>
+<tr class="odd">
+<td><strong>Next Steps</strong></td>
+<td><a href="../reference/print_next_steps.html"><code>print_next_steps()</code></a></td>
+<td>Fixed text pointing to <a href="../reference/calculate.html"><code>calculate()</code></a>.</td>
+</tr>
+</tbody>
+</table>
+<section id="the-actions-checklist" class="level3"><h3 class="anchored" data-anchor-id="the-actions-checklist">The Actions checklist</h3>
+<p>Every function is described by the same five possible steps, ticked or crossed:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead><tr class="header">
+<th>Step</th>
+<th>Ticked for</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Aggregate</td>
+<td>Every time intelligence function (values are summed per period).</td>
+</tr>
+<tr class="even">
+<td>Shift</td>
+<td>Functions that look back: <code>yoy</code>, <code>pytd</code>, <code>wow</code>, … (shows <code>lag_n</code> and the unit, e.g. “Shift 1 week”).</td>
+</tr>
+<tr class="odd">
+<td>Compare</td>
+<td>Functions that put two periods side by side (shows what is compared, e.g. “previous week”).</td>
+</tr>
+<tr class="even">
+<td>Proportion of Total</td>
+<td>
+<a href="../reference/abc.html"><code>abc()</code></a>.</td>
+</tr>
+<tr class="odd">
+<td>Count Distinct</td>
+<td>
+<a href="../reference/cohort.html"><code>cohort()</code></a>.</td>
+</tr>
+</tbody>
+</table>
+<p>Each function passes its ticked steps to <code>build_ti()</code> as <code>action_values</code>, for example <code>c("aggregate", "shift", "compare")</code> for <a href="../reference/wow.html"><code>wow()</code></a>. The <code>action@value</code> setter runs <a href="../reference/make_action_cli.html"><code>make_action_cli()</code></a>, which stores a named <code>TRUE</code>/<code>FALSE</code> vector for the five steps. <a href="../reference/print_actions_steps.html"><code>print_actions_steps()</code></a> draws the ticks and crosses from it, and adds the details (the value column, “1 week”, “previous week”) to ticked steps.</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pmtd</span>(<span class="at">.date =</span> order_date, <span class="at">.value =</span> net_revenue) <span class="sc">|&gt;</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>  (\(x) x<span class="sc">@</span>action<span class="sc">@</span>value)()</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>duckdb is storing downloaded extensions and secrets under ~/.duckdb:
+ℹ /home/hagan/.duckdb
+This persists across sessions and is shared with the DuckDB CLI and other clients.
+ℹ Run duckdb(shared_home = FALSE) to use a temporary directory instead.
+ℹ See ?duckdb_storage for details and alternatives.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>          aggregate               shift             compare proportion of total 
+               TRUE                TRUE               FALSE               FALSE 
+     count distinct 
+              FALSE </code></pre>
+</div>
+</div>
+<p>The same checklist across all 22 functions makes them easy to compare: <code>ytd</code> only aggregates, <code>pytd</code> aggregates and shifts, <code>yoytd</code> aggregates, shifts and compares.</p>
+</section><section id="the-assumptions-block" class="level3"><h3 class="anchored" data-anchor-id="the-assumptions-block">The Assumptions block</h3>
+<p>Almost every 4.2 bug was a convention that was hidden or unclear: what a week is, which earlier day a month-end compares with, whether groups are kept apart. The Assumptions block states those conventions for the object you are about to calculate, one line each:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead><tr class="header">
+<th>Line</th>
+<th>Shown for</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>What one row is (“One row per week per store_key, dated by the first day of the week”)</td>
+<td>Every function.</td>
+</tr>
+<tr class="even">
+<td>How the numbers are built: running total and when it restarts; period total next to the total <code>lag_n</code> periods earlier and that the first periods are <code>NA</code>; the cutoff and month-end rule; the previous period’s full total</td>
+<td>Depends on the template (<code>td</code>, <code>xox</code>, <code>ptd</code>/<code>xoxtd</code>, <code>tdopx</code>).</td>
+</tr>
+<tr class="odd">
+<td>Weeks start on <code>week_start</code>, and week 1 contains 1 January</td>
+<td>Week functions on the standard calendar.</td>
+</tr>
+<tr class="even">
+<td>The fiscal calendar, the weekday the fiscal year starts on, and the month it is nearest to</td>
+<td>Retail calendars.</td>
+</tr>
+<tr class="odd">
+<td>Totals and comparisons stay within each group; each group’s calendar runs from its first to its last period</td>
+<td>Grouped data.</td>
+</tr>
+<tr class="even">
+<td>The database has not been tested</td>
+<td>Connections other than DuckDB.</td>
+</tr>
+</tbody>
+</table>
+<p><a href="../reference/print_assumptions.html"><code>print_assumptions()</code></a> uses two lookups on <code>fn@fn_name</code>: the template family and the period unit (<code>pmtd</code> is <code>ptd</code> and <code>month</code>). It builds every line from settings, so it runs no query.</p>
+</section><section id="the-segment-classes-print-differently" class="level3"><h3 class="anchored" data-anchor-id="the-segment-classes-print-differently">The segment classes print differently</h3>
+<p><code>segment_abc</code> and <code>segment_cohort</code> have their own <a href="../reference/print.html"><code>print()</code></a> methods. They share <a href="../reference/print_fn_info.html"><code>print_fn_info()</code></a> for the header, then replace the calendar block with a <strong>Category Information</strong> block. For <a href="../reference/abc.html"><code>abc()</code></a> that describes how the groups are ranked and bucketed into the <code>category_values</code> thresholds; for <a href="../reference/cohort.html"><code>cohort()</code></a> it describes how members are assigned to their first period.</p>
+</section><section id="when-you-add-a-function" class="level3"><h3 class="anchored" data-anchor-id="when-you-add-a-function">When you add a function</h3>
+<p>The print output is part of the function’s design, not decoration. A new function needs:</p>
+<ul>
+<li>
+<code>fn_long_name</code>: the title, e.g. <code>"week over week"</code>.</li>
+<li>
+<code>method_string</code>: one sentence that a finance reader would understand, describing exactly what the number is.</li>
+<li>
+<code>action_values</code>: the steps it really performs, so the checklist is honest.</li>
+<li>
+<code>shift</code> and <code>compare</code> when it looks back, so the Actions block names the unit and the comparison.</li>
+<li>An entry in the two lookups at the top of <a href="../reference/print_assumptions.html"><code>print_assumptions()</code></a>, so the Assumptions block describes it.</li>
+<li>A snapshot in <code>tests/testthat/test-print.R</code>.</li>
+</ul></section></section><section id="from-a-call-to-a-result" class="level2"><h2 class="anchored" data-anchor-id="from-a-call-to-a-result">From a call to a result</h2>
+<p>Every time intelligence function goes through the same three stages. Here is <a href="../reference/wow.html"><code>wow()</code></a>:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p>
+<figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+  A["wow(.data, .date, .value, ...)"] --&gt; B["build_ti()&lt;br/&gt;checks columns and types&lt;br/&gt;creates the ti object"]
+  B --&gt; C["ti object&lt;br/&gt;(nothing has run yet)"]
+  C --&gt;|"print()"| P["summary only"]
+  C --&gt;|"calculate()"| D["x@fn@fn_exec(x) = wow_fn(x)"]
+  D --&gt; E["xox_template(x)"]
+  E --&gt; F["create_full_dbi(x)&lt;br/&gt;complete calendar with totals"]
+  F --&gt; G["shift by lag_n periods&lt;br/&gt;and join back"]
+  G --&gt; H["lazy SQL table"]
+  H --&gt;|"collect()"| I["tibble"]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<ol type="1">
+<li>
+<strong>Describe:</strong> <a href="../reference/wow.html"><code>wow()</code></a> (in <code>R/time_intelligence_classes.R</code>) passes its arguments and a few fixed settings to <code>build_ti()</code>. For <a href="../reference/wow.html"><code>wow()</code></a> those are <code>time_unit_val = "week"</code>, <code>col_prefix = "wow"</code>, and <code>fn_exec = wow_fn</code>. <code>build_ti()</code> checks that the date and value columns exist and have the right types, then builds the <code>ti</code> object.</li>
+<li>
+<strong>Compile:</strong> <a href="../reference/calculate.html"><code>calculate()</code></a> calls <a href="../reference/wow_fn.html"><code>wow_fn()</code></a>, which calls <code>xox_template()</code>. This produces a <code>dbplyr</code> lazy table, which is just SQL that hasn’t run yet.</li>
+<li>
+<strong>Execute:</strong> <code>collect()</code> sends that SQL to the database once.</li>
+</ol>
+<p>You can see the SQL at any point with <code>show_query()</code>. The full query is several hundred lines, so only the start is shown here:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>sql <span class="ot">&lt;-</span> contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wow</span>(<span class="at">.date =</span> order_date, <span class="at">.value =</span> net_revenue) <span class="sc">|&gt;</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>() <span class="sc">|&gt;</span></span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>  dbplyr<span class="sc">::</span><span class="fu">sql_render</span>()</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>duckdb is storing downloaded extensions and secrets under ~/.duckdb:
+ℹ /home/hagan/.duckdb
+This persists across sessions and is shared with the DuckDB CLI and other clients.
+ℹ Run duckdb(shared_home = FALSE) to use a temporary directory instead.
+ℹ See ?duckdb_storage for details and alternatives.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">length</span>(<span class="fu">strsplit</span>(sql, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)[[<span class="dv">1</span>]])   <span class="co"># lines of SQL</span></span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] 347</code></pre>
+</div>
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cat</span>(<span class="fu">head</span>(<span class="fu">strsplit</span>(sql, <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)[[<span class="dv">1</span>]], <span class="dv">30</span>), <span class="at">sep =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>SELECT
+  date,
+  "year",
+  "month",
+  "week",
+  "quarter",
+  net_revenue,
+  wow_net_revenue,
+  missing_date_indicator
+FROM (
+  SELECT
+    date,
+    "year",
+    "quarter",
+    EXTRACT(MONTH FROM date) AS "month",
+    "week",
+    net_revenue,
+    missing_date_indicator
+  FROM (
+    SELECT
+      date,
+      EXTRACT(year FROM date) AS "year",
+      "quarter",
+      "month",
+      "week",
+      net_revenue,
+      missing_date_indicator
+    FROM (
+      SELECT
+        date,</code></pre>
+</div>
+</div>
+</section><section id="the-calendar" class="level2"><h2 class="anchored" data-anchor-id="the-calendar">The calendar</h2>
+<p>The calendar is the base of every number, so it gets the most care. <code>create_full_dbi(x)</code> (<code>R/utils-misc.R</code>) calls <code>create_calendar(x)</code> (<code>R/methods.R</code>), which does six things:</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p>
+<figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart TD
+  A["calendar_day_sql()&lt;br/&gt;one row per day, from 371 days before the first date,&lt;br/&gt;with year / quarter / month / week labels&lt;br/&gt;and period_date = first day of the period"] --&gt; B["period_map&lt;br/&gt;day to period_date"]
+  B --&gt; C["summary&lt;br/&gt;data joined to period_map,&lt;br/&gt;value summed per period (and group)"]
+  A --&gt; D["calendar_periods()&lt;br/&gt;one row per period that overlaps the data"]
+  D --&gt; E["per group: keep only that group's&lt;br/&gt;first to last period"]
+  C --&gt; F["full_join&lt;br/&gt;periods with no data get 0&lt;br/&gt;and missing_date_indicator = 1"]
+  E --&gt; F
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<section id="labels-define-the-periods" class="level3"><h3 class="anchored" data-anchor-id="labels-define-the-periods">Labels define the periods</h3>
+<p><a href="../reference/calendar_day_sql.html"><code>calendar_day_sql()</code></a> builds <strong>one row per day</strong> with these labels:</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead><tr class="header">
+<th>Calendar</th>
+<th>
+<code>year</code>, <code>quarter</code>, <code>month</code>
+</th>
+<th><code>week</code></th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>"standard"</code></td>
+<td>Calendar year, quarter and month of the day.</td>
+<td>Week number with weeks starting on <code>week_start</code>. Week 1 is the week that contains 1 January, the same as Excel’s <code>WEEKNUM()</code>.</td>
+</tr>
+<tr class="even">
+<td>
+<code>"445"</code>, <code>"454"</code>, <code>"544"</code>
+</td>
+<td>Fiscal labels from <a href="../reference/generate_retail_calendar.html"><code>generate_retail_calendar()</code></a>.</td>
+<td>Fiscal week of the fiscal year.</td>
+</tr>
+</tbody>
+</table>
+<p>A period is a group of days with the same labels:</p>
+<table class="caption-top table">
+<thead><tr class="header">
+<th>Time unit</th>
+<th>Days with the same…</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>day</td>
+<td>date</td>
+</tr>
+<tr class="even">
+<td>week</td>
+<td>
+<code>year</code>, <code>week</code>
+</td>
+</tr>
+<tr class="odd">
+<td>month</td>
+<td>
+<code>year</code>, <code>month</code>
+</td>
+</tr>
+<tr class="even">
+<td>quarter</td>
+<td>
+<code>year</code>, <code>quarter</code>
+</td>
+</tr>
+<tr class="odd">
+<td>year</td>
+<td><code>year</code></td>
+</tr>
+</tbody>
+</table>
+<p><code>period_date</code> is the earliest day in that group: <code>MIN(date) OVER (PARTITION BY year, week)</code>. The calendar starts 371 days before the first data date, so even when the data starts mid-period, the period is still dated by its true first day. 371 days covers a 53-week fiscal year.</p>
+<p>This is how weeks behave on the standard calendar with Sunday weeks. 2024-01-01 is a Monday:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">tibble</span>(<span class="at">date =</span> <span class="fu">seq</span>(<span class="fu">as.Date</span>(<span class="st">"2023-12-29"</span>), <span class="fu">as.Date</span>(<span class="st">"2024-01-09"</span>), <span class="st">"day"</span>), <span class="at">value =</span> <span class="dv">1</span>) <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wtd</span>(<span class="at">.date =</span> date, <span class="at">.value =</span> value) <span class="sc">|&gt;</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>() <span class="sc">|&gt;</span></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">|&gt;</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">weekday =</span> <span class="fu">weekdays</span>(<span class="fu">as.Date</span>(date))) <span class="sc">|&gt;</span></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(date, weekday, year, month, week, wtd_value)</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>duckdb is storing downloaded extensions and secrets under ~/.duckdb:
+ℹ /home/hagan/.duckdb
+This persists across sessions and is shared with the DuckDB CLI and other clients.
+ℹ Run duckdb(shared_home = FALSE) to use a temporary directory instead.
+ℹ See ?duckdb_storage for details and alternatives.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 6
+   date       weekday    year month  week wtd_value
+   &lt;date&gt;     &lt;chr&gt;     &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;
+ 1 2023-12-29 Friday     2023    12    52         1
+ 2 2023-12-30 Saturday   2023    12    52         2
+ 3 2023-12-31 Sunday     2023    12    53         1
+ 4 2024-01-01 Monday     2024     1     1         1
+ 5 2024-01-02 Tuesday    2024     1     1         2
+ 6 2024-01-03 Wednesday  2024     1     1         3
+ 7 2024-01-04 Thursday   2024     1     1         4
+ 8 2024-01-05 Friday     2024     1     1         5
+ 9 2024-01-06 Saturday   2024     1     1         6
+10 2024-01-07 Sunday     2024     1     2         1
+11 2024-01-08 Monday     2024     1     2         2
+12 2024-01-09 Tuesday    2024     1     2         3</code></pre>
+</div>
+</div>
+<p>The week starting Sunday 31 December is cut at 1 January: the last day of 2023 is a one-day week 53, and week 1 of 2024 runs Monday to Saturday. Weeks are <em>not</em> cut at month ends. A week that starts in January and ends in February is one week, and its <code>month</code> label is the month of its first day.</p>
+</section><section id="why-labels-instead-of-floor_date" class="level3"><h3 class="anchored" data-anchor-id="why-labels-instead-of-floor_date">Why labels instead of <code>floor_date()</code>
+</h3>
+<p>Before 4.3.0 the calendar rounded each day down to its period with <code>floor_date()</code> and then grouped by the period <strong>and the day’s own labels</strong>. Those two disagree in two places:</p>
+<ul>
+<li>A Sunday-to-Saturday week can contain days from two months, or two day-of-year week numbers. Each combination became its own row, so one week turned into two to four rows.</li>
+<li>On retail calendars a calendar month contains days from two fiscal months, so <a href="../reference/mom.html"><code>mom()</code></a>, <a href="../reference/qoq.html"><code>qoq()</code></a> and <a href="../reference/yoy.html"><code>yoy()</code></a> returned several rows per fiscal period.</li>
+</ul>
+<p>Defining periods purely by their labels makes duplicate rows impossible: one set of labels gives one <code>period_date</code>, which gives one row.</p>
+</section><section id="data-goes-through-the-same-map" class="level3"><h3 class="anchored" data-anchor-id="data-goes-through-the-same-map">Data goes through the same map</h3>
+<p>The data isn’t rounded down either. Each data row’s date is joined to <code>period_map</code> (day to <code>period_date</code>), and the values are summed per <code>period_date</code>. The calendar rows and the data are both assigned to periods by the same table, so they always agree.</p>
+</section><section id="grouped-data" class="level3"><h3 class="anchored" data-anchor-id="grouped-data">Grouped data</h3>
+<p>With grouped data, each group gets its own run of periods, from the group’s first period with data to its last. A store that opened in March starts in March. It does not show months of zeros before it existed, and its first comparison is <code>NA</code> rather than a comparison with an invented zero.</p>
+<p>You can call the internal function directly when debugging:</p>
+<div class="cell">
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">wow</span>(<span class="at">.date =</span> order_date, <span class="at">.value =</span> net_revenue) <span class="sc">|&gt;</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>  ti<span class="sc">:::</span><span class="fu">create_full_dbi</span>() <span class="sc">|&gt;</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">|&gt;</span></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>()</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>duckdb is storing downloaded extensions and secrets under ~/.duckdb:
+ℹ /home/hagan/.duckdb
+This persists across sessions and is shared with the DuckDB CLI and other clients.
+ℹ Run duckdb(shared_home = FALSE) to use a temporary directory instead.
+ℹ See ?duckdb_storage for details and alternatives.</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 7
+  date        year quarter month  week net_revenue missing_date_indicator
+  &lt;date&gt;     &lt;dbl&gt;   &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;       &lt;dbl&gt;                  &lt;dbl&gt;
+1 2021-05-16  2021       2     5    21      31606.                      0
+2 2021-05-23  2021       2     5    22      18418.                      0
+3 2021-05-30  2021       2     5    23      19276.                      0
+4 2021-06-06  2021       2     6    24      20994.                      0
+5 2021-06-13  2021       2     6    25      25956.                      0
+6 2021-06-20  2021       2     6    26      15131.                      0</code></pre>
+</div>
+</div>
+</section></section><section id="the-five-templates" class="level2"><h2 class="anchored" data-anchor-id="the-five-templates">The five templates</h2>
+<p>Every <code>*_fn()</code> in <code>R/time_intelligence_fn.R</code> is a one-line wrapper around one of five templates. All of them start from <a href="../reference/create_full_dbi.html"><code>create_full_dbi()</code></a>.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 33%">
+<col style="width: 33%">
+<col style="width: 33%">
+</colgroup>
+<thead><tr class="header">
+<th>Template</th>
+<th>Functions</th>
+<th>Idea</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>td_template</code></td>
+<td>
+<code>ytd</code>, <code>qtd</code>, <code>mtd</code>, <code>wtd</code>, <code>atd</code>
+</td>
+<td>Running total that restarts each period.</td>
+</tr>
+<tr class="even">
+<td><code>xox_template</code></td>
+<td>
+<code>yoy</code>, <code>qoq</code>, <code>mom</code>, <code>wow</code>, <code>dod</code>
+</td>
+<td>Each period’s total next to the total <code>lag_n</code> periods earlier.</td>
+</tr>
+<tr class="odd">
+<td><code>ptd_template</code></td>
+<td>
+<code>pytd</code>, <code>pqtd</code>, <code>pmtd</code>, <code>pwtd</code>
+</td>
+<td>For each day, the earlier period’s running total at the same point.</td>
+</tr>
+<tr class="even">
+<td><code>xoxtd_template</code></td>
+<td>
+<code>yoytd</code>, <code>qoqtd</code>, <code>momtd</code>, <code>wowtd</code>
+</td>
+<td>
+<code>td</code> and <code>ptd</code> side by side.</td>
+</tr>
+<tr class="odd">
+<td><code>tdopx_template</code></td>
+<td>
+<code>ytdopy</code>, <code>qtdopq</code>, <code>mtdopm</code>, <code>wtdopw</code>
+</td>
+<td>
+<code>td</code> next to the earlier period’s full total.</td>
+</tr>
+</tbody>
+</table>
+<p>The examples below use one store, Sunday weeks, and values that are easy to add up.</p>
+<section id="td_template-running-totals" class="level3"><h3 class="anchored" data-anchor-id="td_template-running-totals">
+<code>td_template</code>: running totals</h3>
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a>full_dbi <span class="sc">|&gt;</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a>  dbplyr<span class="sc">::</span><span class="fu">window_order</span>(date) <span class="sc">|&gt;</span></span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">wtd_value =</span> <span class="fu">cumsum</span>(value), <span class="at">.by =</span> <span class="fu">c</span>(year, week, <span class="sc">&lt;</span>groups<span class="sc">&gt;</span>))</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<p><code>.by</code> decides where the running total restarts: <code>year</code> for <code>ytd</code>, <code>year, quarter</code> for <code>qtd</code>, <code>year, month</code> for <code>mtd</code>, <code>year, week</code> for <code>wtd</code>, and only the groups for <code>atd</code>. It becomes a SQL window function: <code>SUM(value) OVER (PARTITION BY year, week ORDER BY date)</code>.</p>
+<table class="caption-top table">
+<thead><tr class="header">
+<th>date</th>
+<th>week</th>
+<th>value</th>
+<th>wtd_value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Sun 2024-01-07</td>
+<td>2</td>
+<td>10</td>
+<td>10</td>
+</tr>
+<tr class="even">
+<td>Mon 2024-01-08</td>
+<td>2</td>
+<td>5</td>
+<td>15</td>
+</tr>
+<tr class="odd">
+<td>Tue 2024-01-09</td>
+<td>2</td>
+<td>0</td>
+<td>15</td>
+</tr>
+<tr class="even">
+<td>Sun 2024-01-14</td>
+<td>3</td>
+<td>7</td>
+<td>7 ← new week</td>
+</tr>
+</tbody>
+</table></section><section id="xox_template-period-over-period" class="level3"><h3 class="anchored" data-anchor-id="xox_template-period-over-period">
+<code>xox_template</code>: period over period</h3>
+<ol type="1">
+<li>Take the one-row-per-period calendar.</li>
+<li>Make a copy where each row records the date of the row <code>lag_n</code> positions later (<code>lead(date, lag_n)</code>), within each group.</li>
+<li>Join the copy back on, matching the current row’s date to that recorded date.</li>
+</ol>
+<table class="caption-top table">
+<thead><tr class="header">
+<th>date</th>
+<th>value</th>
+<th>→</th>
+<th>date_lag</th>
+<th>wow_value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>2024-01-07</td>
+<td>100</td>
+<td></td>
+<td>2024-01-14</td>
+<td>100</td>
+</tr>
+<tr class="even">
+<td>2024-01-14</td>
+<td>150</td>
+<td></td>
+<td>2024-01-21</td>
+<td>150</td>
+</tr>
+<tr class="odd">
+<td>2024-01-21</td>
+<td>120</td>
+<td></td>
+<td>NA</td>
+<td>120</td>
+</tr>
+</tbody>
+</table>
+<p>After the join:</p>
+<table class="caption-top table">
+<thead><tr class="header">
+<th>date</th>
+<th>value</th>
+<th>wow_value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>2024-01-07</td>
+<td>100</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td>2024-01-14</td>
+<td>150</td>
+<td>100</td>
+</tr>
+<tr class="odd">
+<td>2024-01-21</td>
+<td>120</td>
+<td>150</td>
+</tr>
+</tbody>
+</table>
+<p>This shifts by <strong>row position</strong>, not by date arithmetic. That is only correct because the calendar has exactly one row per period and no gaps, which is principle 3. With a duplicate row, “one row earlier” can be the same week, which was the 4.2 <a href="../reference/wow.html"><code>wow()</code></a> bug.</p>
+</section><section id="ptd_template-previous-period-to-date" class="level3"><h3 class="anchored" data-anchor-id="ptd_template-previous-period-to-date">
+<code>ptd_template</code>: previous period to date</h3>
+<p>For each calendar day, <code>ptd_template</code> works out the <strong>cutoff</strong>: the same point in the earlier period. It then looks up the earlier period’s running total on that cutoff date.</p>
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a>td  <span class="ot">&lt;-</span> full_dbi <span class="sc">|&gt;</span> <span class="fu">mutate</span>(<span class="at">.ti_td =</span> <span class="fu">cumsum</span>(value), <span class="at">.by =</span> <span class="fu">c</span>(year, month, <span class="sc">&lt;</span>groups<span class="sc">&gt;</span>))</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a>out <span class="ot">&lt;-</span> full_dbi <span class="sc">|&gt;</span></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">.ti_cutoff =</span> <span class="sc">&lt;</span>cutoff SQL<span class="sc">&gt;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">left_join</span>(td, <span class="at">by =</span> <span class="fu">c</span>(<span class="at">.ti_cutoff =</span> date, <span class="sc">&lt;</span>groups<span class="sc">&gt;</span>))</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<p>The cutoff comes from <a href="../reference/sql_period_cutoff.html"><code>sql_period_cutoff()</code></a> in <code>R/utils-misc.R</code>:</p>
+<ul>
+<li>
+<strong>Weeks:</strong> the date minus <code>7 * lag_n</code> days.</li>
+<li>
+<strong>Months, quarters, years:</strong> the date minus <code>lag_n</code>, <code>3 * lag_n</code> or <code>12 * lag_n</code> months. A day that doesn’t exist in the shorter month rolls back to that month’s last day, so 31 May minus 3 months is 29 February.</li>
+<li>
+<strong>Month-end rule:</strong> when the date is the last day of its month, the cutoff is the last day of the earlier month. On 28 February 2025, <code>pytd</code> therefore compares with the whole of February 2024, including the 29th. This is the same convention as Power BI’s <code>DATEADD()</code>.</li>
+</ul>
+<table class="caption-top table">
+<thead><tr class="header">
+<th>date</th>
+<th>cutoff (<code>pmtd</code>)</th>
+<th>pmtd_value</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>2024-03-15</td>
+<td>2024-02-15</td>
+<td>February 1–15 running total</td>
+</tr>
+<tr class="even">
+<td>2024-03-30</td>
+<td>2024-02-29</td>
+<td>all of February (29th rolled back)</td>
+</tr>
+<tr class="odd">
+<td>2024-03-31</td>
+<td>2024-02-29</td>
+<td>all of February (month-end rule)</td>
+</tr>
+<tr class="even">
+<td>2024-02-29</td>
+<td>2024-01-31</td>
+<td>all of January (month-end rule)</td>
+</tr>
+</tbody>
+</table>
+<p>Each day has exactly one cutoff and the lookup joins on the group, so one day can’t pick up two earlier values, and one group can’t pick up another group’s values. Both happened in 4.2, which shifted every earlier day <em>forward</em> and summed whatever landed on each date.</p>
+</section><section id="xoxtd_template-and-tdopx_template-combinations" class="level3"><h3 class="anchored" data-anchor-id="xoxtd_template-and-tdopx_template-combinations">
+<code>xoxtd_template</code> and <code>tdopx_template</code>: combinations</h3>
+<p>Both call two of the other functions and join the results by date (and group):</p>
+<ul>
+<li>
+<code>xoxtd</code> joins <code>td</code> and <code>ptd</code>. <code>yoytd</code> = <code>ytd</code> + <code>pytd</code>.</li>
+<li>
+<code>tdopx</code> joins <code>td</code> with the <code>xox</code> result for the period the day is in. <code>ytdopy</code> = <code>ytd</code> + the previous year’s full total from <code>yoy</code>.</li>
+</ul>
+<p>They rebuild the inner objects with the same <code>calendar_type</code>, <code>fiscal_year_start</code> and <code>week_start</code>. Before 4.3.0 the inner calls dropped <code>fiscal_year_start</code>, so retail calendars with a non-January fiscal year were quietly computed from January.</p>
+</section></section><section id="database-support" class="level2"><h2 class="anchored" data-anchor-id="database-support">Database support</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead><tr class="header">
+<th>Piece</th>
+<th>How it stays read-only</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>Standard calendar</td>
+<td>Generated in a CTE inside the query.</td>
+</tr>
+<tr class="even">
+<td>Retail calendars</td>
+<td>Built in R by <a href="../reference/generate_retail_calendar.html"><code>generate_retail_calendar()</code></a>, then put into the query with <a href="https://dbplyr.tidyverse.org/reference/copy_inline.html" class="external-link"><code>dbplyr::copy_inline()</code></a> as a <code>VALUES</code> list.</td>
+</tr>
+<tr class="odd">
+<td>
+<a href="../reference/abc.html"><code>abc()</code></a> thresholds</td>
+<td>
+<a href="https://dbplyr.tidyverse.org/reference/copy_inline.html" class="external-link"><code>dbplyr::copy_inline()</code></a>.</td>
+</tr>
+<tr class="even">
+<td>Tibbles</td>
+<td>Registered in a private in-memory DuckDB with <code>duckdb_register()</code>, which is not the user’s database.</td>
+</tr>
+</tbody>
+</table>
+<p><a href="../reference/detect_sql_dialect.html"><code>detect_sql_dialect()</code></a> picks the SQL flavour from the connection class. DuckDB is tested. Snowflake and Postgres connections run with a one-time warning that they are untested. Anything else stops with an error rather than receiving DuckDB SQL it may run differently. Support for other databases will come in a later release.</p>
+</section><section id="testing" class="level2"><h2 class="anchored" data-anchor-id="testing">Testing</h2>
+<p>The tests are built around one idea: <strong>check the numbers, not just that the code runs.</strong></p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead><tr class="header">
+<th>File</th>
+<th>What it checks</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>helper-reference.R</code></td>
+<td>Not a test. An independent version of every function written in plain R, day by day, straight from the documented definitions. It shares no code with the package except <a href="../reference/generate_retail_calendar.html"><code>generate_retail_calendar()</code></a>, which has its own tests.</td>
+</tr>
+<tr class="even">
+<td><code>test-reference-values.R</code></td>
+<td>All 22 functions compared row by row with the reference, ungrouped and grouped, on all seven <code>week_start</code> days and the retail calendars, plus examples small enough to check on paper.</td>
+</tr>
+<tr class="odd">
+<td><code>test-calendar.R</code></td>
+<td>The calendar on its own: one row per period, no gaps, periods dated by their first day, totals that match the data.</td>
+</tr>
+<tr class="even">
+<td><code>test-database.R</code></td>
+<td>No tables written, read-only connections work, database and data frame results match, and each retail result keeps its own calendar.</td>
+</tr>
+<tr class="odd">
+<td><code>test-print.R</code></td>
+<td>Snapshots of the printed summary for one function per template, a retail calendar, <a href="../reference/abc.html"><code>abc()</code></a> and <a href="../reference/cohort.html"><code>cohort()</code></a>, plus checks that ticks survive without colour and that missing periods are counted at the right grain. A changed convention without a changed explanation shows up as a snapshot diff.</td>
+</tr>
+<tr class="even">
+<td><code>test-retail-calendar.R</code></td>
+<td>The retail calendar generator: week counts per month for each pattern, no gaps or duplicate dates.</td>
+</tr>
+<tr class="odd">
+<td>
+<code>test-error-handling.R</code>, <code>test-value-assertions.R</code>, <code>test-ti_fn.R</code>
+</td>
+<td>Input validation, earlier hand-computed checks, and smoke tests.</td>
+</tr>
+</tbody>
+</table>
+<p>The reference fixture (<code>ref_fixture()</code>) is designed to break things: two stores with different date ranges, about 30% of days missing, a leap day, two rows on the same day, and data that starts mid-period. The checks treat <code>NA</code> and <code>0</code> as different.</p>
+<section id="what-runs-on-cran" class="level3"><h3 class="anchored" data-anchor-id="what-runs-on-cran">What runs on CRAN</h3>
+<p>CRAN machines are slow, so the exhaustive variations call <code>skip_on_cran()</code>. They are the other six <code>week_start</code> days, the <code>"454"</code> and <code>"544"</code> calendars, and older smoke tests that the reference already covers. On CRAN every function is still checked against the reference on the standard and <code>"445"</code> calendars, which takes about 2.5 minutes. <a href="https://devtools.r-lib.org/reference/check.html" class="external-link"><code>devtools::check()</code></a> sets <code>NOT_CRAN = "true"</code>, so a local check runs everything (about 6 minutes).</p>
+</section><section id="adding-a-new-function" class="level3"><h3 class="anchored" data-anchor-id="adding-a-new-function">Adding a new function</h3>
+<ol type="1">
+<li>Write the user-facing function in <code>R/time_intelligence_classes.R</code> with <code>build_ti()</code>, and a one-line <code>*_fn()</code> wrapper around a template in <code>R/time_intelligence_fn.R</code>.</li>
+<li>If it needs a new idea, add the definition to <code>helper-reference.R</code> first, in plain R.</li>
+<li>Add a line to <code>specs</code> in <code>test-reference-values.R</code>:</li>
+</ol>
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>newfn <span class="ot">=</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">"td"</span>, <span class="at">unit =</span> <span class="st">"month"</span>, <span class="at">cols =</span> <span class="fu">c</span>(<span class="at">td =</span> <span class="st">"newfn_value"</span>))</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<ol start="4" type="1">
+<li>Add one example small enough to work out by hand.</li>
+</ol></section></section><section id="known-rough-edges" class="level2"><h2 class="anchored" data-anchor-id="known-rough-edges">Known rough edges</h2>
+<p>Things noticed while writing this guide that aren’t fixed yet:</p>
+<ul>
+<li>
+<strong><code>datum</code> getters run queries.</strong> <code>min_date</code>, <code>max_date</code> and <code>date_count</code> pull the whole date column into R every time they are read. <a href="../reference/print.html"><code>print()</code></a> no longer uses them (it sends one <code>SELECT DISTINCT</code>), but building the calendar still reads <code>min_date</code> and <code>max_date</code>. That’s fine for <a href="https://rdrr.io/pkg/contoso/man/sales.html" class="external-link"><code>contoso::sales</code></a> but slow for very large tables. Computing them once with <code>summarise(min(), max())</code> in the database would fix it.</li>
+<li>
+<strong><code>category_names</code> is ignored.</strong> The <code>category</code> setter always replaces the names with <code>letters</code>, so names passed in are never used.</li>
+<li>
+<strong><code>time_unit</code> length check does nothing.</strong> The property validator builds an error message but never returns it, so a vector of several units isn’t rejected there. The class validator still rejects unknown units.</li>
+<li>
+<strong>Previous-period-to-date on retail calendars.</strong> <code>pytd</code>, <code>pqtd</code>, <code>pmtd</code> and <code>pwtd</code> step back by calendar months even on fiscal calendars. Whether “previous fiscal month to date” should instead step back by fiscal periods is undecided, so these aren’t checked against the reference on retail calendars.</li>
+<li>
+<strong>The calendar SQL is repeated in the query.</strong> <code>dbplyr</code> copies a lazy table’s SQL into every place it is used, and the daily calendar is used for the period map, the period list and the join, so the generated query contains the calendar CTE several times (about 400 lines for <a href="../reference/wow.html"><code>wow()</code></a>). DuckDB handles this well, but it makes <code>show_query()</code> hard to read.</li>
+<li>
+<strong><a href="../reference/cohort.html"><code>cohort()</code></a> still uses <code>floor_date()</code>.</strong> It groups by calendar periods only, so it doesn’t have the label mismatch problem. It isn’t covered by the reference tests yet.</li>
+</ul></section><section id="where-things-live" class="level2"><h2 class="anchored" data-anchor-id="where-things-live">Where things live</h2>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead><tr class="header">
+<th>File</th>
+<th>Contents</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td><code>R/classes.R</code></td>
+<td>S7 classes: <code>ti</code>, <code>datum</code>, <code>time_unit</code>, <code>value</code>, <code>fn</code>, <code>action</code>, <code>category</code>, <code>segment_abc</code>, <code>segment_cohort</code>.</td>
+</tr>
+<tr class="even">
+<td><code>R/time_intelligence_classes.R</code></td>
+<td>The 22 user-facing functions and <code>build_ti()</code>.</td>
+</tr>
+<tr class="odd">
+<td><code>R/time_intelligence_fn.R</code></td>
+<td>The five templates and the <code>*_fn()</code> wrappers.</td>
+</tr>
+<tr class="even">
+<td><code>R/methods.R</code></td>
+<td>Generics and methods: <a href="../reference/calculate.html"><code>calculate()</code></a>, <a href="../reference/create_calendar.html"><code>create_calendar()</code></a>, and the three <a href="../reference/print.html"><code>print()</code></a> methods.</td>
+</tr>
+<tr class="odd">
+<td><code>R/utils-misc.R</code></td>
+<td>Calendar SQL (<a href="../reference/seq_date_sql.html"><code>seq_date_sql()</code></a>, <a href="../reference/calendar_day_sql.html"><code>calendar_day_sql()</code></a>, <a href="../reference/calendar_periods.html"><code>calendar_periods()</code></a>), <a href="../reference/generate_retail_calendar.html"><code>generate_retail_calendar()</code></a>, <a href="../reference/sql_period_cutoff.html"><code>sql_period_cutoff()</code></a>, <a href="../reference/detect_sql_dialect.html"><code>detect_sql_dialect()</code></a>, <a href="../reference/make_db_tbl.html"><code>make_db_tbl()</code></a>, and the print helpers (<a href="../reference/print_fn_info.html"><code>print_fn_info()</code></a>, <a href="../reference/print_calendar_info.html"><code>print_calendar_info()</code></a>, <a href="../reference/print_assumptions.html"><code>print_assumptions()</code></a>, <a href="../reference/print_actions_steps.html"><code>print_actions_steps()</code></a>, <a href="../reference/print_next_steps.html"><code>print_next_steps()</code></a>, <a href="../reference/make_action_cli.html"><code>make_action_cli()</code></a>, <a href="../reference/period_keys.html"><code>period_keys()</code></a>).</td>
+</tr>
+<tr class="even">
+<td><code>R/abc.R</code></td>
+<td>
+<a href="../reference/abc.html"><code>abc()</code></a> and <a href="../reference/cohort.html"><code>cohort()</code></a> with their execution functions.</td>
+</tr>
+</tbody>
+</table></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer"><div class="nav-footer">
+    <div class="nav-footer-left">
+<p>Built with <a href="https://quarto.org/" class="external-link">Quarto</a> and <a href="https://codeberg.org/usrbinr/qrtdown" class="external-link">qrtdown</a></p>
+</div>   
+    <div class="nav-footer-center">
+       
+    </div>
+    <div class="nav-footer-right">
+<p>ti 4.3.0</p>
+</div>
+  </div>
+</footer>
+</body>
+</html>

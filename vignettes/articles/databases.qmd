@@ -30,7 +30,7 @@ This matters because the expensive part — the windowed aggregation — happens
 
 ## Connecting to a database
 
-`ti` works on any `dbplyr`-backed table. Here is a DuckDB connection with the Contoso sales data loaded into it:
+`ti` works on `dbplyr` tables in DuckDB. Here is a DuckDB connection with the Contoso sales data loaded into it:
 
 ```{r}
 #| label: connect
@@ -167,18 +167,17 @@ The result is a `tbl_duckdb_connection`, not a tibble — even though the input 
 
 This is why every example in these articles ends with `dplyr::collect()`.
 
-## Dialect support
+## Database support
 
-Date arithmetic differs across SQL engines, so `ti` detects the backend from the connection and generates the appropriate expression. Three dialects are recognised explicitly:
+`ti` is currently tested with **DuckDB**, including data frames and tibbles, which `ti` runs in DuckDB for you. Support for other databases will come in a later release.
 
 | Backend | Status |
 |---|---|
-| DuckDB | Recognised |
-| Snowflake | Recognised |
-| Postgres | Recognised |
-| Anything else | Falls back to the DuckDB dialect |
+| DuckDB | Tested |
+| Data frames and tibbles | Tested (run in DuckDB) |
+| Other databases | Not yet supported; `ti` stops with an error rather than guess the SQL |
 
-The fallback is often fine, since many engines accept DuckDB-compatible date arithmetic. But it is a fallback, not a guarantee — if you are running `ti` against a backend not in the list above, verify the output of `show_query()` before trusting the numbers.
+`ti` never writes to your database. The calendar, including the retail calendars, and the `abc()` thresholds are built inside the query itself, so read-only access is enough and nothing is left behind.
 
 ```{r}
 #| label: disconnect
@@ -193,4 +192,4 @@ dbDisconnect(con, shutdown = TRUE)
 - Use `show_query()` to inspect the SQL — period-to-date becomes a window function.
 - Filter, join and arrange *before* `collect()` so the database does the work.
 - Tibbles are transparently promoted to DuckDB, so the return value is always a lazy table.
-- DuckDB, Snowflake and Postgres get dialect-specific date arithmetic; other backends fall back to DuckDB's.
+- `ti` is tested with DuckDB and never writes tables, so read-only access is enough. Support for other databases will come later.

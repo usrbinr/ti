@@ -35,7 +35,7 @@ execute:
 website:
   title: ti
   navbar:
-    title: ti 4.2.2
+    title: ti 4.3.0
     left:
     - text: Get started
       href: articles/ti.qmd
@@ -49,9 +49,9 @@ website:
         href: articles/cohort.qmd
       - text: Working with Databases
         href: articles/databases.qmd
-      - text: Working with Groups
-        href: articles/groups.qmd
-      - text: More articles... (2 more)
+      - text: 'How ti Works: A Developer Guide'
+        href: articles/developer-guide.qmd
+      - text: More articles... (3 more)
         href: articles/index.qmd
     - text: Reference
       href: reference/index.qmd
@@ -63,7 +63,7 @@ website:
       aria-label: Source code
   page-footer:
     left: Built with [Quarto](https://quarto.org/) and [qrtdown](https://codeberg.org/usrbinr/qrtdown)
-    right: ti 4.2.2
+    right: ti 4.3.0
   repo-url: https://codeberg.org/usrbinr/ti
 format:
   html:

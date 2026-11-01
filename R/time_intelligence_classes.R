@@ -12,6 +12,7 @@ build_ti <- function(
     .value_chr,
     calendar_type,
     fiscal_year_start,
+    week_start = 7,
     time_unit_val,
     action_values,
     method_string,
@@ -66,6 +67,7 @@ build_ti <- function(
       data             = .data
       ,calendar_type   = calendar_type
       ,fiscal_year_start = fiscal_year_start
+      ,week_start      = week_start
       ,date_vec        = .date_chr
     )
     ,time_unit         = time_unit(time_unit_val)
@@ -101,6 +103,7 @@ build_ti <- function(
 #' @param .value the value column to summarize. Must be numeric.
 #' @param calendar_type select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information
 #' @param fiscal_year_start integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544').
+#' @param week_start integer 1-7, the day weeks start on (1 = Monday, 7 = Sunday, the default). On the standard calendar, week 1 is the week containing 1 January, so the weeks either side of 1 January can be partial. On retail calendars it sets the weekday that fiscal weeks, months and years start on.
 #'
 #' @description
 #' -  For each group, [ytd()]  will create the running annual sum of a value based on the calendar type specified
@@ -131,13 +134,14 @@ build_ti <- function(
 #' \donttest{
 #'ytd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard")
 #' }
-ytd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
+ytd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = "aggregate",
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current year')}
@@ -170,13 +174,14 @@ ytd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1)
 #' \donttest{
 #'pytd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 #' }
-pytd <- function(.data,.date,.value,calendar_type='standard',lag_n,fiscal_year_start=1){
+pytd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = c("aggregate","shift"),
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous year')}
@@ -209,7 +214,7 @@ pytd <- function(.data,.date,.value,calendar_type='standard',lag_n,fiscal_year_s
 #' \donttest{
 #'yoytd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 #' }
-yoytd <- function(.data,.date,.value,calendar_type='standard',lag_n,fiscal_year_start=1){
+yoytd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   
   build_ti(
     .data          = .data,
@@ -217,6 +222,7 @@ yoytd <- function(.data,.date,.value,calendar_type='standard',lag_n,fiscal_year_
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = c("aggregate","shift","compare"),
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous year')}
@@ -253,13 +259,14 @@ yoytd <- function(.data,.date,.value,calendar_type='standard',lag_n,fiscal_year_
 #' \donttest{
 #'yoy(contoso::sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 #' }
-yoy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
+yoy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "year",
     action_values  = c("aggregate","shift","compare"),
     method_string  = "This creates a full year {.code sum()} of the {cli::col_br_cyan('previous year')}
@@ -293,13 +300,14 @@ yoy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_
 #' \donttest{
 #'ytdopy(contoso::sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 #' }
-ytdopy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
+ytdopy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = c("aggregate","shift","compare"),
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current year')}
@@ -338,13 +346,14 @@ ytdopy <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_ye
 #' \donttest{
 #'qtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard")
 #' }
-qtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
+qtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = "aggregate",
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current quarter')}
@@ -376,13 +385,14 @@ qtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1)
 #' \donttest{
 #'pqtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 #' }
-pqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
+pqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = c("aggregate","shift"),
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous quarter')}
@@ -416,13 +426,14 @@ pqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year
 #' \donttest{
 #'qoqtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 #' }
-qoqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
+qoqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = c("aggregate","shift","compare"),
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous quarter')}
@@ -457,13 +468,14 @@ qoqtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_yea
 #' \donttest{
 #'qtdopq(contoso::sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 #' }
-qtdopq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
+qtdopq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = c("aggregate","shift","compare"),
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current quarter')}
@@ -498,13 +510,14 @@ qtdopq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_ye
 #' \donttest{
 #'qoq(contoso::sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 #' }
-qoq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
+qoq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "quarter",
     action_values  = c("aggregate","shift","compare"),
     method_string  = "This creates a full quarter {.code sum()} of the {cli::col_br_cyan('previous quarter')}
@@ -543,13 +556,14 @@ qoq <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_
 #' \donttest{
 #'mtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard")
 #' }
-mtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
+mtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = "aggregate",
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current month')}
@@ -581,13 +595,14 @@ mtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1)
 #' \donttest{
 #'pmtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 #' }
-pmtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
+pmtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = c("aggregate","shift"),
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous month')}
@@ -619,13 +634,14 @@ pmtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year
 #' \donttest{
 #'momtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard", lag_n=1)
 #' }
-momtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
+momtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = c("aggregate","shift","compare"),
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous month')}
@@ -662,13 +678,14 @@ momtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_yea
 #' \donttest{
 #'mtdopm(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 #' }
-mtdopm <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
+mtdopm <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = c("aggregate","shift","compare"),
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current month')}
@@ -702,13 +719,14 @@ mtdopm <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_ye
 #' \donttest{
 #'mom(contoso::sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 #' }
-mom <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
+mom <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "month",
     action_values  = c("aggregate","shift","compare"),
     method_string  = "This creates a full month {.code sum()} of the {cli::col_br_cyan('previous month')}
@@ -748,13 +766,14 @@ mom <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_
 #' wtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard")
 #' }
 
-wtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
+wtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = "aggregate",
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current week')}
@@ -784,13 +803,14 @@ wtd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1)
 #' \donttest{
 #'pwtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 #' }
-pwtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
+pwtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = c("aggregate","shift"),
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous week')}
@@ -824,13 +844,14 @@ pwtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year
 #' \donttest{
 #'wowtd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 #' }
-wowtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
+wowtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = c("aggregate","shift","compare"),
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_br_cyan('previous week')}
@@ -865,13 +886,14 @@ wowtd <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_yea
 #' \donttest{
 #'wtdopw(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard",lag_n=1)
 #' }
-wtdopw <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
+wtdopw <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = c("aggregate","shift","compare"),
     method_string  = "This creates a daily {.code cumsum()} of the {cli::col_cyan('current week')}
@@ -906,13 +928,14 @@ wtdopw <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_ye
 #' \donttest{
 #'wow(contoso::sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 #' }
-wow <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
+wow <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "week",
     action_values  = c("aggregate","shift","compare"),
     method_string  = "This creates a full week {.code sum()} of the {cli::col_br_cyan('previous week')}
@@ -951,13 +974,14 @@ wow <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_
 #' \donttest{
 #'atd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard")
 #' }
-atd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1){
+atd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = "aggregate",
     method_string  = "This creates a daily {.code cumsum()}
@@ -988,13 +1012,14 @@ atd <- function(.data,.date,.value,calendar_type='standard',fiscal_year_start=1)
 #' \donttest{
 #'dod(contoso::sales,.date=order_date,.value=quantity,calendar_type='standard',lag_n=1)
 #' }
-dod <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1){
+dod <- function(.data,.date,.value,calendar_type='standard',lag_n=1,fiscal_year_start=1,week_start=7){
   build_ti(
     .data          = .data,
     .date_chr      = rlang::as_label(rlang::enquo(.date)),
     .value_chr     = rlang::as_label(rlang::enquo(.value)),
     calendar_type  = calendar_type,
     fiscal_year_start = fiscal_year_start,
+    week_start = week_start,
     time_unit_val  = "day",
     action_values  = c("aggregate","shift","compare"),
     method_string  = "This creates a full day {.code sum()} of the {cli::col_br_cyan('previous day')}

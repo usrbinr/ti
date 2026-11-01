@@ -1,0 +1,464 @@
+---
+title: "How ti Works: A Developer Guide"
+subtitle: "The objects, the calendar, the templates, and how every number is tested"
+author: "Alejandro Hagan"
+format: html
+---
+
+```{r}
+#| include: false
+library(ti)
+library(dplyr)
+```
+
+This article is for working **on** `ti` rather than **with** it. It walks through what happens between calling `wow()` and getting a table back, why the code is shaped the way it is, and where to look when something goes wrong.
+
+## The principles
+
+Everything else in the package follows from six rules.
+
+1. **Lazy, and run in the database.** A function like `ytd()` only *describes* the calculation. `calculate()` turns that description into SQL, and nothing runs until `collect()`. Tibbles are put into an in-memory DuckDB first, so there is one code path for everything.
+2. **One read-only query.** `ti` never writes to the user's database. The calendar is generated inside the query (a CTE on the standard calendar, `dbplyr::copy_inline()` on the retail calendars), so read-only access is enough.
+3. **Calendar first.** Every calculation starts from a complete calendar: exactly one row per period, with no gaps. Running totals, shifts and comparisons are only correct if that holds, so it is tested on its own (see [Testing](#testing)).
+4. **Periods come from labels, never from date arithmetic.** A week, month, quarter or year is *the set of days that share its labels* (for example `year = 2024, week = 5`), dated by its first day. Rounding dates down with `floor_date()` is what caused the 4.2 duplicate-row bugs, because a calendar unit and a period's labels can disagree.
+5. **Objects describe, templates compute.** S7 objects hold the settings, and a small number of shared *templates* do the work. Twenty-two functions share five templates, so a fix in one template fixes every function that uses it.
+6. **Explain before computing.** Printing an object shows, in plain language, what it *will* do: the calculation, the calendar it will build, the **assumptions** behind its numbers, the steps it will take, and what to call next. You can check a calculation's setup before running a query, and a reviewer can read what a number means without reading the code.
+
+## The S7 classes
+
+All objects are [S7](https://rconsortium.github.io/S7/) classes defined in `R/classes.R`. A time intelligence function returns a `ti` object, which is made of five smaller objects:
+
+```{mermaid}
+classDiagram
+  class ti {
+    datum
+    time_unit
+    value
+    fn
+    action
+  }
+  class datum {
+    data
+    calendar_type
+    fiscal_year_start
+    week_start
+    date_vec
+    computed: date_quo, min_date, max_date, group_quo, ...
+  }
+  class time_unit {
+    value: day | week | month | quarter | year
+  }
+  class value {
+    value_vec
+    new_column_name_vec
+    computed: value_quo, new_column_name_quo
+  }
+  class fn {
+    fn_exec
+    fn_name, fn_long_name
+    lag_n, shift, compare
+    new_date_column_name
+  }
+  class action {
+    value
+    method
+  }
+  ti *-- datum
+  ti *-- time_unit
+  ti *-- value
+  ti *-- fn
+  ti *-- action
+```
+
+| Class | What it holds | Notes |
+|---|---|---|
+| `datum` | The data and everything about its dates: which column is the date, the calendar type, `fiscal_year_start`, `week_start`, and the groups. | The `data` setter runs `make_db_tbl()`, so a tibble becomes a DuckDB table the moment it is stored. Most other properties are **computed getters** (`min_date`, `max_date`, `group_quo`, ...) that are recalculated every time they are read. |
+| `time_unit` | The grain of the calendar: `"day"`, `"week"`, `"month"`, `"quarter"` or `"year"`. | `ytd()` works daily, `yoy()` yearly, `wow()` weekly. |
+| `value` | The column being measured, and the output column name. | Setting `new_column_name_vec` to `"wow"` stores `"wow_net_revenue"`. The `_quo` getters turn names into symbols for tidy evaluation. |
+| `fn` | Which function to run and its parameters. | `fn_exec` is the important one: it is the internal `*_fn()` that `calculate()` calls. `lag_n` lives here too. |
+| `action` | Text for `print()`: the description and the ticked/unticked steps. | It has no effect on the numbers. |
+
+Two more top-level classes reuse the same pieces:
+
+- `segment_abc` (from `abc()`): `datum`, `category`, `time_unit`, `fn`, `action`, `value`. The `category` class holds the thresholds (`category_values`) and the names.
+- `segment_cohort` (from `cohort()`): `datum`, `time_unit`, `fn`, `action`, `value`.
+
+You can look inside any object with `@`:
+
+```{r}
+#| label: s7-inspect
+
+x <- contoso::sales |>
+  wow(.date = order_date, .value = net_revenue, week_start = 1)
+
+class(x)
+x@time_unit@value
+x@datum@calendar_type
+x@datum@week_start
+x@value@new_column_name_vec
+x@fn@lag_n
+x@fn@fn_exec   # the internal function calculate() will call
+```
+
+### Methods
+
+Generics are created with `S7::new_generic()` in `R/methods.R`, and methods are registered with `S7::method()`:
+
+| Generic | Methods for | What it does |
+|---|---|---|
+| `calculate()` | `ti`, `segment_abc`, `segment_cohort` | Calls `x@fn@fn_exec(x)` and returns a lazy table. |
+| `create_calendar()` | `ti` | Builds the complete calendar with the data's totals (see [The calendar](#the-calendar)). |
+| `print()` | `ti`, `segment_abc`, `segment_cohort` | The summary you see when an object is printed. |
+
+`calculate()` for `ti` is two lines. All of the logic is in `fn_exec`:
+
+```r
+S7::method(calculate, ti) <- function(x, ...) {
+  x@fn@fn_exec(x) |> dbplyr::window_order(date)
+}
+```
+
+## Printing: explain before computing
+
+Printing an object is the step between describing and computing. It runs no calculation; it reads the object's properties and describes them with the [cli](https://cli.r-lib.org/) package. The only query it sends is one `SELECT DISTINCT` of the dates, used for the date range and the count of periods without data.
+
+```{r}
+#| label: print-ti
+
+contoso::sales |>
+  dplyr::group_by(store_key) |>
+  wow(.date = order_date, .value = net_revenue, week_start = 1)
+```
+
+The output has five blocks, and each one comes from a different part of the object:
+
+| Block | Printed by | Comes from |
+|---|---|---|
+| Title and **Description** | `print_fn_info()` | `fn@fn_long_name`, `fn@fn_name`, and `action@method`, the sentence each function passes to `build_ti()` as `method_string`. |
+| **Calendar** | `print_calendar_info()` | `datum`: the date column, time unit, calendar type, number of groups, and the date range. Also how many periods *at the function's grain* have no data ("6 of 14 weeks had no data"), worked out in R with `period_keys()`, which uses the same week and fiscal definitions as the calendar SQL. |
+| **Assumptions** | `print_assumptions()` | The conventions that decide the numbers, built from `fn@fn_name`, `time_unit`, `fn@lag_n`, `datum@calendar_type`, `datum@week_start`, `datum@fiscal_year_start` and the groups. See below. |
+| **Actions** | `print_actions_steps()` | `action@value` plus `fn@lag_n`, `fn@shift` and `fn@compare`. |
+| **Next Steps** | `print_next_steps()` | Fixed text pointing to `calculate()`. |
+
+### The Actions checklist
+
+Every function is described by the same five possible steps, ticked or crossed:
+
+| Step | Ticked for |
+|---|---|
+| Aggregate | Every time intelligence function (values are summed per period). |
+| Shift | Functions that look back: `yoy`, `pytd`, `wow`, ... (shows `lag_n` and the unit, e.g. "Shift 1 week"). |
+| Compare | Functions that put two periods side by side (shows what is compared, e.g. "previous week"). |
+| Proportion of Total | `abc()`. |
+| Count Distinct | `cohort()`. |
+
+Each function passes its ticked steps to `build_ti()` as `action_values`, for example `c("aggregate", "shift", "compare")` for `wow()`. The `action@value` setter runs `make_action_cli()`, which stores a named `TRUE`/`FALSE` vector for the five steps. `print_actions_steps()` draws the ticks and crosses from it, and adds the details (the value column, "1 week", "previous week") to ticked steps.
+
+```{r}
+#| label: action-value
+
+contoso::sales |>
+  pmtd(.date = order_date, .value = net_revenue) |>
+  (\(x) x@action@value)()
+```
+
+The same checklist across all 22 functions makes them easy to compare: `ytd` only aggregates, `pytd` aggregates and shifts, `yoytd` aggregates, shifts and compares.
+
+### The Assumptions block
+
+Almost every 4.2 bug was a convention that was hidden or unclear: what a week is, which earlier day a month-end compares with, whether groups are kept apart. The Assumptions block states those conventions for the object you are about to calculate, one line each:
+
+| Line | Shown for |
+|---|---|
+| What one row is ("One row per week per store_key, dated by the first day of the week") | Every function. |
+| How the numbers are built: running total and when it restarts; period total next to the total `lag_n` periods earlier and that the first periods are `NA`; the cutoff and month-end rule; the previous period's full total | Depends on the template (`td`, `xox`, `ptd`/`xoxtd`, `tdopx`). |
+| Weeks start on `week_start`, and week 1 contains 1 January | Week functions on the standard calendar. |
+| The fiscal calendar, the weekday the fiscal year starts on, and the month it is nearest to | Retail calendars. |
+| Totals and comparisons stay within each group; each group's calendar runs from its first to its last period | Grouped data. |
+| The database has not been tested | Connections other than DuckDB. |
+
+`print_assumptions()` uses two lookups on `fn@fn_name`: the template family and the period unit (`pmtd` is `ptd` and `month`). It builds every line from settings, so it runs no query.
+
+### The segment classes print differently
+
+`segment_abc` and `segment_cohort` have their own `print()` methods. They share `print_fn_info()` for the header, then replace the calendar block with a **Category Information** block. For `abc()` that describes how the groups are ranked and bucketed into the `category_values` thresholds; for `cohort()` it describes how members are assigned to their first period.
+
+### When you add a function
+
+The print output is part of the function's design, not decoration. A new function needs:
+
+- `fn_long_name`: the title, e.g. `"week over week"`.
+- `method_string`: one sentence that a finance reader would understand, describing exactly what the number is.
+- `action_values`: the steps it really performs, so the checklist is honest.
+- `shift` and `compare` when it looks back, so the Actions block names the unit and the comparison.
+- An entry in the two lookups at the top of `print_assumptions()`, so the Assumptions block describes it.
+- A snapshot in `tests/testthat/test-print.R`.
+
+## From a call to a result
+
+Every time intelligence function goes through the same three stages. Here is `wow()`:
+
+```{mermaid}
+flowchart TD
+  A["wow(.data, .date, .value, ...)"] --> B["build_ti()<br/>checks columns and types<br/>creates the ti object"]
+  B --> C["ti object<br/>(nothing has run yet)"]
+  C -->|"print()"| P["summary only"]
+  C -->|"calculate()"| D["x@fn@fn_exec(x) = wow_fn(x)"]
+  D --> E["xox_template(x)"]
+  E --> F["create_full_dbi(x)<br/>complete calendar with totals"]
+  F --> G["shift by lag_n periods<br/>and join back"]
+  G --> H["lazy SQL table"]
+  H -->|"collect()"| I["tibble"]
+```
+
+1. **Describe:** `wow()` (in `R/time_intelligence_classes.R`) passes its arguments and a few fixed settings to `build_ti()`. For `wow()` those are `time_unit_val = "week"`, `col_prefix = "wow"`, and `fn_exec = wow_fn`. `build_ti()` checks that the date and value columns exist and have the right types, then builds the `ti` object.
+2. **Compile:** `calculate()` calls `wow_fn()`, which calls `xox_template()`. This produces a `dbplyr` lazy table, which is just SQL that hasn't run yet.
+3. **Execute:** `collect()` sends that SQL to the database once.
+
+You can see the SQL at any point with `show_query()`. The full query is several hundred lines, so only the start is shown here:
+
+```{r}
+#| label: show-query
+
+sql <- contoso::sales |>
+  wow(.date = order_date, .value = net_revenue) |>
+  calculate() |>
+  dbplyr::sql_render()
+
+length(strsplit(sql, "\n")[[1]])   # lines of SQL
+cat(head(strsplit(sql, "\n")[[1]], 30), sep = "\n")
+```
+
+## The calendar
+
+The calendar is the base of every number, so it gets the most care. `create_full_dbi(x)` (`R/utils-misc.R`) calls `create_calendar(x)` (`R/methods.R`), which does six things:
+
+```{mermaid}
+flowchart TD
+  A["calendar_day_sql()<br/>one row per day, from 371 days before the first date,<br/>with year / quarter / month / week labels<br/>and period_date = first day of the period"] --> B["period_map<br/>day to period_date"]
+  B --> C["summary<br/>data joined to period_map,<br/>value summed per period (and group)"]
+  A --> D["calendar_periods()<br/>one row per period that overlaps the data"]
+  D --> E["per group: keep only that group's<br/>first to last period"]
+  C --> F["full_join<br/>periods with no data get 0<br/>and missing_date_indicator = 1"]
+  E --> F
+```
+
+### Labels define the periods
+
+`calendar_day_sql()` builds **one row per day** with these labels:
+
+| Calendar | `year`, `quarter`, `month` | `week` |
+|---|---|---|
+| `"standard"` | Calendar year, quarter and month of the day. | Week number with weeks starting on `week_start`. Week 1 is the week that contains 1 January, the same as Excel's `WEEKNUM()`. |
+| `"445"`, `"454"`, `"544"` | Fiscal labels from `generate_retail_calendar()`. | Fiscal week of the fiscal year. |
+
+A period is a group of days with the same labels:
+
+| Time unit | Days with the same... |
+|---|---|
+| day | date |
+| week | `year`, `week` |
+| month | `year`, `month` |
+| quarter | `year`, `quarter` |
+| year | `year` |
+
+`period_date` is the earliest day in that group: `MIN(date) OVER (PARTITION BY year, week)`. The calendar starts 371 days before the first data date, so even when the data starts mid-period, the period is still dated by its true first day. 371 days covers a 53-week fiscal year.
+
+This is how weeks behave on the standard calendar with Sunday weeks. 2024-01-01 is a Monday:
+
+```{r}
+#| label: week-labels
+
+tibble(date = seq(as.Date("2023-12-29"), as.Date("2024-01-09"), "day"), value = 1) |>
+  wtd(.date = date, .value = value) |>
+  calculate() |>
+  collect() |>
+  arrange(date) |>
+  mutate(weekday = weekdays(as.Date(date))) |>
+  select(date, weekday, year, month, week, wtd_value)
+```
+
+The week starting Sunday 31 December is cut at 1 January: the last day of 2023 is a one-day week 53, and week 1 of 2024 runs Monday to Saturday. Weeks are *not* cut at month ends. A week that starts in January and ends in February is one week, and its `month` label is the month of its first day.
+
+### Why labels instead of `floor_date()`
+
+Before 4.3.0 the calendar rounded each day down to its period with `floor_date()` and then grouped by the period **and the day's own labels**. Those two disagree in two places:
+
+- A Sunday-to-Saturday week can contain days from two months, or two day-of-year week numbers. Each combination became its own row, so one week turned into two to four rows.
+- On retail calendars a calendar month contains days from two fiscal months, so `mom()`, `qoq()` and `yoy()` returned several rows per fiscal period.
+
+Defining periods purely by their labels makes duplicate rows impossible: one set of labels gives one `period_date`, which gives one row.
+
+### Data goes through the same map
+
+The data isn't rounded down either. Each data row's date is joined to `period_map` (day to `period_date`), and the values are summed per `period_date`. The calendar rows and the data are both assigned to periods by the same table, so they always agree.
+
+### Grouped data
+
+With grouped data, each group gets its own run of periods, from the group's first period with data to its last. A store that opened in March starts in March. It does not show months of zeros before it existed, and its first comparison is `NA` rather than a comparison with an invented zero.
+
+You can call the internal function directly when debugging:
+
+```{r}
+#| label: full-dbi
+
+contoso::sales |>
+  wow(.date = order_date, .value = net_revenue) |>
+  ti:::create_full_dbi() |>
+  collect() |>
+  arrange(date) |>
+  head()
+```
+
+## The five templates
+
+Every `*_fn()` in `R/time_intelligence_fn.R` is a one-line wrapper around one of five templates. All of them start from `create_full_dbi()`.
+
+| Template | Functions | Idea |
+|---|---|---|
+| `td_template` | `ytd`, `qtd`, `mtd`, `wtd`, `atd` | Running total that restarts each period. |
+| `xox_template` | `yoy`, `qoq`, `mom`, `wow`, `dod` | Each period's total next to the total `lag_n` periods earlier. |
+| `ptd_template` | `pytd`, `pqtd`, `pmtd`, `pwtd` | For each day, the earlier period's running total at the same point. |
+| `xoxtd_template` | `yoytd`, `qoqtd`, `momtd`, `wowtd` | `td` and `ptd` side by side. |
+| `tdopx_template` | `ytdopy`, `qtdopq`, `mtdopm`, `wtdopw` | `td` next to the earlier period's full total. |
+
+The examples below use one store, Sunday weeks, and values that are easy to add up.
+
+### `td_template`: running totals
+
+```r
+full_dbi |>
+  dbplyr::window_order(date) |>
+  mutate(wtd_value = cumsum(value), .by = c(year, week, <groups>))
+```
+
+`.by` decides where the running total restarts: `year` for `ytd`, `year, quarter` for `qtd`, `year, month` for `mtd`, `year, week` for `wtd`, and only the groups for `atd`. It becomes a SQL window function: `SUM(value) OVER (PARTITION BY year, week ORDER BY date)`.
+
+| date | week | value | wtd_value |
+|---|---|---|---|
+| Sun 2024-01-07 | 2 | 10 | 10 |
+| Mon 2024-01-08 | 2 | 5 | 15 |
+| Tue 2024-01-09 | 2 | 0 | 15 |
+| Sun 2024-01-14 | 3 | 7 | 7 ← new week |
+
+### `xox_template`: period over period
+
+1. Take the one-row-per-period calendar.
+2. Make a copy where each row records the date of the row `lag_n` positions later (`lead(date, lag_n)`), within each group.
+3. Join the copy back on, matching the current row's date to that recorded date.
+
+| date | value | → | date_lag | wow_value |
+|---|---|---|---|---|
+| 2024-01-07 | 100 | | 2024-01-14 | 100 |
+| 2024-01-14 | 150 | | 2024-01-21 | 150 |
+| 2024-01-21 | 120 | | NA | 120 |
+
+After the join:
+
+| date | value | wow_value |
+|---|---|---|
+| 2024-01-07 | 100 | NA |
+| 2024-01-14 | 150 | 100 |
+| 2024-01-21 | 120 | 150 |
+
+This shifts by **row position**, not by date arithmetic. That is only correct because the calendar has exactly one row per period and no gaps, which is principle 3. With a duplicate row, "one row earlier" can be the same week, which was the 4.2 `wow()` bug.
+
+### `ptd_template`: previous period to date
+
+For each calendar day, `ptd_template` works out the **cutoff**: the same point in the earlier period. It then looks up the earlier period's running total on that cutoff date.
+
+```r
+td  <- full_dbi |> mutate(.ti_td = cumsum(value), .by = c(year, month, <groups>))
+out <- full_dbi |>
+  mutate(.ti_cutoff = <cutoff SQL>) |>
+  left_join(td, by = c(.ti_cutoff = date, <groups>))
+```
+
+The cutoff comes from `sql_period_cutoff()` in `R/utils-misc.R`:
+
+- **Weeks:** the date minus `7 * lag_n` days.
+- **Months, quarters, years:** the date minus `lag_n`, `3 * lag_n` or `12 * lag_n` months. A day that doesn't exist in the shorter month rolls back to that month's last day, so 31 May minus 3 months is 29 February.
+- **Month-end rule:** when the date is the last day of its month, the cutoff is the last day of the earlier month. On 28 February 2025, `pytd` therefore compares with the whole of February 2024, including the 29th. This is the same convention as Power BI's `DATEADD()`.
+
+| date | cutoff (`pmtd`) | pmtd_value |
+|---|---|---|
+| 2024-03-15 | 2024-02-15 | February 1–15 running total |
+| 2024-03-30 | 2024-02-29 | all of February (29th rolled back) |
+| 2024-03-31 | 2024-02-29 | all of February (month-end rule) |
+| 2024-02-29 | 2024-01-31 | all of January (month-end rule) |
+
+Each day has exactly one cutoff and the lookup joins on the group, so one day can't pick up two earlier values, and one group can't pick up another group's values. Both happened in 4.2, which shifted every earlier day *forward* and summed whatever landed on each date.
+
+### `xoxtd_template` and `tdopx_template`: combinations
+
+Both call two of the other functions and join the results by date (and group):
+
+- `xoxtd` joins `td` and `ptd`. `yoytd` = `ytd` + `pytd`.
+- `tdopx` joins `td` with the `xox` result for the period the day is in. `ytdopy` = `ytd` + the previous year's full total from `yoy`.
+
+They rebuild the inner objects with the same `calendar_type`, `fiscal_year_start` and `week_start`. Before 4.3.0 the inner calls dropped `fiscal_year_start`, so retail calendars with a non-January fiscal year were quietly computed from January.
+
+## Database support
+
+| Piece | How it stays read-only |
+|---|---|
+| Standard calendar | Generated in a CTE inside the query. |
+| Retail calendars | Built in R by `generate_retail_calendar()`, then put into the query with `dbplyr::copy_inline()` as a `VALUES` list. |
+| `abc()` thresholds | `dbplyr::copy_inline()`. |
+| Tibbles | Registered in a private in-memory DuckDB with `duckdb_register()`, which is not the user's database. |
+
+`detect_sql_dialect()` picks the SQL flavour from the connection class. DuckDB is tested. Snowflake and Postgres connections run with a one-time warning that they are untested. Anything else stops with an error rather than receiving DuckDB SQL it may run differently. Support for other databases will come in a later release.
+
+## Testing {#testing}
+
+The tests are built around one idea: **check the numbers, not just that the code runs.**
+
+| File | What it checks |
+|---|---|
+| `helper-reference.R` | Not a test. An independent version of every function written in plain R, day by day, straight from the documented definitions. It shares no code with the package except `generate_retail_calendar()`, which has its own tests. |
+| `test-reference-values.R` | All 22 functions compared row by row with the reference, ungrouped and grouped, on all seven `week_start` days and the retail calendars, plus examples small enough to check on paper. |
+| `test-calendar.R` | The calendar on its own: one row per period, no gaps, periods dated by their first day, totals that match the data. |
+| `test-database.R` | No tables written, read-only connections work, database and data frame results match, and each retail result keeps its own calendar. |
+| `test-print.R` | Snapshots of the printed summary for one function per template, a retail calendar, `abc()` and `cohort()`, plus checks that ticks survive without colour and that missing periods are counted at the right grain. A changed convention without a changed explanation shows up as a snapshot diff. |
+| `test-retail-calendar.R` | The retail calendar generator: week counts per month for each pattern, no gaps or duplicate dates. |
+| `test-error-handling.R`, `test-value-assertions.R`, `test-ti_fn.R` | Input validation, earlier hand-computed checks, and smoke tests. |
+
+The reference fixture (`ref_fixture()`) is designed to break things: two stores with different date ranges, about 30% of days missing, a leap day, two rows on the same day, and data that starts mid-period. The checks treat `NA` and `0` as different.
+
+### What runs on CRAN
+
+CRAN machines are slow, so the exhaustive variations call `skip_on_cran()`. They are the other six `week_start` days, the `"454"` and `"544"` calendars, and older smoke tests that the reference already covers. On CRAN every function is still checked against the reference on the standard and `"445"` calendars, which takes about 2.5 minutes. `devtools::check()` sets `NOT_CRAN = "true"`, so a local check runs everything (about 6 minutes).
+
+### Adding a new function
+
+1. Write the user-facing function in `R/time_intelligence_classes.R` with `build_ti()`, and a one-line `*_fn()` wrapper around a template in `R/time_intelligence_fn.R`.
+2. If it needs a new idea, add the definition to `helper-reference.R` first, in plain R.
+3. Add a line to `specs` in `test-reference-values.R`:
+
+```r
+newfn = list(type = "td", unit = "month", cols = c(td = "newfn_value"))
+```
+
+4. Add one example small enough to work out by hand.
+
+## Known rough edges
+
+Things noticed while writing this guide that aren't fixed yet:
+
+- **`datum` getters run queries.** `min_date`, `max_date` and `date_count` pull the whole date column into R every time they are read. `print()` no longer uses them (it sends one `SELECT DISTINCT`), but building the calendar still reads `min_date` and `max_date`. That's fine for `contoso::sales` but slow for very large tables. Computing them once with `summarise(min(), max())` in the database would fix it.
+- **`category_names` is ignored.** The `category` setter always replaces the names with `letters`, so names passed in are never used.
+- **`time_unit` length check does nothing.** The property validator builds an error message but never returns it, so a vector of several units isn't rejected there. The class validator still rejects unknown units.
+- **Previous-period-to-date on retail calendars.** `pytd`, `pqtd`, `pmtd` and `pwtd` step back by calendar months even on fiscal calendars. Whether "previous fiscal month to date" should instead step back by fiscal periods is undecided, so these aren't checked against the reference on retail calendars.
+- **The calendar SQL is repeated in the query.** `dbplyr` copies a lazy table's SQL into every place it is used, and the daily calendar is used for the period map, the period list and the join, so the generated query contains the calendar CTE several times (about 400 lines for `wow()`). DuckDB handles this well, but it makes `show_query()` hard to read.
+- **`cohort()` still uses `floor_date()`.** It groups by calendar periods only, so it doesn't have the label mismatch problem. It isn't covered by the reference tests yet.
+
+## Where things live
+
+| File | Contents |
+|---|---|
+| `R/classes.R` | S7 classes: `ti`, `datum`, `time_unit`, `value`, `fn`, `action`, `category`, `segment_abc`, `segment_cohort`. |
+| `R/time_intelligence_classes.R` | The 22 user-facing functions and `build_ti()`. |
+| `R/time_intelligence_fn.R` | The five templates and the `*_fn()` wrappers. |
+| `R/methods.R` | Generics and methods: `calculate()`, `create_calendar()`, and the three `print()` methods. |
+| `R/utils-misc.R` | Calendar SQL (`seq_date_sql()`, `calendar_day_sql()`, `calendar_periods()`), `generate_retail_calendar()`, `sql_period_cutoff()`, `detect_sql_dialect()`, `make_db_tbl()`, and the print helpers (`print_fn_info()`, `print_calendar_info()`, `print_assumptions()`, `print_actions_steps()`, `print_next_steps()`, `make_action_cli()`, `period_keys()`). |
+| `R/abc.R` | `abc()` and `cohort()` with their execution functions. |

@@ -3,7 +3,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 <meta name="author" content="Alejandro Hagan">
 <title>Working with Databases – ti</title>
@@ -11,10 +11,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -60,13 +63,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 <script src="../site_libs/quarto-nav/quarto-nav.js"></script><script src="../site_libs/quarto-nav/headroom.min.js"></script><script src="../site_libs/clipboard/clipboard.min.js"></script><script src="../site_libs/quarto-search/autocomplete.umd.js"></script><script src="../site_libs/quarto-search/fuse.min.js"></script><script src="../site_libs/quarto-search/quarto-search.js"></script><meta name="quarto:offset" content="../">
 <script src="../site_libs/quarto-html/quarto.js" type="module"></script><script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script><script src="../site_libs/quarto-html/popper.min.js"></script><script src="../site_libs/quarto-html/tippy.umd.min.js"></script><script src="../site_libs/quarto-html/anchor.min.js"></script><link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-6a50bd621f08fdc5c26e43d254df0a90.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-9bfc61b20ce54e18ae6b25bf56d136e1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="../site_libs/quarto-html/quarto-syntax-highlighting-6a50bd621f08fdc5c26e43d254df0a90.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-9b13294eb98a7ccc9837366643235be5.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-ad7a70ee837950f74c3137b2b7f1bb4b.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-9b13294eb98a7ccc9837366643235be5.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../site_libs/bootstrap/bootstrap.min.js"></script><link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../site_libs/bootstrap/bootstrap-255aa4841e964d86d0010a80af499a89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../site_libs/bootstrap/bootstrap-dark-75c0ff1f41ea84be33926fce437fb47c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../site_libs/bootstrap/bootstrap-255aa4841e964d86d0010a80af499a89.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-ba65e179c372ab0ad923dd8256d1e903.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../site_libs/bootstrap/bootstrap-dark-e88222ba7634d963ea3bd0cd043d76cd.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../site_libs/bootstrap/bootstrap-ba65e179c372ab0ad923dd8256d1e903.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -262,7 +265,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <header id="quarto-header" class="headroom fixed-top"><nav class="navbar navbar-expand-lg " data-bs-theme="dark"><div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
     <a class="navbar-brand" href="../index.html">
-    <span class="navbar-title">ti 4.2.1</span>
+    <span class="navbar-title">ti 4.3.0</span>
     </a>
   </div>
             <div id="quarto-search" class="" title="Search"></div>
@@ -297,12 +300,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
  <span class="dropdown-text">Working with Databases</span></a>
   </li>  
         <li>
-    <a class="dropdown-item" href="../articles/groups.html">
- <span class="dropdown-text">Working with Groups</span></a>
+    <a class="dropdown-item" href="../articles/developer-guide.html">
+ <span class="dropdown-text">How ti Works: A Developer Guide</span></a>
   </li>  
         <li>
     <a class="dropdown-item" href="../articles/index.html">
- <span class="dropdown-text">More articles… (2 more)</span></a>
+ <span class="dropdown-text">More articles… (3 more)</span></a>
   </li>  
     </ul>
 </li>
@@ -344,7 +347,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#seeing-the-generated-sql" id="toc-seeing-the-generated-sql" class="nav-link" data-scroll-target="#seeing-the-generated-sql">Seeing the generated SQL</a></li>
   <li><a href="#collect-last-not-first" id="toc-collect-last-not-first" class="nav-link" data-scroll-target="#collect-last-not-first">Collect last, not first</a></li>
   <li><a href="#tibbles-get-a-database-too" id="toc-tibbles-get-a-database-too" class="nav-link" data-scroll-target="#tibbles-get-a-database-too">Tibbles get a database too</a></li>
-  <li><a href="#dialect-support" id="toc-dialect-support" class="nav-link" data-scroll-target="#dialect-support">Dialect support</a></li>
+  <li><a href="#database-support" id="toc-database-support" class="nav-link" data-scroll-target="#database-support">Database support</a></li>
   <li><a href="#key-points" id="toc-key-points" class="nav-link" data-scroll-target="#key-points">Key points</a></li>
   </ul></nav>
 </div>
@@ -405,20 +408,30 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </table>
 <p>This matters because the expensive part — the windowed aggregation — happens <strong>in the database</strong>, not in R.</p>
 </section><section id="connecting-to-a-database" class="level2"><h2 class="anchored" data-anchor-id="connecting-to-a-database">Connecting to a database</h2>
-<p><code>ti</code> works on any <code>dbplyr</code>-backed table. Here is a DuckDB connection with the Contoso sales data loaded into it:</p>
+<p><code>ti</code> works on <code>dbplyr</code> tables in DuckDB. Here is a DuckDB connection with the Contoso sales data loaded into it:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(duckdb<span class="sc">::</span><span class="fu">duckdb</span>())</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(con, <span class="st">"sales"</span>, contoso<span class="sc">::</span>sales)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>db_sales <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"sales"</span>)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>db_sales</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>con <span class="ot">&lt;-</span> <span class="fu">dbConnect</span>(duckdb<span class="sc">::</span><span class="fu">duckdb</span>())</span></code></pre></div>
+<button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>duckdb is storing downloaded extensions and secrets under ~/.duckdb:
+ℹ /home/hagan/.duckdb
+This persists across sessions and is shared with the DuckDB CLI and other clients.
+ℹ Run duckdb(shared_home = FALSE) to use a temporary directory instead.
+ℹ See ?duckdb_storage for details and alternatives.</code></pre>
+</div>
+<div class="code-copy-outer-scaffold">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">dbWriteTable</span>(con, <span class="st">"sales"</span>, contoso<span class="sc">::</span>sales)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>db_sales <span class="ot">&lt;-</span> <span class="fu">tbl</span>(con, <span class="st">"sales"</span>)</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>db_sales</span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code># A query:  ?? x 20
-# Database: DuckDB 1.5.2 [hagan@Linux 7.0.11-76070011-generic:R 4.6.1/:memory:]
+# Database: DuckDB 2.0.0 [hagan@Linux 7.0.11-76070011-generic:R 4.6.1/:memory:]
    order_key line_number order_date delivery_date customer_key store_key
        &lt;dbl&gt;       &lt;dbl&gt; &lt;date&gt;     &lt;date&gt;               &lt;dbl&gt;     &lt;dbl&gt;
  1    233000           0 2021-05-18 2021-05-18         1855811       585
@@ -442,28 +455,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Loading tables by hand is fine for one table. If you want the whole Contoso model — sales, products, customers, stores, orders and the rest — <code>contoso</code> will build the DuckDB database for you in a single call:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> contoso<span class="sc">::</span><span class="fu">create_contoso_duckdb</span>(<span class="at">size =</span> <span class="st">"small"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(db)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "sales"     "product"   "customer"  "store"     "orders"</span></span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6] "orderrows" "fx"        "calendar"  "con"</span></span></code></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>db <span class="ot">&lt;-</span> contoso<span class="sc">::</span><span class="fu">create_contoso_duckdb</span>(<span class="at">size =</span> <span class="st">"small"</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="fu">names</span>(db)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [1] "sales"     "product"   "customer"  "store"     "orders"</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="co">#&gt; [6] "orderrows" "fx"        "calendar"  "con"</span></span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 </div>
 <p>The return value is a named list of lazy <code>tbl_dbi</code> tables, plus the connection itself as <code>db$con</code>. Each element drops straight into a <code>ti</code> pipeline:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>db<span class="sc">$</span>sales <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtd</span>(<span class="at">.date =</span> order_date, <span class="at">.value =</span> gross_margin, <span class="at">calendar_type =</span> <span class="st">"standard"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>() <span class="sc">|&gt;</span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>db<span class="sc">$</span>sales <span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtd</span>(<span class="at">.date =</span> order_date, <span class="at">.value =</span> gross_margin, <span class="at">calendar_type =</span> <span class="st">"standard"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>()</span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 </div>
 <p>Remember to close it when you are done:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>DBI<span class="sc">::</span><span class="fu">dbDisconnect</span>(db<span class="sc">$</span>con, <span class="at">shutdown =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>DBI<span class="sc">::</span><span class="fu">dbDisconnect</span>(db<span class="sc">$</span>con, <span class="at">shutdown =</span> <span class="cn">TRUE</span>)</span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 </div>
@@ -509,10 +522,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The syntax from here is identical to the tibble syntax used everywhere else in these articles:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> db_sales <span class="sc">|&gt;</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtd</span>(<span class="at">.date =</span> order_date, <span class="at">.value =</span> gross_margin, <span class="at">calendar_type =</span> <span class="st">"standard"</span>)</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(result)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>result <span class="ot">&lt;-</span> db_sales <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtd</span>(<span class="at">.date =</span> order_date, <span class="at">.value =</span> gross_margin, <span class="at">calendar_type =</span> <span class="st">"standard"</span>)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(result)</span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <div class="cell-output cell-output-stdout">
@@ -522,9 +535,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Still no query. <a href="../reference/calculate.html"><code>calculate()</code></a> compiles it:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>compiled <span class="ot">&lt;-</span> <span class="fu">calculate</span>(result)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(compiled)</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>compiled <span class="ot">&lt;-</span> <span class="fu">calculate</span>(result)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="fu">class</span>(compiled)</span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <div class="cell-output cell-output-stdout">
@@ -537,7 +550,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Because the result is a lazy <code>dbplyr</code> table, <a href="https://dplyr.tidyverse.org/reference/explain.html" class="external-link"><code>dplyr::show_query()</code></a> will show you exactly what <code>ti</code> wrote:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>compiled <span class="sc">|&gt;</span> <span class="fu">show_query</span>()</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>compiled <span class="sc">|&gt;</span> <span class="fu">show_query</span>()</span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <div class="cell-output cell-output-stdout">
@@ -668,23 +681,23 @@ FROM CALENDAR_TBL
 <p>The single most important habit: <strong>keep the pipeline lazy for as long as possible and call <code>collect()</code> at the very end.</strong></p>
 <div class="cell">
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode cell-code" id="annotated-cell-8"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-8-1"><a href="#annotated-cell-8-1" aria-hidden="true" tabindex="-1"></a>compiled <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-8-2" class="code-annotation-target"><a href="#annotated-cell-8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2023</span>, month <span class="sc">==</span> <span class="dv">6</span>) <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-8-3"><a href="#annotated-cell-8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">|&gt;</span></span>
-<a class="code-annotation-anchor" data-target-cell="annotated-cell-8" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-8-4" class="code-annotation-target"><a href="#annotated-cell-8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
-<span id="annotated-cell-8-5"><a href="#annotated-cell-8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span><div class="code-annotation-gutter-bg"></div>
+<div class="sourceCode cell-code" id="annotated-cell-9"><pre class="sourceCode r code-annotation-code code-with-copy code-annotated"><code class="sourceCode r"><span id="annotated-cell-9-1"><a href="#annotated-cell-9-1" aria-hidden="true" tabindex="-1"></a>compiled <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="1" onclick="event.preventDefault();">1</a><span id="annotated-cell-9-2" class="code-annotation-target"><a href="#annotated-cell-9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2023</span>, month <span class="sc">==</span> <span class="dv">6</span>) <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-9-3"><a href="#annotated-cell-9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(date) <span class="sc">|&gt;</span></span>
+<a class="code-annotation-anchor" data-target-cell="annotated-cell-9" data-target-annotation="2" onclick="event.preventDefault();">2</a><span id="annotated-cell-9-4" class="code-annotation-target"><a href="#annotated-cell-9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">collect</span>() <span class="sc">|&gt;</span></span>
+<span id="annotated-cell-9-5"><a href="#annotated-cell-9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">5</span>)</span><div class="code-annotation-gutter-bg"></div>
 <div class="code-annotation-gutter"></div></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
 </div>
 <div class="cell-annotation">
 <dl class="code-annotation-container-grid">
-<dt data-target-cell="annotated-cell-8" data-target-annotation="1">1</dt>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="1">1</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="2" data-code-annotation="1">Filtering happens <em>in the database</em>, on the full result set.</span>
+<span data-code-cell="annotated-cell-9" data-code-lines="2" data-code-annotation="1">Filtering happens <em>in the database</em>, on the full result set.</span>
 </dd>
-<dt data-target-cell="annotated-cell-8" data-target-annotation="2">2</dt>
+<dt data-target-cell="annotated-cell-9" data-target-annotation="2">2</dt>
 <dd>
-<span data-code-cell="annotated-cell-8" data-code-lines="4" data-code-annotation="2">Only the filtered rows cross the boundary into R.</span>
+<span data-code-cell="annotated-cell-9" data-code-lines="4" data-code-annotation="2">Only the filtered rows cross the boundary into R.</span>
 </dd>
 </dl>
 </div>
@@ -705,11 +718,18 @@ FROM CALENDAR_TBL
 <p>You do not need to set up a connection to benefit from this. When you pass a plain <code>data.frame</code> or tibble, <code>ti</code> registers it into a temporary in-memory DuckDB instance with <a href="../reference/make_db_tbl.html"><code>make_db_tbl()</code></a>:</p>
 <div class="cell">
 <div class="code-copy-outer-scaffold">
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtd</span>(order_date, gross_margin, <span class="st">"standard"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>() <span class="sc">|&gt;</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">class</span>()</span></code></pre></div>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>contoso<span class="sc">::</span>sales <span class="sc">|&gt;</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mtd</span>(order_date, gross_margin, <span class="st">"standard"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>() <span class="sc">|&gt;</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">class</span>()</span></code></pre></div>
 <button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>duckdb is storing downloaded extensions and secrets under ~/.duckdb:
+ℹ /home/hagan/.duckdb
+This persists across sessions and is shared with the DuckDB CLI and other clients.
+ℹ Run duckdb(shared_home = FALSE) to use a temporary directory instead.
+ℹ See ?duckdb_storage for details and alternatives.</code></pre>
 </div>
 <div class="cell-output cell-output-stdout">
 <pre><code>[1] "tbl_duckdb_connection" "tbl_dbi"               "tbl_sql"              
@@ -718,9 +738,13 @@ FROM CALENDAR_TBL
 </div>
 <p>The result is a <code>tbl_duckdb_connection</code>, not a tibble — even though the input was a tibble. Registration uses DuckDB’s <code>duckdb_register()</code>, which is a virtual registration rather than a physical copy, so it is fast and does not duplicate your data.</p>
 <p>This is why every example in these articles ends with <a href="https://dplyr.tidyverse.org/reference/compute.html" class="external-link"><code>dplyr::collect()</code></a>.</p>
-</section><section id="dialect-support" class="level2"><h2 class="anchored" data-anchor-id="dialect-support">Dialect support</h2>
-<p>Date arithmetic differs across SQL engines, so <code>ti</code> detects the backend from the connection and generates the appropriate expression. Three dialects are recognised explicitly:</p>
+</section><section id="database-support" class="level2"><h2 class="anchored" data-anchor-id="database-support">Database support</h2>
+<p><code>ti</code> is currently tested with <strong>DuckDB</strong>, including data frames and tibbles, which <code>ti</code> runs in DuckDB for you. Support for other databases will come in a later release.</p>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
 <thead><tr class="header">
 <th>Backend</th>
 <th>Status</th>
@@ -728,30 +752,27 @@ FROM CALENDAR_TBL
 <tbody>
 <tr class="odd">
 <td>DuckDB</td>
-<td>Recognised</td>
+<td>Tested</td>
 </tr>
 <tr class="even">
-<td>Snowflake</td>
-<td>Recognised</td>
+<td>Data frames and tibbles</td>
+<td>Tested (run in DuckDB)</td>
 </tr>
 <tr class="odd">
-<td>Postgres</td>
-<td>Recognised</td>
-</tr>
-<tr class="even">
-<td>Anything else</td>
-<td>Falls back to the DuckDB dialect</td>
+<td>Other databases</td>
+<td>Not yet supported; <code>ti</code> stops with an error rather than guess the SQL</td>
 </tr>
 </tbody>
 </table>
-<p>The fallback is often fine, since many engines accept DuckDB-compatible date arithmetic. But it is a fallback, not a guarantee — if you are running <code>ti</code> against a backend not in the list above, verify the output of <code>show_query()</code> before trusting the numbers.</p>
+<p><code>ti</code> never writes to your database. The calendar, including the retail calendars, and the <a href="../reference/abc.html"><code>abc()</code></a> thresholds are built inside the query itself, so read-only access is enough and nothing is left behind.</p>
 </section><section id="key-points" class="level2"><h2 class="anchored" data-anchor-id="key-points">Key points</h2>
 <ul>
 <li>Time-intelligence functions describe work; <a href="../reference/calculate.html"><code>calculate()</code></a> compiles it; <code>collect()</code> runs it.</li>
 <li>Use <code>show_query()</code> to inspect the SQL — period-to-date becomes a window function.</li>
 <li>Filter, join and arrange <em>before</em> <code>collect()</code> so the database does the work.</li>
 <li>Tibbles are transparently promoted to DuckDB, so the return value is always a lazy table.</li>
-<li>DuckDB, Snowflake and Postgres get dialect-specific date arithmetic; other backends fall back to DuckDB’s.</li>
+<li>
+<code>ti</code> is tested with DuckDB and never writes tables, so read-only access is enough. Support for other databases will come later.</li>
 </ul></section></main><!-- /main --><script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     // Ensure there is a toggle, if there isn't float one in the top right
@@ -1174,7 +1195,7 @@ FROM CALENDAR_TBL
        
     </div>
     <div class="nav-footer-right">
-<p>ti 4.2.1</p>
+<p>ti 4.3.0</p>
 </div>
   </div>
 </footer>

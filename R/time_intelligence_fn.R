@@ -11,6 +11,14 @@
 #' @noRd
 td_template <- function(x, by_cols, relocate_cols) {
 
+  # Follow along with a dummy example: run devtools::load_all(), then the line(s)
+  # below, then the body one step at a time.
+  # x <- contoso::sales |>
+  #   dplyr::group_by(store_key) |>
+  #   wtd(.date = order_date, .value = net_revenue)
+  # by_cols <- c("year", "week")                       # as wtd_fn() passes
+  # relocate_cols <- c("date", "year", "month", "week")
+
   full_dbi <- create_full_dbi(x)
 
   out_dbi <- full_dbi |>
@@ -29,143 +37,59 @@ td_template <- function(x, by_cols, relocate_cols) {
 }
 
 
-# Template 2: Lagged cumsum (ptd) ---------------------------------------------
+# Template 2: Previous period to date (ptd) -----------------------------------
 # Used by: pytd_fn, pqtd_fn, pmtd_fn, pwtd_fn
 #
-# The year variant uses lubridate::years() for the lag, while quarter/month/week
-# variants use sql_date_add(). This split is necessary because the SQL date
-# arithmetic differs by period.
+# For each calendar date, works out the same point in the earlier period (the
+# cutoff, see sql_period_cutoff()) and looks up the earlier period's running
+# total on that date. Looking up one cutoff per date means each date gets
+# exactly one value, and the lookup is by group.
 
 #' @noRd
-ptd_year_template <- function(x, by_cols, drop_cols, join_by_cols, relocate_cols) {
+ptd_template <- function(x, unit, by_cols, out_cols, days_in_period = FALSE) {
+
+  # Follow along with a dummy example: run devtools::load_all(), then the line(s)
+  # below, then the body one step at a time.
+  # x <- contoso::sales |>
+  #   dplyr::group_by(store_key) |>
+  #   pmtd(.date = order_date, .value = net_revenue)
+  # unit <- "month"                                    # as pmtd_fn() passes
+  # by_cols <- c("year", "month")
+  # out_cols <- c("date", "year", "month")
+  # days_in_period <- TRUE
 
   full_dbi <- create_full_dbi(x)
+  .con <- dbplyr::remote_con(full_dbi)
 
-  lag_dbi <- full_dbi |>
+  td_dbi <- full_dbi |>
     dbplyr::window_order(date) |>
     dplyr::mutate(
-      date_lag = as.Date(date + lubridate::years(!!x@fn@lag_n))
-      ,!!x@value@new_column_name_vec := cumsum(!!x@value@value_quo)
+      .ti_td = cumsum(!!x@value@value_quo)
       ,.by = c(!!!rlang::syms(by_cols), !!!x@datum@group_quo)
     ) |>
-    dplyr::select(-c(!!!rlang::syms(drop_cols), !!x@value@value_quo))
+    dplyr::select(.ti_cutoff = date, !!!x@datum@group_quo, .ti_td)
 
-  out_dbi <- dplyr::full_join(
-    full_dbi
-    ,lag_dbi
-    ,by = dplyr::join_by(date == date_lag, !!!x@datum@group_quo)
-  ) |>
-    dplyr::select(-c(!!x@value@value_quo)) |>
-    dbplyr::window_order(date) |>
-    dplyr::group_by(!!!rlang::syms(join_by_cols), !!!x@datum@group_quo) |>
-    tidyr::fill(date, .direction = "down") |>
-    dplyr::ungroup() |>
-    dplyr::summarise(
-      dplyr::across(dplyr::contains(x@value@value_vec), \(x) sum(x, na.rm = TRUE))
-      ,.by = c(!!!rlang::syms(join_by_cols), !!!x@datum@group_quo)
-    ) |>
-    dplyr::relocate(!!!rlang::syms(relocate_cols)) |>
-    dplyr::relocate(dplyr::any_of("missing_date_indicator"), .after = dplyr::last_col())
+  cutoff_sql <- sql_period_cutoff(.con, unit = unit, lag_n = x@fn@lag_n)
 
-  return(out_dbi)
-}
+  out_dbi <- full_dbi |>
+    dplyr::mutate(.ti_cutoff = as.Date(!!cutoff_sql)) |>
+    dplyr::left_join(td_dbi, by = dplyr::join_by(.ti_cutoff, !!!x@datum@group_quo)) |>
+    dplyr::mutate(!!x@value@new_column_name_vec := .ti_td)
 
-#' @noRd
-ptd_sql_template <- function(x, sql_unit, sql_expr, by_cols, drop_cols, join_by_cols, relocate_cols, filter_na_col = NULL) {
-
-  lag_n_vec <- x@fn@lag_n |> rlang::as_label()
-
-  full_dbi <- create_full_dbi(x)
-
-  if (!is.null(filter_na_col)) {
-    # pmtd and pwtd remove missing_date_indicator before lag
-    full_dbi_for_lag <- full_dbi |> dplyr::select(-c(missing_date_indicator))
-  } else {
-    full_dbi_for_lag <- full_dbi
-  }
-
-  .con <- dbplyr::remote_con(full_dbi_for_lag)
-  date_lag_sql <- sql_date_add(.con, sql_unit, sql_expr(lag_n_vec))
-
-  lag_dbi <- full_dbi_for_lag |>
-    dbplyr::window_order(date) |>
-    dplyr::mutate(
-      date_lag = as.Date(!!date_lag_sql)
-      ,!!x@value@new_column_name_vec := cumsum(!!x@value@value_quo)
-      ,.by = c(!!!rlang::syms(by_cols), !!!x@datum@group_quo)
-    ) |>
-    dplyr::select(-c(!!!rlang::syms(drop_cols), !!x@value@value_quo))
-
-  # pmtd has extra month/year extraction and days_in_comparison_period logic
-  if (sql_unit == "month" && !is.null(filter_na_col)) {
-    lag_dbi <- lag_dbi |>
+  if (isTRUE(days_in_period)) {
+    out_dbi <- out_dbi |>
       dplyr::mutate(
-        month = lubridate::month(date_lag)
-        ,year = lubridate::year(date_lag)
-      ) |>
-      dplyr::mutate(
-        days_in_comparison_period = lubridate::day(date)
-      ) |>
-      dplyr::select(-c(year, month, date))
+        days_in_comparison_period = dplyr::if_else(is.na(.ti_td), NA, lubridate::day(.ti_cutoff))
+      )
   }
 
-  if (!is.null(filter_na_col)) {
-    # pmtd/pwtd: use full_dbi_for_lag (without missing_date_indicator) for join
-    join_result <- dplyr::full_join(
-      full_dbi_for_lag
-      ,lag_dbi
-      ,by = dplyr::join_by(date == date_lag, !!!x@datum@group_quo)
-    ) |>
-      dplyr::select(-c(!!x@value@value_quo)) |>
-      dbplyr::window_order(date, !!!x@datum@group_quo)
-
-    if (sql_unit == "month") {
-      # pmtd: fill both days_in_comparison_period and the value column
-      join_result <- join_result |>
-        tidyr::fill(c(days_in_comparison_period, !!x@value@new_column_name_quo), .direction = "down") |>
-        dplyr::summarise(
-          !!x@value@new_column_name_vec := max(!!x@value@new_column_name_quo, na.rm = TRUE)
-          ,days_in_comparison_period = max(days_in_comparison_period, na.rm = TRUE)
-          ,.by = c(!!!rlang::syms(join_by_cols), !!!x@datum@group_quo)
-        )
-    } else {
-      # pwtd
-      join_result <- join_result |>
-        dplyr::group_by(!!!rlang::syms(join_by_cols), !!!x@datum@group_quo) |>
-        tidyr::fill(date, .direction = "down") |>
-        dplyr::ungroup() |>
-        dplyr::summarise(
-          dplyr::across(dplyr::contains(x@value@value_vec), \(x) sum(x, na.rm = TRUE))
-          ,.by = c(!!!rlang::syms(join_by_cols), !!!x@datum@group_quo)
-        )
-    }
-
-    out_dbi <- join_result |>
-      dplyr::relocate(!!!rlang::syms(relocate_cols)) |>
-      dplyr::relocate(dplyr::any_of("missing_date_indicator"), .after = dplyr::last_col())
-
-  } else {
-    # pqtd path
-    out_dbi <- dplyr::full_join(
-      full_dbi
-      ,lag_dbi
-      ,by = dplyr::join_by(date == date_lag, !!!x@datum@group_quo)
-    ) |>
-      dplyr::select(-c(!!x@value@value_quo)) |>
-      dbplyr::window_order(date, !!!rlang::syms(join_by_cols), !!!x@datum@group_quo) |>
-      dplyr::group_by(!!!rlang::syms(join_by_cols), !!!x@datum@group_quo) |>
-      tidyr::fill(date, .direction = "down") |>
-      dplyr::ungroup() |>
-      dplyr::summarise(
-        dplyr::across(dplyr::contains(x@value@value_vec), \(x) sum(x, na.rm = TRUE))
-        ,.by = c(!!!rlang::syms(join_by_cols), !!!x@datum@group_quo)
-      ) |>
-      dplyr::filter(!is.na(year)) |>
-      dplyr::relocate(!!!rlang::syms(relocate_cols)) |>
-      dplyr::relocate(dplyr::any_of("missing_date_indicator"), .after = dplyr::last_col())
-  }
-
-  return(out_dbi)
+  out_dbi |>
+    dplyr::select(
+      dplyr::all_of(out_cols)
+      ,!!!x@datum@group_quo
+      ,!!x@value@new_column_name_vec
+      ,dplyr::any_of("days_in_comparison_period")
+    )
 }
 
 
@@ -176,6 +100,15 @@ ptd_sql_template <- function(x, sql_unit, sql_expr, by_cols, drop_cols, join_by_
 
 #' @noRd
 xoxtd_template <- function(x, td_fn_call, ptd_fn_call, join_by_cols, relocate_cols, add_year = FALSE) {
+
+  # Follow along with a dummy example: run devtools::load_all(), then the line(s)
+  # below, then the body one step at a time.
+  # x <- momtd(contoso::sales, .date = order_date, .value = net_revenue)
+  # td_fn_call  <- \(x) mtd(x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo) |> mtd_fn()
+  # ptd_fn_call <- \(x) pmtd(x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo) |> pmtd_fn()
+  # join_by_cols <- c("year", "month")                 # as momtd_fn() passes
+  # relocate_cols <- c("date", "year", "month")
+  # add_year <- FALSE
 
   td_dbi <- td_fn_call(x)
   ptd_dbi <- ptd_fn_call(x)
@@ -217,6 +150,14 @@ xoxtd_template <- function(x, td_fn_call, ptd_fn_call, join_by_cols, relocate_co
 #' @noRd
 xox_template <- function(x, drop_cols, relocate_cols) {
 
+  # Follow along with a dummy example: run devtools::load_all(), then the line(s)
+  # below, then the body one step at a time.
+  # x <- contoso::sales |>
+  #   dplyr::group_by(store_key) |>
+  #   wow(.date = order_date, .value = net_revenue)
+  # drop_cols <- c("year", "quarter", "month", "week")  # as wow_fn() passes
+  # relocate_cols <- c("date", "year", "month", "week")
+
   full_dbi <- create_full_dbi(x)
 
   lag_dbi <- full_dbi |>
@@ -247,11 +188,19 @@ xox_template <- function(x, drop_cols, relocate_cols) {
 #' @noRd
 tdopx_template <- function(x, td_class_fn, xox_class_fn, join_by_cols, relocate_cols) {
 
+  # Follow along with a dummy example: run devtools::load_all(), then the line(s)
+  # below, then the body one step at a time.
+  # x <- wtdopw(contoso::sales, .date = order_date, .value = net_revenue)
+  # td_class_fn <- wtd                                  # as wtdopw_fn() passes
+  # xox_class_fn <- wow
+  # join_by_cols <- c("year", "week")
+  # relocate_cols <- c("date", "year", "month", "week")
+
   # Current period to-date
   td_dbi <-
     x@datum@data |>
     dplyr::group_by(!!!x@datum@group_quo) |>
-    td_class_fn(.data = _, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type) |>
+    td_class_fn(.data = _, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, fiscal_year_start = x@datum@fiscal_year_start, week_start = x@datum@week_start) |>
     calculate() |>
     dplyr::select(-c(missing_date_indicator, !!x@value@value_quo))
 
@@ -259,9 +208,11 @@ tdopx_template <- function(x, td_class_fn, xox_class_fn, join_by_cols, relocate_
   px_dbi <-
     x@datum@data |>
     dplyr::group_by(!!!x@datum@group_quo) |>
-    xox_class_fn(.data = _, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, lag_n = x@fn@lag_n) |>
+    xox_class_fn(.data = _, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, fiscal_year_start = x@datum@fiscal_year_start, week_start = x@datum@week_start, lag_n = x@fn@lag_n) |>
     calculate() |>
-    dplyr::select(-c(missing_date_indicator, date, !!x@value@value_quo))
+    dplyr::select(-c(missing_date_indicator, date, !!x@value@value_quo)) |>
+    # labels other than the join keys come from the current period
+    dplyr::select(-dplyr::any_of(setdiff(c("year", "quarter", "month", "week"), join_by_cols)))
 
   out_dbi <- td_dbi |>
     dplyr::left_join(
@@ -309,13 +260,7 @@ ytd_fn <- function(x) {
 #' @returns dbi object
 #' @keywords internal
 pytd_fn <- function(x) {
-  ptd_year_template(
-    x,
-    by_cols = "year",
-    drop_cols = c("date", "year"),
-    join_by_cols = c("date", "year"),
-    relocate_cols = c("date", "year")
-  )
+  ptd_template(x, unit = "year", by_cols = "year", out_cols = c("date", "year"))
 }
 
 #' @title Current year to date over previous year-to-date execution function
@@ -334,11 +279,11 @@ yoytd_fn <- function(x) {
   xoxtd_template(
     x,
     td_fn_call = function(x) {
-      ytd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type) |>
+      ytd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, fiscal_year_start = x@datum@fiscal_year_start, week_start = x@datum@week_start) |>
         ytd_fn()
     },
     ptd_fn_call = function(x) {
-      pytd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, lag_n = x@fn@lag_n) |>
+      pytd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, fiscal_year_start = x@datum@fiscal_year_start, week_start = x@datum@week_start, lag_n = x@fn@lag_n) |>
         pytd_fn()
     },
     join_by_cols = "year",
@@ -417,15 +362,7 @@ qtd_fn <- function(x) {
 #' @returns dbi object
 #' @keywords internal
 pqtd_fn <- function(x) {
-  ptd_sql_template(
-    x,
-    sql_unit = "month",
-    sql_expr = function(lag_n_vec) glue::glue("3 * {lag_n_vec}"),
-    by_cols = c("year", "quarter"),
-    drop_cols = c("date", "year", "quarter"),
-    join_by_cols = c("date", "year", "quarter"),
-    relocate_cols = c("date", "year")
-  )
+  ptd_template(x, unit = "quarter", by_cols = c("year", "quarter"), out_cols = c("date", "year", "quarter"))
 }
 
 #' Current quarter to date over previous quarter-to-date for tibble objects
@@ -444,11 +381,11 @@ qoqtd_fn <- function(x) {
   xoxtd_template(
     x,
     td_fn_call = function(x) {
-      qtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type) |>
+      qtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, fiscal_year_start = x@datum@fiscal_year_start, week_start = x@datum@week_start) |>
         qtd_fn()
     },
     ptd_fn_call = function(x) {
-      pqtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, lag_n = x@fn@lag_n) |>
+      pqtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, fiscal_year_start = x@datum@fiscal_year_start, week_start = x@datum@week_start, lag_n = x@fn@lag_n) |>
         pqtd_fn()
     },
     join_by_cols = c("year", "quarter"),
@@ -526,16 +463,7 @@ mtd_fn <- function(x) {
 #' @returns dbi object
 #' @keywords internal
 pmtd_fn <- function(x) {
-  ptd_sql_template(
-    x,
-    sql_unit = "month",
-    sql_expr = function(lag_n_vec) lag_n_vec,
-    by_cols = c("year", "month"),
-    drop_cols = c("month", "year"),
-    join_by_cols = c("date", "year", "month"),
-    relocate_cols = c("date", "year", "month"),
-    filter_na_col = "year"
-  )
+  ptd_template(x, unit = "month", by_cols = c("year", "month"), out_cols = c("date", "year", "month"), days_in_period = TRUE)
 }
 
 #' Current year to date over previous year-to-date for tibble objects
@@ -554,11 +482,11 @@ momtd_fn <- function(x) {
   xoxtd_template(
     x,
     td_fn_call = function(x) {
-      mtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type) |>
+      mtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, fiscal_year_start = x@datum@fiscal_year_start, week_start = x@datum@week_start) |>
         mtd_fn()
     },
     ptd_fn_call = function(x) {
-      pmtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, lag_n = x@fn@lag_n) |>
+      pmtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, fiscal_year_start = x@datum@fiscal_year_start, week_start = x@datum@week_start, lag_n = x@fn@lag_n) |>
         pmtd_fn()
     },
     join_by_cols = c("year", "month"),
@@ -620,7 +548,7 @@ mtdopm_fn <- function(x) {
 #' @returns dbi object
 #' @keywords internal
 wtd_fn <- function(x) {
-  td_template(x, by_cols = c("year", "month", "week"), relocate_cols = c("date", "year", "month", "week"))
+  td_template(x, by_cols = c("year", "week"), relocate_cols = c("date", "year", "month", "week"))
 }
 
 #' Previous week-to-date execution function
@@ -636,16 +564,7 @@ wtd_fn <- function(x) {
 #' @returns dbi object
 #' @keywords internal
 pwtd_fn <- function(x) {
-  ptd_sql_template(
-    x,
-    sql_unit = "week",
-    sql_expr = function(lag_n_vec) lag_n_vec,
-    by_cols = c("year", "month", "week"),
-    drop_cols = c("date", "month", "year", "week"),
-    join_by_cols = c("date", "year", "month"),
-    relocate_cols = c("date", "year", "month"),
-    filter_na_col = "year"
-  )
+  ptd_template(x, unit = "week", by_cols = c("year", "week"), out_cols = c("date", "year", "month"))
 }
 
 #' Week-to-date over previous week-to-date execution function
@@ -664,10 +583,10 @@ wowtd_fn <- function(x) {
   # Note: Cannot use xoxtd_template because pwtd_fn drops 'week' column,
 
   # and wowtd needs to preserve it via left_join without summarise.
-  wtd_dbi <- wtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type) |>
+  wtd_dbi <- wtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, fiscal_year_start = x@datum@fiscal_year_start, week_start = x@datum@week_start) |>
     wtd_fn()
 
-  pwtd_dbi <- pwtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, lag_n = x@fn@lag_n) |>
+  pwtd_dbi <- pwtd(.data = x@datum@data, .date = !!x@datum@date_quo, .value = !!x@value@value_quo, calendar_type = x@datum@calendar_type, fiscal_year_start = x@datum@fiscal_year_start, week_start = x@datum@week_start, lag_n = x@fn@lag_n) |>
     pwtd_fn()
 
   dplyr::left_join(wtd_dbi, pwtd_dbi, by = dplyr::join_by(date, year, month, !!!x@datum@group_quo)) |>
@@ -708,7 +627,7 @@ wtdopw_fn <- function(x) {
     x,
     td_class_fn = wtd,
     xox_class_fn = wow,
-    join_by_cols = c("year", "month", "week"),
+    join_by_cols = c("year", "week"),
     relocate_cols = c("date", "year", "month", "week")
   )
 }

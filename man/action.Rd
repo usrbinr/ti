@@ -7,7 +7,8 @@
 action(value = NULL, method = NA_character_)
 }
 \arguments{
-\item{value}{The action description, converted to cli markup on assignment.}
+\item{value}{The steps the calculation performs, e.g.
+\code{c("aggregate", "shift")}. Stored as a named logical vector.}
 
 \item{method}{A string describing the method used by the calculation.}
 }
@@ -16,7 +17,9 @@ An \code{action} S7 object.
 }
 \description{
 \code{action} carries the human-readable narrative shown by the \code{print()} methods.
-\code{value} is lower-cased and passed through \code{make_action_cli()} on assignment so
-it renders as cli-formatted bullets.
+\code{value} is lower-cased and passed through \code{make_action_cli()} on assignment,
+which stores a named logical vector saying which of the five standard steps
+(aggregate, shift, compare, proportion of total, count distinct) the
+calculation performs. \code{print_actions_steps()} draws the checklist from it.
 }
 \keyword{internal}

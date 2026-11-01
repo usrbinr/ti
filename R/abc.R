@@ -96,6 +96,12 @@ return(x)
 #' @keywords internal
 abc_fn <- function(x){
 
+  # Follow along with a dummy example: run devtools::load_all(), then the line(s)
+  # below, then the body one step at a time.
+  # x <- contoso::sales |>
+  #   dplyr::group_by(store_key) |>
+  #   abc(category_values = c(0.5, 0.8, 1), .value = net_revenue)
+
   # 1. AGGREGATE DATA
   # We handle both count-based (n) and sum-based (.value) categorization
   if (x@value@value_vec != "n") {
@@ -136,14 +142,9 @@ abc_fn <- function(x){
     category_name  = cat_names
   )
 
-  # Copy the tiny threshold table to the database
-  category_dbi <- dplyr::copy_to(
-    dest = con,
-    df = cat_lookup_df,
-    name = paste0("tmp_abc_", format(Sys.time(), "%Y%m%d%H%M%S"), "_", sample(1e8, 1)),
-    overwrite = TRUE,
-    temporary = TRUE
-  )
+  # Inline the tiny threshold table into the query as VALUES, so nothing is
+  # written to the database (works with read-only access)
+  category_dbi <- dbplyr::copy_inline(con, cat_lookup_df)
 
   # 4. PERFORM THE OPTIMIZED JOIN
   # Instead of an inequality join which is essentially a filtered Cartesian product:
@@ -184,7 +185,7 @@ abc_fn <- function(x){
 #' Database-friendly cohort analysis function.
 #' A remake of \url{https://github.com/PeerChristensen/cohorts}, combining
 #' `cohort_table_month`, `cohort_table_year`, and `cohort_table_day` into a single package.
-#' Rewritten for database compatibility and tested with Snowflake and DuckDB.
+#' Rewritten for database compatibility; runs entirely in SQL without writing tables.
 #'
 #' @details
 #' - Groups your `.value` column by shared time attributes from the `.date` column.
@@ -238,6 +239,10 @@ cohort <- function(.data,.date,.value,time_unit="month",period_label=FALSE){
 #' @returns function
 #' @keywords internal
 cohort_fn <- function(x){
+
+  # Follow along with a dummy example: run devtools::load_all(), then the line(s)
+  # below, then the body one step at a time.
+  # x <- cohort(contoso::sales, .date = order_date, .value = customer_key)
 
   ## summary table
 

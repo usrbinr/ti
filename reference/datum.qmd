@@ -21,6 +21,7 @@ datum(
   data = NULL,
   calendar_type = "standard",
   fiscal_year_start = 1,
+  week_start = 7,
   date_vec = NULL
 )
 ```
@@ -37,6 +38,9 @@ Lower-cased on assignment.</p></dd>
 <dt id="arg-fiscal-year-start"><code>fiscal_year_start</code><a class="anchor" aria-label="anchor" href="#arg-fiscal-year-start"></a></dt>
 <dd><p>Integer between 1 and 12 giving the month the fiscal
 year starts in.</p></dd>
+<dt id="arg-week-start"><code>week_start</code><a class="anchor" aria-label="anchor" href="#arg-week-start"></a></dt>
+<dd><p>Integer between 1 (Monday) and 7 (Sunday) giving the day
+weeks start on.</p></dd>
 <dt id="arg-date-vec"><code>date_vec</code><a class="anchor" aria-label="anchor" href="#arg-date-vec"></a></dt>
 <dd><p>The name of the date column, as a string.</p></dd>
 </dl>

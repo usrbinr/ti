@@ -30,7 +30,7 @@ Under the hood, these functions are built upon the great foundations of:
 -   [duckdb](https://github.com/duckdb/duckdb-r)
 -   [lubridate](https://lubridate.tidyverse.org/)
 
-All functions are designed to work with either tibbles or a database backend with a unified syntax. Dialect-specific date arithmetic is generated for DuckDB, Snowflake and Postgres; other `dbplyr` backends fall back to the DuckDB dialect and may need testing.
+All functions work with either tibbles or a 'DuckDB' database table, with the same syntax. Everything runs as a single read-only query, so no tables are written to your database. Support for other databases will come in a later release.
 
 Even if you are working with tibbles, all functions are optimized to leverage [DuckDB](https://github.com/duckdb/duckdb-r) for increased speed and performance[^1]
 

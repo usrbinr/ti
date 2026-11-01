@@ -18,44 +18,65 @@ NULL
 #' If you want to summarize to a particular group, simply pass the tibble through to the [dplyr::group_by()] argument
 #' prior to function and the function will make summarize and make a complete calendar for each group item.
 #' @keywords internal
-create_calendar <- S7::new_generic("create_calendar","x")
+create_calendar <- S7::new_generic("create_calendar", "x")
 
 #' @rdname create_calendar
-S7::method(create_calendar,ti) <- function(x,...){
+S7::method(create_calendar, ti) <- function(x, ...) {
+  # Follow along with a dummy example: run devtools::load_all(), then the line(s)
+  # below, then the body one step at a time.
+  # x <- contoso::sales |>
+  #   dplyr::group_by(store_key) |>
+  #   wow(.date = order_date, .value = net_revenue)
 
+  #
+  # Inspect any intermediate table with dplyr::collect(), e.g.
+  # day_dbi |> dplyr::collect() or summary_dbi |> dplyr::collect()
 
-  summary_dbi <- x@datum@data |>
+  # Daily calendar with each day's period start; both the calendar rows and the
+  # data are assigned to periods through it, so they always agree
+  day_dbi <- calendar_day_sql(
+    .con = dbplyr::remote_con(x@datum@data),
+    start_date = x@datum@min_date,
+    end_date = x@datum@max_date,
+    calendar_type = x@datum@calendar_type,
+    time_unit = x@time_unit@value,
+    week_start = x@datum@week_start,
+    fiscal_year_start = x@datum@fiscal_year_start
+  )
+
+  period_map <- day_dbi |>
+    dplyr::select(.ti_day = date, .ti_period_date = period_date)
+
+  summary_dbi <-
+    x@datum@data |>
     dplyr::ungroup() |>
     make_db_tbl() |>
-    dplyr::mutate(
-      date = lubridate::floor_date(!!x@datum@date_quo, unit = !!x@time_unit@value,week_start = 7),
-      time_unit = !!x@time_unit@value
-    ) |>
+    dplyr::mutate(.ti_day = as.Date(!!x@datum@date_quo)) |>
+    dplyr::inner_join(period_map, by = ".ti_day") |>
     dplyr::summarise(
       !!x@value@value_vec := sum(!!x@value@value_quo, na.rm = TRUE),
-      .by = c(date, !!!x@datum@group_quo)
-    )
+      .by = c(.ti_period_date, !!!x@datum@group_quo)
+    ) |>
+    dplyr::rename(date = .ti_period_date)
 
-  active_bounds <- summary_dbi |>
+  active_bounds <-
+    summary_dbi |>
     dplyr::summarise(
       min_g = min(date, na.rm = TRUE),
       max_g = max(date, na.rm = TRUE),
       .by = c(!!!x@datum@group_quo)
     )
 
-
-  master_dates <- seq_date_sql(
-    start_date    = x@datum@min_date,
-    end_date      = x@datum@max_date,
-    calendar_type = x@datum@calendar_type,
-    time_unit     = x@time_unit@value,
-    .con          = dbplyr::remote_con(x@datum@data),
-    fiscal_year_start = x@datum@fiscal_year_start
-  )
+  master_dates <-
+    calendar_periods(
+      day_dbi,
+      start_date = x@datum@min_date,
+      time_unit = x@time_unit@value
+    )
 
   if (x@datum@group_indicator) {
-
-    calendar_dbi <- master_dates |>
+    calendar_dbi <-
+      master_dates |>
       dplyr::cross_join(
         active_bounds |> dplyr::distinct(!!!x@datum@group_quo)
       ) |>
@@ -68,7 +89,6 @@ S7::method(create_calendar,ti) <- function(x,...){
   } else {
     calendar_dbi <- master_dates
   }
-
 
   full_dbi <-
     calendar_dbi |>
@@ -99,7 +119,7 @@ S7::method(create_calendar,ti) <- function(x,...){
 #'
 #' **`calculate()`** serves as the **execution engine**.
 #'
-#' When called, it interprets the blueprint and generates optimized R code or SQL code (using the `dbplyr` package) that is then executed efficiently on the data source, whether it's an in-memory `tibble` or a remote database backend (like `duckdb` or `snowflake`).
+#' When called, it interprets the blueprint and generates optimized R code or SQL code (using the `dbplyr` package) that is then executed efficiently on the data source, whether it's an in-memory `tibble` or a 'DuckDB' table.
 #' This approach minimizes data transfer and improves performance for large datasets.
 #'
 #' The resulting table will be sorted by the relevant date column to ensure the correct temporal ordering of the calculated metrics.
@@ -112,41 +132,47 @@ S7::method(create_calendar,ti) <- function(x,...){
 #' x <- ytd(contoso::sales,.date=order_date,.value=quantity,calendar_type="standard")
 #' calculate(x)
 #' }
-calculate <- S7::new_generic("calculate","x")
+calculate <- S7::new_generic("calculate", "x")
 
 #' @rdname calculate
-S7::method(calculate,ti) <- function(x,...){
+S7::method(calculate, ti) <- function(x, ...) {
+  # Follow along with a dummy example: run devtools::load_all(), then the line(s)
+  # below, then the body one step at a time.
+  # x <- ytd(contoso::sales, .date = order_date, .value = net_revenue)
+  # x@fn@fn_exec    # the *_fn() that will run, here ytd_fn()
 
-  out <-   x@fn@fn_exec(x)|>
-      dbplyr::window_order(date)
+  out <- x@fn@fn_exec(x) |>
+    dbplyr::window_order(date)
 
   return(out)
-
 }
 
 
 #' @rdname calculate
-S7::method(calculate,segment_cohort) <- function(x,...){
+S7::method(calculate, segment_cohort) <- function(x, ...) {
+  # Follow along with a dummy example: run devtools::load_all(), then the line(s)
+  # below, then the body one step at a time.
+  # x <- cohort(contoso::sales, .date = order_date, .value = customer_key)
 
   out <- x@fn@fn_exec(x)
 
   return(out)
-
 }
 
 
-
 #' @rdname calculate
-S7::method(calculate,segment_abc) <- function(x,...){
+S7::method(calculate, segment_abc) <- function(x, ...) {
+  # Follow along with a dummy example: run devtools::load_all(), then the line(s)
+  # below, then the body one step at a time.
+  # x <- contoso::sales |>
+  #   dplyr::group_by(store_key) |>
+  #   abc(category_values = c(0.5, 0.8, 1), .value = net_revenue)
 
   out <- x@fn@fn_exec(x) |>
     dplyr::arrange(row_id)
 
   return(out)
-
 }
-
-
 
 
 #' @title Print ti objects
@@ -158,55 +184,24 @@ S7::method(calculate,segment_abc) <- function(x,...){
 #' @export
 #' @keywords internal
 #'
-S7::method(print, ti) <- function(x,...){
+S7::method(print, ti) <- function(x, ...) {
+  # Follow along with a dummy example: run devtools::load_all(), then the line(s)
+  # below, then the body one step at a time.
+  # x <- contoso::sales |>
+  #   dplyr::group_by(store_key) |>
+  #   pmtd(.date = order_date, .value = net_revenue)
 
-
-  ## subset function descriptions from table
-
-
-  value_chr     <-   x@value@value_vec
-  group_count   <-   x@datum@group_count
-  calendar_type <-   x@datum@calendar_type
-
-
-
-  ## start print message
-
-  ### general information
-
-  cli::cli_h1(x@fn@fn_long_name)
-  cli::cli_text("Function: {.code { x@fn@fn_name}} was executed")
-  cli::cli_h2("Description:")
-  cli::cli_par()
-
-  cli::cli_text(x@action@method)
-
-  cli::builtin_theme()
-
-  ### Calendar information
-
+  print_fn_info(x)
 
   print_calendar_info(x)
 
-  ## Action information
+  print_assumptions(x)
 
   print_actions_steps(x)
 
-
   cli::cat_line("")
-  ## print groups if groups exist
 
-  if(x@datum@group_indicator){
-
-  cli::cli_text("{paste(x@datum@group_vec, collapse = ", ")} groups are in the table")
-  cli::cat_line("")
-  }
-
-  ## Next Steps information
-
-print_next_steps()
-
-
+  print_next_steps()
 }
 
 
@@ -219,8 +214,12 @@ print_next_steps()
 #' @return segment object
 #' @keywords internal
 #'
-S7::method(print,segment_abc) <- function(x,...){
-
+S7::method(print, segment_abc) <- function(x, ...) {
+  # Follow along with a dummy example: run devtools::load_all(), then the line(s)
+  # below, then the body one step at a time.
+  # x <- contoso::sales |>
+  #   dplyr::group_by(store_key) |>
+  #   abc(category_values = c(0.5, 0.8, 1), .value = net_revenue)
 
   n_values_len <- length(x@category@category_values)
 
@@ -229,47 +228,43 @@ S7::method(print,segment_abc) <- function(x,...){
   ### Category Values information
   cli::cli_h2("Category Information")
 
-
-  if(x@value@value_vec=="n"){
-
-    cli::cat_bullet(
-
-      paste(
-        "The data set is summarized by"
-        ,cli::col_br_magenta(paste(x@datum@group_vec, collapse = ", "))
-        ,"and then"
-        ,cli::col_br_magenta("counts")
-        ,"each group member's contribution of the total and then finally calculates the"
-        ,cli::col_br_magenta("count")
-        ,"of each groups rolling cumulative proportion of the total"
-      )
-
-    )
-
-  }else{
-
+  if (x@value@value_vec == "n") {
     cli::cat_bullet(
       paste(
-        "The data set is summarized by"
-        ,cli::col_br_magenta(paste(x@datum@group_vec, collapse = ", "))
-        ,"and then sums each group member's"
-        ,cli::col_br_magenta(x@value@value_vec)
-        ,"contribution of the total"
-        ,cli::col_br_magenta(x@value@value_vec)
-        ,"and then finally calculates each groups rolling cumulative proportion of the total"
+        "The data set is summarized by",
+        cli::col_br_magenta(paste(x@datum@group_vec, collapse = ", ")),
+        "and then",
+        cli::col_br_magenta("counts"),
+        "each group member's contribution of the total and then finally calculates the",
+        cli::col_br_magenta("count"),
+        "of each groups rolling cumulative proportion of the total"
       )
     )
-
+  } else {
+    cli::cat_bullet(
+      paste(
+        "The data set is summarized by",
+        cli::col_br_magenta(paste(x@datum@group_vec, collapse = ", ")),
+        "and then sums each group member's",
+        cli::col_br_magenta(x@value@value_vec),
+        "contribution of the total",
+        cli::col_br_magenta(x@value@value_vec),
+        "and then finally calculates each groups rolling cumulative proportion of the total"
+      )
+    )
   }
 
   cli::cat_bullet(
     paste(
-      "Then cumulative distribution was then arranged from lowest to highest and finally classified into"
-      ,n_values_len
-      ,"break points"
-      ,cli::col_yellow(paste(paste0(round(x@category@category_values * 100), "%"), collapse = ", "))
-      ," and labelled into the following categories"
-      ,cli::col_br_blue(paste(x@category@category_names, collapse = ", "))
+      "Then cumulative distribution was then arranged from lowest to highest and finally classified into",
+      n_values_len,
+      "break points",
+      cli::col_yellow(paste(
+        paste0(round(x@category@category_values * 100), "%"),
+        collapse = ", "
+      )),
+      " and labelled into the following categories",
+      cli::col_br_blue(paste(x@category@category_names, collapse = ", "))
     )
   )
 
@@ -278,9 +273,7 @@ S7::method(print,segment_abc) <- function(x,...){
   print_actions_steps(x)
 
   print_next_steps()
-
 }
-
 
 
 #' Print segment objects
@@ -292,46 +285,46 @@ S7::method(print,segment_abc) <- function(x,...){
 #' @return segment object
 #' @keywords internal
 #'
-S7::method(print,segment_cohort) <- function(x,...){
-
-
+S7::method(print, segment_cohort) <- function(x, ...) {
+  # Follow along with a dummy example: run devtools::load_all(), then the line(s)
+  # below, then the body one step at a time.
+  # x <- cohort(contoso::sales, .date = order_date, .value = customer_key)
 
   print_fn_info(x)
 
   ### Category Values information
   cli::cli_h2("Category Information")
 
-    cli::cat_line("")
+  cli::cat_line("")
 
-    cli::cat_bullet(
-      paste(
-        "The data set is grouped by the"
-        ,cli::col_br_magenta(x@value@value_vec)
-        ,"and segments each group member by their first"
-        ,cli::col_br_magenta(x@datum@date_vec)
-        ,"entry to define their cohort"
-        ,cli::col_br_magenta(x@value@value_vec)
-      )
+  cli::cat_bullet(
+    paste(
+      "The data set is grouped by the",
+      cli::col_br_magenta(x@value@value_vec),
+      "and segments each group member by their first",
+      cli::col_br_magenta(x@datum@date_vec),
+      "entry to define their cohort",
+      cli::col_br_magenta(x@value@value_vec)
     )
-    cli::cat_bullet("This creates cohort ID that each member is assigned to eg; January 2020, February 2020, etc")
+  )
+  cli::cat_bullet(
+    "This creates cohort ID that each member is assigned to eg; January 2020, February 2020, etc"
+  )
 
-    cli::cat_bullet(
-      paste(
-        "The distinct count of each"
-        ,cli::col_br_magenta(x@value@value_vec)
-        ,"member in the cohort is then tracked over time"
-      )
+  cli::cat_bullet(
+    paste(
+      "The distinct count of each",
+      cli::col_br_magenta(x@value@value_vec),
+      "member in the cohort is then tracked over time"
     )
+  )
 
-
-
-    ## add if condition for abc vs. cohort
-    print_calendar_info(x)
+  ## add if condition for abc vs. cohort
+  print_calendar_info(x)
 
   cli::cat_line("")
 
   print_actions_steps(x)
 
   print_next_steps()
-
 }

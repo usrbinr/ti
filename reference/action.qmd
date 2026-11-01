@@ -8,8 +8,10 @@ Source: [`R/classes.R`](https://codeberg.org/usrbinr/ti/src/branch/main/R/classe
 :::
 
 <p><code>action</code> carries the human-readable narrative shown by the <code>print()</code> methods.
-<code>value</code> is lower-cased and passed through <code>make_action_cli()</code> on assignment so
-it renders as cli-formatted bullets.
+<code>value</code> is lower-cased and passed through <code>make_action_cli()</code> on assignment,
+which stores a named logical vector saying which of the five standard steps
+(aggregate, shift, compare, proportion of total, count distinct) the
+calculation performs. <code>print_actions_steps()</code> draws the checklist from it.
 </p>
 
 ## Usage
@@ -22,7 +24,8 @@ action(value = NULL, method = NA_character_)
 
 <dl class="qrtdown-arguments">
 <dt id="arg-value"><code>value</code><a class="anchor" aria-label="anchor" href="#arg-value"></a></dt>
-<dd><p>The action description, converted to cli markup on assignment.</p></dd>
+<dd><p>The steps the calculation performs, e.g.
+<code>c("aggregate", "shift")</code>. Stored as a named logical vector.</p></dd>
 <dt id="arg-method"><code>method</code><a class="anchor" aria-label="anchor" href="#arg-method"></a></dt>
 <dd><p>A string describing the method used by the calculation.</p></dd>
 </dl>

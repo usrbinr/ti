@@ -1,13 +1,13 @@
 ---
-title: "Make Action field CLI args"
-pagetitle: "Make Action field CLI args — make_action_cli"
+title: "Record which of the standard steps a calculation performs"
+pagetitle: "Record which of the standard steps a calculation performs — make_action_cli"
 ---
 
 ::: {.qrtdown-source .dont-index}
 Source: [`R/utils-misc.R`](https://codeberg.org/usrbinr/ti/src/branch/main/R/utils-misc.R)
 :::
 
-<p>Make Action field CLI args
+<p>Record which of the standard steps a calculation performs
 </p>
 
 ## Usage
@@ -20,11 +20,12 @@ make_action_cli(x)
 
 <dl class="qrtdown-arguments">
 <dt id="arg-x"><code>x</code><a class="anchor" aria-label="anchor" href="#arg-x"></a></dt>
-<dd><p>action class</p></dd>
+<dd><p>Character vector of the steps the function performs.</p></dd>
 </dl>
 
 ## Value
 
-<p>list
+<p>A named logical vector with one element per standard step:
+aggregate, shift, compare, proportion of total and count distinct.
 </p>
 

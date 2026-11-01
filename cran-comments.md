@@ -35,9 +35,22 @@ This is also why only some flavours reported ERROR: the macOS flavours, where
   which caused the "trimming empty <li>" HTML manual NOTE on the 4.2.1
   pretest.
 
-Versions 4.2.0 and 4.2.1 were never published; 4.2.2 is the version being
-submitted. See NEWS.md for the full list of changes
-since 4.0.0.
+### Also in this version
+
+4.3.0 also fixes several functions that returned incorrect values (duplicate
+rows in week-over-week results, retail-calendar period comparisons, days
+missing from the retail calendar at the end of a year, and
+previous-period-to-date values on month ends and in grouped data), and adds a
+`week_start` argument. The package no longer writes temporary tables to the
+user's database, and the printed summary now states the assumptions behind
+each calculation. Every function is now tested against an independent
+reference implementation.
+
+'tibble' moved from Suggests to Imports and 'purrr' was added to Imports; the
+unused 'cohorts' and 'crayon' were removed from Suggests.
+
+Versions 4.2.0, 4.2.1 and 4.2.2 were never published; 4.3.0 is the version
+being submitted. See NEWS.md for the full list of changes since 4.0.0.
 
 ## R CMD check results
 
@@ -57,7 +70,11 @@ The NOTE is expected for this submission:
 * local: Pop!_OS 24.04 LTS, R 4.6.1
 
 Checked with `devtools::check(remote = TRUE, manual = TRUE)`. Tests were run
-against 'contoso' 2.1.0, the version currently on CRAN, as well as 2.2.0.
+against 'contoso' 2.4.0, the version currently on CRAN.
+
+The full test suite takes about 6 minutes locally; the exhaustive variations
+are skipped on CRAN with `skip_on_cran()`, which brings it to about
+2.5 minutes.
 
 ## Downstream dependencies
 

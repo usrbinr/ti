@@ -24,13 +24,18 @@ representing the start of the series.}
 \item{end_date}{A character string in 'YYYY-MM-DD' format or a Date object
 representing the end of the series.}
 
+\item{calendar_type}{One of "standard", "445", "454" or "544".}
+
 \item{time_unit}{A character string specifying the interval. Must be one of:
 \code{"day"}, \code{"week"}, \code{"month"}, \code{"quarter"}, or \code{"year"}.}
 
-\item{week_start}{description}
+\item{week_start}{Integer 1-7, the day weeks start on (1 = Monday, 7 = Sunday).}
+
+\item{fiscal_year_start}{Integer 1-12, month the fiscal year starts nearest to (retail calendars only).}
 }
 \value{
-A \code{tbl_lazy} (SQL) object with a single column \code{date}.
+A \code{tbl_lazy} (SQL) object with one row per period: \code{date}
+(the period's first day) and the calendar label columns for \code{time_unit}.
 }
 \description{
 Creates a lazy \code{dbplyr} table containing a continuous sequence of dates.

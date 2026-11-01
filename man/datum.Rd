@@ -8,6 +8,7 @@ datum(
   data = NULL,
   calendar_type = "standard",
   fiscal_year_start = 1,
+  week_start = 7,
   date_vec = NULL
 )
 }
@@ -20,6 +21,9 @@ Lower-cased on assignment.}
 
 \item{fiscal_year_start}{Integer between 1 and 12 giving the month the fiscal
 year starts in.}
+
+\item{week_start}{Integer between 1 (Monday) and 7 (Sunday) giving the day
+weeks start on.}
 
 \item{date_vec}{The name of the date column, as a string.}
 }

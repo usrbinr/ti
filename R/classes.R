@@ -55,10 +55,13 @@ time_unit <- S7::new_class(
 #'
 #' @description
 #' `action` carries the human-readable narrative shown by the `print()` methods.
-#' `value` is lower-cased and passed through `make_action_cli()` on assignment so
-#' it renders as cli-formatted bullets.
+#' `value` is lower-cased and passed through `make_action_cli()` on assignment,
+#' which stores a named logical vector saying which of the five standard steps
+#' (aggregate, shift, compare, proportion of total, count distinct) the
+#' calculation performs. `print_actions_steps()` draws the checklist from it.
 #'
-#' @param value The action description, converted to cli markup on assignment.
+#' @param value The steps the calculation performs, e.g.
+#'   `c("aggregate", "shift")`. Stored as a named logical vector.
 #' @param method A string describing the method used by the calculation.
 #' @returns An `action` S7 object.
 #' @keywords internal
@@ -100,6 +103,8 @@ action <- S7::new_class(
 #'   Lower-cased on assignment.
 #' @param fiscal_year_start Integer between 1 and 12 giving the month the fiscal
 #'   year starts in.
+#' @param week_start Integer between 1 (Monday) and 7 (Sunday) giving the day
+#'   weeks start on.
 #' @param date_vec The name of the date column, as a string.
 #'
 #' @prop class_name `"dbi"` if `data` is a database table, otherwise `"tbl"`.
@@ -173,6 +178,16 @@ datum <- S7::new_class(
         ,validator = function(value){
           if(length(value) != 1 || !value %in% 1:12){
             return("fiscal_year_start must be an integer between 1 and 12")
+          }
+          NULL
+        }
+      )
+      ,week_start=S7::new_property(
+        class=S7::class_numeric
+        ,default = 7
+        ,validator = function(value){
+          if(length(value) != 1 || !value %in% 1:7){
+            return("week_start must be an integer between 1 (Monday) and 7 (Sunday)")
           }
           NULL
         }

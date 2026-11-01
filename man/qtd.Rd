@@ -4,7 +4,14 @@
 \alias{qtd}
 \title{Current period quarter-to-date}
 \usage{
-qtd(.data, .date, .value, calendar_type = "standard", fiscal_year_start = 1)
+qtd(
+  .data,
+  .date,
+  .value,
+  calendar_type = "standard",
+  fiscal_year_start = 1,
+  week_start = 7
+)
 }
 \arguments{
 \item{.data}{tibble or dbi object (either grouped or ungrouped)}
@@ -16,6 +23,8 @@ qtd(.data, .date, .value, calendar_type = "standard", fiscal_year_start = 1)
 \item{calendar_type}{select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information}
 
 \item{fiscal_year_start}{integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544').}
+
+\item{week_start}{integer 1-7, the day weeks start on (1 = Monday, 7 = Sunday, the default). On the standard calendar, week 1 is the week containing 1 January, so the weeks either side of 1 January can be partial. On retail calendars it sets the weekday that fiscal weeks, months and years start on.}
 }
 \value{
 ti object

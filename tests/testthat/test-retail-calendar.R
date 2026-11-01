@@ -102,9 +102,38 @@ describe("generate_retail_calendar", {
 })
 
 
+describe("generate_retail_calendar covers the whole range", {
+  it("includes the last days of the year after a fiscal year starts", {
+    # the fiscal year starting Sunday 2024-12-29 used to be missing, which
+    # dropped 29-31 December 2024
+    cal <- ti:::generate_retail_calendar("2024-01-01", "2024-12-31", "445", fiscal_year_start = 1)
+    expect_equal(cal$date, seq(as.Date("2024-01-01"), as.Date("2024-12-31"), "day"))
+  })
+
+  it("covers every day for ranges ending on any day of the year", {
+    ends <- seq(as.Date("2024-12-20"), as.Date("2025-01-10"), "day")
+    purrr::walk(c("445", "454", "544"), \(calendar_type) {
+      purrr::walk(c(1, 7), \(fiscal_year_start) {
+        purrr::walk(ends, \(end) {
+          cal <- ti:::generate_retail_calendar("2024-06-01", end, calendar_type, fiscal_year_start = fiscal_year_start)
+          expect_equal(cal$date, seq(as.Date("2024-06-01"), end, "day"))
+        })
+      })
+    })
+  })
+
+  it("keeps data on the last days of the year", {
+    data <- dplyr::tibble(date = as.Date(c("2024-06-03", "2024-12-30")), value = c(1, 10))
+    out <- ti::atd(data, date, value, calendar_type = "445") |> ti::calculate() |> dplyr::collect()
+    expect_equal(max(out$atd_value), 11)
+  })
+})
+
 describe("retail calendar integration with ti functions", {
 
   it("ytd works with 445 calendar", {
+    # values are checked against the reference in test-reference-values.R
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         ti::ytd(order_date, gross_margin, calendar_type = "445", fiscal_year_start = 2) |>
@@ -115,6 +144,8 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("qtd works with 445 calendar", {
+    # values are checked against the reference in test-reference-values.R
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         ti::qtd(order_date, gross_margin, calendar_type = "445", fiscal_year_start = 2) |>
@@ -125,6 +156,8 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("mtd works with 445 calendar", {
+    # values are checked against the reference in test-reference-values.R
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         ti::mtd(order_date, gross_margin, calendar_type = "445", fiscal_year_start = 2) |>
@@ -148,6 +181,7 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("grouped ytd works with 454 calendar", {
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         dplyr::group_by(store_key) |>
@@ -160,6 +194,8 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("wtd works with 445 calendar", {
+    # values are checked against the reference in test-reference-values.R
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         ti::wtd(order_date, gross_margin, calendar_type = "445", fiscal_year_start = 2) |>
@@ -222,6 +258,8 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("yoy works with 445 calendar", {
+    # values are checked against the reference in test-reference-values.R
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         ti::yoy(order_date, gross_margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
@@ -232,6 +270,8 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("qoq works with 445 calendar", {
+    # values are checked against the reference in test-reference-values.R
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         ti::qoq(order_date, gross_margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
@@ -242,6 +282,8 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("mom works with 445 calendar", {
+    # values are checked against the reference in test-reference-values.R
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         ti::mom(order_date, gross_margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
@@ -252,6 +294,8 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("wow works with 445 calendar", {
+    # values are checked against the reference in test-reference-values.R
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         ti::wow(order_date, gross_margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
@@ -314,6 +358,8 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("ytdopy works with 445 calendar", {
+    # values are checked against the reference in test-reference-values.R
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         ti::ytdopy(order_date, gross_margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
@@ -324,6 +370,8 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("qtdopq works with 445 calendar", {
+    # values are checked against the reference in test-reference-values.R
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         ti::qtdopq(order_date, gross_margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
@@ -334,6 +382,8 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("mtdopm works with 445 calendar", {
+    # values are checked against the reference in test-reference-values.R
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         ti::mtdopm(order_date, gross_margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
@@ -344,6 +394,8 @@ describe("retail calendar integration with ti functions", {
   })
 
   it("wtdopw works with 445 calendar", {
+    # values are checked against the reference in test-reference-values.R
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         ti::wtdopw(order_date, gross_margin, calendar_type = "445", fiscal_year_start = 2, lag_n = 1) |>
@@ -358,6 +410,7 @@ describe("retail calendar integration with ti functions", {
 describe("544 calendar integration", {
 
   it("ytd works with 544 calendar", {
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         ti::ytd(order_date, gross_margin, calendar_type = "544", fiscal_year_start = 2) |>
@@ -368,6 +421,7 @@ describe("544 calendar integration", {
   })
 
   it("qoq works with 544 calendar", {
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         ti::qoq(order_date, gross_margin, calendar_type = "544", fiscal_year_start = 2, lag_n = 1) |>
@@ -378,6 +432,7 @@ describe("544 calendar integration", {
   })
 
   it("momtd works with 544 calendar", {
+    skip_on_cran()
 
     testthat::expect_no_error({
       contoso::sales |>
@@ -389,6 +444,7 @@ describe("544 calendar integration", {
   })
 
   it("wtdopw works with 544 calendar", {
+    skip_on_cran()
     testthat::expect_no_error({
       contoso::sales |>
         ti::wtdopw(order_date, gross_margin, calendar_type = "544", fiscal_year_start = 2, lag_n = 1) |>

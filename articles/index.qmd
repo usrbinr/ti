@@ -11,6 +11,7 @@ In-depth guides and tutorials for using the package.
 - [Standard vs. Non-Standard Calendars](calendar_types.qmd)
 - [Cohort](cohort.qmd)
 - [Working with Databases](databases.qmd)
+- [How ti Works: A Developer Guide](developer-guide.qmd)
 - [Working with Groups](groups.qmd)
 - [Calendar Completion and Missing Dates](missing_dates.qmd)
 - [A Month-End Close, End to End](month_end_close.qmd)

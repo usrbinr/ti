@@ -9,8 +9,9 @@ pytd(
   .date,
   .value,
   calendar_type = "standard",
-  lag_n,
-  fiscal_year_start = 1
+  lag_n = 1,
+  fiscal_year_start = 1,
+  week_start = 7
 )
 }
 \arguments{
@@ -25,6 +26,8 @@ pytd(
 \item{lag_n}{the number of periods to lag}
 
 \item{fiscal_year_start}{integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544').}
+
+\item{week_start}{integer 1-7, the day weeks start on (1 = Monday, 7 = Sunday, the default). On the standard calendar, week 1 is the week containing 1 January, so the weeks either side of 1 January can be partial. On retail calendars it sets the weekday that fiscal weeks, months and years start on.}
 }
 \value{
 ti object

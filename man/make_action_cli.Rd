@@ -2,17 +2,18 @@
 % Please edit documentation in R/utils-misc.R
 \name{make_action_cli}
 \alias{make_action_cli}
-\title{Make Action field CLI args}
+\title{Record which of the standard steps a calculation performs}
 \usage{
 make_action_cli(x)
 }
 \arguments{
-\item{x}{action class}
+\item{x}{Character vector of the steps the function performs.}
 }
 \value{
-list
+A named logical vector with one element per standard step:
+aggregate, shift, compare, proportion of total and count distinct.
 }
 \description{
-Make Action field CLI args
+Record which of the standard steps a calculation performs
 }
 \keyword{internal}

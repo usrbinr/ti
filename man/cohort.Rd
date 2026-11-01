@@ -24,7 +24,7 @@ segment object
 Database-friendly cohort analysis function.
 A remake of \url{https://github.com/PeerChristensen/cohorts}, combining
 \code{cohort_table_month}, \code{cohort_table_year}, and \code{cohort_table_day} into a single package.
-Rewritten for database compatibility and tested with Snowflake and DuckDB.
+Rewritten for database compatibility; runs entirely in SQL without writing tables.
 }
 \details{
 \itemize{
