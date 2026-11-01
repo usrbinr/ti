@@ -25,9 +25,9 @@ pytd(
 
 \item{lag_n}{the number of periods to lag}
 
-\item{fiscal_year_start}{integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544').}
+\item{fiscal_year_start}{integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with the retail calendars ('445', '454', '544'); the standard calendar always uses calendar years, and a message says so if you change it there.}
 
-\item{week_start}{integer 1-7, the day weeks start on (1 = Monday, 7 = Sunday, the default). On the standard calendar, week 1 is the week containing 1 January, so the weeks either side of 1 January can be partial. On retail calendars it sets the weekday that fiscal weeks, months and years start on.}
+\item{week_start}{integer 1-7, the day weeks start on (1 = Monday, 7 = Sunday, the default). On the standard calendar it affects only the week functions (\code{wtd()}, \code{pwtd()}, \code{wow()}, \code{wowtd()}, \code{wtdopw()}) and the \code{week} column of daily results; week 1 is the week containing 1 January, so the weeks either side of 1 January can be partial. On the retail calendars it affects every function, because fiscal weeks, months, quarters and years are built from whole weeks starting on this day. A message tells you if you change it where it has no effect.}
 }
 \value{
 ti object

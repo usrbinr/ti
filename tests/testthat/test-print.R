@@ -23,6 +23,7 @@ objects <- list(
   yoytd = ti::yoytd(sales, date, value),
   ytdopy = ti::ytdopy(sales, date, value),
   mom_retail = ti::mom(sales, date, value, calendar_type = "445", fiscal_year_start = 7, week_start = 1),
+  mom_ignored_settings = suppressMessages(ti::mom(sales, date, value, week_start = 1, fiscal_year_start = 7)),
   abc = ti::abc(grouped, category_values = c(0.5, 0.8, 1), .value = value),
   cohort = ti::cohort(sales, date, store)
 )

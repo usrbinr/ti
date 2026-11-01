@@ -420,6 +420,58 @@
       * Use `calculate()` to return the results
       --------------------------------------------------------------------------------
 
+# print output / explains mom_ignored_settings
+
+    Code
+      print(x)
+    Message
+      
+      -- Month over month ------------------------------------------------------------
+      Function: `mom` (nothing has been calculated yet)
+      
+      -- Description: --
+      
+      This creates a full month `sum()` of the previous month value and compares it
+      with the full month `sum()` current month value from the start of the standard
+      calendar month to the end of the month
+      
+      -- Calendar: --
+      
+    Output
+      * The calendar aggregated date to the month time unit
+      * A standard calendar is created with 0 groups
+      * Calendar ranges from 2024-01-01 to 2024-04-02
+      * 0 of 4 months had no data and are filled with 0
+      * New date column date, year, quarter, month was created from date
+      
+    Message
+      
+      -- Assumptions: --
+      
+      * One row per month, dated by the first day of the month
+      * Each month's total is shown next to the total 1 month earlier; the first
+        month has no earlier month and shows NA
+      * `week_start = 1` (Monday) has no effect on `mom()` with the standard
+        calendar. It changes the week functions and the retail calendars.
+      * `fiscal_year_start = 7` (July) has no effect on the standard calendar, which
+        uses calendar years. It only applies to the retail calendars ("445", "454",
+        "544").
+      
+      -- Actions: --
+      
+    Output
+      v Aggregate value
+      v Shift 1 month
+      v Compare previous full month
+      x Proportion of Total
+      x Count Distinct
+      
+    Message
+      -- Next Steps: --
+      
+      * Use `calculate()` to return the results
+      --------------------------------------------------------------------------------
+
 # print output / explains abc
 
     Code

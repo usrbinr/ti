@@ -1,68 +1,134 @@
-# Every ti function is checked row by row against the independent reference in
-# helper-reference.R, ungrouped and grouped, so a wrong number fails the tests
-# rather than only a crash.
+# Checks every ti function's numbers against an independent reference.
+#
+# How one check works (the worked example below does this step by step):
+#
+#   1. fixture   ref_fixture(): small test data with two stores, gaps, a leap
+#                day and data that starts mid-month (helper-reference.R).
+#   2. daily     ref_daily(): the fixture as a complete daily table, missing
+#                days filled with 0, each day labelled with its year, month,
+#                week and the first day of each period it belongs to.
+#   3. expected  A plain-R reference function (ref_td(), ref_xox(), ...)
+#                computes the answer from `daily`, following the documented
+#                definition. It shares no code with ti.
+#   4. actual    ti_result(): the ti function on the same fixture,
+#                calculate()d and collect()ed.
+#   5. compare   expect_matches_reference(): joins expected and actual on store
+#                and date. Every expected row must appear exactly once in ti's
+#                output, and every value must match (NA and 0 count as
+#                different).
+#
+# The `checks` table says, for each function, which reference to use, which
+# period, and which reference column to compare with which ti column. The
+# looped tests then run the same five steps for every function, grouped and
+# ungrouped, and with different calendars and week starts.
 
 fixture <- ref_fixture()
 
-# function, reference type, period, and the ti output column for each value
-specs <- list(
-  ytd    = list(type = "td",    unit = "year",    cols = c(td = "ytd_value")),
-  qtd    = list(type = "td",    unit = "quarter", cols = c(td = "qtd_value")),
-  mtd    = list(type = "td",    unit = "month",   cols = c(td = "mtd_value")),
-  wtd    = list(type = "td",    unit = "week",    cols = c(td = "wtd_value")),
-  atd    = list(type = "td",    unit = "all",     cols = c(td = "atd_value")),
-  yoy    = list(type = "xox",   unit = "year",    cols = c(total = "value", prior = "yoy_value")),
-  qoq    = list(type = "xox",   unit = "quarter", cols = c(total = "value", prior = "qoq_value")),
-  mom    = list(type = "xox",   unit = "month",   cols = c(total = "value", prior = "mom_value")),
-  wow    = list(type = "xox",   unit = "week",    cols = c(total = "value", prior = "wow_value")),
-  dod    = list(type = "xox",   unit = "day",     cols = c(total = "value", prior = "dod_value")),
-  pytd   = list(type = "ptd",   unit = "year",    cols = c(ptd = "pytd_value")),
-  pqtd   = list(type = "ptd",   unit = "quarter", cols = c(ptd = "pqtd_value")),
-  pmtd   = list(type = "ptd",   unit = "month",   cols = c(ptd = "pmtd_value")),
-  pwtd   = list(type = "ptd",   unit = "week",    cols = c(ptd = "pwtd_value")),
-  yoytd  = list(type = "xoxtd", unit = "year",    cols = c(td = "ytd_value", ptd = "pytd_value")),
-  qoqtd  = list(type = "xoxtd", unit = "quarter", cols = c(td = "qtd_value", ptd = "pqtd_value")),
-  momtd  = list(type = "xoxtd", unit = "month",   cols = c(td = "mtd_value", ptd = "pmtd_value")),
-  wowtd  = list(type = "xoxtd", unit = "week",    cols = c(td = "wtd_value", ptd = "pwtd_value")),
-  ytdopy = list(type = "tdopx", unit = "year",    cols = c(td = "ytd_value", prior = "yoy_value")),
-  qtdopq = list(type = "tdopx", unit = "quarter", cols = c(td = "qtd_value", prior = "qoq_value")),
-  mtdopm = list(type = "tdopx", unit = "month",   cols = c(td = "mtd_value", prior = "mom_value")),
-  wtdopw = list(type = "tdopx", unit = "week",    cols = c(td = "wtd_value", prior = "wow_value"))
+
+# Worked example: mom() for each store, written out without the table --------
+
+describe("worked example", {
+  it("mom() grouped by store matches the reference", {
+    # 2. complete daily table, one per store
+    daily <- ref_daily(fixture, grouped = TRUE)
+
+    # 3. expected: each month's total, and the total one month earlier
+    #    columns: store, date (first day of the month), total, prior
+    expected <- ref_xox(daily, period = "month")
+
+    # 4. actual: what ti returns
+    #    columns include: store, date, value (this month), mom_value (last month)
+    actual <- ti_result(ti::mom, fixture, grouped = TRUE)
+
+    # 5. compare the reference's total with ti's value, and the reference's
+    #    prior with ti's mom_value
+    expect_matches_reference(actual, expected, actual_col = "value", expected_col = "total")
+    expect_matches_reference(actual, expected, actual_col = "mom_value", expected_col = "prior")
+  })
+})
+
+
+# What to compare for each function -------------------------------------------
+#
+# reference  which plain-R reference computes the expected answer:
+#              "running_total"        ref_td(): running total that restarts
+#                                     each period (ytd, mtd, ...)
+#              "period_over_period"   ref_xox(): each period's total and the
+#                                     total one period earlier (yoy, mom, ...)
+#              "previous_to_date"     ref_ptd(): the earlier period's running
+#                                     total at the same point (pytd, pmtd, ...)
+#              "to_date_vs_previous"  running total and previous-to-date side
+#                                     by side (yoytd, momtd, ...)
+#              "to_date_vs_prior_total"
+#                                     running total and the previous period's
+#                                     full total (ytdopy, mtdopm, ...)
+# period     the period the function works in
+# compare    reference column = ti column
+
+checks <- list(
+  ytd    = list(reference = "running_total",          period = "year",    compare = c(running_total = "ytd_value")),
+  qtd    = list(reference = "running_total",          period = "quarter", compare = c(running_total = "qtd_value")),
+  mtd    = list(reference = "running_total",          period = "month",   compare = c(running_total = "mtd_value")),
+  wtd    = list(reference = "running_total",          period = "week",    compare = c(running_total = "wtd_value")),
+  atd    = list(reference = "running_total",          period = "all",     compare = c(running_total = "atd_value")),
+  yoy    = list(reference = "period_over_period",     period = "year",    compare = c(total = "value", prior = "yoy_value")),
+  qoq    = list(reference = "period_over_period",     period = "quarter", compare = c(total = "value", prior = "qoq_value")),
+  mom    = list(reference = "period_over_period",     period = "month",   compare = c(total = "value", prior = "mom_value")),
+  wow    = list(reference = "period_over_period",     period = "week",    compare = c(total = "value", prior = "wow_value")),
+  dod    = list(reference = "period_over_period",     period = "day",     compare = c(total = "value", prior = "dod_value")),
+  pytd   = list(reference = "previous_to_date",       period = "year",    compare = c(previous_to_date = "pytd_value")),
+  pqtd   = list(reference = "previous_to_date",       period = "quarter", compare = c(previous_to_date = "pqtd_value")),
+  pmtd   = list(reference = "previous_to_date",       period = "month",   compare = c(previous_to_date = "pmtd_value")),
+  pwtd   = list(reference = "previous_to_date",       period = "week",    compare = c(previous_to_date = "pwtd_value")),
+  yoytd  = list(reference = "to_date_vs_previous",    period = "year",    compare = c(running_total = "ytd_value", previous_to_date = "pytd_value")),
+  qoqtd  = list(reference = "to_date_vs_previous",    period = "quarter", compare = c(running_total = "qtd_value", previous_to_date = "pqtd_value")),
+  momtd  = list(reference = "to_date_vs_previous",    period = "month",   compare = c(running_total = "mtd_value", previous_to_date = "pmtd_value")),
+  wowtd  = list(reference = "to_date_vs_previous",    period = "week",    compare = c(running_total = "wtd_value", previous_to_date = "pwtd_value")),
+  ytdopy = list(reference = "to_date_vs_prior_total", period = "year",    compare = c(running_total = "ytd_value", prior = "yoy_value")),
+  qtdopq = list(reference = "to_date_vs_prior_total", period = "quarter", compare = c(running_total = "qtd_value", prior = "qoq_value")),
+  mtdopm = list(reference = "to_date_vs_prior_total", period = "month",   compare = c(running_total = "mtd_value", prior = "mom_value")),
+  wtdopw = list(reference = "to_date_vs_prior_total", period = "week",    compare = c(running_total = "wtd_value", prior = "wow_value"))
 )
 
-reference_for <- function(spec, daily) {
-  switch(spec$type,
-    td    = ref_td(daily, spec$unit),
-    xox   = ref_xox(daily, spec$unit),
-    ptd   = ref_ptd(daily, spec$unit),
-    xoxtd = dplyr::left_join(
-      ref_td(daily, spec$unit),
-      ref_ptd(daily, spec$unit) |> dplyr::select(store, date, ptd),
+# Step 3: the expected answer for one function. Returns one row per store and
+# date (or per store and period) with the reference columns named in `compare`.
+expected_for <- function(check, daily) {
+  switch(check$reference,
+    running_total      = ref_td(daily, check$period),
+    period_over_period = ref_xox(daily, check$period),
+    previous_to_date   = ref_ptd(daily, check$period),
+    to_date_vs_previous = dplyr::left_join(
+      ref_td(daily, check$period),
+      ref_ptd(daily, check$period) |> dplyr::select(store, date, previous_to_date),
       by = c("store", "date")
     ),
-    tdopx = dplyr::left_join(
-      ref_td(daily, spec$unit),
-      ref_prior_total(daily, spec$unit) |> dplyr::select(store, date, prior),
+    to_date_vs_prior_total = dplyr::left_join(
+      ref_td(daily, check$period),
+      ref_prior_total(daily, check$period) |> dplyr::select(store, date, prior),
       by = c("store", "date")
     )
   )
 }
 
+# Steps 2-5 for one function
 check_against_reference <- function(fn_name, grouped, calendar_type = "standard", week_start = 7) {
-  spec <- specs[[fn_name]]
-  daily <- ref_daily(fixture, grouped, calendar_type, week_start)
-  expected <- reference_for(spec, daily)
-  actual <- ti_result(
+  check <- checks[[fn_name]]
+  daily <- ref_daily(fixture, grouped, calendar_type, week_start)                # 2
+  expected <- expected_for(check, daily)                                         # 3
+  actual <- ti_result(                                                           # 4
     getExportedValue("ti", fn_name), fixture, grouped,
     calendar_type = calendar_type, week_start = week_start
   )
-  purrr::iwalk(spec$cols, \(actual_col, expected_col) {
+  purrr::iwalk(check$compare, \(actual_col, expected_col) {                      # 5
     expect_matches_reference(actual, expected, actual_col, expected_col)
   })
 }
 
+
+# The same check for every function -------------------------------------------
+
 describe("standard calendar values match the reference", {
-  purrr::walk(names(specs), \(fn_name) {
+  purrr::walk(names(checks), \(fn_name) {
     it(paste(fn_name, "ungrouped"), check_against_reference(fn_name, grouped = FALSE))
     it(paste(fn_name, "grouped"), check_against_reference(fn_name, grouped = TRUE))
   })

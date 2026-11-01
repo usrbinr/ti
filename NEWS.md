@@ -36,6 +36,11 @@ incorrect numbers.
   and week 1 is the week containing 1 January, so only the weeks either side of
   1 January can be partial. Weeks no longer split at month ends. On retail
   calendars, `week_start` sets the weekday fiscal periods start on.
+- `week_start` and `fiscal_year_start` are on every function because the retail
+  calendars build every fiscal period from whole weeks. On the standard
+  calendar `fiscal_year_start` has no effect and `week_start` only affects the
+  week functions and the `week` column. Changing either where it has no effect
+  now shows a message, and the printed summary says the same.
 - The `week` column now follows `week_start`. It was previously the ISO week
   for day-level results.
 - `wtd()`, `pwtd()` and `wowtd()` now reset at the start of each week. They

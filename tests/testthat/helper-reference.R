@@ -53,16 +53,16 @@ ref_daily <- function(data, grouped, calendar_type = "standard", week_start = 7)
   # Labels on a calendar that extends well past the data, so every period's
   # true first day is known even when the data starts mid-period
   cal <- ref_calendar(min(full$date) - 400, max(full$date) + 400, calendar_type, week_start)
-  starts <- purrr::map(c("year", "quarter", "month", "week", "day", "all"), \(unit) {
-    key <- ref_key(unit)
+  starts <- purrr::map(c("year", "quarter", "month", "week", "day", "all"), \(period) {
+    key <- ref_key(period)
     cal |>
       dplyr::summarise(start = min(date), .by = dplyr::all_of(key)) |>
-      dplyr::rename_with(\(x) paste0("start_", unit), "start")
+      dplyr::rename_with(\(x) paste0("start_", period), "start")
   })
 
   full <- dplyr::inner_join(full, cal, by = "date")
-  purrr::reduce2(starts, c("year", "quarter", "month", "week", "day", "all"), \(acc, s, unit) {
-    dplyr::left_join(acc, s, by = ref_key(unit))
+  purrr::reduce2(starts, c("year", "quarter", "month", "week", "day", "all"), \(acc, s, period) {
+    dplyr::left_join(acc, s, by = ref_key(period))
   }, .init = full)
 }
 
@@ -89,48 +89,77 @@ ref_calendar <- function(from, to, calendar_type, week_start) {
     )
 }
 
-ref_key <- function(unit) paste0("key_", unit)
+# Column in `daily` that identifies a period, e.g. "key_month" holds "2024 2"
+ref_key <- function(period) paste0("key_", period)
 
-# Period-to-date running sum
-ref_td <- function(daily, unit) {
+# Running total that restarts at the start of each period (ytd, mtd, wtd, ...).
+# Adds `running_total` to every row of `daily`. For period = "month":
+#
+#   store date       value  running_total
+#   a     2024-01-30    10             10 + earlier January days
+#   a     2024-01-31     5             ... + 5
+#   a     2024-02-01     7              7  <- new month, restarts
+ref_td <- function(daily, period) {
   daily |>
     dplyr::arrange(store, date) |>
-    dplyr::mutate(td = cumsum(value), .by = c(store, dplyr::all_of(ref_key(unit))))
+    dplyr::mutate(running_total = cumsum(value), .by = c(store, dplyr::all_of(ref_key(period))))
 }
 
-# One row per period: first day, total, and total lag_n periods earlier
-ref_xox <- function(daily, unit, lag_n = 1) {
+# One row per period: the period's first day, its total, and the total lag_n
+# periods earlier (yoy, mom, wow, ...). For period = "month":
+#
+#   store date       total  prior
+#   a     2023-11-01   874     NA  <- no earlier month
+#   a     2023-12-01  1018    874
+ref_xox <- function(daily, period, lag_n = 1) {
   daily |>
     dplyr::summarise(
-      date = min(.data[[paste0("start_", unit)]]), total = sum(value),
-      .by = c(store, dplyr::all_of(ref_key(unit)))
+      date = min(.data[[paste0("start_", period)]]), total = sum(value),
+      .by = c(store, dplyr::all_of(ref_key(period)))
     ) |>
     dplyr::arrange(store, date) |>
     dplyr::mutate(prior = dplyr::lag(total, lag_n), .by = store)
 }
 
-# The same point in time lag_n periods earlier. When `date` is the last day of
-# its month, the earlier date is extended to the end of its month.
-ref_cutoff <- function(date, unit, lag_n) {
-  if (unit == "week") return(date - 7 * lag_n)
-  months_back <- lag_n * c(year = 12, quarter = 3, month = 1)[[unit]]
+# The same point in time lag_n periods earlier. Months roll back to the end of
+# a shorter month, and when `date` is the last day of its month the cutoff is
+# the last day of the earlier month. For period = "month":
+#
+#   2024-03-15 -> 2024-02-15
+#   2024-03-30 -> 2024-02-29   (30 February does not exist)
+#   2024-03-31 -> 2024-02-29   (month end -> month end)
+#   2024-02-29 -> 2024-01-31   (month end -> month end)
+ref_cutoff <- function(date, period, lag_n) {
+  if (period == "week") return(date - 7 * lag_n)
+  months_back <- lag_n * c(year = 12, quarter = 3, month = 1)[[period]]
   shifted <- lubridate::add_with_rollback(date, -months(months_back))
   is_eom <- date == lubridate::ceiling_date(date, "month") - 1
   dplyr::if_else(is_eom, lubridate::ceiling_date(shifted, "month") - 1, shifted)
 }
 
-# Previous-period-to-date: the td value at the cutoff date
-ref_ptd <- function(daily, unit, lag_n = 1) {
-  td <- ref_td(daily, unit) |> dplyr::select(store, cutoff = date, ptd = td)
+# Previous period to date (pytd, pmtd, ...): for each day, the earlier period's
+# running total on the cutoff date. Adds `cutoff` and `previous_to_date`:
+#
+#   store date       cutoff     previous_to_date
+#   a     2024-03-15 2024-02-15 February 1-15 running total
+#   a     2024-03-31 2024-02-29 all of February
+ref_ptd <- function(daily, period, lag_n = 1) {
+  running <- ref_td(daily, period) |>
+    dplyr::select(store, cutoff = date, previous_to_date = running_total)
   daily |>
-    dplyr::mutate(cutoff = ref_cutoff(date, unit, lag_n)) |>
-    dplyr::left_join(td, by = c("store", "cutoff"))
+    dplyr::mutate(cutoff = ref_cutoff(date, period, lag_n)) |>
+    dplyr::left_join(running, by = c("store", "cutoff"))
 }
 
-# Previous full period total for each day
-ref_prior_total <- function(daily, unit, lag_n = 1) {
-  xox <- ref_xox(daily, unit, lag_n) |> dplyr::select(store, dplyr::all_of(ref_key(unit)), prior)
-  dplyr::left_join(daily, xox, by = c("store", ref_key(unit)))
+# The previous period's full total on every day of the period (ytdopy,
+# mtdopm, ...). Adds `prior` to every row of `daily`:
+#
+#   store date       prior
+#   a     2024-02-10 1034   <- all of January
+#   a     2024-02-11 1034
+ref_prior_total <- function(daily, period, lag_n = 1) {
+  totals <- ref_xox(daily, period, lag_n) |> dplyr::select(store, dplyr::all_of(ref_key(period)), prior)
+  dplyr::left_join(daily, totals, by = c("store", ref_key(period)))
 }
 
 # Run a ti function on the fixture and return a tibble keyed by store and date

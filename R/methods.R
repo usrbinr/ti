@@ -141,6 +141,9 @@ S7::method(calculate, ti) <- function(x, ...) {
   # x <- ytd(contoso::sales, .date = order_date, .value = net_revenue)
   # x@fn@fn_exec    # the *_fn() that will run, here ytd_fn()
 
+  # compound functions build inner ti objects; keep their setting messages quiet
+  rlang::local_options(ti.inner_call = TRUE)
+
   out <- x@fn@fn_exec(x) |>
     dbplyr::window_order(date)
 

@@ -175,7 +175,21 @@ Almost every 4.2 bug was a convention that was hidden or unclear: what a week is
 | Weeks start on `week_start`, and week 1 contains 1 January | Week functions on the standard calendar. |
 | The fiscal calendar, the weekday the fiscal year starts on, and the month it is nearest to | Retail calendars. |
 | Totals and comparisons stay within each group; each group's calendar runs from its first to its last period | Grouped data. |
+| A changed `week_start` or `fiscal_year_start` that has no effect here, e.g. `week_start = 1` on `mom()` with the standard calendar | Standard calendar, when the setting differs from its default. |
 | The database has not been tested | Connections other than DuckDB. |
+
+### Settings that have no effect
+
+`week_start` and `fiscal_year_start` are on every function because the retail calendars build every fiscal period from whole weeks. On the standard calendar `fiscal_year_start` does nothing, and `week_start` only affects the week functions and the `week` column of daily results. `ignored_settings()` returns one sentence for each setting that was changed from its default but has no effect. `build_ti()` shows it as a message when the object is built, and `print_assumptions()` adds it to the Assumptions block:
+
+```{r}
+#| label: ignored-settings
+
+contoso::sales |>
+  mom(.date = order_date, .value = net_revenue, week_start = 1)
+```
+
+Compound functions such as `yoytd()` build inner objects (`ytd()` and `pytd()`) during `calculate()`, and those inner calls always pass the settings on. `calculate()` sets the option `ti.inner_call` while it runs, and `build_ti()` stays quiet when it is set, so the message appears once.
 
 `print_assumptions()` uses two lookups on `fn@fn_name`: the template family and the period unit (`pmtd` is `ptd` and `month`). It builds every line from settings, so it runs no query.
 

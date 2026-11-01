@@ -62,7 +62,7 @@ build_ti <- function(
     }
   }
 
-  ti(
+  x <- ti(
     datum(
       data             = .data
       ,calendar_type   = calendar_type
@@ -89,6 +89,18 @@ build_ti <- function(
       ,compare             = compare
     )
   )
+
+  # Tell the user about settings that have no effect. calculate() sets
+  # ti.inner_call while it builds the inner objects of compound functions
+  # (yoytd() builds ytd() and pytd()), so those stay quiet.
+  if (!isTRUE(getOption("ti.inner_call"))) {
+    notes <- ignored_settings(x)
+    if (length(notes) > 0) {
+      cli::cli_inform(stats::setNames(notes, rep("i", length(notes))))
+    }
+  }
+
+  x
 }
 
 
@@ -102,8 +114,8 @@ build_ti <- function(
 #' @param .date the date column to group by. Must be a Date or POSIXt type.
 #' @param .value the value column to summarize. Must be numeric.
 #' @param calendar_type select either 'standard', '445', '454', or '544' calendar, see 'Details' for additional information
-#' @param fiscal_year_start integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with retail calendars ('445', '454', '544').
-#' @param week_start integer 1-7, the day weeks start on (1 = Monday, 7 = Sunday, the default). On the standard calendar, week 1 is the week containing 1 January, so the weeks either side of 1 January can be partial. On retail calendars it sets the weekday that fiscal weeks, months and years start on.
+#' @param fiscal_year_start integer 1-12, the month the fiscal year starts nearest to (default 1 = January). Only used with the retail calendars ('445', '454', '544'); the standard calendar always uses calendar years, and a message says so if you change it there.
+#' @param week_start integer 1-7, the day weeks start on (1 = Monday, 7 = Sunday, the default). On the standard calendar it affects only the week functions (`wtd()`, `pwtd()`, `wow()`, `wowtd()`, `wtdopw()`) and the `week` column of daily results; week 1 is the week containing 1 January, so the weeks either side of 1 January can be partial. On the retail calendars it affects every function, because fiscal weeks, months, quarters and years are built from whole weeks starting on this day. A message tells you if you change it where it has no effect.
 #'
 #' @description
 #' -  For each group, [ytd()]  will create the running annual sum of a value based on the calendar type specified

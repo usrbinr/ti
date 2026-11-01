@@ -149,6 +149,67 @@ print_calendar_info <- function(x) {
 }
 
 
+#' Explain settings that have no effect
+#'
+#' @description
+#' `week_start` and `fiscal_year_start` exist on every time intelligence
+#' function because the retail calendars build every fiscal period from whole
+#' weeks. On the standard calendar they matter much less: `fiscal_year_start`
+#' does nothing, and `week_start` only affects the week functions and the
+#' `week` column. This returns one sentence per setting that was changed from
+#' its default but has no effect (or only relabels the `week` column), for
+#' `build_ti()` to show as a message and [print_assumptions()] to print.
+#'
+#' @param x A `ti` object.
+#' @returns A named character vector, possibly empty.
+#' @keywords internal
+ignored_settings <- function(x) {
+
+  # Follow along with a dummy example: run devtools::load_all(), then the line(s)
+  # below, then the body one step at a time.
+  # x <- mom(contoso::sales, .date = order_date, .value = net_revenue,
+  #          week_start = 1, fiscal_year_start = 7)
+
+  if (x@datum@calendar_type != "standard") return(character())
+
+  fn_name <- x@fn@fn_name
+  week_start <- x@datum@week_start
+  fiscal_year_start <- x@datum@fiscal_year_start
+  week_day <- c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday")[week_start]
+  fiscal_month <- month.name[fiscal_year_start]
+
+  week_fns  <- c("wtd", "pwtd", "wow", "wowtd", "wtdopw")
+  # day-level results that include a `week` column
+  label_fns <- c("ytd", "qtd", "mtd", "atd", "dod", "ytdopy", "qtdopq", "mtdopm")
+
+  out <- character()
+
+  if (week_start != 7 && !fn_name %in% week_fns) {
+    out[["week_start"]] <- if (fn_name %in% label_fns) {
+      cli::format_inline(
+        "{.code week_start = {week_start}} ({week_day}) only changes the {.field week} column of ",
+        "{.fn {fn_name}} on the standard calendar; the calculated values are the same."
+      )
+    } else {
+      cli::format_inline(
+        "{.code week_start = {week_start}} ({week_day}) has no effect on {.fn {fn_name}} with the ",
+        "standard calendar. It changes the week functions and the retail calendars."
+      )
+    }
+  }
+
+  if (fiscal_year_start != 1) {
+    out[["fiscal_year_start"]] <- cli::format_inline(
+      "{.code fiscal_year_start = {fiscal_year_start}} ({fiscal_month}) has no effect on the standard ",
+      "calendar, which uses calendar years. It only applies to the retail calendars ",
+      "({.val 445}, {.val 454}, {.val 544})."
+    )
+  }
+
+  out
+}
+
+
 #' Print the assumptions behind a time intelligence calculation
 #'
 #' @description
@@ -259,6 +320,9 @@ print_assumptions <- function(x) {
       "; each group's calendar runs from its first to its last ", grain, " with data"
     ))
   }
+
+  # settings that were changed but have no effect here
+  lines <- c(lines, unname(ignored_settings(x)))
 
   con_class <- class(dbplyr::remote_con(x@datum@data))
   if (!any(grepl("duckdb", con_class, ignore.case = TRUE))) {
