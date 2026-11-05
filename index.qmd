@@ -13,6 +13,10 @@ toc: false
 
 MIT + file LICENSE
 
+### Citation
+
+[Citing this package](citation.qmd)
+
 ### Authors
 
 - Alejandro Hagan (author, maintainer)

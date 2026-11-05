@@ -1862,11 +1862,25 @@
     "text": "Value\n\na dbi objection"
   },
   {
+    "objectID": "citation.html",
+    "href": "citation.html",
+    "title": "Citation",
+    "section": "",
+    "text": "To cite this package in publications, use:\n\nHagan A (2026). ti: Time Intelligence and Customer Segmentation for Financial Analysis. R package version 4.3.0, https://codeberg.org/usrbinr/ti.\n\n\n\n@Manual{,\n  title = {ti: Time Intelligence and Customer Segmentation for Financial Analysis},\n  author = {Alejandro Hagan},\n  year = {2026},\n  note = {R package version 4.3.0},\n  url = {https://codeberg.org/usrbinr/ti},\n}"
+  },
+  {
+    "objectID": "citation.html#bibtex-entry",
+    "href": "citation.html#bibtex-entry",
+    "title": "Citation",
+    "section": "",
+    "text": "@Manual{,\n  title = {ti: Time Intelligence and Customer Segmentation for Financial Analysis},\n  author = {Alejandro Hagan},\n  year = {2026},\n  note = {R package version 4.3.0},\n  url = {https://codeberg.org/usrbinr/ti},\n}"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "ti",
     "section": "",
-    "text": "Source Code\n\n\n\n\nMIT + file LICENSE\n\n\n\n\nAlejandro Hagan (author, maintainer)"
+    "text": "Source Code\n\n\n\n\nMIT + file LICENSE\n\n\n\nCiting this package\n\n\n\n\nAlejandro Hagan (author, maintainer)"
   },
   {
     "objectID": "index.html#a-business-intelligence-toolkit-for-financial-planning-analysis-fpa",

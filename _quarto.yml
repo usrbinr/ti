@@ -9,6 +9,7 @@ project:
   - '!/articles/*.md'
   render:
   - /index.qmd
+  - /citation.qmd
   - /reference/*.qmd
   - /articles/*.qmd
   - /articles/*.Rmd
@@ -55,6 +56,8 @@ website:
         href: articles/index.qmd
     - text: Reference
       href: reference/index.qmd
+    - text: Citation
+      href: citation.qmd
     - text: Changelog
       href: NEWS.md
     right:
